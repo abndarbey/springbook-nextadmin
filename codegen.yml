@@ -1,0 +1,13 @@
+overwrite: true
+schema: "http://127.0.0.1:8080/api/gql/query"
+documents: "src/@lib/graphql/**/*.ts"
+
+generates:
+  src/@lib/generated/hooks.tsx:
+    config:
+      noNameSpaces: true
+      withHooks: true
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
