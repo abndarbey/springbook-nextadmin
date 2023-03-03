@@ -24,7 +24,11 @@ const schema = Yup.object().shape({
     orgUID: Yup.string().min(2, 'Invalid org UID'),
 })
 
-export default function SkuNew() {
+interface ISkuPageProps {
+    title: string
+}
+
+export default function SkuNew(props: ISkuPageProps) {
     const router = useRouter()
     const [newSku] = useSkuCreateMutation({})
     const [orgModalOpened, setOrgModalOpened] = useState(false)
@@ -101,7 +105,7 @@ export default function SkuNew() {
 
     return (
         <Page navTrails={navTrails}>
-            <PageHeader title='New Sku' />
+            <PageHeader title={props.title} />
             <FormCard
                 submitButtonName='Create'
                 handleSubmit={form.onSubmit(handleSubmit)}
