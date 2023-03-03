@@ -1,4 +1,4 @@
-import { FilterOption, Sku, SkuResult, SortByOption, SortDir, useSkusQuery } from "@lib/generated/hooks"
+import { FilterOption, Sku, SkusResult, SortByOption, SortDir, useSkusQuery } from "@lib/generated/hooks"
 import { Badge, Box, Button, Group, Modal, useMantineTheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import ContentCard from "components/ContentCard"
@@ -87,7 +87,7 @@ export default function SkuSelectModal(props: ISelectModalProps) {
 }
 
 interface SkuTableProps {
-    data: SkuResult
+    data: SkusResult
     batchViewAction?: any
     filterAction?: any
     filterOptions: string[]

@@ -7,7 +7,7 @@ import {
     useSkuArchiveMutation,
     useSkuUnarchiveMutation,
     Sku,
-    SkuResult,
+    SkusResult,
     SortByOption,
     SortDir,
     FilterOption
@@ -26,7 +26,7 @@ import { PAGE_SIZES } from 'types/enums'
 import { PageProps } from 'types/types'
 
 interface SkuTableProps {
-    data: SkuResult
+    data: SkusResult
     viewAction: any
     editAction: any
     archiveAction: any
