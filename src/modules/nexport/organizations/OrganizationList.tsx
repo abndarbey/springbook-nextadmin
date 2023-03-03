@@ -3,7 +3,7 @@ import { INavTrailProps } from 'components/NavTrails'
 import Page from 'components/Page'
 
 import {
-    useOrganizationsQuery,
+    useNexportOrganizationsQuery,
     useContactCreateMutation,
     Organization,
     OrganizationsResult,
@@ -50,7 +50,7 @@ export default function OrganizationList() {
     const filterOptions: string[] = ['All', 'Active', 'Archived']
 
     // fetch data
-    const { data, loading, error } = useOrganizationsQuery(
+    const { data, loading, error } = useNexportOrganizationsQuery(
         {
             variables: {
                 searchFilter: {
@@ -135,7 +135,7 @@ export default function OrganizationList() {
         <Page navTrails={navTrails}>
             <PageHeader title='Nexport Organizations' />
             <OrganizationTable
-                data={data?.organizations!}
+                data={data?.nexportOrganizations!}
                 viewAction={viewAction}
                 addAction={addToContact}
                 filterAction={filterAction}
