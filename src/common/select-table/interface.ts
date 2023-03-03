@@ -8,4 +8,6 @@ export interface ISelectModalProps {
     organizationUID?: string
     departmentID?: string
     roelID?: string
+    ownerUID?: string
+    custodianUID?: string
 }

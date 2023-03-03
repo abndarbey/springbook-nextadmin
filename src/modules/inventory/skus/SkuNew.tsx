@@ -1,21 +1,21 @@
+import { useState } from 'react'
+import * as Yup from 'yup'
 import { useRouter } from 'next/router'
 import Page from 'components/Page'
 import { INavTrailProps } from 'components/NavTrails'
-import * as Yup from 'yup'
 import { useForm, yupResolver } from '@mantine/form'
 import { TextInput } from '@mantine/core'
-import { useDepartmentCreateMutation, UpdateDepartment, Organization } from '@lib/generated/hooks'
+import { useSkuCreateMutation, UpdateSku, SkuCatalogue, Organization } from '@lib/generated/hooks'
 import { showNotification } from '@mantine/notifications'
 
 import PageHeader from 'components/PageHeader'
 import FormCard from 'components/FormCard'
 import OrgSelectModal from 'common/select-table/OrgSelectModal'
-import { useState } from 'react'
-import { PageProps } from 'types/types'
+import SkuCatalogueSelectModal from 'common/select-table/SkuCatalogueSelectModal'
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
-    { title: 'Departments', href: '/company/departments' },
+    { title: 'Skus', href: '/inventory/skus' },
     { title: 'New', href: '#' },
 ]
 
@@ -24,43 +24,68 @@ const schema = Yup.object().shape({
     orgUID: Yup.string().min(2, 'Invalid org UID'),
 })
 
-export default function DepartmentNew(props: PageProps) {
+export default function SkuNew() {
     const router = useRouter()
-    const [newDept] = useDepartmentCreateMutation({})
+    const [newSku] = useSkuCreateMutation({})
     const [orgModalOpened, setOrgModalOpened] = useState(false)
+    const [ownerModalOpened, setOwnerModalOpened] = useState(false)
+    const [skuCatModalOpened, setSkuCatModalOpened] = useState(false)
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            name: '',
+            isManagement: false,
+            skuUID: '',
             orgUID: '',
+            ownerUID: '',
 
             orgName: '',
+            ownerName: '',
+            skuName: '',
         },
     })
 
     const handleOrgSelect = (item: Organization) => {
-        form.values.orgUID = item.uid!
-        form.values.orgName = item.name!
+        if (item) {
+            form.values.orgUID = item.uid!
+            form.values.orgName = item.name!
+        }
+    }
+
+    const handleOwnerSelect = (item: Organization) => {
+        console.log("select owner")
+        if (item) {
+            console.log(item)
+            form.values.ownerUID = item.uid!
+            form.values.ownerName = item.name!
+        }
+    }
+
+    const handleSkuCatalogueSelect = (item: SkuCatalogue | undefined) => {
+        if (item) {
+            form.values.skuUID = item?.uid!
+            form.values.skuName = item?.name!
+        }
     }
 
     const handleSubmit = () => {
-        var newDeptInput: UpdateDepartment = {
-            name: form.values.name,
+        var newSkuInput: UpdateSku = {
+            uid: form.values.skuUID,
             orgUID: form.values.orgUID,
+            ownerUID: form.values.ownerUID,
         }
 
-        newDept({
-            variables: {input: newDeptInput}
+        newSku({
+            variables: {input: newSkuInput}
         }).then((res: any) => {
-            let welcomeMsg: string = `Department ${res.data.departmentCreate.name} Created`
+            let welcomeMsg: string = `Sku ${res.data.skuCreate.name} Created`
             
             showNotification({
                 disallowClose: false,
                 color: 'green',
                 message: welcomeMsg,
             })
-            router.push(`/company/departments/${res.data.departmentCreate.code}`)
+            router.push('/inventory/skus')
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
@@ -71,12 +96,12 @@ export default function DepartmentNew(props: PageProps) {
     }
 
     const handleCancel = () => {
-        router.push('/company/departments')
+        router.push('/inventory/skus')
     }
 
     return (
         <Page navTrails={navTrails}>
-            <PageHeader title={props.title!} />
+            <PageHeader title='New Sku' />
             <FormCard
                 submitButtonName='Create'
                 handleSubmit={form.onSubmit(handleSubmit)}
@@ -94,12 +119,36 @@ export default function DepartmentNew(props: PageProps) {
                     onClick={() => setOrgModalOpened(true)}
                     {...form.getInputProps('orgName')}
                 />
+
+                <OrgSelectModal
+                    opened={ownerModalOpened}
+                    setOpened={setOwnerModalOpened}
+                    handleSelect={handleOwnerSelect}
+                />
                 <TextInput
-                    label="Name"
-                    placeholder="Name"
+                    label="Owner"
                     mt="md"
-                    name="name"
-                    {...form.getInputProps('name')}
+                    placeholder="Select Owner"
+                    name="owner"
+                    onClick={() => setOwnerModalOpened(true)}
+                    {...form.getInputProps('ownerName')}
+                />
+
+                {form.values.orgUID != "" &&
+                    <SkuCatalogueSelectModal
+                        opened={skuCatModalOpened}
+                        setOpened={setSkuCatModalOpened}
+                        handleSelect={handleSkuCatalogueSelect}
+                        organizationUID={form.values.orgUID}
+                    />
+                }
+                <TextInput
+                    label="Sku Catalogue"
+                    placeholder="Select Sku Catalogue"
+                    mt="md"
+                    disabled={form.values.orgUID != "" ? false : true}
+                    onClick={() => setSkuCatModalOpened(true)}
+                    {...form.getInputProps('skuName')}
                 />
             </FormCard>
         </Page>

@@ -7,30 +7,29 @@ import PageHeader from 'components/PageHeader'
 import { INavTrailProps } from 'components/NavTrails'
 import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
 import {
-    useDepartmentQuery,
-    useDepartmentFinalizeMutation,
-    useDepartmentArchiveMutation,
-    useDepartmentUnarchiveMutation,
+    useSkuQuery,
+    useSkuArchiveMutation,
+    useSkuUnarchiveMutation,
 } from '@lib/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
 import DetailRow from 'components/DetailRow'
 import { PageProps } from 'types/types'
 
-export default function DepartmentDetails(props: PageProps) {
+export default function SkuDetails(props: PageProps) {
     const router = useRouter()
-    const [finalizeRequest] = useDepartmentFinalizeMutation({})
-    const [archiveRequest] = useDepartmentArchiveMutation({})
-    const [unarchiveRequest] = useDepartmentUnarchiveMutation({})
+    const [archiveRequest] = useSkuArchiveMutation({})
+    const [unarchiveRequest] = useSkuUnarchiveMutation({})
 
     const navTrails: INavTrailProps[] = [
         { title: 'Dashboard', href: '/' },
-        { title: 'Departments', href: '/company/departments' },
+        { title: 'Inventory', href: '/inventory' },
+        { title: 'SKUs', href: '/inventory/skus' },
         { title: props.code, href: '#' },
     ]
 
     // fetch data
-    const { data, loading, error } = useDepartmentQuery(
+    const { data, loading, error } = useSkuQuery(
         {
             variables: {
                 code: props.code,
@@ -54,39 +53,19 @@ export default function DepartmentDetails(props: PageProps) {
     // edit action
     const handleEdit = (e: any) => {
         e.preventDefault()
-        router.push(`/company/departments/${props.code}/edit`)
-    }
-    
-    // finalize action
-    const handleFinalize = (e: any) => {
-        e.preventDefault()
-        finalizeRequest({
-            variables: {id: data?.department.id!}
-        }).then((res: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'green',
-                message: `Finalized - ${res.data.departmentFinalize.name}`,
-            })
-        }).catch((error: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'red',
-                message: error.message,
-            })
-        })
+        router.push(`/inventory/skus/${props.code}/edit`)
     }
     
     // archive action
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {id: data?.department.id!}
+            variables: {id: data?.sku.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: `Archived - ${res.data.departmentArchive.name}`,
+                message: `Archived - ${res.data.skuArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -101,12 +80,12 @@ export default function DepartmentDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {id: data?.department.id!}
+            variables: {id: data?.sku.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: `Unarchived - ${res.data.departmentUnarchive.name}`,
+                message: `Unarchived - ${res.data.skuUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -120,9 +99,8 @@ export default function DepartmentDetails(props: PageProps) {
     // define action buttons
     const actionButtons: IActionButtonProps[] = [
         { type: 'edit', name: 'Edit', action: handleEdit },
-        { type: 'finalize', name: 'Finalize', action: handleFinalize, disabled: data?.department.isFinal!},
-        { type: 'archive', name: 'Archive', action: handleArchive, disabled: data?.department.isArchived! },
-        { type: 'unarchive', name: 'Unarchive', action: handleUnarchive, disabled: !data?.department.isArchived! },
+        { type: 'archive', name: 'Archive', action: handleArchive, disabled: data?.sku.isArchived! },
+        { type: 'unarchive', name: 'Unarchive', action: handleUnarchive, disabled: !data?.sku.isArchived! },
     ]
 
     return (
@@ -138,12 +116,12 @@ export default function DepartmentDetails(props: PageProps) {
                     <ContentCard>
                         <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Code' value={data?.department.code!} />
-                                <DetailRow title='Name' value={data?.department.name!} />
+                                <DetailRow title='Code' value={data?.sku.code!} />
+                                <DetailRow title='Name' value={data?.sku.name!} />
                             </Box>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Organization Code' value={data?.department?.organization?.code!} />
-                                <DetailRow title='Organization Name' value={data?.department?.organization?.name!} />
+                                <DetailRow title='Organization Code' value={data?.sku?.organization?.code!} />
+                                <DetailRow title='Organization Name' value={data?.sku?.organization?.name!} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>

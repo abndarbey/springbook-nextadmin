@@ -1,0 +1,59 @@
+import { gql } from '@apollo/client'
+import { fragment } from "@lib/graphql/fragments"
+
+export const SKUS = gql`
+    query Skus($searchFilter: SearchFilter!, $orgUID: UUID, $ownerUID: UUID) {
+        skus(search: $searchFilter, orgUID: $orgUID, ownerUID: $ownerUID) {
+            skus {
+                    ...SkuFragment
+                }
+                total
+            }
+        }
+    ${fragment.Sku}
+`
+
+export const SKU = gql`
+    query Sku($id: ID, $code: String) {
+        sku(id: $id, code: $code) {
+            ...SkuFragment
+            }
+        }
+    ${fragment.Sku}
+`
+
+export const SKU_CREATE = gql`
+    mutation SkuCreate($input: UpdateSku!) {
+        skuCreate(input: $input) {
+            ...SkuFragment
+            }
+        }
+    ${fragment.Sku}
+`
+
+export const SKU_UPDATE = gql`
+    mutation SkuUpdate($id: ID!, $input: UpdateSku!) {
+        skuUpdate(id: $id, input: $input) {
+            ...SkuFragment
+            }
+        }
+    ${fragment.Sku}
+`
+
+export const SKU_ARCHIVE = gql`
+    mutation SkuArchive($id: ID!) {
+        skuArchive(id: $id) {
+            ...SkuFragment
+            }
+        }
+    ${fragment.Sku}
+`
+
+export const SKU_UNARCHIVE = gql`
+    mutation SkuUnarchive($id: ID!) {
+        skuUnarchive(id: $id) {
+            ...SkuFragment
+            }
+        }
+    ${fragment.Sku}
+`

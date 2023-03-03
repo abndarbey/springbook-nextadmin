@@ -239,11 +239,15 @@ export type Mutation = {
   roleFinalize: Role;
   roleUnarchive: Role;
   roleUpdate: Role;
+  skuArchive: Sku;
   skuCatalogueArchive: SkuCatalogue;
   skuCatalogueCreate: SkuCatalogue;
   skuCatalogueFinalize: SkuCatalogue;
   skuCatalogueUnarchive: SkuCatalogue;
   skuCatalogueUpdate: SkuCatalogue;
+  skuCreate: Sku;
+  skuUnarchive: Sku;
+  skuUpdate: Sku;
   superAdminCreate: User;
   thirdPartyWarehouseArchive: ThirdPartyWarehouse;
   thirdPartyWarehouseCreate: ThirdPartyWarehouse;
@@ -560,6 +564,11 @@ export type MutationRoleUpdateArgs = {
 };
 
 
+export type MutationSkuArchiveArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationSkuCatalogueArchiveArgs = {
   uid: Scalars['UUID'];
 };
@@ -583,6 +592,22 @@ export type MutationSkuCatalogueUnarchiveArgs = {
 export type MutationSkuCatalogueUpdateArgs = {
   input: UpdateSkuCatalogue;
   uid: Scalars['UUID'];
+};
+
+
+export type MutationSkuCreateArgs = {
+  input: UpdateSku;
+};
+
+
+export type MutationSkuUnarchiveArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationSkuUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdateSku;
 };
 
 
@@ -814,6 +839,7 @@ export type Query = {
   ethereumAccountBalance: Scalars['String'];
   getTickerInfo: TickerInfo;
   me: User;
+  nexportSkuCatalogues: SkuCataloguesResult;
   organization: Organization;
   organizations: OrganizationsResult;
   pallet: Pallet;
@@ -828,8 +854,10 @@ export type Query = {
   role: Role;
   roles: RolesResult;
   settings: Settings;
+  sku: Sku;
   skuCatalogue: SkuCatalogue;
   skuCatalogues: SkuCataloguesResult;
+  skus: SkusResult;
   thirdPartyWarehouse: ThirdPartyWarehouse;
   thirdPartyWarehouses: ThirdPartyWarehousesResult;
   user: User;
@@ -890,6 +918,11 @@ export type QueryDepartmentArgs = {
 
 export type QueryDepartmentsArgs = {
   orgUID?: InputMaybe<Scalars['UUID']>;
+  search: SearchFilter;
+};
+
+
+export type QueryNexportSkuCataloguesArgs = {
   search: SearchFilter;
 };
 
@@ -971,6 +1004,12 @@ export type QueryRolesArgs = {
 };
 
 
+export type QuerySkuArgs = {
+  code?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
 export type QuerySkuCatalogueArgs = {
   code?: InputMaybe<Scalars['String']>;
   uid?: InputMaybe<Scalars['UUID']>;
@@ -979,6 +1018,13 @@ export type QuerySkuCatalogueArgs = {
 
 export type QuerySkuCataloguesArgs = {
   orgUID?: InputMaybe<Scalars['UUID']>;
+  search: SearchFilter;
+};
+
+
+export type QuerySkusArgs = {
+  orgUID?: InputMaybe<Scalars['UUID']>;
+  ownerUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -1146,6 +1192,29 @@ export type Settings = {
   smartContractAddress: Scalars['String'];
 };
 
+export type Sku = {
+  __typename?: 'Sku';
+  brand?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Time']>;
+  description?: Maybe<Scalars['String']>;
+  hsnCode?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  ingredients?: Maybe<Scalars['String']>;
+  isArchived?: Maybe<Scalars['Boolean']>;
+  isFinal?: Maybe<Scalars['Boolean']>;
+  isParent?: Maybe<Scalars['Boolean']>;
+  masterPhoto?: Maybe<File>;
+  name?: Maybe<Scalars['String']>;
+  organization?: Maybe<Organization>;
+  owner?: Maybe<Organization>;
+  parentSkuUID?: Maybe<Scalars['NullUUID']>;
+  status?: Maybe<Scalars['String']>;
+  uid?: Maybe<Scalars['UUID']>;
+  weight?: Maybe<Scalars['Float']>;
+  weightUnit?: Maybe<Scalars['String']>;
+};
+
 export type SkuCatalogue = {
   __typename?: 'SkuCatalogue';
   brand?: Maybe<Scalars['String']>;
@@ -1171,6 +1240,12 @@ export type SkuCatalogue = {
 export type SkuCataloguesResult = {
   __typename?: 'SkuCataloguesResult';
   skuCatalogues: Array<SkuCatalogue>;
+  total: Scalars['Int'];
+};
+
+export type SkusResult = {
+  __typename?: 'SkusResult';
+  skus: Array<Sku>;
   total: Scalars['Int'];
 };
 
@@ -1311,6 +1386,12 @@ export type UpdateRole = {
   name?: InputMaybe<Scalars['NullString']>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
   permissions?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type UpdateSku = {
+  orgUID?: InputMaybe<Scalars['NullUUID']>;
+  ownerUID?: InputMaybe<Scalars['NullUUID']>;
+  uid?: InputMaybe<Scalars['NullUUID']>;
 };
 
 export type UpdateSkuCatalogue = {
@@ -1544,6 +1625,8 @@ export type OrganizationRegisterMutation = { __typename?: 'Mutation', organizati
 
 export type BatchCataloguesQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  orgUID?: InputMaybe<Scalars['UUID']>;
+  skuUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -1595,6 +1678,7 @@ export type BatchCatalogueUnarchiveMutation = { __typename?: 'Mutation', batchCa
 
 export type SkuCataloguesQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -1917,6 +2001,8 @@ export type AutherFragmentFragment = { __typename?: 'Auther', id?: string | null
 
 export type AuthPayloadFragmentFragment = { __typename?: 'AuthPayload', tokenString: string };
 
+export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+
 export type WarehouseTypeFragmentFragment = { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackTypeFragmentFragment = { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null, storageType?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, storageDimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
@@ -1934,6 +2020,59 @@ export type PalletFragmentFragment = { __typename?: 'Pallet', id?: string | null
 export type WarehouseContractFragmentFragment = { __typename?: 'WarehouseContract', id?: string | null, uid?: any | null, code?: string | null, message?: any | null, status?: string | null, acceptanceStatus?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, isAccepted?: boolean | null, createdAt?: any | null, contractor?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, client?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type ThirdPartyWarehouseFragmentFragment = { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+
+export type SkusQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  orgUID?: InputMaybe<Scalars['UUID']>;
+  ownerUID?: InputMaybe<Scalars['UUID']>;
+}>;
+
+
+export type SkusQuery = { __typename?: 'Query', skus: { __typename?: 'SkusResult', total: number, skus: Array<{ __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type SkuQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  code?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type SkuQuery = { __typename?: 'Query', sku: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type SkuCreateMutationVariables = Exact<{
+  input: UpdateSku;
+}>;
+
+
+export type SkuCreateMutation = { __typename?: 'Mutation', skuCreate: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type SkuUpdateMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: UpdateSku;
+}>;
+
+
+export type SkuUpdateMutation = { __typename?: 'Mutation', skuUpdate: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type SkuArchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type SkuArchiveMutation = { __typename?: 'Mutation', skuArchive: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type SkuUnarchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type SkuUnarchiveMutation = { __typename?: 'Mutation', skuUnarchive: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type NexportSkuCataloguesQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+}>;
+
+
+export type NexportSkuCataloguesQuery = { __typename?: 'Query', nexportSkuCatalogues: { __typename?: 'SkuCataloguesResult', total: number, skuCatalogues: Array<{ __typename?: 'SkuCatalogue', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type CellsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2575,6 +2714,40 @@ export const AuthPayloadFragmentFragmentDoc = gql`
   tokenString
 }
     `;
+export const SkuFragmentFragmentDoc = gql`
+    fragment SkuFragment on Sku {
+  id
+  uid
+  code
+  name
+  hsnCode
+  brand
+  description
+  ingredients
+  weight
+  weightUnit
+  masterPhoto {
+    name
+    url
+  }
+  parentSkuUID
+  isParent
+  status
+  isFinal
+  isArchived
+  createdAt
+  owner {
+    uid
+    code
+    name
+  }
+  organization {
+    uid
+    code
+    name
+  }
+}
+    `;
 export const WarehouseTypeFragmentFragmentDoc = gql`
     fragment WarehouseTypeFragment on WarehouseType {
   id
@@ -2975,8 +3148,8 @@ export type OrganizationRegisterMutationHookResult = ReturnType<typeof useOrgani
 export type OrganizationRegisterMutationResult = Apollo.MutationResult<OrganizationRegisterMutation>;
 export type OrganizationRegisterMutationOptions = Apollo.BaseMutationOptions<OrganizationRegisterMutation, OrganizationRegisterMutationVariables>;
 export const BatchCataloguesDocument = gql`
-    query BatchCatalogues($searchFilter: SearchFilter!) {
-  batchCatalogues(search: $searchFilter) {
+    query BatchCatalogues($searchFilter: SearchFilter!, $orgUID: UUID, $skuUID: UUID) {
+  batchCatalogues(search: $searchFilter, orgUID: $orgUID, skuUID: $skuUID) {
     batchCatalogues {
       ...BatchCatalogueFragment
     }
@@ -2998,6 +3171,8 @@ export const BatchCataloguesDocument = gql`
  * const { data, loading, error } = useBatchCataloguesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      orgUID: // value for 'orgUID'
+ *      skuUID: // value for 'skuUID'
  *   },
  * });
  */
@@ -3215,8 +3390,8 @@ export type BatchCatalogueUnarchiveMutationHookResult = ReturnType<typeof useBat
 export type BatchCatalogueUnarchiveMutationResult = Apollo.MutationResult<BatchCatalogueUnarchiveMutation>;
 export type BatchCatalogueUnarchiveMutationOptions = Apollo.BaseMutationOptions<BatchCatalogueUnarchiveMutation, BatchCatalogueUnarchiveMutationVariables>;
 export const SkuCataloguesDocument = gql`
-    query SkuCatalogues($searchFilter: SearchFilter!) {
-  skuCatalogues(search: $searchFilter) {
+    query SkuCatalogues($searchFilter: SearchFilter!, $orgUID: UUID) {
+  skuCatalogues(search: $searchFilter, orgUID: $orgUID) {
     skuCatalogues {
       ...SkuCatalogueFragment
     }
@@ -3238,6 +3413,7 @@ export const SkuCataloguesDocument = gql`
  * const { data, loading, error } = useSkuCataloguesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      orgUID: // value for 'orgUID'
  *   },
  * });
  */
@@ -4630,6 +4806,253 @@ export function useFileUploadMultipleMutation(baseOptions?: Apollo.MutationHookO
 export type FileUploadMultipleMutationHookResult = ReturnType<typeof useFileUploadMultipleMutation>;
 export type FileUploadMultipleMutationResult = Apollo.MutationResult<FileUploadMultipleMutation>;
 export type FileUploadMultipleMutationOptions = Apollo.BaseMutationOptions<FileUploadMultipleMutation, FileUploadMultipleMutationVariables>;
+export const SkusDocument = gql`
+    query Skus($searchFilter: SearchFilter!, $orgUID: UUID, $ownerUID: UUID) {
+  skus(search: $searchFilter, orgUID: $orgUID, ownerUID: $ownerUID) {
+    skus {
+      ...SkuFragment
+    }
+    total
+  }
+}
+    ${SkuFragmentFragmentDoc}`;
+
+/**
+ * __useSkusQuery__
+ *
+ * To run a query within a React component, call `useSkusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSkusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSkusQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      orgUID: // value for 'orgUID'
+ *      ownerUID: // value for 'ownerUID'
+ *   },
+ * });
+ */
+export function useSkusQuery(baseOptions: Apollo.QueryHookOptions<SkusQuery, SkusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SkusQuery, SkusQueryVariables>(SkusDocument, options);
+      }
+export function useSkusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SkusQuery, SkusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SkusQuery, SkusQueryVariables>(SkusDocument, options);
+        }
+export type SkusQueryHookResult = ReturnType<typeof useSkusQuery>;
+export type SkusLazyQueryHookResult = ReturnType<typeof useSkusLazyQuery>;
+export type SkusQueryResult = Apollo.QueryResult<SkusQuery, SkusQueryVariables>;
+export const SkuDocument = gql`
+    query Sku($id: ID, $code: String) {
+  sku(id: $id, code: $code) {
+    ...SkuFragment
+  }
+}
+    ${SkuFragmentFragmentDoc}`;
+
+/**
+ * __useSkuQuery__
+ *
+ * To run a query within a React component, call `useSkuQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSkuQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSkuQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useSkuQuery(baseOptions?: Apollo.QueryHookOptions<SkuQuery, SkuQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SkuQuery, SkuQueryVariables>(SkuDocument, options);
+      }
+export function useSkuLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SkuQuery, SkuQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SkuQuery, SkuQueryVariables>(SkuDocument, options);
+        }
+export type SkuQueryHookResult = ReturnType<typeof useSkuQuery>;
+export type SkuLazyQueryHookResult = ReturnType<typeof useSkuLazyQuery>;
+export type SkuQueryResult = Apollo.QueryResult<SkuQuery, SkuQueryVariables>;
+export const SkuCreateDocument = gql`
+    mutation SkuCreate($input: UpdateSku!) {
+  skuCreate(input: $input) {
+    ...SkuFragment
+  }
+}
+    ${SkuFragmentFragmentDoc}`;
+export type SkuCreateMutationFn = Apollo.MutationFunction<SkuCreateMutation, SkuCreateMutationVariables>;
+
+/**
+ * __useSkuCreateMutation__
+ *
+ * To run a mutation, you first call `useSkuCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSkuCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [skuCreateMutation, { data, loading, error }] = useSkuCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSkuCreateMutation(baseOptions?: Apollo.MutationHookOptions<SkuCreateMutation, SkuCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SkuCreateMutation, SkuCreateMutationVariables>(SkuCreateDocument, options);
+      }
+export type SkuCreateMutationHookResult = ReturnType<typeof useSkuCreateMutation>;
+export type SkuCreateMutationResult = Apollo.MutationResult<SkuCreateMutation>;
+export type SkuCreateMutationOptions = Apollo.BaseMutationOptions<SkuCreateMutation, SkuCreateMutationVariables>;
+export const SkuUpdateDocument = gql`
+    mutation SkuUpdate($id: ID!, $input: UpdateSku!) {
+  skuUpdate(id: $id, input: $input) {
+    ...SkuFragment
+  }
+}
+    ${SkuFragmentFragmentDoc}`;
+export type SkuUpdateMutationFn = Apollo.MutationFunction<SkuUpdateMutation, SkuUpdateMutationVariables>;
+
+/**
+ * __useSkuUpdateMutation__
+ *
+ * To run a mutation, you first call `useSkuUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSkuUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [skuUpdateMutation, { data, loading, error }] = useSkuUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSkuUpdateMutation(baseOptions?: Apollo.MutationHookOptions<SkuUpdateMutation, SkuUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SkuUpdateMutation, SkuUpdateMutationVariables>(SkuUpdateDocument, options);
+      }
+export type SkuUpdateMutationHookResult = ReturnType<typeof useSkuUpdateMutation>;
+export type SkuUpdateMutationResult = Apollo.MutationResult<SkuUpdateMutation>;
+export type SkuUpdateMutationOptions = Apollo.BaseMutationOptions<SkuUpdateMutation, SkuUpdateMutationVariables>;
+export const SkuArchiveDocument = gql`
+    mutation SkuArchive($id: ID!) {
+  skuArchive(id: $id) {
+    ...SkuFragment
+  }
+}
+    ${SkuFragmentFragmentDoc}`;
+export type SkuArchiveMutationFn = Apollo.MutationFunction<SkuArchiveMutation, SkuArchiveMutationVariables>;
+
+/**
+ * __useSkuArchiveMutation__
+ *
+ * To run a mutation, you first call `useSkuArchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSkuArchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [skuArchiveMutation, { data, loading, error }] = useSkuArchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSkuArchiveMutation(baseOptions?: Apollo.MutationHookOptions<SkuArchiveMutation, SkuArchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SkuArchiveMutation, SkuArchiveMutationVariables>(SkuArchiveDocument, options);
+      }
+export type SkuArchiveMutationHookResult = ReturnType<typeof useSkuArchiveMutation>;
+export type SkuArchiveMutationResult = Apollo.MutationResult<SkuArchiveMutation>;
+export type SkuArchiveMutationOptions = Apollo.BaseMutationOptions<SkuArchiveMutation, SkuArchiveMutationVariables>;
+export const SkuUnarchiveDocument = gql`
+    mutation SkuUnarchive($id: ID!) {
+  skuUnarchive(id: $id) {
+    ...SkuFragment
+  }
+}
+    ${SkuFragmentFragmentDoc}`;
+export type SkuUnarchiveMutationFn = Apollo.MutationFunction<SkuUnarchiveMutation, SkuUnarchiveMutationVariables>;
+
+/**
+ * __useSkuUnarchiveMutation__
+ *
+ * To run a mutation, you first call `useSkuUnarchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSkuUnarchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [skuUnarchiveMutation, { data, loading, error }] = useSkuUnarchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSkuUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<SkuUnarchiveMutation, SkuUnarchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SkuUnarchiveMutation, SkuUnarchiveMutationVariables>(SkuUnarchiveDocument, options);
+      }
+export type SkuUnarchiveMutationHookResult = ReturnType<typeof useSkuUnarchiveMutation>;
+export type SkuUnarchiveMutationResult = Apollo.MutationResult<SkuUnarchiveMutation>;
+export type SkuUnarchiveMutationOptions = Apollo.BaseMutationOptions<SkuUnarchiveMutation, SkuUnarchiveMutationVariables>;
+export const NexportSkuCataloguesDocument = gql`
+    query NexportSkuCatalogues($searchFilter: SearchFilter!) {
+  nexportSkuCatalogues(search: $searchFilter) {
+    skuCatalogues {
+      ...SkuCatalogueFragment
+    }
+    total
+  }
+}
+    ${SkuCatalogueFragmentFragmentDoc}`;
+
+/**
+ * __useNexportSkuCataloguesQuery__
+ *
+ * To run a query within a React component, call `useNexportSkuCataloguesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNexportSkuCataloguesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNexportSkuCataloguesQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *   },
+ * });
+ */
+export function useNexportSkuCataloguesQuery(baseOptions: Apollo.QueryHookOptions<NexportSkuCataloguesQuery, NexportSkuCataloguesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NexportSkuCataloguesQuery, NexportSkuCataloguesQueryVariables>(NexportSkuCataloguesDocument, options);
+      }
+export function useNexportSkuCataloguesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NexportSkuCataloguesQuery, NexportSkuCataloguesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NexportSkuCataloguesQuery, NexportSkuCataloguesQueryVariables>(NexportSkuCataloguesDocument, options);
+        }
+export type NexportSkuCataloguesQueryHookResult = ReturnType<typeof useNexportSkuCataloguesQuery>;
+export type NexportSkuCataloguesLazyQueryHookResult = ReturnType<typeof useNexportSkuCataloguesLazyQuery>;
+export type NexportSkuCataloguesQueryResult = Apollo.QueryResult<NexportSkuCataloguesQuery, NexportSkuCataloguesQueryVariables>;
 export const CellsDocument = gql`
     query Cells($searchFilter: SearchFilter!) {
   cells(search: $searchFilter) {

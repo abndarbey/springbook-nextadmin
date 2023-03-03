@@ -3,7 +3,7 @@ import { INavTrailProps } from 'components/NavTrails'
 import Page from 'components/Page'
 
 import {
-    useSkuCataloguesQuery,
+    useNexportSkuCataloguesQuery,
     useSkuCatalogueArchiveMutation,
     useSkuCatalogueUnarchiveMutation,
     SkuCatalogue,
@@ -11,7 +11,7 @@ import {
     SortByOption,
     SortDir,
     FilterOption,
-    useSkuCreateMutation
+    useSkuCreateMutation,
 } from '@lib/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
@@ -30,9 +30,6 @@ interface SkuCatalogueTableProps {
     data: SkuCataloguesResult
     viewAction: any
     addAction: any
-    editAction: any
-    archiveAction: any
-    unarchiveAction: any
     batchViewAction?: any
     filterAction?: any
     filterOptions: string[]
@@ -40,6 +37,7 @@ interface SkuCatalogueTableProps {
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
+    { title: 'Nexport', href: '#' },
     { title: 'Sku Catalogues', href: '#' },
 ]
 
@@ -53,7 +51,7 @@ export default function SkuCatalogueList(props: PageProps) {
     const filterOptions: string[] = ['All', 'Active', 'Archived']
 
     // fetch data
-    const { data, loading, error } = useSkuCataloguesQuery(
+    const { data, loading, error } = useNexportSkuCataloguesQuery(
         {
             variables: {
                 searchFilter: {
@@ -80,16 +78,9 @@ export default function SkuCatalogueList(props: PageProps) {
         return <PageLoader isError={true} />
     }
 
-    const handleNew = () => {
-        router.push('/catalogues/skus/new')
-    }
-
     // Row Actions
     const viewAction = (item: SkuCatalogue) => {
-        router.push(`/catalogues/skus/${item.code}`)
-    }
-    const editAction = (item: SkuCatalogue) => {
-        router.push(`/catalogues/skus/${item.code}/edit`)
+        router.push(`/nexport/skus/${item.code}`)
     }
 
     const addToInventory = (item: SkuCatalogue) => {
@@ -104,42 +95,6 @@ export default function SkuCatalogueList(props: PageProps) {
                 disallowClose: false,
                 color: 'green',
                 message: `Added - ${res.data.skuCreate.name}`,
-            })
-        }).catch((error: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'red',
-                message: error.message,
-            })
-        })
-    }
-
-    const archiveAction = (item: SkuCatalogue) => {
-        archiveRequest({
-            variables: {uid: item.uid!}
-        }).then((res: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'green',
-                message: `Archived - ${res.data.organizationArchive.name}`,
-            })
-        }).catch((error: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'red',
-                message: error.message,
-            })
-        })
-    }
-
-    const unarchiveAction = (item: SkuCatalogue) => {
-        unarchiveRequest({
-            variables: {uid: item.uid!}
-        }).then((res: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'green',
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -173,25 +128,13 @@ export default function SkuCatalogueList(props: PageProps) {
         }
     }
 
-    const actionButtons: IActionButtonProps[] = [
-        {
-            type: 'new',
-            name: 'New',
-            disabled: false,
-            action: handleNew,
-        }
-    ]
-
     return (
         <Page navTrails={navTrails}>
-            <PageHeader title={props.title!} buttons={actionButtons} />
+            <PageHeader title={props.title!} />
             <SkuCatalogueTable
-                data={data?.skuCatalogues!}
+                data={data?.nexportSkuCatalogues!}
                 viewAction={viewAction}
                 addAction={addToInventory}
-                editAction={editAction}
-                archiveAction={archiveAction}
-                unarchiveAction={unarchiveAction}
                 batchViewAction={batchViewAction}
                 filterAction={filterAction}
                 filterOptions={filterOptions}
@@ -257,9 +200,6 @@ const SkuCatalogueTable = (props: SkuCatalogueTableProps) => {
                                     item={item}
                                     viewAction={props.viewAction}
                                     addAction={props.addAction}
-                                    editAction={props.editAction}
-                                    archiveAction={props.archiveAction}
-                                    unarchiveAction={props.unarchiveAction}
                                 />
                             )
                         },

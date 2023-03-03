@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import PageTitle from 'components/PageTitle'
-import SkuDetails from 'modules/inventory/skus/SkuDetails'
+import SkuDetails from 'modules/nexport/skus/SkuDetails'
 import PageLoader from 'components/PageLoader'
 
 export default function Details() {

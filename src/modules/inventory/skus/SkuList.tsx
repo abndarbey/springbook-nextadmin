@@ -3,11 +3,11 @@ import { INavTrailProps } from 'components/NavTrails'
 import Page from 'components/Page'
 
 import {
-    useDepartmentsQuery,
-    useDepartmentArchiveMutation,
-    useDepartmentUnarchiveMutation,
-    Department,
-    DepartmentsResult,
+    useSkusQuery,
+    useSkuArchiveMutation,
+    useSkuUnarchiveMutation,
+    Sku,
+    SkuResult,
     SortByOption,
     SortDir,
     FilterOption
@@ -25,8 +25,8 @@ import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
 import { PAGE_SIZES } from 'types/enums'
 import { PageProps } from 'types/types'
 
-interface DepartmentTableProps {
-    data: DepartmentsResult
+interface SkuTableProps {
+    data: SkuResult
     viewAction: any
     editAction: any
     archiveAction: any
@@ -38,19 +38,19 @@ interface DepartmentTableProps {
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
-    { title: 'Departments', href: '#' },
+    { title: 'Skus', href: '#' },
 ]
 
-export default function DepartmentList(props: PageProps) {
+export default function SkuList(props: PageProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
-    const [archiveRequest] = useDepartmentArchiveMutation({})
-    const [unarchiveRequest] = useDepartmentUnarchiveMutation({})
+    const [archiveRequest] = useSkuArchiveMutation({})
+    const [unarchiveRequest] = useSkuUnarchiveMutation({})
 
     const filterOptions: string[] = ['All', 'Active', 'Archived']
 
     // fetch data
-    const { data, loading, error } = useDepartmentsQuery(
+    const { data, loading, error } = useSkusQuery(
         {
             variables: {
                 searchFilter: {
@@ -78,18 +78,18 @@ export default function DepartmentList(props: PageProps) {
     }
 
     const handleNew = () => {
-        router.push('/company/departments/new')
+        router.push('/inventory/skus/new')
     }
 
     // Row Actions
-    const viewAction = (item: Department) => {
-        router.push(`/company/departments/${item.code}`)
+    const viewAction = (item: Sku) => {
+        router.push(`/inventory/skus/${item.code}`)
     }
-    const editAction = (item: Department) => {
-        router.push(`/company/departments/${item.code}/edit`)
+    const editAction = (item: Sku) => {
+        router.push(`/inventory/skus/${item.code}/edit`)
     }
 
-    const archiveAction = (item: Department) => {
+    const archiveAction = (item: Sku) => {
         archiveRequest({
             variables: {id: item.id!}
         }).then((res: any) => {
@@ -107,7 +107,7 @@ export default function DepartmentList(props: PageProps) {
         })
     }
 
-    const unarchiveAction = (item: Department) => {
+    const unarchiveAction = (item: Sku) => {
         unarchiveRequest({
             variables: {id: item.id!}
         }).then((res: any) => {
@@ -126,7 +126,7 @@ export default function DepartmentList(props: PageProps) {
     }
 
     // Batch Actions
-    const batchViewAction = (selectedRecords: Department[]) => {
+    const batchViewAction = (selectedRecords: Sku[]) => {
         selectedRecords.map((item, key) => {
             console.log(item.code)
         })
@@ -160,8 +160,8 @@ export default function DepartmentList(props: PageProps) {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} buttons={actionButtons} />
-            <DepartmentTable
-                data={data?.departments!}
+            <SkuTable
+                data={data?.skus!}
                 viewAction={viewAction}
                 editAction={editAction}
                 archiveAction={archiveAction}
@@ -174,19 +174,19 @@ export default function DepartmentList(props: PageProps) {
     )
 }
 
-const DepartmentTable = (props: DepartmentTableProps) => {
+const SkuTable = (props: SkuTableProps) => {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
     const [page, setPage] = useState(1)
-    const [records, setRecords] = useState<Department[]>(props.data.departments.slice(0, pageSize))
-    const [selectedRecords, setSelectedRecords] = useState<Department[]>([])
+    const [records, setRecords] = useState<Sku[]>(props.data.skus.slice(0, pageSize))
+    const [selectedRecords, setSelectedRecords] = useState<Sku[]>([])
 
     useEffect(() => {
         const from = (page - 1) * pageSize
         const to = from + pageSize
-        setRecords(props.data.departments.slice(from, to))
-    }, [page, pageSize, props.data.departments])
+        setRecords(props.data.skus.slice(from, to))
+    }, [page, pageSize, props.data.skus])
 
     return (
         <ContentCard>
@@ -208,7 +208,8 @@ const DepartmentTable = (props: DepartmentTableProps) => {
                     columns={[
                         { accessor: 'code', width: '10%' },
                         { accessor: 'name' },
-                        { accessor: 'organization.code', title: 'Organization' },
+                        { accessor: 'owner.name', title: 'Owner' },
+                        { accessor: 'organization.name', title: 'Organization' },
                         {
                             accessor: 'status',
                             // width: 160,

@@ -1,4 +1,4 @@
-import { FilterOption, Sku, SkuResult, SortByOption, SortDir, useSkusQuery } from "@lib/generated/hooks"
+import { FilterOption, SkuCatalogue, SkuCataloguesResult, SortByOption, SortDir, useSkuCataloguesQuery } from "@lib/generated/hooks"
 import { Badge, Box, Button, Group, Modal, useMantineTheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import ContentCard from "components/ContentCard"
@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { PAGE_SIZES } from 'types/enums'
 import { ISelectModalProps } from "./interface"
 
-export default function SkuSelectModal(props: ISelectModalProps) {
+export default function SkuCatalogueSelectModal(props: ISelectModalProps) {
     const theme = useMantineTheme()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.Active)
     const filterOptions: string[] = ['All', 'Active', 'Archived']
@@ -32,7 +32,7 @@ export default function SkuSelectModal(props: ISelectModalProps) {
     }
 
     // fetch data
-    const { data, loading, error } = useSkusQuery(
+    const { data, loading, error } = useSkuCataloguesQuery(
         {
             variables: {
                 searchFilter: {
@@ -43,7 +43,6 @@ export default function SkuSelectModal(props: ISelectModalProps) {
                     offset: 0,
                 },
                 orgUID: props.organizationUID,
-                ownerUID: props.organizationUID,
             }
         }
     )
@@ -74,9 +73,9 @@ export default function SkuSelectModal(props: ISelectModalProps) {
             overlayOpacity={0.55}
             overlayBlur={3}
         >
-            <PageHeader title='Select Sku' />
-            <SkuTable
-                data={data?.skus!}
+            <PageHeader title='Select SkuCatalogue' />
+            <SkuCatalogueTable
+                data={data?.skuCatalogues!}
                 filterAction={filterAction}
                 filterOptions={filterOptions}
                 handleSelect={props.handleSelect}
@@ -86,8 +85,8 @@ export default function SkuSelectModal(props: ISelectModalProps) {
     )
 }
 
-interface SkuTableProps {
-    data: SkuResult
+interface SkuCatalogueTableProps {
+    data: SkuCataloguesResult
     batchViewAction?: any
     filterAction?: any
     filterOptions: string[]
@@ -95,13 +94,13 @@ interface SkuTableProps {
     setOpened: Dispatch<SetStateAction<boolean>>
 }
 
-const SkuTable = (props: SkuTableProps) => {
+const SkuCatalogueTable = (props: SkuCatalogueTableProps) => {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
     const [page, setPage] = useState(1)
-    const [records, setRecords] = useState<Sku[]>(props.data.skus.slice(0, pageSize))
-    const [selectedRecords, setSelectedRecords] = useState<Sku[]>([])
+    const [records, setRecords] = useState<SkuCatalogue[]>(props.data.skuCatalogues.slice(0, pageSize))
+    const [selectedRecords, setSelectedRecords] = useState<SkuCatalogue[]>([])
 
     const handleSelect = (e: any) => {
         e.preventDefault()
@@ -121,8 +120,8 @@ const SkuTable = (props: SkuTableProps) => {
     useEffect(() => {
         const from = (page - 1) * pageSize
         const to = from + pageSize
-        setRecords(props.data.skus.slice(from, to))
-    }, [page, pageSize, props.data.skus])
+        setRecords(props.data.skuCatalogues.slice(from, to))
+    }, [page, pageSize, props.data.skuCatalogues])
 
     return (
         <ContentCard>

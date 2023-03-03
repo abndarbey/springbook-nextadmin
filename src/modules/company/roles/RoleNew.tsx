@@ -44,8 +44,10 @@ export default function RoleNew() {
     })
 
     const handleOrgSelect = (item: Organization) => {
-        form.values.orgUID = item.uid!
-        form.values.orgName = item.name!
+        if (item) {
+            form.values.orgUID = item.uid!
+            form.values.orgName = item.name!
+        }
     }
 
     const handleDepartmentSelect = (item: Department | undefined) => {
