@@ -1,9 +1,9 @@
 import { Fragment } from 'react'
 import PageTitle from 'components/PageTitle'
-import BatchList from 'modules/inventory/batches/BatchList'
+import BatchList from 'modules/nexport/batches/BatchList'
 
 export default function Batches() {
-    const title: string = 'Batches'
+    const title: string = 'Nexport Batches'
 
     return (
         <Fragment>

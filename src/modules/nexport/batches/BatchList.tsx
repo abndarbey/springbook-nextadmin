@@ -3,14 +3,15 @@ import { INavTrailProps } from 'components/NavTrails'
 import Page from 'components/Page'
 
 import {
-    useBatchesQuery,
-    useBatchArchiveMutation,
-    useBatchUnarchiveMutation,
-    Batch,
-    BatchResult,
+    useNexportBatchCataloguesQuery,
+    useBatchCatalogueArchiveMutation,
+    useBatchCatalogueUnarchiveMutation,
+    BatchCatalogue,
+    BatchCataloguesResult,
     SortByOption,
     SortDir,
-    FilterOption
+    FilterOption,
+    useBatchCreateMutation,
 } from '@lib/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
@@ -25,12 +26,10 @@ import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
 import { PAGE_SIZES } from 'types/enums'
 import { PageProps } from 'types/types'
 
-interface BatchTableProps {
-    data: BatchResult
+interface BatchCatalogueTableProps {
+    data: BatchCataloguesResult
     viewAction: any
-    editAction: any
-    archiveAction: any
-    unarchiveAction: any
+    addAction: any
     batchViewAction?: any
     filterAction?: any
     filterOptions: string[]
@@ -38,19 +37,19 @@ interface BatchTableProps {
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
-    { title: 'Batches', href: '#' },
+    { title: 'Nexport', href: '#' },
+    { title: 'Batch Catalogues', href: '#' },
 ]
 
-export default function BatchList(props: PageProps) {
+export default function BatchCatalogueList(props: PageProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
-    const [archiveRequest] = useBatchArchiveMutation({})
-    const [unarchiveRequest] = useBatchUnarchiveMutation({})
+    const [newBatch] = useBatchCreateMutation({})
 
     const filterOptions: string[] = ['All', 'Active', 'Archived']
 
     // fetch data
-    const { data, loading, error } = useBatchesQuery(
+    const { data, loading, error } = useNexportBatchCataloguesQuery(
         {
             variables: {
                 searchFilter: {
@@ -77,44 +76,23 @@ export default function BatchList(props: PageProps) {
         return <PageLoader isError={true} />
     }
 
-    const handleNew = () => {
-        router.push('/inventory/batches/new')
-    }
-
     // Row Actions
-    const viewAction = (item: Batch) => {
-        router.push(`/inventory/batches/${item.code}`)
-    }
-    const editAction = (item: Batch) => {
-        router.push(`/inventory/batches/${item.code}/edit`)
+    const viewAction = (item: BatchCatalogue) => {
+        router.push(`/nexport/batches/${item.code}`)
     }
 
-    const archiveAction = (item: Batch) => {
-        archiveRequest({
-            variables: {id: item.id!}
+    const addToInventory = (item: BatchCatalogue) => {
+        newBatch({
+            variables: {
+                input: {
+                    uid: item.uid
+                }
+            }
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: `Archived - ${res.data.organizationArchive.name}`,
-            })
-        }).catch((error: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'red',
-                message: error.message,
-            })
-        })
-    }
-
-    const unarchiveAction = (item: Batch) => {
-        unarchiveRequest({
-            variables: {id: item.id!}
-        }).then((res: any) => {
-            showNotification({
-                disallowClose: false,
-                color: 'green',
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
+                message: `Added - ${res.data.batchCreate.batchNumber}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -126,8 +104,8 @@ export default function BatchList(props: PageProps) {
     }
 
     // Batch Actions
-    const batchViewAction = (selectedRecords: Batch[]) => {
-        selectedRecords.map((item, key) => {
+    const batchViewAction = (selectedRecords: BatchCatalogue[]) => {
+        selectedRecords.map((item) => {
             console.log(item.code)
         })
     }
@@ -148,24 +126,13 @@ export default function BatchList(props: PageProps) {
         }
     }
 
-    const actionButtons: IActionButtonProps[] = [
-        {
-            type: 'new',
-            name: 'New',
-            disabled: false,
-            action: handleNew,
-        }
-    ]
-
     return (
         <Page navTrails={navTrails}>
-            <PageHeader title={props.title!} buttons={actionButtons} />
-            <BatchTable
-                data={data?.batches!}
+            <PageHeader title={props.title!} />
+            <BatchCatalogueTable
+                data={data?.nexportBatchCatalogues!}
                 viewAction={viewAction}
-                editAction={editAction}
-                archiveAction={archiveAction}
-                unarchiveAction={unarchiveAction}
+                addAction={addToInventory}
                 batchViewAction={batchViewAction}
                 filterAction={filterAction}
                 filterOptions={filterOptions}
@@ -174,19 +141,19 @@ export default function BatchList(props: PageProps) {
     )
 }
 
-const BatchTable = (props: BatchTableProps) => {
+const BatchCatalogueTable = (props: BatchCatalogueTableProps) => {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
     const [page, setPage] = useState(1)
-    const [records, setRecords] = useState<Batch[]>(props.data.batches.slice(0, pageSize))
-    const [selectedRecords, setSelectedRecords] = useState<Batch[]>([])
+    const [records, setRecords] = useState<BatchCatalogue[]>(props.data.batchCatalogues.slice(0, pageSize))
+    const [selectedRecords, setSelectedRecords] = useState<BatchCatalogue[]>([])
 
     useEffect(() => {
         const from = (page - 1) * pageSize
         const to = from + pageSize
-        setRecords(props.data.batches.slice(from, to))
-    }, [page, pageSize, props.data.batches])
+        setRecords(props.data.batchCatalogues.slice(from, to))
+    }, [page, pageSize, props.data.batchCatalogues])
 
     return (
         <ContentCard>
@@ -207,9 +174,9 @@ const BatchTable = (props: BatchTableProps) => {
                     records={records}
                     columns={[
                         { accessor: 'code', width: '10%' },
-                        { accessor: 'name' },
-                        { accessor: 'owner.name', title: 'Owner' },
-                        { accessor: 'organization.name', title: 'Organization' },
+                        { accessor: 'batchNumber' },
+                        { accessor: 'sku.name', title: 'SKU' },
+                        { accessor: 'organization.code', title: 'Organization' },
                         {
                             accessor: 'status',
                             // width: 160,
@@ -230,9 +197,7 @@ const BatchTable = (props: BatchTableProps) => {
                                 <TableRowActions
                                     item={item}
                                     viewAction={props.viewAction}
-                                    editAction={props.editAction}
-                                    archiveAction={props.archiveAction}
-                                    unarchiveAction={props.unarchiveAction}
+                                    addAction={props.addAction}
                                 />
                             )
                         },

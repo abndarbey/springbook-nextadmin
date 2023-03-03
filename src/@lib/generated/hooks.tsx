@@ -61,6 +61,25 @@ export type Auther = {
   roleID?: Maybe<Scalars['NullInt64']>;
 };
 
+export type Batch = {
+  __typename?: 'Batch';
+  batchNumber?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Time']>;
+  description?: Maybe<Scalars['String']>;
+  expiryDate?: Maybe<Scalars['NullTime']>;
+  id?: Maybe<Scalars['ID']>;
+  isArchived?: Maybe<Scalars['Boolean']>;
+  isFinal?: Maybe<Scalars['Boolean']>;
+  organization?: Maybe<Organization>;
+  owner?: Maybe<Organization>;
+  productionDate?: Maybe<Scalars['NullTime']>;
+  sku?: Maybe<Sku>;
+  status?: Maybe<Scalars['String']>;
+  uid?: Maybe<Scalars['UUID']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
 export type BatchActionInput = {
   bool?: InputMaybe<Scalars['NullBool']>;
   dateTime?: InputMaybe<Scalars['NullTime']>;
@@ -90,6 +109,12 @@ export type BatchCatalogue = {
 export type BatchCataloguesResult = {
   __typename?: 'BatchCataloguesResult';
   batchCatalogues: Array<BatchCatalogue>;
+  total: Scalars['Int'];
+};
+
+export type BatchResult = {
+  __typename?: 'BatchResult';
+  batches: Array<Batch>;
   total: Scalars['Int'];
 };
 
@@ -183,11 +208,15 @@ export type LoginRequest = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  batchArchive: Batch;
   batchCatalogueArchive: BatchCatalogue;
   batchCatalogueCreate: BatchCatalogue;
   batchCatalogueFinalize: BatchCatalogue;
   batchCatalogueUnarchive: BatchCatalogue;
   batchCatalogueUpdate: BatchCatalogue;
+  batchCreate: Batch;
+  batchUnarchive: Batch;
+  batchUpdate: Batch;
   cellArchive: Cell;
   cellCreate: Cell;
   cellFinalize: Cell;
@@ -278,6 +307,11 @@ export type Mutation = {
 };
 
 
+export type MutationBatchArchiveArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationBatchCatalogueArchiveArgs = {
   uid: Scalars['UUID'];
 };
@@ -301,6 +335,22 @@ export type MutationBatchCatalogueUnarchiveArgs = {
 export type MutationBatchCatalogueUpdateArgs = {
   input: UpdateBatchCatalogue;
   uid: Scalars['UUID'];
+};
+
+
+export type MutationBatchCreateArgs = {
+  input: UpdateBatch;
+};
+
+
+export type MutationBatchUnarchiveArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationBatchUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdateBatch;
 };
 
 
@@ -827,8 +877,10 @@ export type PalletsResult = {
 export type Query = {
   __typename?: 'Query';
   auther: Auther;
+  batch: Batch;
   batchCatalogue: BatchCatalogue;
   batchCatalogues: BatchCataloguesResult;
+  batches: BatchResult;
   cell: Cell;
   cells: CellsResult;
   contact: Contact;
@@ -839,6 +891,8 @@ export type Query = {
   ethereumAccountBalance: Scalars['String'];
   getTickerInfo: TickerInfo;
   me: User;
+  nexportBatchCatalogues: BatchCataloguesResult;
+  nexportOrganizations: OrganizationsResult;
   nexportSkuCatalogues: SkuCataloguesResult;
   organization: Organization;
   organizations: OrganizationsResult;
@@ -871,6 +925,12 @@ export type Query = {
 };
 
 
+export type QueryBatchArgs = {
+  code?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
 export type QueryBatchCatalogueArgs = {
   code?: InputMaybe<Scalars['String']>;
   uid?: InputMaybe<Scalars['UUID']>;
@@ -881,6 +941,14 @@ export type QueryBatchCataloguesArgs = {
   orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   skuUID?: InputMaybe<Scalars['UUID']>;
+};
+
+
+export type QueryBatchesArgs = {
+  orgUID?: InputMaybe<Scalars['UUID']>;
+  ownerUID?: InputMaybe<Scalars['UUID']>;
+  search: SearchFilter;
+  skuID?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -919,6 +987,18 @@ export type QueryDepartmentArgs = {
 export type QueryDepartmentsArgs = {
   orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
+};
+
+
+export type QueryNexportBatchCataloguesArgs = {
+  search: SearchFilter;
+  skuUID?: InputMaybe<Scalars['UUID']>;
+};
+
+
+export type QueryNexportOrganizationsArgs = {
+  search: SearchFilter;
+  sector?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1304,6 +1384,12 @@ export type TickerInfo = {
   __typename?: 'TickerInfo';
   lastTick: Scalars['Time'];
   tickInterval: Scalars['Int'];
+};
+
+export type UpdateBatch = {
+  orgUID?: InputMaybe<Scalars['NullUUID']>;
+  ownerUID?: InputMaybe<Scalars['NullUUID']>;
+  uid?: InputMaybe<Scalars['NullUUID']>;
 };
 
 export type UpdateBatchCatalogue = {
@@ -1834,6 +1920,7 @@ export type DepartmentUnarchiveMutation = { __typename?: 'Mutation', departmentU
 
 export type OrganizationsQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  sector?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -2003,6 +2090,8 @@ export type AuthPayloadFragmentFragment = { __typename?: 'AuthPayload', tokenStr
 
 export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
+export type BatchFragmentFragment = { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null };
+
 export type WarehouseTypeFragmentFragment = { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackTypeFragmentFragment = { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null, storageType?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, storageDimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
@@ -2020,6 +2109,53 @@ export type PalletFragmentFragment = { __typename?: 'Pallet', id?: string | null
 export type WarehouseContractFragmentFragment = { __typename?: 'WarehouseContract', id?: string | null, uid?: any | null, code?: string | null, message?: any | null, status?: string | null, acceptanceStatus?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, isAccepted?: boolean | null, createdAt?: any | null, contractor?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, client?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type ThirdPartyWarehouseFragmentFragment = { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+
+export type BatchesQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  orgUID?: InputMaybe<Scalars['UUID']>;
+  ownerUID?: InputMaybe<Scalars['UUID']>;
+  skuID?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type BatchesQuery = { __typename?: 'Query', batches: { __typename?: 'BatchResult', total: number, batches: Array<{ __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type BatchQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  code?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type BatchQuery = { __typename?: 'Query', batch: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type BatchCreateMutationVariables = Exact<{
+  input: UpdateBatch;
+}>;
+
+
+export type BatchCreateMutation = { __typename?: 'Mutation', batchCreate: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type BatchUpdateMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: UpdateBatch;
+}>;
+
+
+export type BatchUpdateMutation = { __typename?: 'Mutation', batchUpdate: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type BatchArchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type BatchArchiveMutation = { __typename?: 'Mutation', batchArchive: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type BatchUnarchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type BatchUnarchiveMutation = { __typename?: 'Mutation', batchUnarchive: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type SkusQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2067,12 +2203,28 @@ export type SkuUnarchiveMutationVariables = Exact<{
 
 export type SkuUnarchiveMutation = { __typename?: 'Mutation', skuUnarchive: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
+export type NexportOrganizationsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  sector?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type NexportOrganizationsQuery = { __typename?: 'Query', nexportOrganizations: { __typename?: 'OrganizationsResult', total: number, organizations: Array<{ __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null }> } };
+
 export type NexportSkuCataloguesQueryVariables = Exact<{
   searchFilter: SearchFilter;
 }>;
 
 
 export type NexportSkuCataloguesQuery = { __typename?: 'Query', nexportSkuCatalogues: { __typename?: 'SkuCataloguesResult', total: number, skuCatalogues: Array<{ __typename?: 'SkuCatalogue', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type NexportBatchCataloguesQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  skuUID?: InputMaybe<Scalars['UUID']>;
+}>;
+
+
+export type NexportBatchCataloguesQuery = { __typename?: 'Query', nexportBatchCatalogues: { __typename?: 'BatchCataloguesResult', total: number, batchCatalogues: Array<{ __typename?: 'BatchCatalogue', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'SkuCatalogue', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type CellsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2742,6 +2894,35 @@ export const SkuFragmentFragmentDoc = gql`
     name
   }
   organization {
+    uid
+    code
+    name
+  }
+}
+    `;
+export const BatchFragmentFragmentDoc = gql`
+    fragment BatchFragment on Batch {
+  id
+  uid
+  code
+  batchNumber
+  description
+  productionDate
+  expiryDate
+  status
+  isFinal
+  isArchived
+  owner {
+    uid
+    code
+    name
+  }
+  organization {
+    uid
+    code
+    name
+  }
+  sku {
     uid
     code
     name
@@ -4113,8 +4294,8 @@ export type DepartmentUnarchiveMutationHookResult = ReturnType<typeof useDepartm
 export type DepartmentUnarchiveMutationResult = Apollo.MutationResult<DepartmentUnarchiveMutation>;
 export type DepartmentUnarchiveMutationOptions = Apollo.BaseMutationOptions<DepartmentUnarchiveMutation, DepartmentUnarchiveMutationVariables>;
 export const OrganizationsDocument = gql`
-    query Organizations($searchFilter: SearchFilter!) {
-  organizations(search: $searchFilter) {
+    query Organizations($searchFilter: SearchFilter!, $sector: String) {
+  organizations(search: $searchFilter, sector: $sector) {
     organizations {
       ...OrganizationFragment
     }
@@ -4136,6 +4317,7 @@ export const OrganizationsDocument = gql`
  * const { data, loading, error } = useOrganizationsQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      sector: // value for 'sector'
  *   },
  * });
  */
@@ -4806,6 +4988,221 @@ export function useFileUploadMultipleMutation(baseOptions?: Apollo.MutationHookO
 export type FileUploadMultipleMutationHookResult = ReturnType<typeof useFileUploadMultipleMutation>;
 export type FileUploadMultipleMutationResult = Apollo.MutationResult<FileUploadMultipleMutation>;
 export type FileUploadMultipleMutationOptions = Apollo.BaseMutationOptions<FileUploadMultipleMutation, FileUploadMultipleMutationVariables>;
+export const BatchesDocument = gql`
+    query Batches($searchFilter: SearchFilter!, $orgUID: UUID, $ownerUID: UUID, $skuID: ID) {
+  batches(
+    search: $searchFilter
+    orgUID: $orgUID
+    ownerUID: $ownerUID
+    skuID: $skuID
+  ) {
+    batches {
+      ...BatchFragment
+    }
+    total
+  }
+}
+    ${BatchFragmentFragmentDoc}`;
+
+/**
+ * __useBatchesQuery__
+ *
+ * To run a query within a React component, call `useBatchesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBatchesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBatchesQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      orgUID: // value for 'orgUID'
+ *      ownerUID: // value for 'ownerUID'
+ *      skuID: // value for 'skuID'
+ *   },
+ * });
+ */
+export function useBatchesQuery(baseOptions: Apollo.QueryHookOptions<BatchesQuery, BatchesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BatchesQuery, BatchesQueryVariables>(BatchesDocument, options);
+      }
+export function useBatchesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BatchesQuery, BatchesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BatchesQuery, BatchesQueryVariables>(BatchesDocument, options);
+        }
+export type BatchesQueryHookResult = ReturnType<typeof useBatchesQuery>;
+export type BatchesLazyQueryHookResult = ReturnType<typeof useBatchesLazyQuery>;
+export type BatchesQueryResult = Apollo.QueryResult<BatchesQuery, BatchesQueryVariables>;
+export const BatchDocument = gql`
+    query Batch($id: ID, $code: String) {
+  batch(id: $id, code: $code) {
+    ...BatchFragment
+  }
+}
+    ${BatchFragmentFragmentDoc}`;
+
+/**
+ * __useBatchQuery__
+ *
+ * To run a query within a React component, call `useBatchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBatchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBatchQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useBatchQuery(baseOptions?: Apollo.QueryHookOptions<BatchQuery, BatchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BatchQuery, BatchQueryVariables>(BatchDocument, options);
+      }
+export function useBatchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BatchQuery, BatchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BatchQuery, BatchQueryVariables>(BatchDocument, options);
+        }
+export type BatchQueryHookResult = ReturnType<typeof useBatchQuery>;
+export type BatchLazyQueryHookResult = ReturnType<typeof useBatchLazyQuery>;
+export type BatchQueryResult = Apollo.QueryResult<BatchQuery, BatchQueryVariables>;
+export const BatchCreateDocument = gql`
+    mutation BatchCreate($input: UpdateBatch!) {
+  batchCreate(input: $input) {
+    ...BatchFragment
+  }
+}
+    ${BatchFragmentFragmentDoc}`;
+export type BatchCreateMutationFn = Apollo.MutationFunction<BatchCreateMutation, BatchCreateMutationVariables>;
+
+/**
+ * __useBatchCreateMutation__
+ *
+ * To run a mutation, you first call `useBatchCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBatchCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [batchCreateMutation, { data, loading, error }] = useBatchCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useBatchCreateMutation(baseOptions?: Apollo.MutationHookOptions<BatchCreateMutation, BatchCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BatchCreateMutation, BatchCreateMutationVariables>(BatchCreateDocument, options);
+      }
+export type BatchCreateMutationHookResult = ReturnType<typeof useBatchCreateMutation>;
+export type BatchCreateMutationResult = Apollo.MutationResult<BatchCreateMutation>;
+export type BatchCreateMutationOptions = Apollo.BaseMutationOptions<BatchCreateMutation, BatchCreateMutationVariables>;
+export const BatchUpdateDocument = gql`
+    mutation BatchUpdate($id: ID!, $input: UpdateBatch!) {
+  batchUpdate(id: $id, input: $input) {
+    ...BatchFragment
+  }
+}
+    ${BatchFragmentFragmentDoc}`;
+export type BatchUpdateMutationFn = Apollo.MutationFunction<BatchUpdateMutation, BatchUpdateMutationVariables>;
+
+/**
+ * __useBatchUpdateMutation__
+ *
+ * To run a mutation, you first call `useBatchUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBatchUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [batchUpdateMutation, { data, loading, error }] = useBatchUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useBatchUpdateMutation(baseOptions?: Apollo.MutationHookOptions<BatchUpdateMutation, BatchUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BatchUpdateMutation, BatchUpdateMutationVariables>(BatchUpdateDocument, options);
+      }
+export type BatchUpdateMutationHookResult = ReturnType<typeof useBatchUpdateMutation>;
+export type BatchUpdateMutationResult = Apollo.MutationResult<BatchUpdateMutation>;
+export type BatchUpdateMutationOptions = Apollo.BaseMutationOptions<BatchUpdateMutation, BatchUpdateMutationVariables>;
+export const BatchArchiveDocument = gql`
+    mutation BatchArchive($id: ID!) {
+  batchArchive(id: $id) {
+    ...BatchFragment
+  }
+}
+    ${BatchFragmentFragmentDoc}`;
+export type BatchArchiveMutationFn = Apollo.MutationFunction<BatchArchiveMutation, BatchArchiveMutationVariables>;
+
+/**
+ * __useBatchArchiveMutation__
+ *
+ * To run a mutation, you first call `useBatchArchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBatchArchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [batchArchiveMutation, { data, loading, error }] = useBatchArchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useBatchArchiveMutation(baseOptions?: Apollo.MutationHookOptions<BatchArchiveMutation, BatchArchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BatchArchiveMutation, BatchArchiveMutationVariables>(BatchArchiveDocument, options);
+      }
+export type BatchArchiveMutationHookResult = ReturnType<typeof useBatchArchiveMutation>;
+export type BatchArchiveMutationResult = Apollo.MutationResult<BatchArchiveMutation>;
+export type BatchArchiveMutationOptions = Apollo.BaseMutationOptions<BatchArchiveMutation, BatchArchiveMutationVariables>;
+export const BatchUnarchiveDocument = gql`
+    mutation BatchUnarchive($id: ID!) {
+  batchUnarchive(id: $id) {
+    ...BatchFragment
+  }
+}
+    ${BatchFragmentFragmentDoc}`;
+export type BatchUnarchiveMutationFn = Apollo.MutationFunction<BatchUnarchiveMutation, BatchUnarchiveMutationVariables>;
+
+/**
+ * __useBatchUnarchiveMutation__
+ *
+ * To run a mutation, you first call `useBatchUnarchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useBatchUnarchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [batchUnarchiveMutation, { data, loading, error }] = useBatchUnarchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useBatchUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<BatchUnarchiveMutation, BatchUnarchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BatchUnarchiveMutation, BatchUnarchiveMutationVariables>(BatchUnarchiveDocument, options);
+      }
+export type BatchUnarchiveMutationHookResult = ReturnType<typeof useBatchUnarchiveMutation>;
+export type BatchUnarchiveMutationResult = Apollo.MutationResult<BatchUnarchiveMutation>;
+export type BatchUnarchiveMutationOptions = Apollo.BaseMutationOptions<BatchUnarchiveMutation, BatchUnarchiveMutationVariables>;
 export const SkusDocument = gql`
     query Skus($searchFilter: SearchFilter!, $orgUID: UUID, $ownerUID: UUID) {
   skus(search: $searchFilter, orgUID: $orgUID, ownerUID: $ownerUID) {
@@ -5015,6 +5412,45 @@ export function useSkuUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions
 export type SkuUnarchiveMutationHookResult = ReturnType<typeof useSkuUnarchiveMutation>;
 export type SkuUnarchiveMutationResult = Apollo.MutationResult<SkuUnarchiveMutation>;
 export type SkuUnarchiveMutationOptions = Apollo.BaseMutationOptions<SkuUnarchiveMutation, SkuUnarchiveMutationVariables>;
+export const NexportOrganizationsDocument = gql`
+    query NexportOrganizations($searchFilter: SearchFilter!, $sector: String) {
+  nexportOrganizations(search: $searchFilter, sector: $sector) {
+    organizations {
+      ...OrganizationFragment
+    }
+    total
+  }
+}
+    ${OrganizationFragmentFragmentDoc}`;
+
+/**
+ * __useNexportOrganizationsQuery__
+ *
+ * To run a query within a React component, call `useNexportOrganizationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNexportOrganizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNexportOrganizationsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      sector: // value for 'sector'
+ *   },
+ * });
+ */
+export function useNexportOrganizationsQuery(baseOptions: Apollo.QueryHookOptions<NexportOrganizationsQuery, NexportOrganizationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NexportOrganizationsQuery, NexportOrganizationsQueryVariables>(NexportOrganizationsDocument, options);
+      }
+export function useNexportOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NexportOrganizationsQuery, NexportOrganizationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NexportOrganizationsQuery, NexportOrganizationsQueryVariables>(NexportOrganizationsDocument, options);
+        }
+export type NexportOrganizationsQueryHookResult = ReturnType<typeof useNexportOrganizationsQuery>;
+export type NexportOrganizationsLazyQueryHookResult = ReturnType<typeof useNexportOrganizationsLazyQuery>;
+export type NexportOrganizationsQueryResult = Apollo.QueryResult<NexportOrganizationsQuery, NexportOrganizationsQueryVariables>;
 export const NexportSkuCataloguesDocument = gql`
     query NexportSkuCatalogues($searchFilter: SearchFilter!) {
   nexportSkuCatalogues(search: $searchFilter) {
@@ -5053,6 +5489,45 @@ export function useNexportSkuCataloguesLazyQuery(baseOptions?: Apollo.LazyQueryH
 export type NexportSkuCataloguesQueryHookResult = ReturnType<typeof useNexportSkuCataloguesQuery>;
 export type NexportSkuCataloguesLazyQueryHookResult = ReturnType<typeof useNexportSkuCataloguesLazyQuery>;
 export type NexportSkuCataloguesQueryResult = Apollo.QueryResult<NexportSkuCataloguesQuery, NexportSkuCataloguesQueryVariables>;
+export const NexportBatchCataloguesDocument = gql`
+    query NexportBatchCatalogues($searchFilter: SearchFilter!, $skuUID: UUID) {
+  nexportBatchCatalogues(search: $searchFilter, skuUID: $skuUID) {
+    batchCatalogues {
+      ...BatchCatalogueFragment
+    }
+    total
+  }
+}
+    ${BatchCatalogueFragmentFragmentDoc}`;
+
+/**
+ * __useNexportBatchCataloguesQuery__
+ *
+ * To run a query within a React component, call `useNexportBatchCataloguesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNexportBatchCataloguesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNexportBatchCataloguesQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      skuUID: // value for 'skuUID'
+ *   },
+ * });
+ */
+export function useNexportBatchCataloguesQuery(baseOptions: Apollo.QueryHookOptions<NexportBatchCataloguesQuery, NexportBatchCataloguesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NexportBatchCataloguesQuery, NexportBatchCataloguesQueryVariables>(NexportBatchCataloguesDocument, options);
+      }
+export function useNexportBatchCataloguesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NexportBatchCataloguesQuery, NexportBatchCataloguesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NexportBatchCataloguesQuery, NexportBatchCataloguesQueryVariables>(NexportBatchCataloguesDocument, options);
+        }
+export type NexportBatchCataloguesQueryHookResult = ReturnType<typeof useNexportBatchCataloguesQuery>;
+export type NexportBatchCataloguesLazyQueryHookResult = ReturnType<typeof useNexportBatchCataloguesLazyQuery>;
+export type NexportBatchCataloguesQueryResult = Apollo.QueryResult<NexportBatchCataloguesQuery, NexportBatchCataloguesQueryVariables>;
 export const CellsDocument = gql`
     query Cells($searchFilter: SearchFilter!) {
   cells(search: $searchFilter) {

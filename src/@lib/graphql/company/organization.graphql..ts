@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const ORGANIZATIONS = gql`
-    query Organizations($searchFilter: SearchFilter!) {
-        organizations(search: $searchFilter) {
+    query Organizations($searchFilter: SearchFilter!, $sector: String) {
+        organizations(search: $searchFilter, sector: $sector) {
             organizations {
                     ...OrganizationFragment
                 }

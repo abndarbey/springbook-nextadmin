@@ -10,7 +10,8 @@ import {
     BatchCataloguesResult,
     SortByOption,
     SortDir,
-    FilterOption
+    FilterOption,
+    useBatchCreateMutation
 } from '@lib/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
@@ -28,6 +29,7 @@ import { PageProps } from 'types/types'
 interface BatchCatalogueTableProps {
     data: BatchCataloguesResult
     viewAction: any
+    addAction: any
     editAction: any
     archiveAction: any
     unarchiveAction: any
@@ -44,6 +46,7 @@ const navTrails: INavTrailProps[] = [
 export default function BatchCatalogueList(props: PageProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
+    const [newBatch] = useBatchCreateMutation({})
     const [archiveRequest] = useBatchCatalogueArchiveMutation({})
     const [unarchiveRequest] = useBatchCatalogueUnarchiveMutation({})
 
@@ -89,6 +92,28 @@ export default function BatchCatalogueList(props: PageProps) {
         router.push(`/catalogues/batches/${item.code}/edit`)
     }
 
+    const addToInventory = (item: BatchCatalogue) => {
+        newBatch({
+            variables: {
+                input: {
+                    uid: item.uid
+                }
+            }
+        }).then((res: any) => {
+            showNotification({
+                disallowClose: false,
+                color: 'green',
+                message: `Added - ${res.data.batchCreate.batchNumber}`,
+            })
+        }).catch((error: any) => {
+            showNotification({
+                disallowClose: false,
+                color: 'red',
+                message: error.message,
+            })
+        })
+    }
+
     const archiveAction = (item: BatchCatalogue) => {
         archiveRequest({
             variables: {uid: item.uid!}
@@ -96,7 +121,7 @@ export default function BatchCatalogueList(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: `Archived - ${res.data.organizationArchive.name}`,
+                message: `Archived - ${res.data.batchArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -114,7 +139,7 @@ export default function BatchCatalogueList(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
+                message: `Unarchived - ${res.data.batchUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -127,7 +152,7 @@ export default function BatchCatalogueList(props: PageProps) {
 
     // Batch Actions
     const batchViewAction = (selectedRecords: BatchCatalogue[]) => {
-        selectedRecords.map((item, key) => {
+        selectedRecords.map((item) => {
             console.log(item.code)
         })
     }
@@ -163,6 +188,7 @@ export default function BatchCatalogueList(props: PageProps) {
             <BatchCatalogueTable
                 data={data?.batchCatalogues!}
                 viewAction={viewAction}
+                addAction={addToInventory}
                 editAction={editAction}
                 archiveAction={archiveAction}
                 unarchiveAction={unarchiveAction}
@@ -206,9 +232,9 @@ const BatchCatalogueTable = (props: BatchCatalogueTableProps) => {
                     noRecordsText="No records to show"
                     records={records}
                     columns={[
-                        { accessor: 'code'},
+                        { accessor: 'code', width: '10%' },
                         { accessor: 'batchNumber' },
-                        { accessor: 'sku.name', title: 'SKU ' },
+                        { accessor: 'sku.name', title: 'SKU' },
                         { accessor: 'organization.code', title: 'Organization' },
                         {
                             accessor: 'status',
@@ -230,6 +256,7 @@ const BatchCatalogueTable = (props: BatchCatalogueTableProps) => {
                                 <TableRowActions
                                     item={item}
                                     viewAction={props.viewAction}
+                                    addAction={props.addAction}
                                     editAction={props.editAction}
                                     archiveAction={props.archiveAction}
                                     unarchiveAction={props.unarchiveAction}
