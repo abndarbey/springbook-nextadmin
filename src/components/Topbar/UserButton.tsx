@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { useAutherQuery } from '@lib/generated/hooks'
 import {
     Avatar,
@@ -15,11 +17,8 @@ import {
     IconSettings,
     IconStar,
     IconSwitchHorizontal,
-    IconTrash,
 } from '@tabler/icons'
 import PageLoader from 'components/PageLoader'
-import { useRouter } from 'next/router'
-import React, { FC, useState } from 'react'
 import { userButtonStyles } from './styles'
 
 type IUserProps = {
@@ -47,6 +46,7 @@ export default function UserButton () {
             color: 'red',
             message: authData.error.message,
         })
+        localStorage.removeItem("token")
         return <PageLoader isError={true} />
     }
     if (authData.error) {
