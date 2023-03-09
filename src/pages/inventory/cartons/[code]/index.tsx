@@ -2,16 +2,19 @@ import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import PageTitle from 'components/PageTitle'
 import CartonDetails from 'modules/inventory/cartons/CartonList'
+import PageLoader from 'components/PageLoader'
 
 export default function Details() {
-    const router = useRouter()
-    const code = router.query.code
+    const { query, isReady } = useRouter()
+    if (!isReady) {
+        return <PageLoader />
+    }
     const title: string = 'Carton Details'
     
     return (
         <Fragment>
             <PageTitle title={title} />
-            <CartonDetails title={title} code={code} />
+            <CartonDetails title={title} code={query.code} />
         </Fragment>
     )
 }
