@@ -236,6 +236,7 @@ const SkuCatalogueTable = (props: SkuCatalogueTableProps) => {
                         { accessor: 'name' },
                         { accessor: 'brand' },
                         { accessor: 'organization.code', title: 'Organization' },
+                        { accessor: 'batchCount', title: 'Batch Count' },
                         {
                             accessor: 'status',
                             // width: 160,

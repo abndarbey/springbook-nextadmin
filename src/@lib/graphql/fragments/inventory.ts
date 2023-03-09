@@ -22,11 +22,8 @@ export const Sku = gql`
         isFinal
         isArchived
         createdAt
-        owner {
-            uid
-            code
-            name
-        }
+        batchCount
+        cartonCount
         organization {
             uid
             code
@@ -47,17 +44,13 @@ export const Batch = gql`
         status
         isFinal
         isArchived
-        owner {
+        cartonCount
+        sku {
             uid
             code
             name
         }
         organization {
-            uid
-            code
-            name
-        }
-        sku {
             uid
             code
             name

@@ -207,9 +207,10 @@ const BatchTable = (props: BatchTableProps) => {
                     records={records}
                     columns={[
                         { accessor: 'code', width: '10%' },
-                        { accessor: 'batchNumber' },
-                        { accessor: 'owner.name', title: 'Owner' },
+                        { accessor: 'batchNumber', title: 'Batch Number' },
+                        { accessor: 'sku.name', title: 'SKU' },
                         { accessor: 'organization.name', title: 'Organization' },
+                        { accessor: 'cartonCount', title: 'Cartons Count' },
                         {
                             accessor: 'status',
                             // width: 160,

@@ -22,6 +22,7 @@ export const SkuCatalogue = gql`
         isFinal
         isArchived
         createdAt
+        batchCount
         organization {
             uid
             code

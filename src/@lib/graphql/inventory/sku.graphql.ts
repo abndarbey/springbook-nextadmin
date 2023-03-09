@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const SKUS = gql`
-    query Skus($searchFilter: SearchFilter!, $orgUID: UUID, $ownerUID: UUID) {
-        skus(search: $searchFilter, orgUID: $orgUID, ownerUID: $ownerUID) {
+    query Skus($searchFilter: SearchFilter!, $orgUID: UUID) {
+        skus(search: $searchFilter, orgUID: $orgUID) {
             skus {
                     ...SkuFragment
                 }

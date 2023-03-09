@@ -208,8 +208,9 @@ const SkuTable = (props: SkuTableProps) => {
                     columns={[
                         { accessor: 'code', width: '10%' },
                         { accessor: 'name' },
-                        { accessor: 'owner.name', title: 'Owner' },
                         { accessor: 'organization.name', title: 'Organization' },
+                        { accessor: 'batchCount', title: 'Batch Count' },
+                        { accessor: 'cartonCount', title: 'Cartons Count' },
                         {
                             accessor: 'status',
                             // width: 160,

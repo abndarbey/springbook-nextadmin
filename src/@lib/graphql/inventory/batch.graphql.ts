@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const BATCHES = gql`
-    query Batches($searchFilter: SearchFilter!, $orgUID: UUID, $ownerUID: UUID, $skuID: ID) {
-        batches(search: $searchFilter, orgUID: $orgUID, ownerUID: $ownerUID, skuID: $skuID) {
+    query Batches($searchFilter: SearchFilter!, $orgUID: UUID, $skuID: ID) {
+        batches(search: $searchFilter, orgUID: $orgUID, skuID: $skuID) {
             batches {
                     ...BatchFragment
                 }
