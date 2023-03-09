@@ -2170,6 +2170,8 @@ export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?
 
 export type BatchFragmentFragment = { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, cartonCount?: number | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
+export type CartonFragmentFragment = { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+
 export type WarehouseTypeFragmentFragment = { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackTypeFragmentFragment = { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null, storageType?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, storageDimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
@@ -2233,6 +2235,55 @@ export type BatchUnarchiveMutationVariables = Exact<{
 
 
 export type BatchUnarchiveMutation = { __typename?: 'Mutation', batchUnarchive: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, cartonCount?: number | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type CartonsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  orgUID?: InputMaybe<Scalars['UUID']>;
+  skuUID?: InputMaybe<Scalars['UUID']>;
+  batchUID?: InputMaybe<Scalars['UUID']>;
+  warehouseUID?: InputMaybe<Scalars['UUID']>;
+}>;
+
+
+export type CartonsQuery = { __typename?: 'Query', cartons: { __typename?: 'CartonResult', total: number, cartons: Array<{ __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type CartonQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  uid?: InputMaybe<Scalars['UUID']>;
+  code?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CartonQuery = { __typename?: 'Query', carton: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type CartonCreateMutationVariables = Exact<{
+  input: UpdateCarton;
+}>;
+
+
+export type CartonCreateMutation = { __typename?: 'Mutation', cartonCreate: boolean };
+
+export type CartonUpdateMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: UpdateCarton;
+}>;
+
+
+export type CartonUpdateMutation = { __typename?: 'Mutation', cartonUpdate: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type CartonArchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type CartonArchiveMutation = { __typename?: 'Mutation', cartonArchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type CartonUnarchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type CartonUnarchiveMutation = { __typename?: 'Mutation', cartonUnarchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type SkusQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2993,6 +3044,37 @@ export const BatchFragmentFragmentDoc = gql`
     name
   }
   organization {
+    uid
+    code
+    name
+  }
+}
+    `;
+export const CartonFragmentFragmentDoc = gql`
+    fragment CartonFragment on Carton {
+  id
+  uid
+  code
+  description
+  status
+  isFinal
+  isArchived
+  sku {
+    uid
+    code
+    name
+  }
+  batch {
+    uid
+    code
+    batchNumber
+  }
+  owner {
+    uid
+    code
+    name
+  }
+  custodian {
     uid
     code
     name
@@ -5267,6 +5349,222 @@ export function useBatchUnarchiveMutation(baseOptions?: Apollo.MutationHookOptio
 export type BatchUnarchiveMutationHookResult = ReturnType<typeof useBatchUnarchiveMutation>;
 export type BatchUnarchiveMutationResult = Apollo.MutationResult<BatchUnarchiveMutation>;
 export type BatchUnarchiveMutationOptions = Apollo.BaseMutationOptions<BatchUnarchiveMutation, BatchUnarchiveMutationVariables>;
+export const CartonsDocument = gql`
+    query Cartons($searchFilter: SearchFilter!, $orgUID: UUID, $skuUID: UUID, $batchUID: UUID, $warehouseUID: UUID) {
+  cartons(
+    search: $searchFilter
+    orgUID: $orgUID
+    skuUID: $skuUID
+    batchUID: $batchUID
+    warehouseUID: $warehouseUID
+  ) {
+    cartons {
+      ...CartonFragment
+    }
+    total
+  }
+}
+    ${CartonFragmentFragmentDoc}`;
+
+/**
+ * __useCartonsQuery__
+ *
+ * To run a query within a React component, call `useCartonsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCartonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCartonsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      orgUID: // value for 'orgUID'
+ *      skuUID: // value for 'skuUID'
+ *      batchUID: // value for 'batchUID'
+ *      warehouseUID: // value for 'warehouseUID'
+ *   },
+ * });
+ */
+export function useCartonsQuery(baseOptions: Apollo.QueryHookOptions<CartonsQuery, CartonsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CartonsQuery, CartonsQueryVariables>(CartonsDocument, options);
+      }
+export function useCartonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartonsQuery, CartonsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CartonsQuery, CartonsQueryVariables>(CartonsDocument, options);
+        }
+export type CartonsQueryHookResult = ReturnType<typeof useCartonsQuery>;
+export type CartonsLazyQueryHookResult = ReturnType<typeof useCartonsLazyQuery>;
+export type CartonsQueryResult = Apollo.QueryResult<CartonsQuery, CartonsQueryVariables>;
+export const CartonDocument = gql`
+    query Carton($id: ID, $uid: UUID, $code: String) {
+  carton(id: $id, uid: $uid, code: $code) {
+    ...CartonFragment
+  }
+}
+    ${CartonFragmentFragmentDoc}`;
+
+/**
+ * __useCartonQuery__
+ *
+ * To run a query within a React component, call `useCartonQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCartonQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCartonQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      uid: // value for 'uid'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useCartonQuery(baseOptions?: Apollo.QueryHookOptions<CartonQuery, CartonQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CartonQuery, CartonQueryVariables>(CartonDocument, options);
+      }
+export function useCartonLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartonQuery, CartonQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CartonQuery, CartonQueryVariables>(CartonDocument, options);
+        }
+export type CartonQueryHookResult = ReturnType<typeof useCartonQuery>;
+export type CartonLazyQueryHookResult = ReturnType<typeof useCartonLazyQuery>;
+export type CartonQueryResult = Apollo.QueryResult<CartonQuery, CartonQueryVariables>;
+export const CartonCreateDocument = gql`
+    mutation CartonCreate($input: UpdateCarton!) {
+  cartonCreate(input: $input)
+}
+    `;
+export type CartonCreateMutationFn = Apollo.MutationFunction<CartonCreateMutation, CartonCreateMutationVariables>;
+
+/**
+ * __useCartonCreateMutation__
+ *
+ * To run a mutation, you first call `useCartonCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCartonCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cartonCreateMutation, { data, loading, error }] = useCartonCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCartonCreateMutation(baseOptions?: Apollo.MutationHookOptions<CartonCreateMutation, CartonCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CartonCreateMutation, CartonCreateMutationVariables>(CartonCreateDocument, options);
+      }
+export type CartonCreateMutationHookResult = ReturnType<typeof useCartonCreateMutation>;
+export type CartonCreateMutationResult = Apollo.MutationResult<CartonCreateMutation>;
+export type CartonCreateMutationOptions = Apollo.BaseMutationOptions<CartonCreateMutation, CartonCreateMutationVariables>;
+export const CartonUpdateDocument = gql`
+    mutation CartonUpdate($id: ID!, $input: UpdateCarton!) {
+  cartonUpdate(id: $id, input: $input) {
+    ...CartonFragment
+  }
+}
+    ${CartonFragmentFragmentDoc}`;
+export type CartonUpdateMutationFn = Apollo.MutationFunction<CartonUpdateMutation, CartonUpdateMutationVariables>;
+
+/**
+ * __useCartonUpdateMutation__
+ *
+ * To run a mutation, you first call `useCartonUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCartonUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cartonUpdateMutation, { data, loading, error }] = useCartonUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCartonUpdateMutation(baseOptions?: Apollo.MutationHookOptions<CartonUpdateMutation, CartonUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CartonUpdateMutation, CartonUpdateMutationVariables>(CartonUpdateDocument, options);
+      }
+export type CartonUpdateMutationHookResult = ReturnType<typeof useCartonUpdateMutation>;
+export type CartonUpdateMutationResult = Apollo.MutationResult<CartonUpdateMutation>;
+export type CartonUpdateMutationOptions = Apollo.BaseMutationOptions<CartonUpdateMutation, CartonUpdateMutationVariables>;
+export const CartonArchiveDocument = gql`
+    mutation CartonArchive($id: ID!) {
+  cartonArchive(id: $id) {
+    ...CartonFragment
+  }
+}
+    ${CartonFragmentFragmentDoc}`;
+export type CartonArchiveMutationFn = Apollo.MutationFunction<CartonArchiveMutation, CartonArchiveMutationVariables>;
+
+/**
+ * __useCartonArchiveMutation__
+ *
+ * To run a mutation, you first call `useCartonArchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCartonArchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cartonArchiveMutation, { data, loading, error }] = useCartonArchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCartonArchiveMutation(baseOptions?: Apollo.MutationHookOptions<CartonArchiveMutation, CartonArchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CartonArchiveMutation, CartonArchiveMutationVariables>(CartonArchiveDocument, options);
+      }
+export type CartonArchiveMutationHookResult = ReturnType<typeof useCartonArchiveMutation>;
+export type CartonArchiveMutationResult = Apollo.MutationResult<CartonArchiveMutation>;
+export type CartonArchiveMutationOptions = Apollo.BaseMutationOptions<CartonArchiveMutation, CartonArchiveMutationVariables>;
+export const CartonUnarchiveDocument = gql`
+    mutation CartonUnarchive($id: ID!) {
+  cartonUnarchive(id: $id) {
+    ...CartonFragment
+  }
+}
+    ${CartonFragmentFragmentDoc}`;
+export type CartonUnarchiveMutationFn = Apollo.MutationFunction<CartonUnarchiveMutation, CartonUnarchiveMutationVariables>;
+
+/**
+ * __useCartonUnarchiveMutation__
+ *
+ * To run a mutation, you first call `useCartonUnarchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCartonUnarchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cartonUnarchiveMutation, { data, loading, error }] = useCartonUnarchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCartonUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<CartonUnarchiveMutation, CartonUnarchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CartonUnarchiveMutation, CartonUnarchiveMutationVariables>(CartonUnarchiveDocument, options);
+      }
+export type CartonUnarchiveMutationHookResult = ReturnType<typeof useCartonUnarchiveMutation>;
+export type CartonUnarchiveMutationResult = Apollo.MutationResult<CartonUnarchiveMutation>;
+export type CartonUnarchiveMutationOptions = Apollo.BaseMutationOptions<CartonUnarchiveMutation, CartonUnarchiveMutationVariables>;
 export const SkusDocument = gql`
     query Skus($searchFilter: SearchFilter!, $orgUID: UUID) {
   skus(search: $searchFilter, orgUID: $orgUID) {

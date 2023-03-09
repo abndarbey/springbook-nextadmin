@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Organization, Department, Role, User, Contact } from './company'
 import { SkuCatalogue, BatchCatalogue } from './catalogue'
-import { Sku, Batch } from './inventory'
+import { Sku, Batch, Carton } from './inventory'
 import {
     WarehouseType, RackType, PalletType,
     Warehouse, Rack, Cell, Pallet,
@@ -48,4 +48,5 @@ export const fragment = {
 
     Sku,
     Batch,
+    Carton
 }

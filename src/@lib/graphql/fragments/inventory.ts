@@ -57,3 +57,35 @@ export const Batch = gql`
         }
     }
 `
+
+export const Carton = gql`
+    fragment CartonFragment on Carton {
+        id
+        uid
+        code
+        description
+        status
+        isFinal
+        isArchived
+        sku {
+            uid
+            code
+            name
+        }
+        batch {
+            uid
+            code
+            batchNumber
+        }
+        owner {
+            uid
+            code
+            name
+        }
+        custodian {
+            uid
+            code
+            name
+        }
+    }
+`

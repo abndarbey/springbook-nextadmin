@@ -3,11 +3,11 @@ import { INavTrailProps } from 'components/NavTrails'
 import Page from 'components/Page'
 
 import {
-    useDepartmentsQuery,
-    useDepartmentArchiveMutation,
-    useDepartmentUnarchiveMutation,
-    Department,
-    DepartmentsResult,
+    useCartonsQuery,
+    useCartonArchiveMutation,
+    useCartonUnarchiveMutation,
+    Carton,
+    CartonResult,
     SortByOption,
     SortDir,
     FilterOption
@@ -25,8 +25,8 @@ import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
 import { PAGE_SIZES } from 'types/enums'
 import { PageProps } from 'types/types'
 
-interface DepartmentTableProps {
-    data: DepartmentsResult
+interface CartonTableProps {
+    data: CartonResult
     viewAction: any
     editAction: any
     archiveAction: any
@@ -38,19 +38,19 @@ interface DepartmentTableProps {
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
-    { title: 'Departments', href: '#' },
+    { title: 'Cartons', href: '#' },
 ]
 
-export default function DepartmentList(props: PageProps) {
+export default function CartonList(props: PageProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
-    const [archiveRequest] = useDepartmentArchiveMutation({})
-    const [unarchiveRequest] = useDepartmentUnarchiveMutation({})
+    const [archiveRequest] = useCartonArchiveMutation({})
+    const [unarchiveRequest] = useCartonUnarchiveMutation({})
 
     const filterOptions: string[] = ['All', 'Active', 'Archived']
 
     // fetch data
-    const { data, loading, error } = useDepartmentsQuery(
+    const { data, loading, error } = useCartonsQuery(
         {
             variables: {
                 searchFilter: {
@@ -78,18 +78,18 @@ export default function DepartmentList(props: PageProps) {
     }
 
     const handleNew = () => {
-        router.push('/company/departments/new')
+        router.push('/inventory/cartons/new')
     }
 
     // Row Actions
-    const viewAction = (item: Department) => {
-        router.push(`/company/departments/${item.code}`)
+    const viewAction = (item: Carton) => {
+        router.push(`/inventory/cartons/${item.code}`)
     }
-    const editAction = (item: Department) => {
-        router.push(`/company/departments/${item.code}/edit`)
+    const editAction = (item: Carton) => {
+        router.push(`/inventory/cartons/${item.code}/edit`)
     }
 
-    const archiveAction = (item: Department) => {
+    const archiveAction = (item: Carton) => {
         archiveRequest({
             variables: {id: item.id!}
         }).then((res: any) => {
@@ -107,7 +107,7 @@ export default function DepartmentList(props: PageProps) {
         })
     }
 
-    const unarchiveAction = (item: Department) => {
+    const unarchiveAction = (item: Carton) => {
         unarchiveRequest({
             variables: {id: item.id!}
         }).then((res: any) => {
@@ -125,8 +125,8 @@ export default function DepartmentList(props: PageProps) {
         })
     }
 
-    // Batch Actions
-    const batchViewAction = (selectedRecords: Department[]) => {
+    // Carton Actions
+    const batchViewAction = (selectedRecords: Carton[]) => {
         selectedRecords.map((item, key) => {
             console.log(item.code)
         })
@@ -160,8 +160,8 @@ export default function DepartmentList(props: PageProps) {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} buttons={actionButtons} />
-            <DepartmentTable
-                data={data?.departments!}
+            <CartonTable
+                data={data?.cartons!}
                 viewAction={viewAction}
                 editAction={editAction}
                 archiveAction={archiveAction}
@@ -174,19 +174,19 @@ export default function DepartmentList(props: PageProps) {
     )
 }
 
-const DepartmentTable = (props: DepartmentTableProps) => {
+const CartonTable = (props: CartonTableProps) => {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
     const [page, setPage] = useState(1)
-    const [records, setRecords] = useState<Department[]>(props.data.departments.slice(0, pageSize))
-    const [selectedRecords, setSelectedRecords] = useState<Department[]>([])
+    const [records, setRecords] = useState<Carton[]>(props.data.cartons.slice(0, pageSize))
+    const [selectedRecords, setSelectedRecords] = useState<Carton[]>([])
 
     useEffect(() => {
         const from = (page - 1) * pageSize
         const to = from + pageSize
-        setRecords(props.data.departments.slice(from, to))
-    }, [page, pageSize, props.data.departments])
+        setRecords(props.data.cartons.slice(from, to))
+    }, [page, pageSize, props.data.cartons])
 
     return (
         <ContentCard>
@@ -207,8 +207,10 @@ const DepartmentTable = (props: DepartmentTableProps) => {
                     records={records}
                     columns={[
                         { accessor: 'code', width: '10%' },
-                        { accessor: 'name' },
-                        { accessor: 'organization.code', title: 'Organization' },
+                        { accessor: 'sku.name', title: 'SKU' },
+                        { accessor: 'batch.batchNumber', title: 'Batch Number' },
+                        { accessor: 'owner.name', title: 'Owner' },
+                        { accessor: 'custodian.name', title: 'Custodian' },
                         {
                             accessor: 'status',
                             // width: 160,
