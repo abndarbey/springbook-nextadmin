@@ -4,19 +4,7 @@ import { IconSettings, IconChevronDown } from '@tabler/icons'
 import { systemMenus } from 'data/menuData'
 import { SystemMenuType } from 'types/menuTypes'
 
-interface ISystemMenu {}
-
-// const systemMenus: string[] = [
-//     'ERP',
-//     'ORG',
-//     'WMS',
-//     'IMS',
-//     'OMS',
-//     'TMS',
-//     'SMS',
-// ]
-
-export default function SystemMenu(props: ISystemMenu) {
+export default function SystemMenu() {
     const [menu, setMenu] = useState(systemMenus[0])
     const handleSelect = (item: SystemMenuType) => {
         setMenu(item)

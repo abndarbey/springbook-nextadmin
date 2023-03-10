@@ -1,15 +1,20 @@
+import { useState } from 'react'
 import {
     Header,
     Group,
     Box,
     TextInput,
 } from '@mantine/core'
+import { showNotification } from '@mantine/notifications'
+import { IconSearch } from '@tabler/icons'
 import ThemeToggler from 'components/ThemeToggler'
+import { useAutherQuery } from '@lib/generated/hooks'
 import NotificationsButton from './NotificationsButton'
-import SelectMenu from './SystemMenu'
+import PageLoader from 'components/PageLoader'
+import SystemMenu from './SystemMenu'
 import UserButton from './UserButton'
 import { topbarStyles } from './styles'
-import { IconSearch } from '@tabler/icons'
+import OrgMenu from './OrgMenu'
 
 interface ITopbarProps {
     height: number
@@ -17,13 +22,48 @@ interface ITopbarProps {
 
 export default function Topbar(props: ITopbarProps) {
     const { classes } = topbarStyles()
+    const [autherName, setAutherName] = useState('Anonymous')
+    const [isAuther, setIsAuther] = useState(false)
+
+    // fetch auther data
+    const authData = useAutherQuery()
+    if (authData.loading) {
+        return (
+            <PageLoader />
+        )
+    }
+    if (authData.error) {
+        showNotification({
+            disallowClose: false,
+            color: 'red',
+            message: authData.error.message,
+        })
+        localStorage.removeItem("token")
+        return <PageLoader isError={true} />
+    }
+    if (authData.error) {
+        showNotification({
+            disallowClose: false,
+            color: 'red',
+            // message: authData.error.message,
+            message: "Unable to load auther",
+        })
+        return <PageLoader isError={true} />
+    }
+
+    // set auther name
+    if (authData && !isAuther) {
+        setAutherName(authData.data?.auther.name!)
+        setIsAuther(true)
+    }
 
     return (
         <Box>
             <Header height={props.height} px="md" className={classes.navbar}>
                 <Group position="apart" sx={{ height: '100%' }}>
                     <Group>
-                        <SelectMenu />
+                        <SystemMenu />
+                        {authData.data?.auther.isAdmin && <OrgMenu />}
                         <TextInput
                             placeholder="Search ..."
                             icon={<IconSearch size={16} />}

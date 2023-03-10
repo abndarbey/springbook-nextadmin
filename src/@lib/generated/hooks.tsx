@@ -979,7 +979,6 @@ export type Query = {
 export type QueryBatchArgs = {
   code?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   uid?: InputMaybe<Scalars['UUID']>;
 };
 
@@ -998,7 +997,6 @@ export type QueryBatchCataloguesArgs = {
 
 
 export type QueryBatchesArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   skuID?: InputMaybe<Scalars['ID']>;
 };
@@ -1013,7 +1011,6 @@ export type QueryCartonArgs = {
 
 export type QueryCartonsArgs = {
   batchUID?: InputMaybe<Scalars['UUID']>;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   skuUID?: InputMaybe<Scalars['UUID']>;
   warehouseUID?: InputMaybe<Scalars['UUID']>;
@@ -1155,7 +1152,6 @@ export type QueryRolesArgs = {
 export type QuerySkuArgs = {
   code?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   uid?: InputMaybe<Scalars['UUID']>;
 };
 
@@ -1173,7 +1169,6 @@ export type QuerySkuCataloguesArgs = {
 
 
 export type QuerySkusArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -2192,7 +2187,6 @@ export type ThirdPartyWarehouseFragmentFragment = { __typename?: 'ThirdPartyWare
 
 export type BatchesQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   skuID?: InputMaybe<Scalars['ID']>;
 }>;
 
@@ -2201,6 +2195,7 @@ export type BatchesQuery = { __typename?: 'Query', batches: { __typename?: 'Batc
 
 export type BatchQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
+  uid?: InputMaybe<Scalars['UUID']>;
   code?: InputMaybe<Scalars['String']>;
 }>;
 
@@ -2238,7 +2233,6 @@ export type BatchUnarchiveMutation = { __typename?: 'Mutation', batchUnarchive: 
 
 export type CartonsQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   skuUID?: InputMaybe<Scalars['UUID']>;
   batchUID?: InputMaybe<Scalars['UUID']>;
   warehouseUID?: InputMaybe<Scalars['UUID']>;
@@ -2287,7 +2281,6 @@ export type CartonUnarchiveMutation = { __typename?: 'Mutation', cartonUnarchive
 
 export type SkusQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -2295,6 +2288,7 @@ export type SkusQuery = { __typename?: 'Query', skus: { __typename?: 'SkusResult
 
 export type SkuQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
+  uid?: InputMaybe<Scalars['UUID']>;
   code?: InputMaybe<Scalars['String']>;
 }>;
 
@@ -5141,8 +5135,8 @@ export type FileUploadMultipleMutationHookResult = ReturnType<typeof useFileUplo
 export type FileUploadMultipleMutationResult = Apollo.MutationResult<FileUploadMultipleMutation>;
 export type FileUploadMultipleMutationOptions = Apollo.BaseMutationOptions<FileUploadMultipleMutation, FileUploadMultipleMutationVariables>;
 export const BatchesDocument = gql`
-    query Batches($searchFilter: SearchFilter!, $orgUID: UUID, $skuID: ID) {
-  batches(search: $searchFilter, orgUID: $orgUID, skuID: $skuID) {
+    query Batches($searchFilter: SearchFilter!, $skuID: ID) {
+  batches(search: $searchFilter, skuID: $skuID) {
     batches {
       ...BatchFragment
     }
@@ -5164,7 +5158,6 @@ export const BatchesDocument = gql`
  * const { data, loading, error } = useBatchesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *      skuID: // value for 'skuID'
  *   },
  * });
@@ -5181,8 +5174,8 @@ export type BatchesQueryHookResult = ReturnType<typeof useBatchesQuery>;
 export type BatchesLazyQueryHookResult = ReturnType<typeof useBatchesLazyQuery>;
 export type BatchesQueryResult = Apollo.QueryResult<BatchesQuery, BatchesQueryVariables>;
 export const BatchDocument = gql`
-    query Batch($id: ID, $code: String) {
-  batch(id: $id, code: $code) {
+    query Batch($id: ID, $uid: UUID, $code: String) {
+  batch(id: $id, uid: $uid, code: $code) {
     ...BatchFragment
   }
 }
@@ -5201,6 +5194,7 @@ export const BatchDocument = gql`
  * const { data, loading, error } = useBatchQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *      code: // value for 'code'
  *   },
  * });
@@ -5350,10 +5344,9 @@ export type BatchUnarchiveMutationHookResult = ReturnType<typeof useBatchUnarchi
 export type BatchUnarchiveMutationResult = Apollo.MutationResult<BatchUnarchiveMutation>;
 export type BatchUnarchiveMutationOptions = Apollo.BaseMutationOptions<BatchUnarchiveMutation, BatchUnarchiveMutationVariables>;
 export const CartonsDocument = gql`
-    query Cartons($searchFilter: SearchFilter!, $orgUID: UUID, $skuUID: UUID, $batchUID: UUID, $warehouseUID: UUID) {
+    query Cartons($searchFilter: SearchFilter!, $skuUID: UUID, $batchUID: UUID, $warehouseUID: UUID) {
   cartons(
     search: $searchFilter
-    orgUID: $orgUID
     skuUID: $skuUID
     batchUID: $batchUID
     warehouseUID: $warehouseUID
@@ -5379,7 +5372,6 @@ export const CartonsDocument = gql`
  * const { data, loading, error } = useCartonsQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *      skuUID: // value for 'skuUID'
  *      batchUID: // value for 'batchUID'
  *      warehouseUID: // value for 'warehouseUID'
@@ -5566,8 +5558,8 @@ export type CartonUnarchiveMutationHookResult = ReturnType<typeof useCartonUnarc
 export type CartonUnarchiveMutationResult = Apollo.MutationResult<CartonUnarchiveMutation>;
 export type CartonUnarchiveMutationOptions = Apollo.BaseMutationOptions<CartonUnarchiveMutation, CartonUnarchiveMutationVariables>;
 export const SkusDocument = gql`
-    query Skus($searchFilter: SearchFilter!, $orgUID: UUID) {
-  skus(search: $searchFilter, orgUID: $orgUID) {
+    query Skus($searchFilter: SearchFilter!) {
+  skus(search: $searchFilter) {
     skus {
       ...SkuFragment
     }
@@ -5589,7 +5581,6 @@ export const SkusDocument = gql`
  * const { data, loading, error } = useSkusQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *   },
  * });
  */
@@ -5605,8 +5596,8 @@ export type SkusQueryHookResult = ReturnType<typeof useSkusQuery>;
 export type SkusLazyQueryHookResult = ReturnType<typeof useSkusLazyQuery>;
 export type SkusQueryResult = Apollo.QueryResult<SkusQuery, SkusQueryVariables>;
 export const SkuDocument = gql`
-    query Sku($id: ID, $code: String) {
-  sku(id: $id, code: $code) {
+    query Sku($id: ID, $uid: UUID, $code: String) {
+  sku(id: $id, uid: $uid, code: $code) {
     ...SkuFragment
   }
 }
@@ -5625,6 +5616,7 @@ export const SkuDocument = gql`
  * const { data, loading, error } = useSkuQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *      code: // value for 'code'
  *   },
  * });

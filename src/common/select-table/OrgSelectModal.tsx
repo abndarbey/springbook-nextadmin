@@ -78,6 +78,7 @@ export default function OrgSelectModal(props: ISelectModalProps) {
                 filterAction={filterAction}
                 filterOptions={filterOptions}
                 handleSelect={props.handleSelect}
+                handleClear={props.handleClear}
                 setOpened={props.setOpened}
             />
         </Modal>
@@ -90,6 +91,7 @@ interface OrganizationTableProps {
     filterAction?: any
     filterOptions: string[]
     handleSelect?: any
+    handleClear?: any
     setOpened: Dispatch<SetStateAction<boolean>>
 }
 
@@ -112,14 +114,24 @@ const OrganizationTable = (props: OrganizationTableProps) => {
         selectedRecords.map((item) => {
             props.handleSelect(item)
         })
-
         props.setOpened(false)
+        return
+    }
+
+    const handleClear = (e: any) => {
+        e.preventDefault()
+        if (props.handleClear) {
+            props.handleClear()
+        }
+        props.setOpened(false)
+        return
     }
 
     const handleCancel = (e: any) => {
         e.preventDefault()
         props.handleSelect(undefined)
         props.setOpened(false)
+        return
     }
 
     useEffect(() => {
@@ -186,8 +198,10 @@ const OrganizationTable = (props: OrganizationTableProps) => {
                 />
             </Box>
             <Group position="apart" mt="md">
-                <Button
-                    color='dark'size="md" onClick={(e: any) => handleCancel(e)}>Cancel</Button>
+                <Group>
+                    <Button color='dark'size="md" onClick={(e: any) => handleCancel(e)}>Cancel</Button>
+                    <Button color='yellow'size="md" onClick={(e: any) => handleClear(e)}>Clear</Button>
+                </Group>
                 <Button size="md" onClick={(e: any) => handleSelect(e)}>Select</Button>
             </Group>
         </ContentCard>

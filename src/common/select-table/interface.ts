@@ -5,6 +5,7 @@ export interface ISelectModalProps {
     opened: boolean
     setOpened: Dispatch<SetStateAction<boolean>>
     handleSelect?: any
+    handleClear?: any
     organizationUID?: string
     departmentID?: string
     roelID?: string
