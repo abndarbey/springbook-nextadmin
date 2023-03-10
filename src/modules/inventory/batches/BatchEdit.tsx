@@ -4,7 +4,7 @@ import { INavTrailProps } from 'components/NavTrails'
 import * as Yup from 'yup'
 import { useForm, yupResolver } from '@mantine/form'
 import { TextInput } from '@mantine/core'
-import { useDepartmentUpdateMutation, UpdateDepartment, Organization, useDepartmentQuery } from '@lib/generated/hooks'
+import { useBatchUpdateMutation, UpdateBatch, Organization, useBatchQuery } from '@lib/generated/hooks'
 import { showNotification } from '@mantine/notifications'
 
 import PageHeader from 'components/PageHeader'
@@ -19,31 +19,32 @@ const schema = Yup.object().shape({
     orgUID: Yup.string().min(2, 'Invalid org UID'),
 })
 
-export default function DepartmentEdit(props: PageProps) {
+export default function BatchEdit(props: PageProps) {
     const router = useRouter()
-    const [updateDept] = useDepartmentUpdateMutation({})
+    const [updateDept] = useBatchUpdateMutation({})
     const [formData, setFormData] = useState(false)
     const [orgModalOpened, setOrgModalOpened] = useState(false)
 
     const navTrails: INavTrailProps[] = [
         { title: 'Dashboard', href: '/' },
-        { title: 'Departments', href: '/company/departments' },
-        { title: props.code, href: `/company/departments/${props.code}` },
+        { title: 'Batchs', href: '/inventory/batches' },
+        { title: props.code, href: `/inventory/batches/${props.code}` },
         { title: 'Edit', href: '#' },
     ]
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            name: '',
+            uid: '',
             orgUID: '',
 
+            batchNumber: '',
             orgName: '',
         },
     })
 
     // fetch data
-    const { data, loading, error } = useDepartmentQuery(
+    const { data, loading, error } = useBatchQuery(
         { variables: { code: props.code } }
     )
     if (loading) {
@@ -62,9 +63,10 @@ export default function DepartmentEdit(props: PageProps) {
     if (data && !formData) {
         form.setValues(
             {
-                name: data.department?.name!,
-                orgUID: data.department.organization?.uid,
-                orgName: data.department.organization?.name!
+                uid: data.batch?.uid!,
+                orgUID: data.batch.organization?.uid,
+                batchNumber: data.batch?.batchNumber!,
+                orgName: data.batch.organization?.name!
             }
         )
         setFormData(true)
@@ -76,22 +78,22 @@ export default function DepartmentEdit(props: PageProps) {
     }
 
     const handleSubmit = () => {
-        var updateDeptInput: UpdateDepartment = {
-            name: form.values.name,
+        var updateDeptInput: UpdateBatch = {
+            uid: form.values.uid,
             orgUID: form.values.orgUID,
         }
 
         updateDept({
-            variables: {id: data?.department.id!, input: updateDeptInput}
+            variables: {id: data?.batch.id!, input: updateDeptInput}
         }).then((res: any) => {
-            let welcomeMsg: string = `Department ${res.data.departmentUpdate.name} Updated`
+            let welcomeMsg: string = `Batch ${res.data.batchUpdate.batchNumber} Updated`
             
             showNotification({
                 disallowClose: false,
                 color: 'green',
                 message: welcomeMsg,
             })
-            router.push(`/company/departments/${res.data.departmentUpdate.code}`)
+            router.push(`/inventory/batches/${res.data.batchUpdate.code}`)
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
@@ -102,7 +104,7 @@ export default function DepartmentEdit(props: PageProps) {
     }
 
     const handleCancel = () => {
-        router.push(`/company/departments/${props.code}`)
+        router.push(`/inventory/batches/${props.code}`)
     }
 
     return (
