@@ -42,8 +42,6 @@ export default function SkuSelectModal(props: ISelectModalProps) {
                     limit: 100,
                     offset: 0,
                 },
-                orgUID: props.organizationUID,
-                ownerUID: props.organizationUID,
             }
         }
     )
