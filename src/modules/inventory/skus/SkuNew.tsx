@@ -32,7 +32,6 @@ export default function SkuNew(props: ISkuPageProps) {
     const router = useRouter()
     const [newSku] = useSkuCreateMutation({})
     const [orgModalOpened, setOrgModalOpened] = useState(false)
-    const [ownerModalOpened, setOwnerModalOpened] = useState(false)
     const [skuCatModalOpened, setSkuCatModalOpened] = useState(false)
 
     const form = useForm({
@@ -41,10 +40,8 @@ export default function SkuNew(props: ISkuPageProps) {
             isManagement: false,
             skuUID: '',
             orgUID: '',
-            ownerUID: '',
 
             orgName: '',
-            ownerName: '',
             skuName: '',
         },
     })
@@ -53,15 +50,6 @@ export default function SkuNew(props: ISkuPageProps) {
         if (item) {
             form.values.orgUID = item.uid!
             form.values.orgName = item.name!
-        }
-    }
-
-    const handleOwnerSelect = (item: Organization) => {
-        console.log("select owner")
-        if (item) {
-            console.log(item)
-            form.values.ownerUID = item.uid!
-            form.values.ownerName = item.name!
         }
     }
 
@@ -76,7 +64,6 @@ export default function SkuNew(props: ISkuPageProps) {
         var newSkuInput: UpdateSku = {
             uid: form.values.skuUID,
             orgUID: form.values.orgUID,
-            ownerUID: form.values.ownerUID,
         }
 
         newSku({
@@ -122,20 +109,6 @@ export default function SkuNew(props: ISkuPageProps) {
                     name="organization"
                     onClick={() => setOrgModalOpened(true)}
                     {...form.getInputProps('orgName')}
-                />
-
-                <OrgSelectModal
-                    opened={ownerModalOpened}
-                    setOpened={setOwnerModalOpened}
-                    handleSelect={handleOwnerSelect}
-                />
-                <TextInput
-                    label="Owner"
-                    mt="md"
-                    placeholder="Select Owner"
-                    name="owner"
-                    onClick={() => setOwnerModalOpened(true)}
-                    {...form.getInputProps('ownerName')}
                 />
 
                 {form.values.orgUID != "" &&

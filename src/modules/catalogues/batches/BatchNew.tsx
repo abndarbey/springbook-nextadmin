@@ -13,7 +13,7 @@ import FormCard from 'components/FormCard'
 import OrgSelectModal from 'common/select-table/OrgSelectModal'
 import { useState } from 'react'
 import { PageProps } from 'types/types'
-import SkuCatalogueSelectModal from 'common/select-table/SkuSelectModal'
+import SkuCatalogueSelectModal from 'common/select-table/SkuCatalogueSelectModal'
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
