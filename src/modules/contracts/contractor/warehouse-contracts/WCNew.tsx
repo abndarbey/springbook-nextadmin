@@ -22,7 +22,7 @@ import { PageProps } from 'types/types'
 import WarehouseSelectModal from 'common/select-table/WarehouseSelectModal'
 import ContactSelectModal from 'common/select-table/ContactSelectModal'
 import PageLoader from 'components/PageLoader'
-import { getOrgFromLocalStorage } from 'common/readLocalStorage'
+import { getOrgFromLocalStorage } from 'common/localStorage'
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },

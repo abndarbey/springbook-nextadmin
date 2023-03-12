@@ -5,7 +5,7 @@ import { useForm, yupResolver } from "@mantine/form"
 import { showNotification } from "@mantine/notifications"
 import { useBatchCreateMutation, UpdateBatch, BatchCatalogue, Organization, useAutherQuery } from "@lib/generated/hooks"
 
-import { getOrgFromLocalStorage } from "common/readLocalStorage"
+import { getOrgFromLocalStorage } from "common/localStorage"
 import PageLoader from "components/PageLoader"
 import { PageProps } from "types/types"
 import BatchNewHTML from "./BatchNewHTML"

@@ -14,7 +14,7 @@ import {
     ThirdPartyWarehouse,
 } from '@lib/generated/hooks'
 
-import { getOrgFromLocalStorage } from 'common/readLocalStorage'
+import { getOrgFromLocalStorage } from 'common/localStorage'
 import PageLoader from 'components/PageLoader'
 import CartonsNewHTML from './CartonsNewHTML'
 

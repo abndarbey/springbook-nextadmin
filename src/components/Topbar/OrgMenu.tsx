@@ -4,7 +4,7 @@ import { Button } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons'
 import { Organization } from '@lib/generated/hooks'
 import OrgSelectModal from 'common/select-table/OrgSelectModal'
-import { OrgObject } from 'types/types'
+import { setOrgToLocalStorage } from 'common/localStorage'
 
 export default function OrgMenu() {
     const router = useRouter()
@@ -24,12 +24,7 @@ export default function OrgMenu() {
     
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            let orgObj: OrgObject = {
-                uid: item.uid!,
-                code: item.code!,
-                name: item.name!,
-            }
-            localStorage.setItem("org", JSON.stringify(orgObj))
+            let orgObj = setOrgToLocalStorage(item)
             let selectedName: string = orgObj.name + " - " + orgObj.code
             setName(selectedName)
             router.reload()

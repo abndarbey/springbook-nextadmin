@@ -1,7 +1,7 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client"
 import { setContext } from '@apollo/client/link/context'
 import { createUploadLink } from 'apollo-upload-client'
-import { getOrgFromLocalStorage } from "common/readLocalStorage"
+import { getOrgFromLocalStorage } from "common/localStorage"
 
 const baseURI: string = process.env.SERVER_API!
 const gqlURI: string = baseURI + "/api/gql/query"

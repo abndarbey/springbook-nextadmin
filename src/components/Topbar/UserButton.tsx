@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import { useAutherQuery } from '@lib/generated/hooks'
+import { useState } from "react"
+import { useApolloClient } from "@apollo/client"
+import { useRouter } from "next/router"
+import { useAutherQuery } from "@lib/generated/hooks"
 import {
     Avatar,
     Group,
     Menu,
     Text,
     UnstyledButton,
-} from '@mantine/core'
-import { showNotification } from '@mantine/notifications'
+} from "@mantine/core"
+import { showNotification } from "@mantine/notifications"
 import {
     IconChevronDown,
     IconHeart,
@@ -17,9 +18,9 @@ import {
     IconSettings,
     IconStar,
     IconSwitchHorizontal,
-} from '@tabler/icons'
-import PageLoader from 'components/PageLoader'
-import { userButtonStyles } from './styles'
+} from "@tabler/icons"
+import PageLoader from "components/PageLoader"
+import { userButtonStyles } from "./styles"
 
 type IUserProps = {
     name: string
@@ -30,8 +31,9 @@ export default function UserButton () {
     const router = useRouter()
     const { classes, theme, cx } = userButtonStyles()
     const [userMenuOpened, setUserMenuOpened] = useState(false)
-    const [autherName, setAutherName] = useState('Anonymous')
+    const [autherName, setAutherName] = useState("Anonymous")
     const [isAuther, setIsAuther] = useState(false)
+    const client = useApolloClient()
     
     // fetch auther data
     const authData = useAutherQuery()
@@ -43,7 +45,7 @@ export default function UserButton () {
     if (authData.error) {
         showNotification({
             disallowClose: false,
-            color: 'red',
+            color: "red",
             message: authData.error.message,
         })
         localStorage.removeItem("token")
@@ -52,7 +54,7 @@ export default function UserButton () {
     if (authData.error) {
         showNotification({
             disallowClose: false,
-            color: 'red',
+            color: "red",
             // message: authData.error.message,
             message: "Unable to load auther",
         })
@@ -67,12 +69,13 @@ export default function UserButton () {
 
     const user: IUserProps = {
         name: autherName,
-        image: 'https://www.eyedocs.co.uk/components/com_community/assets/user-anon.png',
+        image: "https://www.eyedocs.co.uk/components/com_community/assets/user-anon.png",
     }
 
     const handleLogout = () => {
-        localStorage.removeItem('token')
-        router.push('/login')
+        localStorage.removeItem("token")
+        client.cache.reset()
+        router.push("/login")
     }
 
     return (
