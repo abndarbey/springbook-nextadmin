@@ -7,7 +7,6 @@ import {
     useCartonArchiveMutation,
     useCartonUnarchiveMutation,
     Carton,
-    CartonResult,
     SortByOption,
     SortDir,
     FilterOption
