@@ -14,7 +14,7 @@ import {
     ThirdPartyWarehouse,
 } from '@lib/generated/hooks'
 
-import { getOrgFromLocalStorage } from 'common/localStorage'
+import { getObjectFromLocalStorage } from 'common/localStorage'
 import PageLoader from 'components/PageLoader'
 import CartonsNewHTML from './CartonsNewHTML'
 
@@ -53,7 +53,7 @@ export default function CartonsNew(props: ICartonPageProps) {
 
     // get org uid from local storage
     useEffect(() => {
-        const obj = getOrgFromLocalStorage("org")
+        const obj = getObjectFromLocalStorage("org")
         setOrgUID(obj.uid)
         if (obj.uid != "" && obj.name) {
             form.values.ownerUID = obj.uid!

@@ -6,7 +6,7 @@ interface IPageHeaderProps {
     buttons?: IActionButtonProps[]
 }
 
-export default function PageHeader (props: IPageHeaderProps) {
+export default function PageHeader(props: IPageHeaderProps) {
     const buttons = props.buttons?.map((item, key) => {
         return (
             <ActionButton

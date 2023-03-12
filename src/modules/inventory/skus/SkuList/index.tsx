@@ -18,6 +18,7 @@ import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import { PageProps } from "types/types"
 import SkuTable from "./SkuTable"
+import InventoryFilterBar from "components/InventoryFilterBar"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },
@@ -26,6 +27,7 @@ const navTrails: INavTrailProps[] = [
 
 export default function SkuList(props: PageProps) {
     const router = useRouter()
+
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [archiveRequest] = useSkuArchiveMutation({})
     const [unarchiveRequest] = useSkuUnarchiveMutation({})
@@ -143,6 +145,7 @@ export default function SkuList(props: PageProps) {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} buttons={actionButtons} />
+            <InventoryFilterBar />
             <SkuTable
                 data={data?.skus!}
                 viewAction={viewAction}

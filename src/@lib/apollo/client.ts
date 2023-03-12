@@ -1,7 +1,7 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client"
 import { setContext } from '@apollo/client/link/context'
 import { createUploadLink } from 'apollo-upload-client'
-import { getOrgFromLocalStorage } from "common/localStorage"
+import { getObjectFromLocalStorage } from "common/localStorage"
 
 const baseURI: string = process.env.SERVER_API!
 const gqlURI: string = baseURI + "/api/gql/query"
@@ -12,14 +12,20 @@ const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem("token")
 
     // get org from local storage
-    let obj = getOrgFromLocalStorage("org")
+    let org = getObjectFromLocalStorage("org")
+    let owner = getObjectFromLocalStorage("owner")
+    let custodian = getObjectFromLocalStorage("custodian")
+    let warehouse = getObjectFromLocalStorage("warehouse")
     
     // return the headers to the context so httpLink can read them
     return {
         headers: {
             ...headers,
             Authorization: token ? `${token}` : "",
-            Organization: obj ? `${obj.uid}` : ""
+            Organization: org ? `${org.uid}` : "",
+            Owner: owner ? `${owner.uid}` : "",
+            Custodian: custodian ? `${custodian.uid}` : "",
+            Warehouse: warehouse ? `${warehouse.uid}` : "",
         }
     }
 })

@@ -5,7 +5,7 @@ import { useForm, yupResolver } from "@mantine/form"
 import { showNotification } from "@mantine/notifications"
 import { useBatchCreateMutation, UpdateBatch, BatchCatalogue, Organization, useAutherQuery } from "@lib/generated/hooks"
 
-import { getOrgFromLocalStorage } from "common/localStorage"
+import { getObjectFromLocalStorage } from "common/localStorage"
 import PageLoader from "components/PageLoader"
 import { PageProps } from "types/types"
 import BatchNewHTML from "./BatchNewHTML"
@@ -34,7 +34,7 @@ export default function BatchNew(props: PageProps) {
 
     // get org uid from local storage
     useEffect(() => {
-        const obj = getOrgFromLocalStorage("org")
+        const obj = getObjectFromLocalStorage("org")
         setOrgUID(obj.uid)
         if (obj.uid != "" && obj.name) {
             form.values.orgUID = obj.uid!

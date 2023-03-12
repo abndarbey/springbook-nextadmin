@@ -18,6 +18,7 @@ import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import { PageProps } from "types/types"
 import BatchTable from "./BatchTable"
+import InventoryFilterBar from "components/InventoryFilterBar"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },
@@ -143,6 +144,7 @@ export default function BatchList(props: PageProps) {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} buttons={actionButtons} />
+            <InventoryFilterBar />
             <BatchTable
                 data={data?.batches!}
                 viewAction={viewAction}

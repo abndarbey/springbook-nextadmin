@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useForm, yupResolver } from "@mantine/form"
 import { useSkuCreateMutation, UpdateSku, SkuCatalogue, Organization, useAutherQuery } from "@lib/generated/hooks"
 import { showNotification } from "@mantine/notifications"
-import { getOrgFromLocalStorage } from "common/localStorage"
+import { getObjectFromLocalStorage } from "common/localStorage"
 import PageLoader from "components/PageLoader"
 import { PageProps } from "types/types"
 import SkuNewHTML from "./SkuNewHTML"
@@ -33,7 +33,7 @@ export default function SkuNew(props: PageProps) {
 
     // get org uid from local storage
     useEffect(() => {
-        const obj = getOrgFromLocalStorage("org")
+        const obj = getObjectFromLocalStorage("org")
         setOrgUID(obj.uid)
         if (obj.uid != "" && obj.name) {
             form.values.orgUID = obj.uid!

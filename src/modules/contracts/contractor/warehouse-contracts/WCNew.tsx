@@ -22,7 +22,7 @@ import { PageProps } from 'types/types'
 import WarehouseSelectModal from 'common/select-table/WarehouseSelectModal'
 import ContactSelectModal from 'common/select-table/ContactSelectModal'
 import PageLoader from 'components/PageLoader'
-import { getOrgFromLocalStorage } from 'common/localStorage'
+import { getObjectFromLocalStorage } from 'common/localStorage'
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
@@ -60,7 +60,7 @@ export default function WarehouseContractNew(props: PageProps) {
 
     // get org uid from local storage
     useEffect(() => {
-        const obj = getOrgFromLocalStorage("org")
+        const obj = getObjectFromLocalStorage("org")
         setOrgUID(obj.uid)
         if (obj.uid != "" && obj.name) {
             form.values.contractorUID = obj.uid!

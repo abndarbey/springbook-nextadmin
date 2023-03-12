@@ -1,7 +1,6 @@
-import { Organization } from "@lib/generated/hooks"
 import { LocalStorageObject } from "types/types"
 
-export function setOrgToLocalStorage(key: string, item: Organization): LocalStorageObject {
+export function setObjectToLocalStorage(key: string, item: any): LocalStorageObject {
     let obj: LocalStorageObject = {
         uid: item.uid!,
         code: item.code!,
@@ -11,7 +10,7 @@ export function setOrgToLocalStorage(key: string, item: Organization): LocalStor
     return obj
 }
 
-export function getOrgFromLocalStorage(key: string): LocalStorageObject {
+export function getObjectFromLocalStorage(key: string): LocalStorageObject {
     let org = localStorage.getItem(key)
     let obj: LocalStorageObject = {uid: "", code: "", name: ""}
     if (org) {
@@ -24,5 +23,9 @@ export function clearLocalStorage() {
     localStorage.removeItem("jwt")
     localStorage.removeItem("token")
     localStorage.removeItem("org")
+    localStorage.removeItem("owner")
+    localStorage.removeItem("custodian")
+    localStorage.removeItem("warehouse")
+    localStorage.removeItem("location")
     return
 }
