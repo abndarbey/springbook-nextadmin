@@ -39,13 +39,18 @@ export default function OrgMenu() {
 
     return (
             <Fragment>
-                <OrgSelectModal
-                    opened={orgModalOpened}
-                    setOpened={setOrgModalOpened}
-                    handleSelect={handleOrgSelect}
-                    handleClear={handleClear}
-                />
-                <Button rightIcon={<IconChevronDown size={14} />} onClick={() => setOrgModalOpened(true)}>
+                {orgModalOpened &&
+                    <OrgSelectModal
+                        opened={orgModalOpened}
+                        setOpened={setOrgModalOpened}
+                        handleSelect={handleOrgSelect}
+                        handleClear={handleClear}
+                    />
+                }
+                <Button
+                    rightIcon={<IconChevronDown size={14} />}
+                    onClick={() => setOrgModalOpened(true)}
+                >
                     {name}
                 </Button>
             </Fragment>

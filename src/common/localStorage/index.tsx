@@ -20,3 +20,10 @@ export function getOrgFromLocalStorage(): OrgObject {
     }
     return orgObj
 }
+
+export function clearLocalStorage() {
+    localStorage.removeItem("jwt")
+    localStorage.removeItem("token")
+    localStorage.removeItem("org")
+    return
+}

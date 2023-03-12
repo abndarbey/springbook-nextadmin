@@ -1,15 +1,8 @@
 import { useState } from "react"
 import { useApolloClient } from "@apollo/client"
 import { useRouter } from "next/router"
-import { useAutherQuery } from "@lib/generated/hooks"
-import {
-    Avatar,
-    Group,
-    Menu,
-    Text,
-    UnstyledButton,
-} from "@mantine/core"
-import { showNotification } from "@mantine/notifications"
+import { Auther } from "@lib/generated/hooks"
+import { Avatar, Group, Menu, Text, UnstyledButton } from "@mantine/core"
 import {
     IconChevronDown,
     IconHeart,
@@ -19,51 +12,29 @@ import {
     IconStar,
     IconSwitchHorizontal,
 } from "@tabler/icons"
-import PageLoader from "components/PageLoader"
 import { userButtonStyles } from "./styles"
+import { clearLocalStorage } from "common/localStorage"
 
 type IUserProps = {
     name: string
     image: string
 }
 
-export default function UserButton () {
+interface IUserButtonProps {
+    auther: Auther
+}
+
+export default function UserButton (props: IUserButtonProps) {
     const router = useRouter()
     const { classes, theme, cx } = userButtonStyles()
     const [userMenuOpened, setUserMenuOpened] = useState(false)
     const [autherName, setAutherName] = useState("Anonymous")
     const [isAuther, setIsAuther] = useState(false)
     const client = useApolloClient()
-    
-    // fetch auther data
-    const authData = useAutherQuery()
-    if (authData.loading) {
-        return (
-            <PageLoader />
-        )
-    }
-    if (authData.error) {
-        showNotification({
-            disallowClose: false,
-            color: "red",
-            message: authData.error.message,
-        })
-        localStorage.removeItem("token")
-        return <PageLoader isError={true} />
-    }
-    if (authData.error) {
-        showNotification({
-            disallowClose: false,
-            color: "red",
-            // message: authData.error.message,
-            message: "Unable to load auther",
-        })
-        return <PageLoader isError={true} />
-    }
 
     // set auther name
-    if (authData && !isAuther) {
-        setAutherName(authData.data?.auther.name!)
+    if (!isAuther) {
+        setAutherName(props.auther.name!)
         setIsAuther(true)
     }
 
@@ -73,7 +44,7 @@ export default function UserButton () {
     }
 
     const handleLogout = () => {
-        localStorage.removeItem("token")
+        clearLocalStorage()
         client.cache.reset()
         router.push("/login")
     }

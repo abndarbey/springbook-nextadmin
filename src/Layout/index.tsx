@@ -1,9 +1,9 @@
-import { useRouter } from 'next/router'
-import Topbar from 'components/Topbar'
-import Sidebar from 'components/Sidebar'
-import { layoutStyles } from './styles'
-import GenericHeader from 'components/GenericHeader'
-import { ReactNode, useEffect } from 'react'
+import { useRouter } from "next/router"
+import Topbar from "components/Topbar"
+import Sidebar from "components/Sidebar"
+import { layoutStyles } from "./styles"
+import GenericHeader from "components/GenericHeader"
+import { ReactNode, useEffect } from "react"
 
 interface ILayoutProps {
     children: ReactNode
@@ -14,11 +14,11 @@ export function AdminLayout(props: ILayoutProps) {
     const router = useRouter()
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem("token")
         if (!token) {
-            router.push('/login')
+            router.push("/login")
         }
-    })
+    }, [router])
 
     return (
         <div className={classes.container}>
@@ -39,11 +39,11 @@ export function AuthLayout(props: ILayoutProps) {
     const router = useRouter()
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem("token")
         if (token) {
-            router.push('/dashboard')
+            router.push("/dashboard")
         }
-    })
+    }, [router])
 
     return (
         <div>

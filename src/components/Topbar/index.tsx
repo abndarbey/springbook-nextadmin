@@ -1,28 +1,25 @@
-import { useState } from 'react'
-import {
-    Header,
-    Group,
-    Box,
-    TextInput,
-} from '@mantine/core'
-import { showNotification } from '@mantine/notifications'
-import { IconSearch } from '@tabler/icons'
-import ThemeToggler from 'components/ThemeToggler'
-import { useAutherQuery } from '@lib/generated/hooks'
-import NotificationsButton from './NotificationsButton'
-import PageLoader from 'components/PageLoader'
-import SystemMenu from './SystemMenu'
-import UserButton from './UserButton'
-import { topbarStyles } from './styles'
-import OrgMenu from './OrgMenu'
+import { useState } from "react"
+import { Header, Group, Box, TextInput } from "@mantine/core"
+import { showNotification } from "@mantine/notifications"
+import { IconSearch } from "@tabler/icons"
+import ThemeToggler from "components/ThemeToggler"
+import { useAutherQuery } from "@lib/generated/hooks"
+import NotificationsButton from "./NotificationsButton"
+import PageLoader from "components/PageLoader"
+import SystemMenu from "./SystemMenu"
+import UserButton from "./UserButton"
+import { topbarStyles } from "./styles"
+import OrgMenu from "./OrgMenu"
+import { useRouter } from "next/router"
 
 interface ITopbarProps {
     height: number
 }
 
 export default function Topbar(props: ITopbarProps) {
+    console.log("Topbar")
     const { classes } = topbarStyles()
-    const [autherName, setAutherName] = useState('Anonymous')
+    const [_, setAutherName] = useState("Anonymous")
     const [isAuther, setIsAuther] = useState(false)
 
     // fetch auther data
@@ -35,20 +32,13 @@ export default function Topbar(props: ITopbarProps) {
     if (authData.error) {
         showNotification({
             disallowClose: false,
-            color: 'red',
+            color: "red",
             message: authData.error.message,
         })
         localStorage.removeItem("token")
-        return <PageLoader isError={true} />
-    }
-    if (authData.error) {
-        showNotification({
-            disallowClose: false,
-            color: 'red',
-            // message: authData.error.message,
-            message: "Unable to load auther",
-        })
-        return <PageLoader isError={true} />
+        return (
+            <PageLoader isError={true} />
+        )
     }
 
     // set auther name
@@ -60,7 +50,7 @@ export default function Topbar(props: ITopbarProps) {
     return (
         <Box>
             <Header height={props.height} px="md" className={classes.navbar}>
-                <Group position="apart" sx={{ height: '100%' }}>
+                <Group position="apart" sx={{ height: "100%" }}>
                     <Group>
                         <SystemMenu />
                         {authData.data?.auther.isAdmin && <OrgMenu />}
@@ -75,7 +65,7 @@ export default function Topbar(props: ITopbarProps) {
                     <Group className={classes.hiddenMobile}>
                         <ThemeToggler />
                         <NotificationsButton />
-                        <UserButton />
+                        {isAuther && <UserButton auther={authData.data?.auther!} />}
                     </Group>
                 </Group>
             </Header>
