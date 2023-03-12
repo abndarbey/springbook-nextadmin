@@ -1,5 +1,6 @@
 import { RingProgress, Text, SimpleGrid, Paper, Center, Group } from '@mantine/core'
 import { IconArrowUpRight, IconArrowDownRight } from '@tabler/icons'
+import { statusGridStyles } from './styles';
 
 interface IStatsRingProp {
     label: string;
@@ -35,12 +36,20 @@ const data: IStatsRingProp[] = [
         progress: 52,
         color: "red",
         icon: "down"
+    },
+    {
+        label: "Orders",
+        stats: "4,735",
+        progress: 52,
+        color: "red",
+        icon: "down"
     }
 ] 
 
 export default function StatsRing() {
+    const { classes } = statusGridStyles()
     const stats = data.map((stat) => {
-        const Icon = icons[stat.icon];
+        const Icon = icons[stat.icon]
         return (
             <Paper withBorder radius="md" mt="md" p="xs" key={stat.label}>
                 <Group>
@@ -69,8 +78,10 @@ export default function StatsRing() {
         )
     })
     return (
-        <SimpleGrid cols={3} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-            {stats}
-        </SimpleGrid>
+        <div className={classes.root}>
+            <SimpleGrid cols={4} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
+                {stats}
+            </SimpleGrid>
+        </div>
     )
 }

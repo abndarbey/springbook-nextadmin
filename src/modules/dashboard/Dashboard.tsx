@@ -3,15 +3,15 @@ import { Fragment } from "react"
 import StatsRing from "./StatsRing"
 import StatusGrid from "./StatusGrid"
 import StatsGroup from "./StatusGroup"
+import StatusProgressBarCard from "./StatusProgressBarCard"
 
 export default function Dashboard() {
     return (
         <Fragment>
             <StatusGrid />
-            <Container>
-                <StatsGroup />
-                <StatsRing />
-            </Container>
+            <StatsGroup />
+            <StatsRing />
+            {/* <StatusProgressBarCard /> */}
         </Fragment>
     )
 }

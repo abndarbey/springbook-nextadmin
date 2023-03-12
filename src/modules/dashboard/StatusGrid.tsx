@@ -12,7 +12,7 @@ import {
     IconArrowUpRight,
     IconArrowDownRight,
 } from '@tabler/icons'
-import { useStyles } from './styles';
+import { statusGridStyles } from './styles'
 
 const icons = {
     user: IconUserPlus,
@@ -56,7 +56,7 @@ const data: IStatsGridProp[] = [
 ]
 
 export default function StatusGrid() {
-    const { classes } = useStyles()
+    const { classes } = statusGridStyles()
 
     const stats = data.map((stat) => {
         const Icon = icons[stat.icon];
@@ -85,7 +85,7 @@ export default function StatusGrid() {
                 </Group>
         
                 <Text size="xs" color="dimmed" mt={7}>
-                Compared to previous month
+                    Compared to previous month
                 </Text>
             </Paper>
         )
@@ -95,8 +95,8 @@ export default function StatusGrid() {
             <SimpleGrid
                 cols={4}
                 breakpoints={[
-                { maxWidth: 'md', cols: 2 },
-                { maxWidth: 'xs', cols: 1 },
+                    { maxWidth: 'md', cols: 2 },
+                    { maxWidth: 'xs', cols: 1 },
                 ]}
             >
                 {stats}

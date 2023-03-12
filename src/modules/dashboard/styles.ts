@@ -1,32 +1,5 @@
 import { createStyles } from "@mantine/core"
 
-export const useStyles = createStyles((theme) => ({
-    root: {
-      padding: theme.spacing.xl * 1.5,
-    },
-
-    value: {
-        fontSize: 24,
-        fontWeight: 700,
-        lineHeight: 1,
-    },
-
-    diff: {
-        lineHeight: 1,
-        display: 'flex',
-        alignItems: 'center',
-    },
-
-    icon: {
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
-    },
-
-    title: {
-        fontWeight: 700,
-        textTransform: 'uppercase',
-    },
-}))
-
 export const statusGridStyles = createStyles((theme) => ({
     root: {
       padding: theme.spacing.xl * 1.5,
@@ -60,6 +33,8 @@ export const statusGroupStyles = createStyles((theme) => ({
         backgroundImage: `linear-gradient(-60deg, ${theme.colors[theme.primaryColor][4]} 0%, ${
             theme.colors[theme.primaryColor][7]
         } 100%)`,
+        marginLeft: theme.spacing.xl * 1.5,
+        marginRight: theme.spacing.xl * 1.5,
         padding: theme.spacing.xl * 1.5,
         borderRadius: theme.radius.md,
 
@@ -92,20 +67,19 @@ export const statusGroupStyles = createStyles((theme) => ({
 
     stat: {
         flex: 1,
-
         '& + &': {
-        paddingLeft: theme.spacing.xl,
-        marginLeft: theme.spacing.xl,
-        borderLeft: `1px solid ${theme.colors[theme.primaryColor][3]}`,
+            paddingLeft: theme.spacing.xl,
+            marginLeft: theme.spacing.xl,
+            borderLeft: `1px solid ${theme.colors[theme.primaryColor][3]}`,
 
-        [theme.fn.smallerThan('sm')]: {
-            paddingLeft: 0,
-            marginLeft: 0,
-            borderLeft: 0,
-            paddingTop: theme.spacing.xl,
-            marginTop: theme.spacing.xl,
-            borderTop: `1px solid ${theme.colors[theme.primaryColor][3]}`,
-        },
+            [theme.fn.smallerThan('sm')]: {
+                paddingLeft: 0,
+                marginLeft: 0,
+                borderLeft: 0,
+                paddingTop: theme.spacing.xl,
+                marginTop: theme.spacing.xl,
+                borderTop: `1px solid ${theme.colors[theme.primaryColor][3]}`,
+            },
         },
     },
 }))
