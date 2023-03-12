@@ -21,7 +21,7 @@ export const layoutStyles = createStyles((theme) => {
         },
         topbar: {
             gridArea: 'topbar',
-            backgroundColor: 'yellow',
+            // backgroundColor: 'yellow',
         },
         content: {
             gridArea: 'content',

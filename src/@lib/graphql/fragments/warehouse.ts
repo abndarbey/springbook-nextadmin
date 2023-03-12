@@ -234,6 +234,7 @@ export const ThirdPartyWarehouse = gql`
         code
         name
         details
+        warehouseUID
         dimension {
             centralHeight
             wallHeight

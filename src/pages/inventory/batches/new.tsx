@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import PageTitle from 'components/PageTitle'
-import BatchNew from 'modules/catalogues/batches/BatchNew'
+import BatchNew from 'modules/inventory/batches/BatchNew'
 
 export default function New() {
     const title: string = 'New Batch'

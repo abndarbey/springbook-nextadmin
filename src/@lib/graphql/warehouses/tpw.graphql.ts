@@ -1,15 +1,15 @@
 import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
-export const ThirdPartyWarehouseS = gql`
-    query ThirdPartyWarehouses($searchFilter: SearchFilter!) {
-        thirdPartyWarehouses(search: $searchFilter) {
+export const ThirdPartyWarehouses = gql`
+    query ThirdPartyWarehouses($searchFilter: SearchFilter!, $orgUID: UUID) {
+        thirdPartyWarehouses(search: $searchFilter, orgUID: $orgUID) {
             thirdPartyWarehouses {
-                    ...ThirdPartyWarehouseFragment
-                }
-                total
+                ...ThirdPartyWarehouseFragment
             }
+            total
         }
+    }
     ${fragment.ThirdPartyWarehouse}
 `
 
@@ -17,8 +17,8 @@ export const ThirdPartyWarehouse = gql`
     query ThirdPartyWarehouse($id: ID, $code: String) {
         thirdPartyWarehouse(id: $id, code: $code) {
             ...ThirdPartyWarehouseFragment
-            }
         }
+    }
     ${fragment.ThirdPartyWarehouse}
 `
 
@@ -27,8 +27,8 @@ export const THIRDPARTYWAREHOUSE_CREATE = gql`
     mutation ThirdPartyWarehouseCreate($input: UpdateThirdPartyWarehouse!) {
         thirdPartyWarehouseCreate(input: $input) {
             ...ThirdPartyWarehouseFragment
-            }
         }
+    }
     ${fragment.ThirdPartyWarehouse}
 `
 

@@ -211,6 +211,7 @@ const CartonTable = (props: CartonTableProps) => {
                         { accessor: 'batch.batchNumber', title: 'Batch Number' },
                         { accessor: 'owner.name', title: 'Owner' },
                         { accessor: 'custodian.name', title: 'Custodian' },
+                        { accessor: 'warehouse.name', title: 'Warehouse' },
                         {
                             accessor: 'status',
                             // width: 160,

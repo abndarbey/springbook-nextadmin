@@ -11,4 +11,6 @@ export interface ISelectModalProps {
     roelID?: string
     ownerUID?: string
     custodianUID?: string
+    skuUID?: string
+    skuID?: string
 }

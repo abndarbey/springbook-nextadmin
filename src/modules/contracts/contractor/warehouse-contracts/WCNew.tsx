@@ -17,11 +17,12 @@ import { showNotification } from '@mantine/notifications'
 import PageHeader from 'components/PageHeader'
 import FormCard from 'components/FormCard'
 import OrgSelectModal from 'common/select-table/OrgSelectModal'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { PageProps } from 'types/types'
 import WarehouseSelectModal from 'common/select-table/WarehouseSelectModal'
 import ContactSelectModal from 'common/select-table/ContactSelectModal'
 import PageLoader from 'components/PageLoader'
+import { getOrgFromLocalStorage } from 'common/readLocalStorage'
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
@@ -41,6 +42,7 @@ export default function WarehouseContractNew(props: PageProps) {
     const [clientModalOpened, setClientModalOpened] = useState(false)
     const [whModalOpened, setWHModalOpened] = useState(false)
     const [autherLoaded, setAutherLoaded] = useState(false)
+    const [orgUID, setOrgUID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
@@ -55,6 +57,16 @@ export default function WarehouseContractNew(props: PageProps) {
             whCode: '',    
         },
     })
+
+    // get org uid from local storage
+    useEffect(() => {
+        const orgObj = getOrgFromLocalStorage()
+        setOrgUID(orgObj.uid)
+        if (orgObj.uid != "" && orgObj.name) {
+            form.values.contractorUID = orgObj.uid!
+            form.values.contractorName = orgObj.name!
+        }
+    }, [orgUID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -71,7 +83,6 @@ export default function WarehouseContractNew(props: PageProps) {
         })
         return <PageLoader isError={true} />
     }
-
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
             form.setValues({ contractorUID: authData.data.auther.orgUID })
@@ -79,20 +90,19 @@ export default function WarehouseContractNew(props: PageProps) {
         setAutherLoaded(true)
     }
 
+    // action functions
     const handleContractorSelect = (item: Organization| undefined) => {
         if (item) {
             form.values.contractorUID = item.uid!
             form.values.contractorName = item.name!
         }
     }
-    
     const handleClientSelect = (item: Contact | undefined) => {
         if (item) {
             form.values.clientUID = item.companyUID!
             form.values.clientName = item.name!
         }
     }
-
     const handleWarehouseSelect = (item: Warehouse | undefined) => {
         if (item) {
             form.values.warehouseUID = item?.uid!
@@ -141,7 +151,7 @@ export default function WarehouseContractNew(props: PageProps) {
                 handleCancel={handleCancel}
             >
                 {/* Select Contractor */}
-                {authData.data?.auther.isAdmin &&
+                {authData.data?.auther.isAdmin && orgUID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={contractorModalOpened}
@@ -150,6 +160,7 @@ export default function WarehouseContractNew(props: PageProps) {
                         />
                         <TextInput
                             label="Contractor"
+                            mb="md"
                             placeholder="Select Contractor"
                             name="organization"
                             onClick={() => setContractorModalOpened(true)}
@@ -171,7 +182,7 @@ export default function WarehouseContractNew(props: PageProps) {
                     label="Client"
                     placeholder="Select Client"
                     name="client"
-                    mt="md"
+                    mb="md"
                     disabled={form.values.contractorUID != "" ? false : true}
                     onClick={() => setClientModalOpened(true)}
                     {...form.getInputProps('clientName')}
@@ -190,7 +201,7 @@ export default function WarehouseContractNew(props: PageProps) {
                     label="Warehouse"
                     placeholder="Select Warehouse"
                     name="warhouse"
-                    mt="md"
+                    mb="md"
                     disabled={form.values.contractorUID != "" ? false : true}
                     onClick={() => setWHModalOpened(true)}
                     {...form.getInputProps('whCode')}
@@ -198,7 +209,7 @@ export default function WarehouseContractNew(props: PageProps) {
                 <Textarea
                     label="Message"
                     placeholder="Message"
-                    mt="md"
+                    mb="md"
                     name="message"
                     {...form.getInputProps('message')}
                 />

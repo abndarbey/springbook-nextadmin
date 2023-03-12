@@ -77,6 +77,11 @@ export const Carton = gql`
             code
             batchNumber
         }
+        warehouse {
+            uid
+            code
+            name
+        }
         owner {
             uid
             code

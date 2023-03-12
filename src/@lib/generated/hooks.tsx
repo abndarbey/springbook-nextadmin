@@ -1438,6 +1438,7 @@ export type ThirdPartyWarehouse = {
   specifications?: Maybe<WarehouseSpecification>;
   status?: Maybe<Scalars['String']>;
   warehouse?: Maybe<Warehouse>;
+  warehouseUID?: Maybe<Scalars['UUID']>;
 };
 
 export type ThirdPartyWarehousesResult = {
@@ -2165,7 +2166,7 @@ export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?
 
 export type BatchFragmentFragment = { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, cartonCount?: number | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type CartonFragmentFragment = { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+export type CartonFragmentFragment = { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type WarehouseTypeFragmentFragment = { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2183,7 +2184,7 @@ export type PalletFragmentFragment = { __typename?: 'Pallet', id?: string | null
 
 export type WarehouseContractFragmentFragment = { __typename?: 'WarehouseContract', id?: string | null, uid?: any | null, code?: string | null, message?: any | null, status?: string | null, acceptanceStatus?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, isAccepted?: boolean | null, createdAt?: any | null, contractor?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, client?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type ThirdPartyWarehouseFragmentFragment = { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+export type ThirdPartyWarehouseFragmentFragment = { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type BatchesQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2239,7 +2240,7 @@ export type CartonsQueryVariables = Exact<{
 }>;
 
 
-export type CartonsQuery = { __typename?: 'Query', cartons: { __typename?: 'CartonResult', total: number, cartons: Array<{ __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+export type CartonsQuery = { __typename?: 'Query', cartons: { __typename?: 'CartonResult', total: number, cartons: Array<{ __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type CartonQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -2248,7 +2249,7 @@ export type CartonQueryVariables = Exact<{
 }>;
 
 
-export type CartonQuery = { __typename?: 'Query', carton: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type CartonQuery = { __typename?: 'Query', carton: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type CartonCreateMutationVariables = Exact<{
   input: UpdateCarton;
@@ -2263,21 +2264,21 @@ export type CartonUpdateMutationVariables = Exact<{
 }>;
 
 
-export type CartonUpdateMutation = { __typename?: 'Mutation', cartonUpdate: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type CartonUpdateMutation = { __typename?: 'Mutation', cartonUpdate: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type CartonArchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CartonArchiveMutation = { __typename?: 'Mutation', cartonArchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type CartonArchiveMutation = { __typename?: 'Mutation', cartonArchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type CartonUnarchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CartonUnarchiveMutation = { __typename?: 'Mutation', cartonUnarchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type CartonUnarchiveMutation = { __typename?: 'Mutation', cartonUnarchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type SkusQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2604,10 +2605,11 @@ export type RackTypeUnarchiveMutation = { __typename?: 'Mutation', rackTypeUnarc
 
 export type ThirdPartyWarehousesQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
-export type ThirdPartyWarehousesQuery = { __typename?: 'Query', thirdPartyWarehouses: { __typename?: 'ThirdPartyWarehousesResult', total: number, thirdPartyWarehouses: Array<{ __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+export type ThirdPartyWarehousesQuery = { __typename?: 'Query', thirdPartyWarehouses: { __typename?: 'ThirdPartyWarehousesResult', total: number, thirdPartyWarehouses: Array<{ __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type ThirdPartyWarehouseQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -2615,14 +2617,14 @@ export type ThirdPartyWarehouseQueryVariables = Exact<{
 }>;
 
 
-export type ThirdPartyWarehouseQuery = { __typename?: 'Query', thirdPartyWarehouse: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type ThirdPartyWarehouseQuery = { __typename?: 'Query', thirdPartyWarehouse: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type ThirdPartyWarehouseCreateMutationVariables = Exact<{
   input: UpdateThirdPartyWarehouse;
 }>;
 
 
-export type ThirdPartyWarehouseCreateMutation = { __typename?: 'Mutation', thirdPartyWarehouseCreate: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type ThirdPartyWarehouseCreateMutation = { __typename?: 'Mutation', thirdPartyWarehouseCreate: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type ThirdPartyWarehouseUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -2630,28 +2632,28 @@ export type ThirdPartyWarehouseUpdateMutationVariables = Exact<{
 }>;
 
 
-export type ThirdPartyWarehouseUpdateMutation = { __typename?: 'Mutation', thirdPartyWarehouseUpdate: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type ThirdPartyWarehouseUpdateMutation = { __typename?: 'Mutation', thirdPartyWarehouseUpdate: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type ThirdPartyWarehouseFinalizeMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type ThirdPartyWarehouseFinalizeMutation = { __typename?: 'Mutation', thirdPartyWarehouseFinalize: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type ThirdPartyWarehouseFinalizeMutation = { __typename?: 'Mutation', thirdPartyWarehouseFinalize: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type ThirdPartyWarehouseArchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type ThirdPartyWarehouseArchiveMutation = { __typename?: 'Mutation', thirdPartyWarehouseArchive: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type ThirdPartyWarehouseArchiveMutation = { __typename?: 'Mutation', thirdPartyWarehouseArchive: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type ThirdPartyWarehouseUnarchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type ThirdPartyWarehouseUnarchiveMutation = { __typename?: 'Mutation', thirdPartyWarehouseUnarchive: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type ThirdPartyWarehouseUnarchiveMutation = { __typename?: 'Mutation', thirdPartyWarehouseUnarchive: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehousesQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -3063,6 +3065,11 @@ export const CartonFragmentFragmentDoc = gql`
     code
     batchNumber
   }
+  warehouse {
+    uid
+    code
+    name
+  }
   owner {
     uid
     code
@@ -3301,6 +3308,7 @@ export const ThirdPartyWarehouseFragmentFragmentDoc = gql`
   code
   name
   details
+  warehouseUID
   dimension {
     centralHeight
     wallHeight
@@ -7082,8 +7090,8 @@ export type RackTypeUnarchiveMutationHookResult = ReturnType<typeof useRackTypeU
 export type RackTypeUnarchiveMutationResult = Apollo.MutationResult<RackTypeUnarchiveMutation>;
 export type RackTypeUnarchiveMutationOptions = Apollo.BaseMutationOptions<RackTypeUnarchiveMutation, RackTypeUnarchiveMutationVariables>;
 export const ThirdPartyWarehousesDocument = gql`
-    query ThirdPartyWarehouses($searchFilter: SearchFilter!) {
-  thirdPartyWarehouses(search: $searchFilter) {
+    query ThirdPartyWarehouses($searchFilter: SearchFilter!, $orgUID: UUID) {
+  thirdPartyWarehouses(search: $searchFilter, orgUID: $orgUID) {
     thirdPartyWarehouses {
       ...ThirdPartyWarehouseFragment
     }
@@ -7105,6 +7113,7 @@ export const ThirdPartyWarehousesDocument = gql`
  * const { data, loading, error } = useThirdPartyWarehousesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      orgUID: // value for 'orgUID'
  *   },
  * });
  */
