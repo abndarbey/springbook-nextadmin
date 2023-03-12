@@ -9,7 +9,7 @@ import { Auther, BatchCatalogue, Organization } from "@lib/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 import { INavTrailProps } from "components/NavTrails"
 
-export interface IBatchFormValues {
+interface IBatchFormValues {
     batchUID: string,
     orgUID: string,
 
