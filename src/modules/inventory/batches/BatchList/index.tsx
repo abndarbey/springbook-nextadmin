@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { INavTrailProps } from "components/NavTrails"
 import Page from "components/Page"
 
@@ -7,7 +7,6 @@ import {
     useBatchArchiveMutation,
     useBatchUnarchiveMutation,
     Batch,
-    BatchResult,
     SortByOption,
     SortDir,
     FilterOption
@@ -15,14 +14,8 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import PageHeader from "components/PageHeader"
-import ContentCard from "components/ContentCard"
-import TableActionBar from "components/TableWrapper/TableActionBar"
-import { Badge, Box, Text, useMantineTheme } from "@mantine/core"
-import { DataTable } from "mantine-datatable"
-import TableRowActions from "components/TableWrapper/TableRowActions"
 import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
-import { PAGE_SIZES } from "types/enums"
 import { PageProps } from "types/types"
 import BatchTable from "./BatchTable"
 
@@ -86,7 +79,7 @@ export default function BatchList(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.organizationArchive.name}`,
+                message: `Archived - ${res.data.batchArchive.batchNumber}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -104,7 +97,7 @@ export default function BatchList(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
+                message: `Unarchived - ${res.data.batchUnarchive.batchNumber}`,
             })
         }).catch((error: any) => {
             showNotification({

@@ -87,12 +87,10 @@ export default function BatchNew(props: PageProps) {
         newBatch({
             variables: {input: newBatchInput}
         }).then((res: any) => {
-            let welcomeMsg: string = `Batch ${res.data.batchCreate.name} Created`
-            
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: welcomeMsg,
+                message: `Batch ${res.data.batchCreate.batchNumber} Created`,
             })
             router.push("/inventory/batches")
         }).catch((error: any) => {

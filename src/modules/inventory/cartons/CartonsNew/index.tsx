@@ -127,12 +127,10 @@ export default function CartonsNew(props: ICartonPageProps) {
         newObj({
             variables: {input: newObjInput}
         }).then((res: any) => {
-            let welcomeMsg: string = `Cartons Created`
-            
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: welcomeMsg,
+                message: `${form.values.quantity} Cartons Created`,
             })
             router.push('/inventory/cartons')
         }).catch((error: any) => {

@@ -86,12 +86,10 @@ export default function SkuNew(props: PageProps) {
         newSku({
             variables: {input: newSkuInput}
         }).then((res: any) => {
-            let welcomeMsg: string = `Sku ${res.data.skuCreate.name} Created`
-            
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: welcomeMsg,
+                message: `Sku ${res.data.skuCreate.name} Created`,
             })
             router.push("/inventory/skus")
         }).catch((error: any) => {

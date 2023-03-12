@@ -79,7 +79,7 @@ export default function CartonList(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.organizationArchive.name}`,
+                message: `Archived - ${res.data.cartonArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -97,7 +97,7 @@ export default function CartonList(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
+                message: `Unarchived - ${res.data.cartonUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
