@@ -4,8 +4,8 @@ import { Badge, Box, Text, useMantineTheme } from "@mantine/core"
 import { DataTable } from "mantine-datatable"
 import ContentCard from "components/ContentCard"
 import TableActionBar from "components/TableWrapper/TableActionBar"
-import TableRowActions from 'components/TableWrapper/TableRowActions'
-import { PAGE_SIZES } from 'types/enums'
+import TableRowActions from "components/TableWrapper/TableRowActions"
+import { PAGE_SIZES } from "types/enums"
 
 interface BatchTableProps {
     data: BatchResult
@@ -50,27 +50,27 @@ export default function BatchTable(props: BatchTableProps) {
                     noRecordsText="No records to show"
                     records={records}
                     columns={[
-                        { accessor: 'code', width: '10%' },
-                        { accessor: 'batchNumber', title: 'Batch Number' },
-                        { accessor: 'sku.name', title: 'SKU' },
-                        { accessor: 'organization.name', title: 'Organization' },
-                        { accessor: 'cartonCount', title: 'Batchs Count' },
+                        { accessor: "code", width: "10%" },
+                        { accessor: "batchNumber", title: "Batch Number" },
+                        { accessor: "sku.name", title: "SKU" },
+                        { accessor: "organization.name", title: "Organization" },
+                        { accessor: "cartonCount", title: "Batchs Count" },
                         {
-                            accessor: 'status',
+                            accessor: "status",
                             // width: 160,
                             render: (item) => (
                                 <Badge
-                                    color={!item.isArchived ? 'blue' : 'gray'}
-                                    variant={theme.colorScheme === 'dark' ? 'light' : 'light'}
+                                    color={!item.isArchived ? "blue" : "gray"}
+                                    variant={theme.colorScheme === "dark" ? "light" : "light"}
                                     >
-                                    {!item.isArchived ? 'Active' : 'Disabled'}
+                                    {!item.isArchived ? "Active" : "Disabled"}
                                 </Badge>
                             )
                         },
                         {
-                            accessor: 'actions',
+                            accessor: "actions",
                             title: <Text mr="xs">Actions</Text>,
-                            textAlignment: 'center',
+                            textAlignment: "center",
                             render: (item) => (
                                 <TableRowActions
                                     item={item}
@@ -90,7 +90,7 @@ export default function BatchTable(props: BatchTableProps) {
                     recordsPerPage={pageSize}
                     recordsPerPageOptions={PAGE_SIZES}
                     onRecordsPerPageChange={setPageSize}
-                    recordsPerPageLabel='Rows Per Page'
+                    recordsPerPageLabel="Rows Per Page"
                 />
             </Box>
         </ContentCard>
