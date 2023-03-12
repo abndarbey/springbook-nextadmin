@@ -60,11 +60,11 @@ export default function WarehouseContractNew(props: PageProps) {
 
     // get org uid from local storage
     useEffect(() => {
-        const orgObj = getOrgFromLocalStorage()
-        setOrgUID(orgObj.uid)
-        if (orgObj.uid != "" && orgObj.name) {
-            form.values.contractorUID = orgObj.uid!
-            form.values.contractorName = orgObj.name!
+        const obj = getOrgFromLocalStorage("org")
+        setOrgUID(obj.uid)
+        if (obj.uid != "" && obj.name) {
+            form.values.contractorUID = obj.uid!
+            form.values.contractorName = obj.name!
         }
     }, [orgUID, form])
 

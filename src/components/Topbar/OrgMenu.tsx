@@ -12,20 +12,20 @@ export default function OrgMenu() {
     const [orgModalOpened, setOrgModalOpened] = useState(false)
 
     useEffect(() => {
-        const orgStr = localStorage.getItem("org")
-        if (!orgStr) {
+        const objStr = localStorage.getItem("org")
+        if (!objStr) {
             setName("SELECT ORG")
         } else {
-            let orgObj = JSON.parse(orgStr)
-            let selectedName: string = orgObj.name + " - " + orgObj.code
+            let obj = JSON.parse(objStr)
+            let selectedName: string = obj.name + " - " + obj.code
             setName(selectedName)
         }
     }, [name])
     
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            let orgObj = setOrgToLocalStorage(item)
-            let selectedName: string = orgObj.name + " - " + orgObj.code
+            let obj = setOrgToLocalStorage("org", item)
+            let selectedName: string = obj.name + " - " + obj.code
             setName(selectedName)
             router.reload()
         }

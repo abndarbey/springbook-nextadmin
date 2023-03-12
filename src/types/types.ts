@@ -8,7 +8,7 @@ export type PageProps = {
     code?: any
 }
 
-export type OrgObject = {
+export type LocalStorageObject = {
     uid: string
     code: string
     name: string

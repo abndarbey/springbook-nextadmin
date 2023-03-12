@@ -12,14 +12,14 @@ const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem("token")
 
     // get org from local storage
-    let orgObj = getOrgFromLocalStorage()
+    let obj = getOrgFromLocalStorage("org")
     
     // return the headers to the context so httpLink can read them
     return {
         headers: {
             ...headers,
             Authorization: token ? `${token}` : "",
-            Organization: orgObj ? `${orgObj.uid}` : ""
+            Organization: obj ? `${obj.uid}` : ""
         }
     }
 })

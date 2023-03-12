@@ -53,11 +53,11 @@ export default function CartonsNew(props: ICartonPageProps) {
 
     // get org uid from local storage
     useEffect(() => {
-        const orgObj = getOrgFromLocalStorage()
-        setOrgUID(orgObj.uid)
-        if (orgObj.uid != "" && orgObj.name) {
-            form.values.ownerUID = orgObj.uid!
-            form.values.ownerName = orgObj.name!
+        const obj = getOrgFromLocalStorage("org")
+        setOrgUID(obj.uid)
+        if (obj.uid != "" && obj.name) {
+            form.values.ownerUID = obj.uid!
+            form.values.ownerName = obj.name!
         }
     }, [orgUID, form])
 

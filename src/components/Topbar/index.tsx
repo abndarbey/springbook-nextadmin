@@ -10,14 +10,12 @@ import SystemMenu from "./SystemMenu"
 import UserButton from "./UserButton"
 import { topbarStyles } from "./styles"
 import OrgMenu from "./OrgMenu"
-import { useRouter } from "next/router"
 
 interface ITopbarProps {
     height: number
 }
 
 export default function Topbar(props: ITopbarProps) {
-    console.log("Topbar")
     const { classes } = topbarStyles()
     const [_, setAutherName] = useState("Anonymous")
     const [isAuther, setIsAuther] = useState(false)

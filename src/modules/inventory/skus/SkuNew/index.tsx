@@ -33,11 +33,11 @@ export default function SkuNew(props: PageProps) {
 
     // get org uid from local storage
     useEffect(() => {
-        const orgObj = getOrgFromLocalStorage()
-        setOrgUID(orgObj.uid)
-        if (orgObj.uid != "" && orgObj.name) {
-            form.values.orgUID = orgObj.uid!
-            form.values.orgName = orgObj.name!
+        const obj = getOrgFromLocalStorage("org")
+        setOrgUID(obj.uid)
+        if (obj.uid != "" && obj.name) {
+            form.values.orgUID = obj.uid!
+            form.values.orgName = obj.name!
         }
     }, [orgUID, form])
 
