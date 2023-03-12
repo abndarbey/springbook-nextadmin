@@ -4,17 +4,17 @@ import { Badge, Box, Text, useMantineTheme } from "@mantine/core"
 import { DataTable } from "mantine-datatable"
 import ContentCard from "components/ContentCard"
 import TableActionBar from "components/TableWrapper/TableActionBar"
-import TableRowActions from 'components/TableWrapper/TableRowActions'
-import { PAGE_SIZES } from 'types/enums'
+import TableRowActions from "components/TableWrapper/TableRowActions"
+import { PAGE_SIZES } from "types/enums"
 
 interface CartonTableProps {
     data: CartonResult
-    viewAction: any
-    editAction: any
-    archiveAction: any
-    unarchiveAction: any
-    batchViewAction?: any
-    filterAction?: any
+    viewAction: (item: Carton) => void
+    editAction: (item: Carton) => void
+    archiveAction: (item: Carton) => void
+    unarchiveAction: (item: Carton) => void
+    batchViewAction?: (selectedRecords: Carton[]) => void
+    filterAction?: (filter: string) => void
     filterOptions: string[]
 }
 
@@ -50,28 +50,28 @@ export default function CartonTable(props: CartonTableProps) {
                     noRecordsText="No records to show"
                     records={records}
                     columns={[
-                        { accessor: 'code', width: '10%' },
-                        { accessor: 'sku.name', title: 'SKU' },
-                        { accessor: 'batch.batchNumber', title: 'Batch Number' },
-                        { accessor: 'owner.name', title: 'Owner' },
-                        { accessor: 'custodian.name', title: 'Custodian' },
-                        { accessor: 'warehouse.name', title: 'Warehouse' },
+                        { accessor: "code", width: "10%" },
+                        { accessor: "sku.name", title: "SKU" },
+                        { accessor: "batch.batchNumber", title: "Batch Number" },
+                        { accessor: "owner.name", title: "Owner" },
+                        { accessor: "custodian.name", title: "Custodian" },
+                        { accessor: "warehouse.name", title: "Warehouse" },
                         {
-                            accessor: 'status',
+                            accessor: "status",
                             // width: 160,
                             render: (item) => (
                                 <Badge
-                                    color={!item.isArchived ? 'blue' : 'gray'}
-                                    variant={theme.colorScheme === 'dark' ? 'light' : 'light'}
+                                    color={!item.isArchived ? "blue" : "gray"}
+                                    variant={theme.colorScheme === "dark" ? "light" : "light"}
                                     >
-                                    {!item.isArchived ? 'Active' : 'Disabled'}
+                                    {!item.isArchived ? "Active" : "Disabled"}
                                 </Badge>
                             )
                         },
                         {
-                            accessor: 'actions',
+                            accessor: "actions",
                             title: <Text mr="xs">Actions</Text>,
-                            textAlignment: 'center',
+                            textAlignment: "center",
                             render: (item) => (
                                 <TableRowActions
                                     item={item}
@@ -91,7 +91,7 @@ export default function CartonTable(props: CartonTableProps) {
                     recordsPerPage={pageSize}
                     recordsPerPageOptions={PAGE_SIZES}
                     onRecordsPerPageChange={setPageSize}
-                    recordsPerPageLabel='Rows Per Page'
+                    recordsPerPageLabel="Rows Per Page"
                 />
             </Box>
         </ContentCard>
