@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import PageTitle from 'components/PageTitle'
-import CartonNew from 'modules/inventory/cartons/CartonNew'
+import CartonNew from 'modules/inventory/cartons/CartonsNew'
 
 export default function New() {
     const title: string = 'New Cartons'
