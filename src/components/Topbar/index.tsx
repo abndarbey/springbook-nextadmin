@@ -10,6 +10,7 @@ import SystemMenu from "./SystemMenu"
 import UserButton from "./UserButton"
 import { topbarStyles } from "./styles"
 import OrgMenu from "./OrgMenu"
+import WhMenu from "./WhMenu"
 
 interface ITopbarProps {
     height: number
@@ -50,8 +51,9 @@ export default function Topbar(props: ITopbarProps) {
             <Header height={props.height} px="md" className={classes.navbar}>
                 <Group position="apart" sx={{ height: "100%" }}>
                     <Group>
-                        <SystemMenu />
+                        {/* <SystemMenu /> */}
                         {authData.data?.auther.isAdmin && <OrgMenu />}
+                        <WhMenu />
                         <TextInput
                             placeholder="Search ..."
                             icon={<IconSearch size={16} />}

@@ -79,6 +79,7 @@ export default function WarehouseSelectModal(props: ISelectModalProps) {
                 filterAction={filterAction}
                 filterOptions={filterOptions}
                 handleSelect={props.handleSelect}
+                handleClear={props.handleClear}
                 setOpened={props.setOpened}
             />
         </Modal>
@@ -90,7 +91,8 @@ interface WarehouseTableProps {
     batchViewAction?: any
     filterAction?: any
     filterOptions: string[]
-    handleSelect: any
+    handleSelect?: any
+    handleClear?: any
     setOpened: Dispatch<SetStateAction<boolean>>
 }
 
@@ -107,8 +109,17 @@ const WarehouseTable = (props: WarehouseTableProps) => {
         selectedRecords.map((item) => {
             props.handleSelect(item)
         })
-
         props.setOpened(false)
+        return
+    }
+
+    const handleClear = (e: any) => {
+        e.preventDefault()
+        if (props.handleClear) {
+            props.handleClear()
+        }
+        props.setOpened(false)
+        return
     }
 
     const handleCancel = (e: any) => {
@@ -168,8 +179,10 @@ const WarehouseTable = (props: WarehouseTableProps) => {
                 />
             </Box>
             <Group position="apart" mt="md">
-                <Button
-                    color='dark'size="md" onClick={(e: any) => handleCancel(e)}>Cancel</Button>
+                <Group>
+                    <Button color='dark'size="md" onClick={(e: any) => handleCancel(e)}>Cancel</Button>
+                    <Button color='yellow'size="md" onClick={(e: any) => handleClear(e)}>Clear</Button>
+                </Group>
                 <Button size="md" onClick={(e: any) => handleSelect(e)}>Select</Button>
             </Group>
         </ContentCard>
