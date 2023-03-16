@@ -5,16 +5,17 @@ export function setObjectToLocalStorage(key: string, item: any): LocalStorageObj
         uid: item.uid!,
         code: item.code!,
         name: item.name!,
+        warehouseUID: item.warehouseUID,
     }
     localStorage.setItem(key, JSON.stringify(obj))
     return obj
 }
 
 export function getObjectFromLocalStorage(key: string): LocalStorageObject {
-    let org = localStorage.getItem(key)
-    let obj: LocalStorageObject = {uid: "", code: "", name: ""}
-    if (org) {
-        obj = JSON.parse(org)
+    let savedItem = localStorage.getItem(key)
+    let obj: LocalStorageObject = {uid: "", code: "", name: "", warehouseUID: ""}
+    if (savedItem) {
+        obj = JSON.parse(savedItem)
     }
     return obj
 }

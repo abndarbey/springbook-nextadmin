@@ -5,7 +5,7 @@ import { Sku, Batch, Carton } from './inventory'
 import {
     WarehouseType, RackType, PalletType,
     Warehouse, Rack, Cell, Pallet,
-    ThirdPartyWarehouse, WarehouseContract,
+    WarehouseContract,
 } from './warehouse'
 
 const Auther = gql`
@@ -43,7 +43,6 @@ export const fragment = {
     Rack,
     Cell,
     Pallet,
-    ThirdPartyWarehouse,
     WarehouseContract,
 
     Sku,

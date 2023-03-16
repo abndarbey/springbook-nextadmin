@@ -12,4 +12,5 @@ export type LocalStorageObject = {
     uid: string
     code: string
     name: string
+    warehouseUID?: string
 }

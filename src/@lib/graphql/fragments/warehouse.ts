@@ -68,6 +68,7 @@ export const Warehouse = gql`
         id
         uid
         code
+        warehouseUID
         name
         details
         dimension {
@@ -221,53 +222,6 @@ export const WarehouseContract = gql`
             name
         }
         warehouse {
-            uid
-            code
-            name
-        }
-    }
-`
-
-export const ThirdPartyWarehouse = gql`
-    fragment ThirdPartyWarehouseFragment on ThirdPartyWarehouse {
-        id
-        code
-        name
-        details
-        warehouseUID
-        dimension {
-            centralHeight
-            wallHeight
-            carpetLength
-            carpetBreadth
-            carpetArea
-            buildUpLength
-            buildUpBreadth
-            buildUpArea
-        }
-        specifications {
-            shedType
-            floorType
-        }
-        address {
-            locality
-            city
-            pincode
-        }
-        status
-        isFinal
-        isArchived
-        createdAt
-        warehouse {
-            uid
-            code
-            name
-        }
-        contract {
-            uid
-            code
-        }
-        organization {
             uid
             code
             name

@@ -25,7 +25,7 @@ const authLink = setContext((_, { headers }) => {
             Organization: org ? `${org.uid}` : "",
             Owner: owner ? `${owner.uid}` : "",
             Custodian: custodian ? `${custodian.uid}` : "",
-            Warehouse: warehouse ? `${warehouse.uid}` : "",
+            Warehouse: warehouse ? `${warehouse.warehouseUID}` : "",
         }
     }
 })

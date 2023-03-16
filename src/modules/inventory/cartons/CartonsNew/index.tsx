@@ -11,7 +11,6 @@ import {
     Organization,
     useAutherQuery,
     Warehouse,
-    ThirdPartyWarehouse,
 } from '@lib/generated/hooks'
 
 import { getObjectFromLocalStorage } from 'common/localStorage'
@@ -40,7 +39,6 @@ export default function CartonsNew(props: ICartonPageProps) {
             batchUID: "",
             warehouseUID: "",
             ownerUID: "",
-            isThirdParty: false,
             quantity: 0,
 
             skuID: "",
@@ -108,12 +106,6 @@ export default function CartonsNew(props: ICartonPageProps) {
             form.values.warehouseName = item?.name!
         }
     }
-    const handleThirdPartyWhSelect = (item: ThirdPartyWarehouse | undefined) => {
-        if (item) {
-            form.values.warehouseUID = item?.warehouseUID!
-            form.values.warehouseName = item?.name!
-        }
-    }
 
     const handleSubmit = () => {
         var newObjInput: UpdateCarton = {
@@ -158,7 +150,6 @@ export default function CartonsNew(props: ICartonPageProps) {
             handleSkuSelect={handleSkuSelect}
             handleBatchSelect={handleBatchSelect}
             handleWarehouseSelect={handleWarehouseSelect}
-            handleThirdPartyWhSelect={handleThirdPartyWhSelect}
         />
     )
 }

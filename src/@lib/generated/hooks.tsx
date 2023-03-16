@@ -306,11 +306,6 @@ export type Mutation = {
   skuUnarchive: Sku;
   skuUpdate: Sku;
   superAdminCreate: User;
-  thirdPartyWarehouseArchive: ThirdPartyWarehouse;
-  thirdPartyWarehouseCreate: ThirdPartyWarehouse;
-  thirdPartyWarehouseFinalize: ThirdPartyWarehouse;
-  thirdPartyWarehouseUnarchive: ThirdPartyWarehouse;
-  thirdPartyWarehouseUpdate: ThirdPartyWarehouse;
   userArchive: User;
   userCreate: User;
   userUnarchive: User;
@@ -715,32 +710,6 @@ export type MutationSuperAdminCreateArgs = {
 };
 
 
-export type MutationThirdPartyWarehouseArchiveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationThirdPartyWarehouseCreateArgs = {
-  input: UpdateThirdPartyWarehouse;
-};
-
-
-export type MutationThirdPartyWarehouseFinalizeArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationThirdPartyWarehouseUnarchiveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationThirdPartyWarehouseUpdateArgs = {
-  id: Scalars['ID'];
-  input: UpdateThirdPartyWarehouse;
-};
-
-
 export type MutationUserArchiveArgs = {
   id: Scalars['ID'];
 };
@@ -963,8 +932,6 @@ export type Query = {
   skuCatalogue: SkuCatalogue;
   skuCatalogues: SkuCataloguesResult;
   skus: SkusResult;
-  thirdPartyWarehouse: ThirdPartyWarehouse;
-  thirdPartyWarehouses: ThirdPartyWarehousesResult;
   user: User;
   users: UserResult;
   warehouse: Warehouse;
@@ -1038,7 +1005,6 @@ export type QueryContactArgs = {
 
 
 export type QueryContactsArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -1050,7 +1016,6 @@ export type QueryDepartmentArgs = {
 
 
 export type QueryDepartmentsArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -1173,19 +1138,6 @@ export type QuerySkusArgs = {
 };
 
 
-export type QueryThirdPartyWarehouseArgs = {
-  code?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
-};
-
-
-export type QueryThirdPartyWarehousesArgs = {
-  operatorUID?: InputMaybe<Scalars['UUID']>;
-  orgUID?: InputMaybe<Scalars['UUID']>;
-  search: SearchFilter;
-};
-
-
 export type QueryUserArgs = {
   email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
@@ -1235,7 +1187,6 @@ export type QueryWarehouseTypesArgs = {
 
 
 export type QueryWarehousesArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   typeID?: InputMaybe<Scalars['ID']>;
 };
@@ -1421,32 +1372,6 @@ export type StorageDimensionInput = {
   unit: Scalars['String'];
 };
 
-export type ThirdPartyWarehouse = {
-  __typename?: 'ThirdPartyWarehouse';
-  address?: Maybe<WarehouseAddress>;
-  code?: Maybe<Scalars['String']>;
-  contract?: Maybe<WarehouseContract>;
-  createdAt?: Maybe<Scalars['Time']>;
-  details?: Maybe<Scalars['NullString']>;
-  dimension?: Maybe<WarehouseDimension>;
-  id?: Maybe<Scalars['ID']>;
-  isArchived?: Maybe<Scalars['Boolean']>;
-  isFinal?: Maybe<Scalars['Boolean']>;
-  name?: Maybe<Scalars['String']>;
-  operator?: Maybe<Organization>;
-  organization?: Maybe<Organization>;
-  specifications?: Maybe<WarehouseSpecification>;
-  status?: Maybe<Scalars['String']>;
-  warehouse?: Maybe<Warehouse>;
-  warehouseUID?: Maybe<Scalars['UUID']>;
-};
-
-export type ThirdPartyWarehousesResult = {
-  __typename?: 'ThirdPartyWarehousesResult';
-  thirdPartyWarehouses: Array<ThirdPartyWarehouse>;
-  total: Scalars['Int'];
-};
-
 export type TickerInfo = {
   __typename?: 'TickerInfo';
   lastTick: Scalars['Time'];
@@ -1470,7 +1395,6 @@ export type UpdateBatchCatalogue = {
 
 export type UpdateCarton = {
   batchUID?: InputMaybe<Scalars['NullUUID']>;
-  isThirdPartyWarehouse?: InputMaybe<Scalars['NullBool']>;
   ownerUID?: InputMaybe<Scalars['NullUUID']>;
   quantity?: InputMaybe<Scalars['NullInt']>;
   skuUID?: InputMaybe<Scalars['NullUUID']>;
@@ -1569,13 +1493,6 @@ export type UpdateSkuCatalogue = {
   weightUnit?: InputMaybe<Scalars['NullString']>;
 };
 
-export type UpdateThirdPartyWarehouse = {
-  operatorUID?: InputMaybe<Scalars['NullUUID']>;
-  orgUID?: InputMaybe<Scalars['NullUUID']>;
-  status?: InputMaybe<Scalars['NullString']>;
-  warehouseUID?: InputMaybe<Scalars['NullUUID']>;
-};
-
 export type UpdateUser = {
   email?: InputMaybe<Scalars['NullString']>;
   firstName?: InputMaybe<Scalars['NullString']>;
@@ -1645,6 +1562,7 @@ export enum ViewOption {
 
 export type Warehouse = {
   __typename?: 'Warehouse';
+  Operator?: Maybe<Organization>;
   address?: Maybe<WarehouseAddress>;
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
@@ -1660,6 +1578,7 @@ export type Warehouse = {
   status?: Maybe<Scalars['String']>;
   type?: Maybe<WarehouseType>;
   uid?: Maybe<Scalars['UUID']>;
+  warehouseUID?: Maybe<Scalars['UUID']>;
 };
 
 export type WarehouseAddress = {
@@ -1890,7 +1809,6 @@ export type SkuCatalogueUnarchiveMutation = { __typename?: 'Mutation', skuCatalo
 
 export type ContactsQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -1942,7 +1860,6 @@ export type ContactUnarchiveMutation = { __typename?: 'Mutation', contactUnarchi
 
 export type DepartmentsQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -2174,7 +2091,7 @@ export type RackTypeFragmentFragment = { __typename?: 'RackType', id?: string | 
 
 export type PalletTypeFragmentFragment = { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type WarehouseFragmentFragment = { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+export type WarehouseFragmentFragment = { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackFragmentFragment = { __typename?: 'Rack', id?: string | null, code?: string | null, rows?: number | null, columns?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, type?: { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2183,8 +2100,6 @@ export type CellFragmentFragment = { __typename?: 'Cell', id?: string | null, co
 export type PalletFragmentFragment = { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type WarehouseContractFragmentFragment = { __typename?: 'WarehouseContract', id?: string | null, uid?: any | null, code?: string | null, message?: any | null, status?: string | null, acceptanceStatus?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, isAccepted?: boolean | null, createdAt?: any | null, contractor?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, client?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
-
-export type ThirdPartyWarehouseFragmentFragment = { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type BatchesQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2603,65 +2518,12 @@ export type RackTypeUnarchiveMutationVariables = Exact<{
 
 export type RackTypeUnarchiveMutation = { __typename?: 'Mutation', rackTypeUnarchive: { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null, storageType?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, storageDimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
-export type ThirdPartyWarehousesQueryVariables = Exact<{
-  searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
-}>;
-
-
-export type ThirdPartyWarehousesQuery = { __typename?: 'Query', thirdPartyWarehouses: { __typename?: 'ThirdPartyWarehousesResult', total: number, thirdPartyWarehouses: Array<{ __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
-
-export type ThirdPartyWarehouseQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
-  code?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type ThirdPartyWarehouseQuery = { __typename?: 'Query', thirdPartyWarehouse: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type ThirdPartyWarehouseCreateMutationVariables = Exact<{
-  input: UpdateThirdPartyWarehouse;
-}>;
-
-
-export type ThirdPartyWarehouseCreateMutation = { __typename?: 'Mutation', thirdPartyWarehouseCreate: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type ThirdPartyWarehouseUpdateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  input: UpdateThirdPartyWarehouse;
-}>;
-
-
-export type ThirdPartyWarehouseUpdateMutation = { __typename?: 'Mutation', thirdPartyWarehouseUpdate: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type ThirdPartyWarehouseFinalizeMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type ThirdPartyWarehouseFinalizeMutation = { __typename?: 'Mutation', thirdPartyWarehouseFinalize: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type ThirdPartyWarehouseArchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type ThirdPartyWarehouseArchiveMutation = { __typename?: 'Mutation', thirdPartyWarehouseArchive: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type ThirdPartyWarehouseUnarchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type ThirdPartyWarehouseUnarchiveMutation = { __typename?: 'Mutation', thirdPartyWarehouseUnarchive: { __typename?: 'ThirdPartyWarehouse', id?: string | null, code?: string | null, name?: string | null, details?: any | null, warehouseUID?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, contract?: { __typename?: 'WarehouseContract', uid?: any | null, code?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
 export type WarehousesQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
-export type WarehousesQuery = { __typename?: 'Query', warehouses: { __typename?: 'WarehousesResult', total: number, warehouses: Array<{ __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+export type WarehousesQuery = { __typename?: 'Query', warehouses: { __typename?: 'WarehousesResult', total: number, warehouses: Array<{ __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type WarehouseQueryVariables = Exact<{
   uid?: InputMaybe<Scalars['UUID']>;
@@ -2669,14 +2531,14 @@ export type WarehouseQueryVariables = Exact<{
 }>;
 
 
-export type WarehouseQuery = { __typename?: 'Query', warehouse: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseQuery = { __typename?: 'Query', warehouse: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseCreateMutationVariables = Exact<{
   input: UpdateWarehouse;
 }>;
 
 
-export type WarehouseCreateMutation = { __typename?: 'Mutation', warehouseCreate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseCreateMutation = { __typename?: 'Mutation', warehouseCreate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseUpdateMutationVariables = Exact<{
   uid: Scalars['UUID'];
@@ -2684,28 +2546,28 @@ export type WarehouseUpdateMutationVariables = Exact<{
 }>;
 
 
-export type WarehouseUpdateMutation = { __typename?: 'Mutation', warehouseUpdate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseUpdateMutation = { __typename?: 'Mutation', warehouseUpdate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseFinalizeMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type WarehouseFinalizeMutation = { __typename?: 'Mutation', warehouseFinalize: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseFinalizeMutation = { __typename?: 'Mutation', warehouseFinalize: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseArchiveMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type WarehouseArchiveMutation = { __typename?: 'Mutation', warehouseArchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseArchiveMutation = { __typename?: 'Mutation', warehouseArchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseUnarchiveMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type WarehouseUnarchiveMutation = { __typename?: 'Mutation', warehouseUnarchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseUnarchiveMutation = { __typename?: 'Mutation', warehouseUnarchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseContractsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -3147,6 +3009,7 @@ export const WarehouseFragmentFragmentDoc = gql`
   id
   uid
   code
+  warehouseUID
   name
   details
   dimension {
@@ -3296,52 +3159,6 @@ export const WarehouseContractFragmentFragmentDoc = gql`
     name
   }
   warehouse {
-    uid
-    code
-    name
-  }
-}
-    `;
-export const ThirdPartyWarehouseFragmentFragmentDoc = gql`
-    fragment ThirdPartyWarehouseFragment on ThirdPartyWarehouse {
-  id
-  code
-  name
-  details
-  warehouseUID
-  dimension {
-    centralHeight
-    wallHeight
-    carpetLength
-    carpetBreadth
-    carpetArea
-    buildUpLength
-    buildUpBreadth
-    buildUpArea
-  }
-  specifications {
-    shedType
-    floorType
-  }
-  address {
-    locality
-    city
-    pincode
-  }
-  status
-  isFinal
-  isArchived
-  createdAt
-  warehouse {
-    uid
-    code
-    name
-  }
-  contract {
-    uid
-    code
-  }
-  organization {
     uid
     code
     name
@@ -3966,8 +3783,8 @@ export type SkuCatalogueUnarchiveMutationHookResult = ReturnType<typeof useSkuCa
 export type SkuCatalogueUnarchiveMutationResult = Apollo.MutationResult<SkuCatalogueUnarchiveMutation>;
 export type SkuCatalogueUnarchiveMutationOptions = Apollo.BaseMutationOptions<SkuCatalogueUnarchiveMutation, SkuCatalogueUnarchiveMutationVariables>;
 export const ContactsDocument = gql`
-    query Contacts($searchFilter: SearchFilter!, $orgUID: UUID) {
-  contacts(search: $searchFilter, orgUID: $orgUID) {
+    query Contacts($searchFilter: SearchFilter!) {
+  contacts(search: $searchFilter) {
     contacts {
       ...ContactFragment
     }
@@ -3989,7 +3806,6 @@ export const ContactsDocument = gql`
  * const { data, loading, error } = useContactsQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *   },
  * });
  */
@@ -4207,8 +4023,8 @@ export type ContactUnarchiveMutationHookResult = ReturnType<typeof useContactUna
 export type ContactUnarchiveMutationResult = Apollo.MutationResult<ContactUnarchiveMutation>;
 export type ContactUnarchiveMutationOptions = Apollo.BaseMutationOptions<ContactUnarchiveMutation, ContactUnarchiveMutationVariables>;
 export const DepartmentsDocument = gql`
-    query Departments($searchFilter: SearchFilter!, $orgUID: UUID) {
-  departments(search: $searchFilter, orgUID: $orgUID) {
+    query Departments($searchFilter: SearchFilter!) {
+  departments(search: $searchFilter) {
     departments {
       ...DepartmentFragment
     }
@@ -4230,7 +4046,6 @@ export const DepartmentsDocument = gql`
  * const { data, loading, error } = useDepartmentsQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *   },
  * });
  */
@@ -7089,250 +6904,9 @@ export function useRackTypeUnarchiveMutation(baseOptions?: Apollo.MutationHookOp
 export type RackTypeUnarchiveMutationHookResult = ReturnType<typeof useRackTypeUnarchiveMutation>;
 export type RackTypeUnarchiveMutationResult = Apollo.MutationResult<RackTypeUnarchiveMutation>;
 export type RackTypeUnarchiveMutationOptions = Apollo.BaseMutationOptions<RackTypeUnarchiveMutation, RackTypeUnarchiveMutationVariables>;
-export const ThirdPartyWarehousesDocument = gql`
-    query ThirdPartyWarehouses($searchFilter: SearchFilter!, $orgUID: UUID) {
-  thirdPartyWarehouses(search: $searchFilter, orgUID: $orgUID) {
-    thirdPartyWarehouses {
-      ...ThirdPartyWarehouseFragment
-    }
-    total
-  }
-}
-    ${ThirdPartyWarehouseFragmentFragmentDoc}`;
-
-/**
- * __useThirdPartyWarehousesQuery__
- *
- * To run a query within a React component, call `useThirdPartyWarehousesQuery` and pass it any options that fit your needs.
- * When your component renders, `useThirdPartyWarehousesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useThirdPartyWarehousesQuery({
- *   variables: {
- *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
- *   },
- * });
- */
-export function useThirdPartyWarehousesQuery(baseOptions: Apollo.QueryHookOptions<ThirdPartyWarehousesQuery, ThirdPartyWarehousesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ThirdPartyWarehousesQuery, ThirdPartyWarehousesQueryVariables>(ThirdPartyWarehousesDocument, options);
-      }
-export function useThirdPartyWarehousesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ThirdPartyWarehousesQuery, ThirdPartyWarehousesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ThirdPartyWarehousesQuery, ThirdPartyWarehousesQueryVariables>(ThirdPartyWarehousesDocument, options);
-        }
-export type ThirdPartyWarehousesQueryHookResult = ReturnType<typeof useThirdPartyWarehousesQuery>;
-export type ThirdPartyWarehousesLazyQueryHookResult = ReturnType<typeof useThirdPartyWarehousesLazyQuery>;
-export type ThirdPartyWarehousesQueryResult = Apollo.QueryResult<ThirdPartyWarehousesQuery, ThirdPartyWarehousesQueryVariables>;
-export const ThirdPartyWarehouseDocument = gql`
-    query ThirdPartyWarehouse($id: ID, $code: String) {
-  thirdPartyWarehouse(id: $id, code: $code) {
-    ...ThirdPartyWarehouseFragment
-  }
-}
-    ${ThirdPartyWarehouseFragmentFragmentDoc}`;
-
-/**
- * __useThirdPartyWarehouseQuery__
- *
- * To run a query within a React component, call `useThirdPartyWarehouseQuery` and pass it any options that fit your needs.
- * When your component renders, `useThirdPartyWarehouseQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useThirdPartyWarehouseQuery({
- *   variables: {
- *      id: // value for 'id'
- *      code: // value for 'code'
- *   },
- * });
- */
-export function useThirdPartyWarehouseQuery(baseOptions?: Apollo.QueryHookOptions<ThirdPartyWarehouseQuery, ThirdPartyWarehouseQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ThirdPartyWarehouseQuery, ThirdPartyWarehouseQueryVariables>(ThirdPartyWarehouseDocument, options);
-      }
-export function useThirdPartyWarehouseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ThirdPartyWarehouseQuery, ThirdPartyWarehouseQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ThirdPartyWarehouseQuery, ThirdPartyWarehouseQueryVariables>(ThirdPartyWarehouseDocument, options);
-        }
-export type ThirdPartyWarehouseQueryHookResult = ReturnType<typeof useThirdPartyWarehouseQuery>;
-export type ThirdPartyWarehouseLazyQueryHookResult = ReturnType<typeof useThirdPartyWarehouseLazyQuery>;
-export type ThirdPartyWarehouseQueryResult = Apollo.QueryResult<ThirdPartyWarehouseQuery, ThirdPartyWarehouseQueryVariables>;
-export const ThirdPartyWarehouseCreateDocument = gql`
-    mutation ThirdPartyWarehouseCreate($input: UpdateThirdPartyWarehouse!) {
-  thirdPartyWarehouseCreate(input: $input) {
-    ...ThirdPartyWarehouseFragment
-  }
-}
-    ${ThirdPartyWarehouseFragmentFragmentDoc}`;
-export type ThirdPartyWarehouseCreateMutationFn = Apollo.MutationFunction<ThirdPartyWarehouseCreateMutation, ThirdPartyWarehouseCreateMutationVariables>;
-
-/**
- * __useThirdPartyWarehouseCreateMutation__
- *
- * To run a mutation, you first call `useThirdPartyWarehouseCreateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useThirdPartyWarehouseCreateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [thirdPartyWarehouseCreateMutation, { data, loading, error }] = useThirdPartyWarehouseCreateMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useThirdPartyWarehouseCreateMutation(baseOptions?: Apollo.MutationHookOptions<ThirdPartyWarehouseCreateMutation, ThirdPartyWarehouseCreateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ThirdPartyWarehouseCreateMutation, ThirdPartyWarehouseCreateMutationVariables>(ThirdPartyWarehouseCreateDocument, options);
-      }
-export type ThirdPartyWarehouseCreateMutationHookResult = ReturnType<typeof useThirdPartyWarehouseCreateMutation>;
-export type ThirdPartyWarehouseCreateMutationResult = Apollo.MutationResult<ThirdPartyWarehouseCreateMutation>;
-export type ThirdPartyWarehouseCreateMutationOptions = Apollo.BaseMutationOptions<ThirdPartyWarehouseCreateMutation, ThirdPartyWarehouseCreateMutationVariables>;
-export const ThirdPartyWarehouseUpdateDocument = gql`
-    mutation ThirdPartyWarehouseUpdate($id: ID!, $input: UpdateThirdPartyWarehouse!) {
-  thirdPartyWarehouseUpdate(id: $id, input: $input) {
-    ...ThirdPartyWarehouseFragment
-  }
-}
-    ${ThirdPartyWarehouseFragmentFragmentDoc}`;
-export type ThirdPartyWarehouseUpdateMutationFn = Apollo.MutationFunction<ThirdPartyWarehouseUpdateMutation, ThirdPartyWarehouseUpdateMutationVariables>;
-
-/**
- * __useThirdPartyWarehouseUpdateMutation__
- *
- * To run a mutation, you first call `useThirdPartyWarehouseUpdateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useThirdPartyWarehouseUpdateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [thirdPartyWarehouseUpdateMutation, { data, loading, error }] = useThirdPartyWarehouseUpdateMutation({
- *   variables: {
- *      id: // value for 'id'
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useThirdPartyWarehouseUpdateMutation(baseOptions?: Apollo.MutationHookOptions<ThirdPartyWarehouseUpdateMutation, ThirdPartyWarehouseUpdateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ThirdPartyWarehouseUpdateMutation, ThirdPartyWarehouseUpdateMutationVariables>(ThirdPartyWarehouseUpdateDocument, options);
-      }
-export type ThirdPartyWarehouseUpdateMutationHookResult = ReturnType<typeof useThirdPartyWarehouseUpdateMutation>;
-export type ThirdPartyWarehouseUpdateMutationResult = Apollo.MutationResult<ThirdPartyWarehouseUpdateMutation>;
-export type ThirdPartyWarehouseUpdateMutationOptions = Apollo.BaseMutationOptions<ThirdPartyWarehouseUpdateMutation, ThirdPartyWarehouseUpdateMutationVariables>;
-export const ThirdPartyWarehouseFinalizeDocument = gql`
-    mutation ThirdPartyWarehouseFinalize($id: ID!) {
-  thirdPartyWarehouseFinalize(id: $id) {
-    ...ThirdPartyWarehouseFragment
-  }
-}
-    ${ThirdPartyWarehouseFragmentFragmentDoc}`;
-export type ThirdPartyWarehouseFinalizeMutationFn = Apollo.MutationFunction<ThirdPartyWarehouseFinalizeMutation, ThirdPartyWarehouseFinalizeMutationVariables>;
-
-/**
- * __useThirdPartyWarehouseFinalizeMutation__
- *
- * To run a mutation, you first call `useThirdPartyWarehouseFinalizeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useThirdPartyWarehouseFinalizeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [thirdPartyWarehouseFinalizeMutation, { data, loading, error }] = useThirdPartyWarehouseFinalizeMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useThirdPartyWarehouseFinalizeMutation(baseOptions?: Apollo.MutationHookOptions<ThirdPartyWarehouseFinalizeMutation, ThirdPartyWarehouseFinalizeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ThirdPartyWarehouseFinalizeMutation, ThirdPartyWarehouseFinalizeMutationVariables>(ThirdPartyWarehouseFinalizeDocument, options);
-      }
-export type ThirdPartyWarehouseFinalizeMutationHookResult = ReturnType<typeof useThirdPartyWarehouseFinalizeMutation>;
-export type ThirdPartyWarehouseFinalizeMutationResult = Apollo.MutationResult<ThirdPartyWarehouseFinalizeMutation>;
-export type ThirdPartyWarehouseFinalizeMutationOptions = Apollo.BaseMutationOptions<ThirdPartyWarehouseFinalizeMutation, ThirdPartyWarehouseFinalizeMutationVariables>;
-export const ThirdPartyWarehouseArchiveDocument = gql`
-    mutation ThirdPartyWarehouseArchive($id: ID!) {
-  thirdPartyWarehouseArchive(id: $id) {
-    ...ThirdPartyWarehouseFragment
-  }
-}
-    ${ThirdPartyWarehouseFragmentFragmentDoc}`;
-export type ThirdPartyWarehouseArchiveMutationFn = Apollo.MutationFunction<ThirdPartyWarehouseArchiveMutation, ThirdPartyWarehouseArchiveMutationVariables>;
-
-/**
- * __useThirdPartyWarehouseArchiveMutation__
- *
- * To run a mutation, you first call `useThirdPartyWarehouseArchiveMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useThirdPartyWarehouseArchiveMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [thirdPartyWarehouseArchiveMutation, { data, loading, error }] = useThirdPartyWarehouseArchiveMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useThirdPartyWarehouseArchiveMutation(baseOptions?: Apollo.MutationHookOptions<ThirdPartyWarehouseArchiveMutation, ThirdPartyWarehouseArchiveMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ThirdPartyWarehouseArchiveMutation, ThirdPartyWarehouseArchiveMutationVariables>(ThirdPartyWarehouseArchiveDocument, options);
-      }
-export type ThirdPartyWarehouseArchiveMutationHookResult = ReturnType<typeof useThirdPartyWarehouseArchiveMutation>;
-export type ThirdPartyWarehouseArchiveMutationResult = Apollo.MutationResult<ThirdPartyWarehouseArchiveMutation>;
-export type ThirdPartyWarehouseArchiveMutationOptions = Apollo.BaseMutationOptions<ThirdPartyWarehouseArchiveMutation, ThirdPartyWarehouseArchiveMutationVariables>;
-export const ThirdPartyWarehouseUnarchiveDocument = gql`
-    mutation ThirdPartyWarehouseUnarchive($id: ID!) {
-  thirdPartyWarehouseUnarchive(id: $id) {
-    ...ThirdPartyWarehouseFragment
-  }
-}
-    ${ThirdPartyWarehouseFragmentFragmentDoc}`;
-export type ThirdPartyWarehouseUnarchiveMutationFn = Apollo.MutationFunction<ThirdPartyWarehouseUnarchiveMutation, ThirdPartyWarehouseUnarchiveMutationVariables>;
-
-/**
- * __useThirdPartyWarehouseUnarchiveMutation__
- *
- * To run a mutation, you first call `useThirdPartyWarehouseUnarchiveMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useThirdPartyWarehouseUnarchiveMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [thirdPartyWarehouseUnarchiveMutation, { data, loading, error }] = useThirdPartyWarehouseUnarchiveMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useThirdPartyWarehouseUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<ThirdPartyWarehouseUnarchiveMutation, ThirdPartyWarehouseUnarchiveMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ThirdPartyWarehouseUnarchiveMutation, ThirdPartyWarehouseUnarchiveMutationVariables>(ThirdPartyWarehouseUnarchiveDocument, options);
-      }
-export type ThirdPartyWarehouseUnarchiveMutationHookResult = ReturnType<typeof useThirdPartyWarehouseUnarchiveMutation>;
-export type ThirdPartyWarehouseUnarchiveMutationResult = Apollo.MutationResult<ThirdPartyWarehouseUnarchiveMutation>;
-export type ThirdPartyWarehouseUnarchiveMutationOptions = Apollo.BaseMutationOptions<ThirdPartyWarehouseUnarchiveMutation, ThirdPartyWarehouseUnarchiveMutationVariables>;
 export const WarehousesDocument = gql`
-    query Warehouses($searchFilter: SearchFilter!, $orgUID: UUID) {
-  warehouses(search: $searchFilter, orgUID: $orgUID) {
+    query Warehouses($searchFilter: SearchFilter!) {
+  warehouses(search: $searchFilter) {
     warehouses {
       ...WarehouseFragment
     }
@@ -7354,7 +6928,6 @@ export const WarehousesDocument = gql`
  * const { data, loading, error } = useWarehousesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *   },
  * });
  */

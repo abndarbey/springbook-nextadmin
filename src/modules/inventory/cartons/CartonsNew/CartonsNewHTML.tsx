@@ -7,9 +7,8 @@ import OrgSelectModal from "common/select-table/OrgSelectModal"
 import SkuSelectModal from "common/select-table/SkuSelectModal"
 import BatchSelectModal from "common/select-table/BatchSelectModal"
 import WarehouseSelectModal from "common/select-table/WarehouseSelectModal"
-import ThirdPartyWarehouseSelectModal from "common/select-table/ThirdPartyWhSelectModal"
 import { INavTrailProps } from "components/NavTrails"
-import { Auther, Batch, Organization, Sku, ThirdPartyWarehouse, Warehouse } from "@lib/generated/hooks"
+import { Auther, Batch, Organization, Sku, Warehouse } from "@lib/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 
 export interface ICartonsFormValues {
@@ -17,7 +16,6 @@ export interface ICartonsFormValues {
     batchUID: string
     warehouseUID: string
     ownerUID: string
-    isThirdParty: boolean,
     quantity: number,
 
     skuID: string
@@ -38,7 +36,6 @@ interface ICartonsNewHTML {
     handleSkuSelect: (item: Sku) => void
     handleBatchSelect: (item: Batch) => void
     handleWarehouseSelect: (item: Warehouse) => void
-    handleThirdPartyWhSelect: (item: ThirdPartyWarehouse) => void
 }
 
 export default function CartonsNewHTML(props: ICartonsNewHTML) {
@@ -46,7 +43,6 @@ export default function CartonsNewHTML(props: ICartonsNewHTML) {
     const [skuModalOpened, setSkuModalOpened] = useState(false)
     const [batchModalOpened, setBatchModalOpened] = useState(false)
     const [warehouseModalOpened, setWarehouseModalOpened] = useState(false)
-    const [thirdPartyWhModalOpened, setThirdPartyWhModalOpened] = useState(false)
 
     const navTrails: INavTrailProps[] = [
         { title: 'Dashboard', href: '/' },
@@ -115,49 +111,21 @@ export default function CartonsNewHTML(props: ICartonsNewHTML) {
                     onClick={() => setBatchModalOpened(true)}
                     {...props.form.getInputProps("batchNumber")}
                 />
-                <Checkbox
-                    label="Is Third Party Warehouse"
-                    mb="md"
-                    {...props.form.getInputProps("isThirdParty")}
+
+                <WarehouseSelectModal
+                    opened={warehouseModalOpened}
+                    setOpened={setWarehouseModalOpened}
+                    handleSelect={props.handleWarehouseSelect}
+                    organizationUID={props.form.values.ownerUID}
                 />
-
-                {props.form.values.ownerUID != "" && !props.form.values.isThirdParty &&
-                    <WarehouseSelectModal
-                        opened={warehouseModalOpened}
-                        setOpened={setWarehouseModalOpened}
-                        handleSelect={props.handleWarehouseSelect}
-                        organizationUID={props.form.values.ownerUID}
-                    />
-                }
-                {!props.form.values.isThirdParty &&
-                    <TextInput
-                        label="Warehouse"
-                        mb="md"
-                        placeholder="Select Warehouse"
-                        disabled={props.form.values.ownerUID != "" ? false : true}
-                        onClick={() => setWarehouseModalOpened(true)}
-                        {...props.form.getInputProps("warehouseName")}
-                    />
-                }
-
-                {props.form.values.ownerUID != "" && props.form.values.isThirdParty &&
-                    <ThirdPartyWarehouseSelectModal
-                        opened={thirdPartyWhModalOpened}
-                        setOpened={setThirdPartyWhModalOpened}
-                        handleSelect={props.handleThirdPartyWhSelect}
-                        organizationUID={props.form.values.ownerUID}
-                    />
-                }
-                {props.form.values.isThirdParty &&
-                    <TextInput
-                        label="Third Party Warehouse"
-                        mb="md"
-                        placeholder="Select Third Party Warehouse"
-                        disabled={props.form.values.ownerUID != "" ? false : true}
-                        onClick={() => setThirdPartyWhModalOpened(true)}
-                        {...props.form.getInputProps("warehouseName")}
-                    />
-                }
+                <TextInput
+                    label="Warehouse"
+                    mb="md"
+                    placeholder="Select Warehouse"
+                    disabled={props.form.values.ownerUID != "" ? false : true}
+                    onClick={() => setWarehouseModalOpened(true)}
+                    {...props.form.getInputProps("warehouseName")}
+                />
 
                 <TextInput
                     label="Quantity"

@@ -41,8 +41,7 @@ export default function ContactSelectModal(props: ISelectModalProps) {
                     filter: filterValue,
                     limit: 100,
                     offset: 0,
-                },
-                orgUID: props.organizationUID
+                }
             }
         }
     )

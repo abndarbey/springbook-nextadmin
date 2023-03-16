@@ -24,6 +24,8 @@ export default function OrgMenu() {
     
     const handleOrgSelect = (item: Organization) => {
         if (item) {
+            // remove warehouse from local storage
+            localStorage.removeItem("warehouse")
             let obj = setObjectToLocalStorage("org", item)
             let selectedName: string = obj.name + " - " + obj.code
             setName(selectedName)
