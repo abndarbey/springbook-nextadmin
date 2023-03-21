@@ -71,33 +71,34 @@ export const Warehouse = gql`
         warehouseUID
         name
         details
+        
+        locality
+        city
+        pincode
+        status
+        isFinal
+        isArchived
+        createdAt
         dimension {
             centralHeight
             wallHeight
             carpetLength
             carpetBreadth
-            carpetArea
             buildUpLength
             buildUpBreadth
-            buildUpArea
         }
         specifications {
-            shedType
-            floorType
+            key
+            value
         }
-        address {
-            locality
-            city
-            pincode
-        }
-        status
-        isFinal
-        isArchived
-        createdAt
         type {
             id
             code
             name
+        }
+        waypoint {
+            lat
+            lon
         }
         organization {
             uid

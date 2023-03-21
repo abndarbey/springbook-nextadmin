@@ -39,10 +39,10 @@ export default function BatchCatalogueSelectModal(props: ISelectModalProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
+                    orgUID: props.organizationUID,
                     limit: 100,
                     offset: 0,
                 },
-                orgUID: props.organizationUID,
             }
         }
     )

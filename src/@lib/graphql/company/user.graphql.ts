@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const USERS = gql`
-    query Users($searchFilter: SearchFilter!, $orgUID: UUID, $roleID: ID) {
-        users(search: $searchFilter, orgUID: $orgUID, roleID: $roleID) {
+    query Users($searchFilter: SearchFilter!, $roleID: ID) {
+        users(search: $searchFilter, roleID: $roleID) {
             users {
                     ...UserFragment
                 }

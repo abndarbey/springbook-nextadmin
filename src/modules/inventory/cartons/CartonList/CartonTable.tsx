@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Carton, CartonResult } from "@lib/generated/hooks"
+import { Carton, CartonsResult } from "@lib/generated/hooks"
 import { Badge, Box, Text, useMantineTheme } from "@mantine/core"
 import { DataTable } from "mantine-datatable"
 import ContentCard from "components/ContentCard"
@@ -8,7 +8,7 @@ import TableRowActions from "components/TableWrapper/TableRowActions"
 import { PAGE_SIZES } from "types/enums"
 
 interface CartonTableProps {
-    data: CartonResult
+    data: CartonsResult
     viewAction: (item: Carton) => void
     editAction: (item: Carton) => void
     archiveAction: (item: Carton) => void

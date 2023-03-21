@@ -136,8 +136,8 @@ export type Carton = {
   warehouse?: Maybe<Warehouse>;
 };
 
-export type CartonResult = {
-  __typename?: 'CartonResult';
+export type CartonsResult = {
+  __typename?: 'CartonsResult';
   cartons: Array<Carton>;
   total: Scalars['Int'];
 };
@@ -900,7 +900,7 @@ export type Query = {
   batchCatalogues: BatchCataloguesResult;
   batches: BatchResult;
   carton: Carton;
-  cartons: CartonResult;
+  cartons: CartonsResult;
   cell: Cell;
   cells: CellsResult;
   contact: Contact;
@@ -957,7 +957,6 @@ export type QueryBatchCatalogueArgs = {
 
 
 export type QueryBatchCataloguesArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   skuUID?: InputMaybe<Scalars['UUID']>;
 };
@@ -980,7 +979,6 @@ export type QueryCartonsArgs = {
   batchUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   skuUID?: InputMaybe<Scalars['UUID']>;
-  warehouseUID?: InputMaybe<Scalars['UUID']>;
 };
 
 
@@ -991,10 +989,8 @@ export type QueryCellArgs = {
 
 
 export type QueryCellsArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   rackID?: InputMaybe<Scalars['ID']>;
   search: SearchFilter;
-  warehouseUID?: InputMaybe<Scalars['UUID']>;
 };
 
 
@@ -1062,16 +1058,13 @@ export type QueryPalletTypeArgs = {
 
 
 export type QueryPalletTypesArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
 
 export type QueryPalletsArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   typeID?: InputMaybe<Scalars['ID']>;
-  warehouseUID?: InputMaybe<Scalars['UUID']>;
 };
 
 
@@ -1088,16 +1081,13 @@ export type QueryRackTypeArgs = {
 
 
 export type QueryRackTypesArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
 
 export type QueryRacksArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   typeID?: InputMaybe<Scalars['ID']>;
-  warehouseUID?: InputMaybe<Scalars['UUID']>;
 };
 
 
@@ -1109,7 +1099,6 @@ export type QueryRoleArgs = {
 
 export type QueryRolesArgs = {
   deptID?: InputMaybe<Scalars['ID']>;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -1128,7 +1117,6 @@ export type QuerySkuCatalogueArgs = {
 
 
 export type QuerySkuCataloguesArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -1146,7 +1134,6 @@ export type QueryUserArgs = {
 
 
 export type QueryUsersArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   roleID?: InputMaybe<Scalars['ID']>;
   search: SearchFilter;
 };
@@ -1181,7 +1168,6 @@ export type QueryWarehouseTypeArgs = {
 
 
 export type QueryWarehouseTypesArgs = {
-  orgUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -1273,9 +1259,11 @@ export type SearchFilter = {
   filter?: InputMaybe<FilterOption>;
   limit?: InputMaybe<Scalars['NullInt']>;
   offset?: InputMaybe<Scalars['NullInt']>;
+  orgUID?: InputMaybe<Scalars['UUID']>;
   search?: InputMaybe<Scalars['NullString']>;
   sortBy?: InputMaybe<SortByOption>;
   sortDir?: InputMaybe<SortDir>;
+  warehouseUID?: InputMaybe<Scalars['UUID']>;
 };
 
 export type Settings = {
@@ -1503,13 +1491,15 @@ export type UpdateUser = {
 };
 
 export type UpdateWarehouse = {
-  address?: InputMaybe<WarehouseAddressInput>;
+  city?: InputMaybe<Scalars['String']>;
   details?: InputMaybe<Scalars['NullString']>;
   dimension?: InputMaybe<WarehouseDimensionInput>;
+  locality?: InputMaybe<Scalars['String']>;
   location?: InputMaybe<Scalars['NullString']>;
   name?: InputMaybe<Scalars['NullString']>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
-  specifications?: InputMaybe<WarehouseSpecificationInput>;
+  pincode?: InputMaybe<Scalars['String']>;
+  specifications?: InputMaybe<Array<WarehouseSpecificationInput>>;
   status?: InputMaybe<Scalars['NullString']>;
   typeID?: InputMaybe<Scalars['NullInt64']>;
 };
@@ -1563,7 +1553,7 @@ export enum ViewOption {
 export type Warehouse = {
   __typename?: 'Warehouse';
   Operator?: Maybe<Organization>;
-  address?: Maybe<WarehouseAddress>;
+  city?: Maybe<Scalars['String']>;
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
   details?: Maybe<Scalars['NullString']>;
@@ -1571,14 +1561,16 @@ export type Warehouse = {
   id?: Maybe<Scalars['ID']>;
   isArchived?: Maybe<Scalars['Boolean']>;
   isFinal?: Maybe<Scalars['Boolean']>;
-  location?: Maybe<Scalars['NullString']>;
+  locality?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   organization?: Maybe<Organization>;
-  specifications?: Maybe<WarehouseSpecification>;
+  pincode?: Maybe<Scalars['String']>;
+  specifications?: Maybe<Array<WarehouseSpecification>>;
   status?: Maybe<Scalars['String']>;
   type?: Maybe<WarehouseType>;
   uid?: Maybe<Scalars['UUID']>;
   warehouseUID?: Maybe<Scalars['UUID']>;
+  waypoint?: Maybe<Waypoint>;
 };
 
 export type WarehouseAddress = {
@@ -1586,12 +1578,6 @@ export type WarehouseAddress = {
   city?: Maybe<Scalars['String']>;
   locality?: Maybe<Scalars['String']>;
   pincode?: Maybe<Scalars['String']>;
-};
-
-export type WarehouseAddressInput = {
-  city: Scalars['String'];
-  locality: Scalars['String'];
-  pincode: Scalars['String'];
 };
 
 export type WarehouseContract = {
@@ -1619,36 +1605,32 @@ export type WarehouseContractsResult = {
 
 export type WarehouseDimension = {
   __typename?: 'WarehouseDimension';
-  buildUpArea?: Maybe<Scalars['Float']>;
-  buildUpBreadth?: Maybe<Scalars['Float']>;
-  buildUpLength?: Maybe<Scalars['Float']>;
-  carpetArea?: Maybe<Scalars['Float']>;
-  carpetBreadth?: Maybe<Scalars['Float']>;
-  carpetLength?: Maybe<Scalars['Float']>;
-  centralHeight?: Maybe<Scalars['Float']>;
-  wallHeight?: Maybe<Scalars['Float']>;
+  buildUpBreadth?: Maybe<Scalars['NullFloat']>;
+  buildUpLength?: Maybe<Scalars['NullFloat']>;
+  carpetBreadth?: Maybe<Scalars['NullFloat']>;
+  carpetLength?: Maybe<Scalars['NullFloat']>;
+  centralHeight?: Maybe<Scalars['NullFloat']>;
+  wallHeight?: Maybe<Scalars['NullFloat']>;
 };
 
 export type WarehouseDimensionInput = {
-  buildUpArea: Scalars['Float'];
-  buildUpBreadth: Scalars['Float'];
-  buildUpLength: Scalars['Float'];
-  carpetArea: Scalars['Float'];
-  carpetBreadth: Scalars['Float'];
-  carpetLength: Scalars['Float'];
-  centralHeight: Scalars['Float'];
-  wallHeight: Scalars['Float'];
+  buildUpBreadth?: InputMaybe<Scalars['NullFloat']>;
+  buildUpLength?: InputMaybe<Scalars['NullFloat']>;
+  carpetBreadth?: InputMaybe<Scalars['NullFloat']>;
+  carpetLength?: InputMaybe<Scalars['NullFloat']>;
+  centralHeight?: InputMaybe<Scalars['NullFloat']>;
+  wallHeight?: InputMaybe<Scalars['NullFloat']>;
 };
 
 export type WarehouseSpecification = {
   __typename?: 'WarehouseSpecification';
-  floorType?: Maybe<Scalars['String']>;
-  shedType?: Maybe<Scalars['String']>;
+  key?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export type WarehouseSpecificationInput = {
-  floorType: Scalars['String'];
-  shedType: Scalars['String'];
+  key: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type WarehouseType = {
@@ -1674,6 +1656,12 @@ export type WarehousesResult = {
   __typename?: 'WarehousesResult';
   total: Scalars['Int'];
   warehouses: Array<Warehouse>;
+};
+
+export type Waypoint = {
+  __typename?: 'Waypoint';
+  lat?: Maybe<Scalars['NullFloat']>;
+  lon?: Maybe<Scalars['NullFloat']>;
 };
 
 export type AutherQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1704,7 +1692,6 @@ export type OrganizationRegisterMutation = { __typename?: 'Mutation', organizati
 
 export type BatchCataloguesQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   skuUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
@@ -1757,7 +1744,6 @@ export type BatchCatalogueUnarchiveMutation = { __typename?: 'Mutation', batchCa
 
 export type SkuCataloguesQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -1949,7 +1935,6 @@ export type OrganizationUnarchiveMutation = { __typename?: 'Mutation', organizat
 
 export type RolesQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   deptID?: InputMaybe<Scalars['ID']>;
 }>;
 
@@ -2002,7 +1987,6 @@ export type RoleUnarchiveMutation = { __typename?: 'Mutation', roleUnarchive: { 
 
 export type UsersQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
   roleID?: InputMaybe<Scalars['ID']>;
 }>;
 
@@ -2091,7 +2075,7 @@ export type RackTypeFragmentFragment = { __typename?: 'RackType', id?: string | 
 
 export type PalletTypeFragmentFragment = { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type WarehouseFragmentFragment = { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+export type WarehouseFragmentFragment = { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackFragmentFragment = { __typename?: 'Rack', id?: string | null, code?: string | null, rows?: number | null, columns?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, type?: { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2151,11 +2135,10 @@ export type CartonsQueryVariables = Exact<{
   searchFilter: SearchFilter;
   skuUID?: InputMaybe<Scalars['UUID']>;
   batchUID?: InputMaybe<Scalars['UUID']>;
-  warehouseUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
-export type CartonsQuery = { __typename?: 'Query', cartons: { __typename?: 'CartonResult', total: number, cartons: Array<{ __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+export type CartonsQuery = { __typename?: 'Query', cartons: { __typename?: 'CartonsResult', total: number, cartons: Array<{ __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type CartonQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -2523,7 +2506,7 @@ export type WarehousesQueryVariables = Exact<{
 }>;
 
 
-export type WarehousesQuery = { __typename?: 'Query', warehouses: { __typename?: 'WarehousesResult', total: number, warehouses: Array<{ __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+export type WarehousesQuery = { __typename?: 'Query', warehouses: { __typename?: 'WarehousesResult', total: number, warehouses: Array<{ __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type WarehouseQueryVariables = Exact<{
   uid?: InputMaybe<Scalars['UUID']>;
@@ -2531,14 +2514,14 @@ export type WarehouseQueryVariables = Exact<{
 }>;
 
 
-export type WarehouseQuery = { __typename?: 'Query', warehouse: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseQuery = { __typename?: 'Query', warehouse: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseCreateMutationVariables = Exact<{
   input: UpdateWarehouse;
 }>;
 
 
-export type WarehouseCreateMutation = { __typename?: 'Mutation', warehouseCreate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseCreateMutation = { __typename?: 'Mutation', warehouseCreate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseUpdateMutationVariables = Exact<{
   uid: Scalars['UUID'];
@@ -2546,28 +2529,28 @@ export type WarehouseUpdateMutationVariables = Exact<{
 }>;
 
 
-export type WarehouseUpdateMutation = { __typename?: 'Mutation', warehouseUpdate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseUpdateMutation = { __typename?: 'Mutation', warehouseUpdate: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseFinalizeMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type WarehouseFinalizeMutation = { __typename?: 'Mutation', warehouseFinalize: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseFinalizeMutation = { __typename?: 'Mutation', warehouseFinalize: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseArchiveMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type WarehouseArchiveMutation = { __typename?: 'Mutation', warehouseArchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseArchiveMutation = { __typename?: 'Mutation', warehouseArchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseUnarchiveMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type WarehouseUnarchiveMutation = { __typename?: 'Mutation', warehouseUnarchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: number | null, wallHeight?: number | null, carpetLength?: number | null, carpetBreadth?: number | null, carpetArea?: number | null, buildUpLength?: number | null, buildUpBreadth?: number | null, buildUpArea?: number | null } | null, specifications?: { __typename?: 'WarehouseSpecification', shedType?: string | null, floorType?: string | null } | null, address?: { __typename?: 'WarehouseAddress', locality?: string | null, city?: string | null, pincode?: string | null } | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type WarehouseUnarchiveMutation = { __typename?: 'Mutation', warehouseUnarchive: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, waypoint?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type WarehouseContractsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2640,7 +2623,6 @@ export type WarehouseContractUnarchiveMutation = { __typename?: 'Mutation', ware
 
 export type WarehouseTypesQueryVariables = Exact<{
   searchFilter: SearchFilter;
-  orgUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -3012,33 +2994,33 @@ export const WarehouseFragmentFragmentDoc = gql`
   warehouseUID
   name
   details
+  locality
+  city
+  pincode
+  status
+  isFinal
+  isArchived
+  createdAt
   dimension {
     centralHeight
     wallHeight
     carpetLength
     carpetBreadth
-    carpetArea
     buildUpLength
     buildUpBreadth
-    buildUpArea
   }
   specifications {
-    shedType
-    floorType
+    key
+    value
   }
-  address {
-    locality
-    city
-    pincode
-  }
-  status
-  isFinal
-  isArchived
-  createdAt
   type {
     id
     code
     name
+  }
+  waypoint {
+    lat
+    lon
   }
   organization {
     uid
@@ -3300,8 +3282,8 @@ export type OrganizationRegisterMutationHookResult = ReturnType<typeof useOrgani
 export type OrganizationRegisterMutationResult = Apollo.MutationResult<OrganizationRegisterMutation>;
 export type OrganizationRegisterMutationOptions = Apollo.BaseMutationOptions<OrganizationRegisterMutation, OrganizationRegisterMutationVariables>;
 export const BatchCataloguesDocument = gql`
-    query BatchCatalogues($searchFilter: SearchFilter!, $orgUID: UUID, $skuUID: UUID) {
-  batchCatalogues(search: $searchFilter, orgUID: $orgUID, skuUID: $skuUID) {
+    query BatchCatalogues($searchFilter: SearchFilter!, $skuUID: UUID) {
+  batchCatalogues(search: $searchFilter, skuUID: $skuUID) {
     batchCatalogues {
       ...BatchCatalogueFragment
     }
@@ -3323,7 +3305,6 @@ export const BatchCataloguesDocument = gql`
  * const { data, loading, error } = useBatchCataloguesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *      skuUID: // value for 'skuUID'
  *   },
  * });
@@ -3542,8 +3523,8 @@ export type BatchCatalogueUnarchiveMutationHookResult = ReturnType<typeof useBat
 export type BatchCatalogueUnarchiveMutationResult = Apollo.MutationResult<BatchCatalogueUnarchiveMutation>;
 export type BatchCatalogueUnarchiveMutationOptions = Apollo.BaseMutationOptions<BatchCatalogueUnarchiveMutation, BatchCatalogueUnarchiveMutationVariables>;
 export const SkuCataloguesDocument = gql`
-    query SkuCatalogues($searchFilter: SearchFilter!, $orgUID: UUID) {
-  skuCatalogues(search: $searchFilter, orgUID: $orgUID) {
+    query SkuCatalogues($searchFilter: SearchFilter!) {
+  skuCatalogues(search: $searchFilter) {
     skuCatalogues {
       ...SkuCatalogueFragment
     }
@@ -3565,7 +3546,6 @@ export const SkuCataloguesDocument = gql`
  * const { data, loading, error } = useSkuCataloguesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *   },
  * });
  */
@@ -4438,8 +4418,8 @@ export type OrganizationUnarchiveMutationHookResult = ReturnType<typeof useOrgan
 export type OrganizationUnarchiveMutationResult = Apollo.MutationResult<OrganizationUnarchiveMutation>;
 export type OrganizationUnarchiveMutationOptions = Apollo.BaseMutationOptions<OrganizationUnarchiveMutation, OrganizationUnarchiveMutationVariables>;
 export const RolesDocument = gql`
-    query Roles($searchFilter: SearchFilter!, $orgUID: UUID, $deptID: ID) {
-  roles(search: $searchFilter, orgUID: $orgUID, deptID: $deptID) {
+    query Roles($searchFilter: SearchFilter!, $deptID: ID) {
+  roles(search: $searchFilter, deptID: $deptID) {
     roles {
       ...RoleFragment
     }
@@ -4461,7 +4441,6 @@ export const RolesDocument = gql`
  * const { data, loading, error } = useRolesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *      deptID: // value for 'deptID'
  *   },
  * });
@@ -4680,8 +4659,8 @@ export type RoleUnarchiveMutationHookResult = ReturnType<typeof useRoleUnarchive
 export type RoleUnarchiveMutationResult = Apollo.MutationResult<RoleUnarchiveMutation>;
 export type RoleUnarchiveMutationOptions = Apollo.BaseMutationOptions<RoleUnarchiveMutation, RoleUnarchiveMutationVariables>;
 export const UsersDocument = gql`
-    query Users($searchFilter: SearchFilter!, $orgUID: UUID, $roleID: ID) {
-  users(search: $searchFilter, orgUID: $orgUID, roleID: $roleID) {
+    query Users($searchFilter: SearchFilter!, $roleID: ID) {
+  users(search: $searchFilter, roleID: $roleID) {
     users {
       ...UserFragment
     }
@@ -4703,7 +4682,6 @@ export const UsersDocument = gql`
  * const { data, loading, error } = useUsersQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *      roleID: // value for 'roleID'
  *   },
  * });
@@ -5167,13 +5145,8 @@ export type BatchUnarchiveMutationHookResult = ReturnType<typeof useBatchUnarchi
 export type BatchUnarchiveMutationResult = Apollo.MutationResult<BatchUnarchiveMutation>;
 export type BatchUnarchiveMutationOptions = Apollo.BaseMutationOptions<BatchUnarchiveMutation, BatchUnarchiveMutationVariables>;
 export const CartonsDocument = gql`
-    query Cartons($searchFilter: SearchFilter!, $skuUID: UUID, $batchUID: UUID, $warehouseUID: UUID) {
-  cartons(
-    search: $searchFilter
-    skuUID: $skuUID
-    batchUID: $batchUID
-    warehouseUID: $warehouseUID
-  ) {
+    query Cartons($searchFilter: SearchFilter!, $skuUID: UUID, $batchUID: UUID) {
+  cartons(search: $searchFilter, skuUID: $skuUID, batchUID: $batchUID) {
     cartons {
       ...CartonFragment
     }
@@ -5197,7 +5170,6 @@ export const CartonsDocument = gql`
  *      searchFilter: // value for 'searchFilter'
  *      skuUID: // value for 'skuUID'
  *      batchUID: // value for 'batchUID'
- *      warehouseUID: // value for 'warehouseUID'
  *   },
  * });
  */
@@ -7461,8 +7433,8 @@ export type WarehouseContractUnarchiveMutationHookResult = ReturnType<typeof use
 export type WarehouseContractUnarchiveMutationResult = Apollo.MutationResult<WarehouseContractUnarchiveMutation>;
 export type WarehouseContractUnarchiveMutationOptions = Apollo.BaseMutationOptions<WarehouseContractUnarchiveMutation, WarehouseContractUnarchiveMutationVariables>;
 export const WarehouseTypesDocument = gql`
-    query WarehouseTypes($searchFilter: SearchFilter!, $orgUID: UUID) {
-  warehouseTypes(search: $searchFilter, orgUID: $orgUID) {
+    query WarehouseTypes($searchFilter: SearchFilter!) {
+  warehouseTypes(search: $searchFilter) {
     warehouseTypes {
       ...WarehouseTypeFragment
     }
@@ -7484,7 +7456,6 @@ export const WarehouseTypesDocument = gql`
  * const { data, loading, error } = useWarehouseTypesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
- *      orgUID: // value for 'orgUID'
  *   },
  * });
  */
