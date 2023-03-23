@@ -204,6 +204,17 @@ const WarehouseContractTable = (props: WarehouseContractTableProps) => {
                                     {!item.isArchived ? 'Active' : 'Disabled'}
                                 </Badge>
                             )
+                        },{
+                            accessor: 'acceptanceStatus',
+                            title: 'Acceptance',
+                            render: (item) => (
+                                <Badge
+                                    color={item.isAccepted ? 'green' : 'gray'}
+                                    variant={theme.colorScheme === 'dark' ? 'light' : 'light'}
+                                    >
+                                    {item.isAccepted ? 'Accepted' : 'Pending'}
+                                </Badge>
+                            )
                         },
                         {
                             accessor: 'actions',

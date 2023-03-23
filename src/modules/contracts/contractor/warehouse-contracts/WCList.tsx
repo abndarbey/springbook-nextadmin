@@ -223,6 +223,18 @@ const WarehouseContractTable = (props: WarehouseContractTableProps) => {
                             )
                         },
                         {
+                            accessor: 'acceptanceStatus',
+                            title: 'Acceptance',
+                            render: (item) => (
+                                <Badge
+                                    color={item.isAccepted ? 'green' : 'gray'}
+                                    variant={theme.colorScheme === 'dark' ? 'light' : 'light'}
+                                    >
+                                    {item.isAccepted ? 'Accepted' : 'Pending'}
+                                </Badge>
+                            )
+                        },
+                        {
                             accessor: 'actions',
                             title: <Text mr="xs">Actions</Text>,
                             textAlignment: 'center',
