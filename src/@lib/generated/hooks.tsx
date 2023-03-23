@@ -49,7 +49,8 @@ export enum Action {
 
 export type AuthPayload = {
   __typename?: 'AuthPayload';
-  tokenString: Scalars['String'];
+  auther?: Maybe<Auther>;
+  token?: Maybe<Scalars['UUID']>;
 };
 
 export type Auther = {
@@ -1681,7 +1682,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthPayload', tokenString: string } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthPayload', token?: any | null, auther?: { __typename?: 'Auther', id?: string | null, name?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null } | null } };
 
 export type OrganizationRegisterMutationVariables = Exact<{
   input: RegisterOrganization;
@@ -2061,7 +2062,7 @@ export type ContactFragmentFragment = { __typename?: 'Contact', id?: string | nu
 
 export type AutherFragmentFragment = { __typename?: 'Auther', id?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null };
 
-export type AuthPayloadFragmentFragment = { __typename?: 'AuthPayload', tokenString: string };
+export type AuthPayloadFragmentFragment = { __typename?: 'AuthPayload', token?: any | null, auther?: { __typename?: 'Auther', id?: string | null, name?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null } | null };
 
 export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2831,7 +2832,14 @@ export const AutherFragmentFragmentDoc = gql`
     `;
 export const AuthPayloadFragmentFragmentDoc = gql`
     fragment AuthPayloadFragment on AuthPayload {
-  tokenString
+  token
+  auther {
+    id
+    name
+    isAdmin
+    orgUID
+    roleID
+  }
 }
     `;
 export const SkuFragmentFragmentDoc = gql`

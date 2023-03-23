@@ -19,7 +19,14 @@ const Auther = gql`
 
 const AuthPayload = gql`
     fragment AuthPayloadFragment on AuthPayload {
-        tokenString
+        token
+        auther {
+            id
+            name
+            isAdmin
+            orgUID
+            roleID
+        }
     }
 `
 

@@ -73,7 +73,7 @@ export default function Login() {
             loginRequest({
                 variables: {input: loginInput}
             }).then((res: any) => {
-                localStorage.setItem('token', res.data.login.tokenString)
+                localStorage.setItem('token', res.data.login.token)
                 showNotification({
                     disallowClose: false,
                     color: 'green',
