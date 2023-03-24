@@ -14,25 +14,12 @@ const Auther = gql`
         isAdmin
         orgUID
         roleID
-    }
-`
-
-const AuthPayload = gql`
-    fragment AuthPayloadFragment on AuthPayload {
-        token
-        auther {
-            id
-            name
-            isAdmin
-            orgUID
-            roleID
-        }
+        sessionToken
     }
 `
 
 export const fragment = {
     Auther,
-    AuthPayload,
     
     Organization,
     Department,

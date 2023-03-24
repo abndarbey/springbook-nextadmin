@@ -21,10 +21,10 @@ export const GENERATE_OTP = gql`
 export const LOGIN = gql`
     mutation Login($input: LoginRequest!) {
         login(input: $input) {
-            ...AuthPayloadFragment
+            ...AutherFragment
         }
     }
-    ${fragment.AuthPayload}
+    ${fragment.Auther}
 `
 
 export const ORGANIZATION_REGISTER = gql`

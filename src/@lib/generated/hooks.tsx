@@ -47,12 +47,6 @@ export enum Action {
   Unarchive = 'Unarchive'
 }
 
-export type AuthPayload = {
-  __typename?: 'AuthPayload';
-  auther?: Maybe<Auther>;
-  token?: Maybe<Scalars['UUID']>;
-};
-
 export type Auther = {
   __typename?: 'Auther';
   id?: Maybe<Scalars['ID']>;
@@ -60,6 +54,7 @@ export type Auther = {
   name?: Maybe<Scalars['String']>;
   orgUID?: Maybe<Scalars['NullUUID']>;
   roleID?: Maybe<Scalars['NullInt64']>;
+  sessionToken?: Maybe<Scalars['UUID']>;
 };
 
 export type Batch = {
@@ -266,7 +261,7 @@ export type Mutation = {
   fileUpload: File;
   fileUploadMultiple: Array<File>;
   generateOTP?: Maybe<Scalars['String']>;
-  login: AuthPayload;
+  login: Auther;
   organizationArchive: Organization;
   organizationRegister: Organization;
   organizationUnarchive: Organization;
@@ -934,6 +929,8 @@ export type Query = {
   skuCatalogues: SkuCataloguesResult;
   skus: SkusResult;
   user: User;
+  userActivities: UserActivitiesResult;
+  userActivity: UserActivity;
   users: UserResult;
   warehouse: Warehouse;
   warehouseContract: WarehouseContract;
@@ -1134,6 +1131,17 @@ export type QueryUserArgs = {
 };
 
 
+export type QueryUserActivitiesArgs = {
+  search: SearchFilter;
+  userID?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryUserActivityArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryUsersArgs = {
   roleID?: InputMaybe<Scalars['ID']>;
   search: SearchFilter;
@@ -1174,6 +1182,7 @@ export type QueryWarehouseTypesArgs = {
 
 
 export type QueryWarehousesArgs = {
+  isThirdParty?: InputMaybe<Scalars['Boolean']>;
   search: SearchFilter;
   typeID?: InputMaybe<Scalars['ID']>;
 };
@@ -1535,6 +1544,25 @@ export type User = {
   updatedAt?: Maybe<Scalars['Time']>;
 };
 
+export type UserActivitiesResult = {
+  __typename?: 'UserActivitiesResult';
+  total: Scalars['Int'];
+  userActivities: Array<UserActivity>;
+};
+
+export type UserActivity = {
+  __typename?: 'UserActivity';
+  action?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Time']>;
+  id?: Maybe<Scalars['ID']>;
+  objectID?: Maybe<Scalars['NullInt64']>;
+  objectType?: Maybe<Scalars['NullString']>;
+  organization?: Maybe<Organization>;
+  sessionToken?: Maybe<Scalars['UUID']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+  user?: Maybe<User>;
+};
+
 export type UserResult = {
   __typename?: 'UserResult';
   total: Scalars['Int'];
@@ -1682,7 +1710,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthPayload', token?: any | null, auther?: { __typename?: 'Auther', id?: string | null, name?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null } | null } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'Auther', id?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null, sessionToken?: any | null } };
 
 export type OrganizationRegisterMutationVariables = Exact<{
   input: RegisterOrganization;
@@ -2060,9 +2088,7 @@ export type UserFragmentFragment = { __typename?: 'User', id?: string | null, fi
 
 export type ContactFragmentFragment = { __typename?: 'Contact', id?: string | null, code?: string | null, companyUID?: any | null, name?: string | null, website?: any | null, sector?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type AutherFragmentFragment = { __typename?: 'Auther', id?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null };
-
-export type AuthPayloadFragmentFragment = { __typename?: 'AuthPayload', token?: any | null, auther?: { __typename?: 'Auther', id?: string | null, name?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null } | null };
+export type AutherFragmentFragment = { __typename?: 'Auther', id?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null, sessionToken?: any | null };
 
 export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2828,18 +2854,7 @@ export const AutherFragmentFragmentDoc = gql`
   isAdmin
   orgUID
   roleID
-}
-    `;
-export const AuthPayloadFragmentFragmentDoc = gql`
-    fragment AuthPayloadFragment on AuthPayload {
-  token
-  auther {
-    id
-    name
-    isAdmin
-    orgUID
-    roleID
-  }
+  sessionToken
 }
     `;
 export const SkuFragmentFragmentDoc = gql`
@@ -3226,10 +3241,10 @@ export type GenerateOtpMutationOptions = Apollo.BaseMutationOptions<GenerateOtpM
 export const LoginDocument = gql`
     mutation Login($input: LoginRequest!) {
   login(input: $input) {
-    ...AuthPayloadFragment
+    ...AutherFragment
   }
 }
-    ${AuthPayloadFragmentFragmentDoc}`;
+    ${AutherFragmentFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
