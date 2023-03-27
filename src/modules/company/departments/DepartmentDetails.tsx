@@ -1,37 +1,32 @@
-import { useRouter } from 'next/router'
-import { SimpleGrid, Box, Tabs } from '@mantine/core'
+import { useRouter } from "next/router"
+import { SimpleGrid, Box, Tabs } from "@mantine/core"
 
-import Page from 'components/Page'
-import ContentCard from 'components/ContentCard'
-import PageHeader from 'components/PageHeader'
-import { INavTrailProps } from 'components/NavTrails'
-import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
+import Page from "components/Page"
+import ContentCard from "components/ContentCard"
+import PageHeader from "components/PageHeader"
+import { INavTrailProps } from "components/NavTrails"
+import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import {
     useDepartmentQuery,
     useDepartmentFinalizeMutation,
     useDepartmentArchiveMutation,
     useDepartmentUnarchiveMutation,
-} from '@lib/generated/hooks'
-import PageLoader from 'components/PageLoader'
-import { showNotification } from '@mantine/notifications'
-import DetailRow from 'components/DetailRow'
+} from "@lib/generated/hooks"
+import PageLoader from "components/PageLoader"
+import { showNotification } from "@mantine/notifications"
+import DetailRow from "components/DetailRow"
+import { PageProps } from "types/types"
 
-interface IDepartmentDetailsProps {
-    code?: any
-}
-
-export default function DepartmentDetails(props: IDepartmentDetailsProps) {
+export default function DepartmentDetails(props: PageProps) {
     const router = useRouter()
     const [finalizeRequest] = useDepartmentFinalizeMutation({})
     const [archiveRequest] = useDepartmentArchiveMutation({})
     const [unarchiveRequest] = useDepartmentUnarchiveMutation({})
 
-    const title: string = `Department: ${props.code}`
-
     const navTrails: INavTrailProps[] = [
-        { title: 'Dashboard', href: '/' },
-        { title: 'Departments', href: '/company/departments' },
-        { title: props.code, href: '#' },
+        { title: "Dashboard", href: "/" },
+        { title: "Departments", href: "/company/departments" },
+        { title: props.code, href: "#" },
     ]
 
     // fetch data
@@ -50,7 +45,7 @@ export default function DepartmentDetails(props: IDepartmentDetailsProps) {
     if (!loading && error) {
         showNotification({
             disallowClose: false,
-            color: 'red',
+            color: "red",
             message: error.message,
         })
         return <PageLoader isError={true} />
@@ -70,13 +65,13 @@ export default function DepartmentDetails(props: IDepartmentDetailsProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Finalized - ${res.data.departmentFinalize.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -90,13 +85,13 @@ export default function DepartmentDetails(props: IDepartmentDetailsProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Archived - ${res.data.departmentArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -110,13 +105,13 @@ export default function DepartmentDetails(props: IDepartmentDetailsProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Unarchived - ${res.data.departmentUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -124,15 +119,15 @@ export default function DepartmentDetails(props: IDepartmentDetailsProps) {
 
     // define action buttons
     const actionButtons: IActionButtonProps[] = [
-        { type: 'edit', name: 'Edit', action: handleEdit },
-        { type: 'finalize', name: 'Finalize', action: handleFinalize, disabled: data?.department.isFinal!},
-        { type: 'archive', name: 'Archive', action: handleArchive, disabled: data?.department.isArchived! },
-        { type: 'unarchive', name: 'Unarchive', action: handleUnarchive, disabled: !data?.department.isArchived! },
+        { type: "edit", name: "Edit", action: handleEdit },
+        { type: "finalize", name: "Finalize", action: handleFinalize, disabled: data?.department.isFinal!},
+        { type: "archive", name: "Archive", action: handleArchive, disabled: data?.department.isArchived! },
+        { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.department.isArchived! },
     ]
 
     return (
         <Page navTrails={navTrails}>
-            <PageHeader title={title} buttons={actionButtons} />
+            <PageHeader title={props.title!} buttons={actionButtons} />
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
@@ -143,12 +138,12 @@ export default function DepartmentDetails(props: IDepartmentDetailsProps) {
                     <ContentCard>
                         <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Code' value={data?.department.code!} />
-                                <DetailRow title='Name' value={data?.department.name!} />
+                                <DetailRow title="Code" value={data?.department.code!} />
+                                <DetailRow title="Name" value={data?.department.name!} />
                             </Box>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Organization Code' value={data?.department?.organization?.code!} />
-                                <DetailRow title='Organization Name' value={data?.department?.organization?.name!} />
+                                <DetailRow title="Organization Code" value={data?.department?.organization?.code!} />
+                                <DetailRow title="Organization Name" value={data?.department?.organization?.name!} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>
