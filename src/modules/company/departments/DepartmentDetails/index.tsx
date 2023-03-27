@@ -14,8 +14,8 @@ import {
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
-import DetailRow from "components/DetailRow"
 import { PageProps } from "types/types"
+import DepartmentPage from "./DepartmentPage"
 
 export default function DepartmentDetails(props: PageProps) {
     const router = useRouter()
@@ -135,18 +135,7 @@ export default function DepartmentDetails(props: PageProps) {
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <ContentCard>
-                        <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title="Code" value={data?.department.code!} />
-                                <DetailRow title="Name" value={data?.department.name!} />
-                            </Box>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title="Organization Code" value={data?.department?.organization?.code!} />
-                                <DetailRow title="Organization Name" value={data?.department?.organization?.name!} />
-                            </Box>
-                        </SimpleGrid>
-                    </ContentCard>
+                    <DepartmentPage data={data?.department!} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="roles" pt="xs">
