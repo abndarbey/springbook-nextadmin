@@ -23,6 +23,7 @@ import TableRowActions from 'components/TableWrapper/TableRowActions'
 import { useRouter } from 'next/router'
 import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
 import { PAGE_SIZES } from 'types/enums'
+import { PageProps } from 'types/types'
 
 interface DepartmentTableProps {
     data: DepartmentsResult
@@ -40,7 +41,7 @@ const navTrails: INavTrailProps[] = [
     { title: 'Departments', href: '#' },
 ]
 
-export default function DepartmentList() {
+export default function DepartmentList(props: PageProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [archiveRequest] = useDepartmentArchiveMutation({})
@@ -158,7 +159,7 @@ export default function DepartmentList() {
 
     return (
         <Page navTrails={navTrails}>
-            <PageHeader title='Departments' buttons={actionButtons} />
+            <PageHeader title={props.title!} buttons={actionButtons} />
             <DepartmentTable
                 data={data?.departments!}
                 viewAction={viewAction}
