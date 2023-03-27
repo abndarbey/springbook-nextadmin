@@ -140,7 +140,7 @@ export default function DepartmentDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="roles" pt="xs">
-                    <Roles />
+                    <Roles departmentID={data?.department.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

@@ -14,7 +14,11 @@ import { showNotification } from "@mantine/notifications"
 import { useRouter } from "next/router"
 import RoleTable from "./RoleTable"
 
-export default function Roles() {
+interface RoleListProps {
+    departmentID?: string | null | undefined
+}
+
+export default function Roles(props: RoleListProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [archiveRequest] = useRoleArchiveMutation({})
@@ -33,6 +37,7 @@ export default function Roles() {
                     limit: 100,
                     offset: 0,
                 },
+                deptID: props.departmentID
             }
         }
     )
