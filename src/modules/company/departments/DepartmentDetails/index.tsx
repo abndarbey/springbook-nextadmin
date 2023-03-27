@@ -16,6 +16,7 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import DepartmentPage from "./DepartmentPage"
+import Roles from "tables/Roles"
 
 export default function DepartmentDetails(props: PageProps) {
     const router = useRouter()
@@ -139,7 +140,7 @@ export default function DepartmentDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="roles" pt="xs">
-                    Roles tab content
+                    <Roles />
                 </Tabs.Panel>
             </Tabs>
         </Page>
