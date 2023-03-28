@@ -124,12 +124,47 @@ export type Carton = {
   id?: Maybe<Scalars['ID']>;
   isArchived?: Maybe<Scalars['Boolean']>;
   isFinal?: Maybe<Scalars['Boolean']>;
+  latestTrackerLog?: Maybe<CartonTrackerLog>;
+  latestTransferLog?: Maybe<CartonTransferLog>;
   owner?: Maybe<Organization>;
   sku?: Maybe<Sku>;
   status?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['UUID']>;
   updatedAt?: Maybe<Scalars['Time']>;
   warehouse?: Maybe<Warehouse>;
+};
+
+export type CartonTrackerLog = {
+  __typename?: 'CartonTrackerLog';
+  carton?: Maybe<Carton>;
+  createdAt?: Maybe<Scalars['Time']>;
+  humidity?: Maybe<Scalars['NullFloat']>;
+  id?: Maybe<Scalars['ID']>;
+  location?: Maybe<Waypoint>;
+  temperature?: Maybe<Scalars['NullFloat']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
+export type CartonTrackerLogsResult = {
+  __typename?: 'CartonTrackerLogsResult';
+  cartonTrackerLogs: Array<CartonTrackerLog>;
+  total: Scalars['Int'];
+};
+
+export type CartonTransferLog = {
+  __typename?: 'CartonTransferLog';
+  carton?: Maybe<Carton>;
+  createdAt?: Maybe<Scalars['Time']>;
+  custodian?: Maybe<Organization>;
+  id?: Maybe<Scalars['ID']>;
+  owner?: Maybe<Organization>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
+export type CartonTransferLogsResult = {
+  __typename?: 'CartonTransferLogsResult';
+  cartonTransferLogs: Array<CartonTransferLog>;
+  total: Scalars['Int'];
 };
 
 export type CartonsResult = {
@@ -220,6 +255,11 @@ export enum FilterOption {
   Draft = 'Draft'
 }
 
+export type GeoLocationInput = {
+  lat: Scalars['Float'];
+  lon: Scalars['Float'];
+};
+
 export type LoginRequest = {
   email?: InputMaybe<Scalars['NullString']>;
   otp?: InputMaybe<Scalars['NullString']>;
@@ -239,6 +279,8 @@ export type Mutation = {
   batchUpdate: Batch;
   cartonArchive: Carton;
   cartonCreate: Scalars['Boolean'];
+  cartonTrackerLogUpdate: CartonTrackerLog;
+  cartonTransferLogUpdate: CartonTransferLog;
   cartonUnarchive: Carton;
   cartonUpdate: Carton;
   cellArchive: Cell;
@@ -380,6 +422,18 @@ export type MutationCartonArchiveArgs = {
 
 export type MutationCartonCreateArgs = {
   input: UpdateCarton;
+};
+
+
+export type MutationCartonTrackerLogUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdateCartonTrackerLog;
+};
+
+
+export type MutationCartonTransferLogUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdateCartonTransferLog;
 };
 
 
@@ -828,6 +882,7 @@ export type Organization = {
   logo?: Maybe<File>;
   name?: Maybe<Scalars['String']>;
   sector?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['UUID']>;
   website?: Maybe<Scalars['NullString']>;
 };
@@ -896,6 +951,10 @@ export type Query = {
   batchCatalogues: BatchCataloguesResult;
   batches: BatchResult;
   carton: Carton;
+  cartonTrackerLog: CartonTrackerLog;
+  cartonTrackerLogs: CartonTrackerLogsResult;
+  cartonTransferLog: CartonTransferLog;
+  cartonTransferLogs: CartonTransferLogsResult;
   cartons: CartonsResult;
   cell: Cell;
   cells: CellsResult;
@@ -906,6 +965,8 @@ export type Query = {
   ethereumAccountAddress: Scalars['String'];
   ethereumAccountBalance: Scalars['String'];
   getTickerInfo: TickerInfo;
+  latestCartonTrackerLog: CartonTrackerLog;
+  latestCartonTransferLog: CartonTransferLog;
   me: User;
   nexportBatchCatalogues: BatchCataloguesResult;
   nexportOrganizations: OrganizationsResult;
@@ -973,6 +1034,28 @@ export type QueryCartonArgs = {
 };
 
 
+export type QueryCartonTrackerLogArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryCartonTrackerLogsArgs = {
+  cartonUID: Scalars['UUID'];
+  search: SearchFilter;
+};
+
+
+export type QueryCartonTransferLogArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryCartonTransferLogsArgs = {
+  cartonUID: Scalars['UUID'];
+  search: SearchFilter;
+};
+
+
 export type QueryCartonsArgs = {
   batchUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
@@ -1011,6 +1094,16 @@ export type QueryDepartmentArgs = {
 
 export type QueryDepartmentsArgs = {
   search: SearchFilter;
+};
+
+
+export type QueryLatestCartonTrackerLogArgs = {
+  cartonUID: Scalars['UUID'];
+};
+
+
+export type QueryLatestCartonTransferLogArgs = {
+  cartonUID: Scalars['UUID'];
 };
 
 
@@ -1399,6 +1492,18 @@ export type UpdateCarton = {
   warehouseUID?: InputMaybe<Scalars['NullUUID']>;
 };
 
+export type UpdateCartonTrackerLog = {
+  humidity?: InputMaybe<Scalars['NullFloat']>;
+  lat?: InputMaybe<Scalars['NullFloat']>;
+  lon?: InputMaybe<Scalars['NullFloat']>;
+  temprature?: InputMaybe<Scalars['NullFloat']>;
+};
+
+export type UpdateCartonTransferLog = {
+  custodianUID?: InputMaybe<Scalars['NullUUID']>;
+  ownerUID?: InputMaybe<Scalars['NullUUID']>;
+};
+
 export type UpdateCell = {
   col?: InputMaybe<Scalars['NullInt']>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
@@ -1504,8 +1609,8 @@ export type UpdateWarehouse = {
   city?: InputMaybe<Scalars['String']>;
   details?: InputMaybe<Scalars['NullString']>;
   dimension?: InputMaybe<WarehouseDimensionInput>;
+  geoLocation?: InputMaybe<GeoLocationInput>;
   locality?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['NullString']>;
   name?: InputMaybe<Scalars['NullString']>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
   pincode?: InputMaybe<Scalars['String']>;
@@ -1717,7 +1822,7 @@ export type OrganizationRegisterMutationVariables = Exact<{
 }>;
 
 
-export type OrganizationRegisterMutation = { __typename?: 'Mutation', organizationRegister: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
+export type OrganizationRegisterMutation = { __typename?: 'Mutation', organizationRegister: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
 
 export type BatchCataloguesQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -1930,7 +2035,7 @@ export type OrganizationsQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationsQuery = { __typename?: 'Query', organizations: { __typename?: 'OrganizationsResult', total: number, organizations: Array<{ __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null }> } };
+export type OrganizationsQuery = { __typename?: 'Query', organizations: { __typename?: 'OrganizationsResult', total: number, organizations: Array<{ __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null }> } };
 
 export type OrganizationQueryVariables = Exact<{
   uid?: InputMaybe<Scalars['UUID']>;
@@ -1938,7 +2043,7 @@ export type OrganizationQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationQuery = { __typename?: 'Query', organization: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
+export type OrganizationQuery = { __typename?: 'Query', organization: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
 
 export type OrganizationUpdateMutationVariables = Exact<{
   uid: Scalars['UUID'];
@@ -1946,21 +2051,21 @@ export type OrganizationUpdateMutationVariables = Exact<{
 }>;
 
 
-export type OrganizationUpdateMutation = { __typename?: 'Mutation', organizationUpdate: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
+export type OrganizationUpdateMutation = { __typename?: 'Mutation', organizationUpdate: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
 
 export type OrganizationArchiveMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type OrganizationArchiveMutation = { __typename?: 'Mutation', organizationArchive: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
+export type OrganizationArchiveMutation = { __typename?: 'Mutation', organizationArchive: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
 
 export type OrganizationUnarchiveMutationVariables = Exact<{
   uid: Scalars['UUID'];
 }>;
 
 
-export type OrganizationUnarchiveMutation = { __typename?: 'Mutation', organizationUnarchive: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
+export type OrganizationUnarchiveMutation = { __typename?: 'Mutation', organizationUnarchive: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null } };
 
 export type RolesQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2078,7 +2183,7 @@ export type SkuCatalogueFragmentFragment = { __typename?: 'SkuCatalogue', id?: s
 
 export type BatchCatalogueFragmentFragment = { __typename?: 'BatchCatalogue', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'SkuCatalogue', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type OrganizationFragmentFragment = { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null };
+export type OrganizationFragmentFragment = { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null };
 
 export type DepartmentFragmentFragment = { __typename?: 'Department', id?: string | null, code?: string | null, name?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2256,7 +2361,7 @@ export type NexportOrganizationsQueryVariables = Exact<{
 }>;
 
 
-export type NexportOrganizationsQuery = { __typename?: 'Query', nexportOrganizations: { __typename?: 'OrganizationsResult', total: number, organizations: Array<{ __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null }> } };
+export type NexportOrganizationsQuery = { __typename?: 'Query', nexportOrganizations: { __typename?: 'OrganizationsResult', total: number, organizations: Array<{ __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, website?: any | null, sector?: string | null, status?: string | null, isArchived?: boolean | null, createdAt?: any | null, logo?: { __typename?: 'File', name: string, url: string } | null }> } };
 
 export type NexportSkuCataloguesQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2765,6 +2870,7 @@ export const OrganizationFragmentFragmentDoc = gql`
     url
   }
   sector
+  status
   isArchived
   createdAt
 }

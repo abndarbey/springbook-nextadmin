@@ -12,6 +12,7 @@ export const Organization = gql`
             url
         }
         sector
+        status
         isArchived
         createdAt
     }
