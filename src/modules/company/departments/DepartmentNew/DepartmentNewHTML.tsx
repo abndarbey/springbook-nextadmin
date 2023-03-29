@@ -4,9 +4,8 @@ import Page from "components/Page"
 import PageHeader from "components/PageHeader"
 import FormCard from "components/FormCard"
 import OrgSelectModal from "common/select-table/OrgSelectModal"
-import SkuCatalogueSelectModal from "common/select-table/SkuCatalogueSelectModal"
 import { INavTrailProps } from "components/NavTrails"
-import { Auther, SkuCatalogue, Organization } from "@lib/generated/hooks"
+import { Auther, Organization } from "@lib/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 import { TextInput } from "@mantine/core"
 
@@ -44,7 +43,7 @@ export default function SkuNewHTML(props: ISkuNewHTML) {
                 handleSubmit={props.form.onSubmit(props.handleSubmit)}
                 handleCancel={props.handleCancel}
             >
-                {/* Select Contractor */}
+                {/* Select Organization */}
                 {props.auther.isAdmin && props.orgUID == "" &&
                     <Fragment>
                         <OrgSelectModal
