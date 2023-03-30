@@ -3,7 +3,7 @@ import Page from "components/Page"
 import PageHeader from "components/PageHeader"
 import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
-import Roles from "tables/Roles"
+import RoleTable from "tables/RoleTable"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },
@@ -28,7 +28,7 @@ export default function RoleList() {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title="Roles" buttons={actionButtons} />
-            <Roles />
+            <RoleTable />
         </Page>
     )
 }

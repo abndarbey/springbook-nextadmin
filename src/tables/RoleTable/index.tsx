@@ -12,13 +12,13 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { useRouter } from "next/router"
-import RoleTable from "./RoleTable"
+import RoleTableHTML from "./RoleTableHTML"
 
-interface RoleListProps {
+interface RoleTableProps {
     departmentID?: string | null | undefined
 }
 
-export default function Roles(props: RoleListProps) {
+export default function RoleTable(props: RoleTableProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [archiveRequest] = useRoleArchiveMutation({})
@@ -123,7 +123,7 @@ export default function Roles(props: RoleListProps) {
     }
 
     return (
-        <RoleTable
+        <RoleTableHTML
             data={data?.roles!}
             viewAction={viewAction}
             editAction={editAction}
