@@ -4,7 +4,7 @@ import PageHeader from "components/PageHeader"
 import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import { PageProps } from "types/types"
-import Departments from "tables/Departments"
+import DepartmentTable from "tables/DepartmentTable"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },
@@ -30,7 +30,7 @@ export default function DepartmentList(props: PageProps) {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} buttons={actionButtons} />
-            <Departments />
+            <DepartmentTable />
         </Page>
     )
 }

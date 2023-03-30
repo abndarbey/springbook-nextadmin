@@ -11,13 +11,13 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { useRouter } from "next/router"
-import DepartmentTable from "./DepartmentTable"
+import DeptTableHTML from "./DeptTableHTML"
 
-interface DepartmentsProps {
+interface DepartmentTableProps {
     orgUID?: string | null | undefined
 }
 
-export default function Departments(props: DepartmentsProps) {
+export default function DepartmentTable(props: DepartmentTableProps) {
     const router = useRouter()
 
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
@@ -123,7 +123,7 @@ export default function Departments(props: DepartmentsProps) {
     }
 
     return (
-        <DepartmentTable
+        <DeptTableHTML
             data={data?.departments!}
             viewAction={viewAction}
             editAction={editAction}

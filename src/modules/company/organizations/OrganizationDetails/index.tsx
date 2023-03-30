@@ -14,7 +14,7 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import OrgDetailsHTML from "./OrgDetailsHTML"
-import Departments from "tables/Departments"
+import DepartmentTable from "tables/DepartmentTable"
 
 export default function OrganizationDetails(props: PageProps) {
     const router = useRouter()
@@ -116,7 +116,7 @@ export default function OrganizationDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="departments" pt="xs">
-                    <Departments orgUID={data?.organization.uid} />
+                    <DepartmentTable orgUID={data?.organization.uid} />
                 </Tabs.Panel>
             </Tabs>
         </Page>
