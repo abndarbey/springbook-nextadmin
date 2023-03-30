@@ -18,7 +18,7 @@ interface UserTableProps {
     filterOptions: string[]
 }
 
-export default function UserTable(props: UserTableProps) {
+export default function UserTableHTML(props: UserTableProps) {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])

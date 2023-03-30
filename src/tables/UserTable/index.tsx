@@ -11,13 +11,13 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { useRouter } from "next/router"
-import UserTable from "./UserTable"
+import UserTableHTML from "./UserTableHTML"
 
-interface UserListProps {
+interface UserTableProps {
     roleID?: string | null | undefined
 }
 
-export default function Users(props: UserListProps) {
+export default function UserTable(props: UserTableProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [archiveRequest] = useUserArchiveMutation({})
@@ -122,7 +122,7 @@ export default function Users(props: UserListProps) {
     }
 
     return (
-        <UserTable
+        <UserTableHTML
             data={data?.users!}
             viewAction={viewAction}
             editAction={editAction}

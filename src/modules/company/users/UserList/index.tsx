@@ -3,7 +3,7 @@ import Page from 'components/Page'
 import PageHeader from 'components/PageHeader'
 import { useRouter } from 'next/router'
 import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
-import Users from 'tables/Users'
+import UserTable from 'tables/UserTable'
 
 const navTrails: INavTrailProps[] = [
     { title: 'Dashboard', href: '/' },
@@ -29,7 +29,7 @@ export default function UserList() {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title='Users' buttons={actionButtons} />
-            <Users />
+            <UserTable />
         </Page>
     )
 }
