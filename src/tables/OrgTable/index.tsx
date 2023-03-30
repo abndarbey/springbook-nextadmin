@@ -12,7 +12,7 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { useRouter } from "next/router"
-import OrganizationsTable from "./OrganizationTable"
+import OrgTableHTML from "./OrgTableHTML"
 
 export default function OrganizationList() {
     const router = useRouter()
@@ -122,7 +122,7 @@ export default function OrganizationList() {
     }
 
     return (
-        <OrganizationsTable
+        <OrgTableHTML
             data={data?.organizations!}
             viewAction={viewAction}
             editAction={editAction}
