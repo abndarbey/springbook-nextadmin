@@ -14,8 +14,7 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
-import RolePage from "./RolePage"
-import Roles from "tables/Roles"
+import RoleDetailsHTML from "./RoleDetailsHTML"
 import Users from "tables/Users"
 
 export default function RoleDetails(props: PageProps) {
@@ -136,7 +135,7 @@ export default function RoleDetails(props: PageProps) {
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <RolePage data={data?.role!} />
+                    <RoleDetailsHTML data={data?.role!} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="users" pt="xs">
