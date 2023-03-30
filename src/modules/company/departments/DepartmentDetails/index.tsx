@@ -1,8 +1,7 @@
 import { useRouter } from "next/router"
-import { SimpleGrid, Box, Tabs } from "@mantine/core"
+import { Tabs } from "@mantine/core"
 
 import Page from "components/Page"
-import ContentCard from "components/ContentCard"
 import PageHeader from "components/PageHeader"
 import { INavTrailProps } from "components/NavTrails"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
@@ -15,7 +14,7 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
-import DepartmentPage from "./DepartmentPage"
+import DeptDetailsHTML from "./DeptDetailsHTML"
 import Roles from "tables/Roles"
 
 export default function DepartmentDetails(props: PageProps) {
@@ -136,7 +135,7 @@ export default function DepartmentDetails(props: PageProps) {
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <DepartmentPage data={data?.department!} />
+                    <DeptDetailsHTML data={data?.department!} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="roles" pt="xs">
