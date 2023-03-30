@@ -7,7 +7,7 @@ import TableActionBar from "components/TableWrapper/TableActionBar"
 import TableRowActions from "components/TableWrapper/TableRowActions"
 import { PAGE_SIZES } from "types/enums"
 
-interface OrganizationTableProps {
+interface OrgTableHTMLProps {
     data: OrganizationsResult
     viewAction: any
     editAction: any
@@ -24,7 +24,7 @@ const sectorColors: Record<string, string> = {
     tpl: 'pink',
 }
 
-export default function OrganizationsTable(props: OrganizationTableProps) {
+export default function OrgTableHTML(props: OrgTableHTMLProps) {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])

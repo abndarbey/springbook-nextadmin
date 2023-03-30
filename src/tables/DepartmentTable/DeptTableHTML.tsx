@@ -7,7 +7,7 @@ import TableActionBar from "components/TableWrapper/TableActionBar"
 import TableRowActions from "components/TableWrapper/TableRowActions"
 import { PAGE_SIZES } from "types/enums"
 
-interface DepartmentTableProps {
+interface DeptTableHTMLProps {
     data: DepartmentsResult
     viewAction: any
     editAction: any
@@ -18,7 +18,7 @@ interface DepartmentTableProps {
     filterOptions: string[]
 }
 
-export default function DepartmentsTable(props: DepartmentTableProps) {
+export default function DeptTableHTML(props: DeptTableHTMLProps) {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])

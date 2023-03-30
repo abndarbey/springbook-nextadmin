@@ -7,7 +7,7 @@ import TableActionBar from "components/TableWrapper/TableActionBar"
 import { DataTable } from "mantine-datatable"
 import TableRowActions from "components/TableWrapper/TableRowActions"
 
-interface RoleTableProps {
+interface RoleTableHTMLProps {
     data: RolesResult
     viewAction: any
     editAction: any
@@ -18,7 +18,7 @@ interface RoleTableProps {
     filterOptions: string[]
 }
 
-export default function RoleTable(props: RoleTableProps) {
+export default function RoleTableHTML(props: RoleTableHTMLProps) {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])

@@ -7,7 +7,7 @@ import TableActionBar from "components/TableWrapper/TableActionBar"
 import TableRowActions from "components/TableWrapper/TableRowActions"
 import { PAGE_SIZES } from "types/enums"
 
-interface ContactTableProps {
+interface ContactTableHTMLProps {
     data: ContactsResult
     viewAction: any
     editAction: any
@@ -24,7 +24,7 @@ const sectorColors: Record<string, string> = {
     tpl: 'pink',
 }
 
-export default function ContactTable(props: ContactTableProps) {
+export default function ContactTableHTML(props: ContactTableHTMLProps) {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
