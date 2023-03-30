@@ -14,7 +14,7 @@ import { showNotification } from "@mantine/notifications"
 import { useRouter } from "next/router"
 import OrgTableHTML from "./OrgTableHTML"
 
-export default function OrganizationList() {
+export default function OrgTable() {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [archiveRequest] = useOrganizationArchiveMutation({})
