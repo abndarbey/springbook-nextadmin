@@ -13,7 +13,7 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
-import OrganizationPage from "./OrganizationPage"
+import OrgDetailsHTML from "./OrgDetailsHTML"
 import Departments from "tables/Departments"
 
 export default function OrganizationDetails(props: PageProps) {
@@ -112,7 +112,7 @@ export default function OrganizationDetails(props: PageProps) {
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <OrganizationPage data={data?.organization!} />
+                    <OrgDetailsHTML data={data?.organization!} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="departments" pt="xs">
