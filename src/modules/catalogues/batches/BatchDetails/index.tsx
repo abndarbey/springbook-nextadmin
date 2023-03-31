@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router'
-import { SimpleGrid, Box, Tabs, Badge } from '@mantine/core'
+import {Tabs} from '@mantine/core'
 
 import Page from 'components/Page'
-import ContentCard from 'components/ContentCard'
 import PageHeader from 'components/PageHeader'
 import { INavTrailProps } from 'components/NavTrails'
 import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
@@ -14,7 +13,6 @@ import {
 } from '@lib/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
-import DetailRow from 'components/DetailRow'
 import { PageProps } from 'types/types'
 
 export default function BatchCatalogueDetails(props: PageProps) {
@@ -135,26 +133,6 @@ export default function BatchCatalogueDetails(props: PageProps) {
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <ContentCard>
-                        <SimpleGrid cols={4} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Code' value={data?.batchCatalogue.code!} />
-                                <DetailRow title='UID' value={data?.batchCatalogue.uid!} />
-                                <DetailRow title='Batch Number' value={data?.batchCatalogue.batchNumber!} />
-                            </Box>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='SKU Code' value={data?.batchCatalogue?.sku?.code!} />
-                                <DetailRow title='SKU Name' value={data?.batchCatalogue?.sku?.name!} />
-                            </Box>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Organization Code' value={data?.batchCatalogue?.organization?.code!} />
-                                <DetailRow title='Organization Name' value={data?.batchCatalogue?.organization?.name!} />
-                            </Box>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Status' value={<Badge>{data?.batchCatalogue?.status!}</Badge>} />
-                            </Box>
-                        </SimpleGrid>
-                    </ContentCard>
                 </Tabs.Panel>
 
                 <Tabs.Panel value="batches" pt="xs">
