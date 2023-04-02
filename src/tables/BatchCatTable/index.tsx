@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { INavTrailProps } from "components/NavTrails"
-import Page from "components/Page"
+import { useRouter } from "next/router"
 
 import {
     useBatchCataloguesQuery,
@@ -14,18 +13,13 @@ import {
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
-import PageHeader from "components/PageHeader"
-import { useRouter } from "next/router"
-import { IActionButtonProps } from "components/PageHeader/ActionButtons"
-import { PageProps } from "types/types"
 import BatchCatTableHTML from "./BatchCatTableHTML"
 
-const navTrails: INavTrailProps[] = [
-    { title: "Dashboard", href: "/" },
-    { title: "Batch Catalogues", href: "#" },
-]
+interface IBatchCatTableProps {
+    skuUID: string | null | undefined
+}
 
-export default function BatchCatTable(props: PageProps) {
+export default function BatchCatTable(props: IBatchCatTableProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [newBatch] = useBatchCreateMutation({})
@@ -45,6 +39,7 @@ export default function BatchCatTable(props: PageProps) {
                     limit: 100,
                     offset: 0,
                 },
+                skuUID: props.skuUID
             }
         }
     )
@@ -60,10 +55,6 @@ export default function BatchCatTable(props: PageProps) {
             message: error.message,
         })
         return <PageLoader isError={true} />
-    }
-
-    const handleNew = () => {
-        router.push("/catalogues/batches/new")
     }
 
     // Row Actions
@@ -156,16 +147,16 @@ export default function BatchCatTable(props: PageProps) {
     }
 
     return (
-            <BatchCatTableHTML
-                data={data?.batchCatalogues!}
-                viewAction={viewAction}
-                addAction={addToInventory}
-                editAction={editAction}
-                archiveAction={archiveAction}
-                unarchiveAction={unarchiveAction}
-                batchViewAction={batchViewAction}
-                filterAction={filterAction}
-                filterOptions={filterOptions}
-            />
+        <BatchCatTableHTML
+            data={data?.batchCatalogues!}
+            viewAction={viewAction}
+            addAction={addToInventory}
+            editAction={editAction}
+            archiveAction={archiveAction}
+            unarchiveAction={unarchiveAction}
+            batchViewAction={batchViewAction}
+            filterAction={filterAction}
+            filterOptions={filterOptions}
+        />
     )
 }
