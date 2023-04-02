@@ -1,19 +1,21 @@
-import { useRouter } from 'next/router'
-import {Tabs} from '@mantine/core'
+import { useRouter } from "next/router"
+import { Tabs } from "@mantine/core"
 
-import Page from 'components/Page'
-import PageHeader from 'components/PageHeader'
-import { INavTrailProps } from 'components/NavTrails'
-import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
+import Page from "components/Page"
+import PageHeader from "components/PageHeader"
+import { INavTrailProps } from "components/NavTrails"
+import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import {
     useBatchCatalogueQuery,
     useBatchCatalogueFinalizeMutation,
     useBatchCatalogueArchiveMutation,
     useBatchCatalogueUnarchiveMutation,
-} from '@lib/generated/hooks'
-import PageLoader from 'components/PageLoader'
-import { showNotification } from '@mantine/notifications'
-import { PageProps } from 'types/types'
+} from "@lib/generated/hooks"
+import PageLoader from "components/PageLoader"
+import { showNotification } from "@mantine/notifications"
+import { PageProps } from "types/types"
+import BatchCatTable from "tables/BatchCatTable"
+import BatchCatDetailsHTML from "./BatchCatDetailsHTML"
 
 export default function BatchCatalogueDetails(props: PageProps) {
     const router = useRouter()
@@ -22,9 +24,9 @@ export default function BatchCatalogueDetails(props: PageProps) {
     const [unarchiveRequest] = useBatchCatalogueUnarchiveMutation({})
 
     const navTrails: INavTrailProps[] = [
-        { title: 'Dashboard', href: '/' },
-        { title: 'Batch Catalogues', href: '/catalogues/batches' },
-        { title: props.code, href: '#' },
+        { title: "Dashboard", href: "/" },
+        { title: "Batch Catalogues", href: "/catalogues/batches" },
+        { title: props.code, href: "#" },
     ]
 
     // fetch data
@@ -43,7 +45,7 @@ export default function BatchCatalogueDetails(props: PageProps) {
     if (!loading && error) {
         showNotification({
             disallowClose: false,
-            color: 'red',
+            color: "red",
             message: error.message,
         })
         return <PageLoader isError={true} />
@@ -63,13 +65,13 @@ export default function BatchCatalogueDetails(props: PageProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Finalized - ${res.data.batchCatalogueFinalize.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -83,13 +85,13 @@ export default function BatchCatalogueDetails(props: PageProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Archived - ${res.data.batchCatalogueArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -103,13 +105,13 @@ export default function BatchCatalogueDetails(props: PageProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Unarchived - ${res.data.batchCatalogueUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -117,10 +119,10 @@ export default function BatchCatalogueDetails(props: PageProps) {
 
     // define action buttons
     const actionButtons: IActionButtonProps[] = [
-        { type: 'edit', name: 'Edit', action: handleEdit },
-        { type: 'finalize', name: 'Finalize', action: handleFinalize, disabled: data?.batchCatalogue.isFinal!},
-        { type: 'archive', name: 'Archive', action: handleArchive, disabled: data?.batchCatalogue.isArchived! },
-        { type: 'unarchive', name: 'Unarchive', action: handleUnarchive, disabled: !data?.batchCatalogue.isArchived! },
+        { type: "edit", name: "Edit", action: handleEdit },
+        { type: "finalize", name: "Finalize", action: handleFinalize, disabled: data?.batchCatalogue.isFinal!},
+        { type: "archive", name: "Archive", action: handleArchive, disabled: data?.batchCatalogue.isArchived! },
+        { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.batchCatalogue.isArchived! },
     ]
 
     return (
@@ -129,14 +131,10 @@ export default function BatchCatalogueDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="batches">Batches</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                </Tabs.Panel>
-
-                <Tabs.Panel value="batches" pt="xs">
-                    Batches tab content
+                    <BatchCatDetailsHTML data={data?.batchCatalogue!} />
                 </Tabs.Panel>
             </Tabs>
         </Page>
