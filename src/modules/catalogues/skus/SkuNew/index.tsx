@@ -1,49 +1,82 @@
-import { useRouter } from 'next/router'
-import Page from 'components/Page'
-import { INavTrailProps } from 'components/NavTrails'
-import * as Yup from 'yup'
-import { useForm, yupResolver } from '@mantine/form'
-import { SimpleGrid, Textarea, TextInput } from '@mantine/core'
-import { useSkuCatalogueCreateMutation, UpdateSkuCatalogue, Organization } from '@lib/generated/hooks'
-import { showNotification } from '@mantine/notifications'
+import { useRouter } from "next/router"
+import Page from "components/Page"
+import { INavTrailProps } from "components/NavTrails"
+import * as Yup from "yup"
+import { useForm, yupResolver } from "@mantine/form"
+import { useSkuCatalogueCreateMutation, UpdateSkuCatalogue, Organization, useAutherQuery } from "@lib/generated/hooks"
+import { showNotification } from "@mantine/notifications"
 
-import PageHeader from 'components/PageHeader'
-import FormCard from 'components/FormCard'
-import OrgSelectModal from 'common/select-table/OrgSelectModal'
-import { useState } from 'react'
-import { PageProps } from 'types/types'
+import PageHeader from "components/PageHeader"
+import { useEffect, useState } from "react"
+import { PageProps } from "types/types"
+import PageLoader from "components/PageLoader"
+import { getObjectFromLocalStorage } from "common/localStorage"
+import SkuCatNewHTML from "./SkuCatNewHTML"
 
 const navTrails: INavTrailProps[] = [
-    { title: 'Dashboard', href: '/' },
-    { title: 'Sku Catalogues', href: '/catalogues/skus' },
-    { title: 'New', href: '#' },
+    { title: "Dashboard", href: "/" },
+    { title: "Sku Catalogues", href: "/catalogues/skus" },
+    { title: "New", href: "#" },
 ]
 
 const schema = Yup.object().shape({
-    name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
-    orgUID: Yup.string().min(2, 'Invalid org UID'),
+    name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
+    orgUID: Yup.string().min(2, "Invalid org UID"),
 })
 
 export default function SkuCatalogueNew(props: PageProps) {
     const router = useRouter()
     const [newObj] = useSkuCatalogueCreateMutation({})
-    const [orgModalOpened, setOrgModalOpened] = useState(false)
+    const [autherLoaded, setAutherLoaded] = useState(false)
+    const [orgUID, setOrgUID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            orgUID: '',
-            name: '',
-            hsnCode: '',
-            brand: '',
-            description: '',
-            ingredients: '',
-            weight: '',
-            weightUnit: '',
+            orgUID: "",
+            name: "",
+            hsnCode: "",
+            brand: "",
+            description: "",
+            ingredients: "",
+            weight: "",
+            weightUnit: "",
 
-            orgName: '',
+            orgName: "",
         },
     })
+
+    // get org uid from local storage
+    useEffect(() => {
+        const obj = getObjectFromLocalStorage("org")
+        setOrgUID(obj.uid)
+        if (obj.uid != "" && obj.name) {
+            form.values.orgUID = obj.uid!
+            form.values.orgName = obj.name!
+        }
+    }, [orgUID, form])
+
+    // load auther
+    const authData = useAutherQuery()
+    if (authData.loading) {
+        return (
+            <PageLoader />
+        )
+    }
+    if (authData.error) {
+        showNotification({
+            disallowClose: false,
+            color: "red",
+            message: authData.error.message,
+        })
+        return <PageLoader isError={true} />
+    }
+    if (authData.data && !autherLoaded) {
+        if (!authData.data.auther.isAdmin) {
+            form.setValues({ orgUID: authData.data.auther.orgUID })
+        }
+        setAutherLoaded(true)
+    }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
@@ -71,98 +104,34 @@ export default function SkuCatalogueNew(props: PageProps) {
             
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: welcomeMsg,
             })
             router.push(`/catalogues/skus/${res.data.skuCatalogueCreate.code}`)
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
     }
 
     const handleCancel = () => {
-        router.push('/catalogues/skus')
+        router.push("/catalogues/skus")
     }
 
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} />
-            <FormCard
-                submitButtonName='Create'
-                handleSubmit={form.onSubmit(handleSubmit)}
+            <SkuCatNewHTML
+                auther={authData.data?.auther!}
+                orgUID={orgUID}
+                form={form}
+                handleSubmit={handleSubmit}
                 handleCancel={handleCancel}
-            >
-                <OrgSelectModal
-                    opened={orgModalOpened}
-                    setOpened={setOrgModalOpened}
-                    handleSelect={handleOrgSelect}
-                />
-                <TextInput
-                    label="Organization"
-                    placeholder="Select Organization"
-                    name="organization"
-                    onClick={() => setOrgModalOpened(true)}
-                    {...form.getInputProps('orgName')}
-                />
-                <TextInput
-                    label="Name"
-                    placeholder="Name"
-                    mt="md"
-                    name="name"
-                    {...form.getInputProps('name')}
-                />
-                <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                    <TextInput
-                        label="HSN Code"
-                        placeholder="HSN Code"
-                        mt="md"
-                        name="hsnCode"
-                        {...form.getInputProps('hsnCode')}
-                    />
-                    <TextInput
-                        label="Brand"
-                        placeholder="Brand"
-                        mt="md"
-                        name="brand"
-                        {...form.getInputProps('brand')}
-                    />
-                </SimpleGrid>
-                <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                    <TextInput
-                        label="Weight"
-                        placeholder="Weight"
-                        mt="md"
-                        type="number"
-                        name="weight"
-                        {...form.getInputProps('weight')}
-                    />
-                    <TextInput
-                        label="Weight Unit"
-                        placeholder="Weight Unit"
-                        mt="md"
-                        name="weightUnit"
-                        {...form.getInputProps('weightUnit')}
-                    />
-                </SimpleGrid>
-                <Textarea
-                    label="Description"
-                    placeholder="Description"
-                    mt="md"
-                    name="description"
-                    {...form.getInputProps('description')}
-                />
-                <Textarea
-                    label="Ingredeints"
-                    placeholder="Ingredeints"
-                    mt="md"
-                    name="ingredeints"
-                    {...form.getInputProps('ingredeints')}
-                />
-            </FormCard>
+                handleOrgSelect={handleOrgSelect}
+            />
         </Page>
     )
 }
