@@ -8,6 +8,9 @@ import { getObjectFromLocalStorage } from "common/localStorage"
 import PageLoader from "components/PageLoader"
 import { PageProps } from "types/types"
 import DepartmentNewHTML from "./DepartmentNewHTML"
+import { INavTrailProps } from "components/NavTrails"
+import Page from "components/Page"
+import PageHeader from "components/PageHeader"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
@@ -19,6 +22,12 @@ export default function DepartmentNew(props: PageProps) {
     const [newDepartment] = useDepartmentCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
     const [orgUID, setOrgUID] = useState("")
+
+    const navTrails: INavTrailProps[] = [
+        { title: "Dashboard", href: "/" },
+        { title: "Departments", href: "/company/departments" },
+        { title: "New", href: "#" },
+    ]
 
     const form = useForm({
         validate: yupResolver(schema),
@@ -98,14 +107,16 @@ export default function DepartmentNew(props: PageProps) {
     }
 
     return (
-        <DepartmentNewHTML
-            title={props.title!}
-            auther={authData.data?.auther!}
-            orgUID={orgUID}
-            form={form}
-            handleSubmit={handleSubmit}
-            handleCancel={handleCancel}
-            handleOrgSelect={handleOrgSelect}
-        />
+        <Page navTrails={navTrails} >
+        <PageHeader title={props.title!} />
+            <DepartmentNewHTML
+                auther={authData.data?.auther!}
+                orgUID={orgUID}
+                form={form}
+                handleSubmit={handleSubmit}
+                handleCancel={handleCancel}
+                handleOrgSelect={handleOrgSelect}
+            />
+        </Page>
     )
 }
