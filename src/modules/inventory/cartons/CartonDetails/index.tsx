@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { Tabs } from "@mantine/core"
+import { Tabs, Text } from "@mantine/core"
 
 import Page from "components/Page"
 import PageHeader from "components/PageHeader"
@@ -14,7 +14,8 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import CartonDetailsHTML from "./CartonDetailsHTML"
-import BatchTable from "tables/inventory/BatchTable"
+import QrGen from "components/QrGen"
+import ContentCard from "components/ContentCard"
 
 export default function CartonDetails(props: PageProps) {
     const router = useRouter()
@@ -23,7 +24,7 @@ export default function CartonDetails(props: PageProps) {
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
-        { title: "SKUs", href: "/inventory/cartons" },
+        { title: "Cartons", href: "/inventory/cartons" },
         { title: props.code, href: "#" },
     ]
 
@@ -119,7 +120,10 @@ export default function CartonDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="qr" pt="xs">
-                    <h1>Carton QR</h1>
+                    <ContentCard>
+                        <QrGen uid={data?.carton.uid} />
+                        <Text mt="xs">{data?.carton.uid}</Text>
+                    </ContentCard>
                 </Tabs.Panel>
 
                 <Tabs.Panel value="transactions" pt="xs">
