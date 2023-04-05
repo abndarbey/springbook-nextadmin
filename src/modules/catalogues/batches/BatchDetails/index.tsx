@@ -14,7 +14,7 @@ import {
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
-import BatchCatTable from "tables/BatchCatTable"
+import BatchCatTable from "tables/catalogues/BatchCatTable"
 import BatchCatDetailsHTML from "./BatchCatDetailsHTML"
 
 export default function BatchCatalogueDetails(props: PageProps) {

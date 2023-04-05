@@ -4,7 +4,7 @@ import PageHeader from "components/PageHeader"
 import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import { PageProps } from "types/types"
-import OrgTable from "tables/OrgTable"
+import OrgTable from "tables/company/OrgTable"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },

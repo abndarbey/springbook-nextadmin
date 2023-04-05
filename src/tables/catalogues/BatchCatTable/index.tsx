@@ -16,7 +16,7 @@ import { showNotification } from "@mantine/notifications"
 import BatchCatTableHTML from "./BatchCatTableHTML"
 
 interface IBatchCatTableProps {
-    skuUID: string | null | undefined
+    skuUID?: string | null | undefined
 }
 
 export default function BatchCatTable(props: IBatchCatTableProps) {

@@ -1,20 +1,20 @@
-import { useRouter } from 'next/router'
-import { SimpleGrid, Box, Tabs } from '@mantine/core'
+import { useRouter } from "next/router"
+import { Tabs } from "@mantine/core"
 
-import Page from 'components/Page'
-import ContentCard from 'components/ContentCard'
-import PageHeader from 'components/PageHeader'
-import { INavTrailProps } from 'components/NavTrails'
-import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
+import Page from "components/Page"
+import PageHeader from "components/PageHeader"
+import { INavTrailProps } from "components/NavTrails"
+import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import {
     useSkuQuery,
     useSkuArchiveMutation,
     useSkuUnarchiveMutation,
-} from '@lib/generated/hooks'
-import PageLoader from 'components/PageLoader'
-import { showNotification } from '@mantine/notifications'
-import DetailRow from 'components/DetailRow'
-import { PageProps } from 'types/types'
+} from "@lib/generated/hooks"
+import PageLoader from "components/PageLoader"
+import { showNotification } from "@mantine/notifications"
+import { PageProps } from "types/types"
+import SkuDetailsHTML from "./SkuDetailsHTML"
+import BatchTable from "tables/inventory/BatchTable"
 
 export default function SkuDetails(props: PageProps) {
     const router = useRouter()
@@ -22,10 +22,9 @@ export default function SkuDetails(props: PageProps) {
     const [unarchiveRequest] = useSkuUnarchiveMutation({})
 
     const navTrails: INavTrailProps[] = [
-        { title: 'Dashboard', href: '/' },
-        { title: 'Inventory', href: '/inventory' },
-        { title: 'SKUs', href: '/inventory/skus' },
-        { title: props.code, href: '#' },
+        { title: "Dashboard", href: "/" },
+        { title: "SKUs", href: "/inventory/skus" },
+        { title: props.code, href: "#" },
     ]
 
     // fetch data
@@ -44,7 +43,7 @@ export default function SkuDetails(props: PageProps) {
     if (!loading && error) {
         showNotification({
             disallowClose: false,
-            color: 'red',
+            color: "red",
             message: error.message,
         })
         return <PageLoader isError={true} />
@@ -64,13 +63,13 @@ export default function SkuDetails(props: PageProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Archived - ${res.data.skuArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -84,13 +83,13 @@ export default function SkuDetails(props: PageProps) {
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'green',
+                color: "green",
                 message: `Unarchived - ${res.data.skuUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
-                color: 'red',
+                color: "red",
                 message: error.message,
             })
         })
@@ -98,9 +97,9 @@ export default function SkuDetails(props: PageProps) {
 
     // define action buttons
     const actionButtons: IActionButtonProps[] = [
-        { type: 'edit', name: 'Edit', action: handleEdit },
-        { type: 'archive', name: 'Archive', action: handleArchive, disabled: data?.sku.isArchived! },
-        { type: 'unarchive', name: 'Unarchive', action: handleUnarchive, disabled: !data?.sku.isArchived! },
+        { type: "edit", name: "Edit", action: handleEdit },
+        { type: "archive", name: "Archive", action: handleArchive, disabled: data?.sku.isArchived! },
+        { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.sku.isArchived! },
     ]
 
     return (
@@ -109,26 +108,15 @@ export default function SkuDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="roles">Roles</Tabs.Tab>
+                    <Tabs.Tab value="batches">Batches</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <ContentCard>
-                        <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Code' value={data?.sku.code!} />
-                                <DetailRow title='Name' value={data?.sku.name!} />
-                            </Box>
-                            <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Organization Code' value={data?.sku?.organization?.code!} />
-                                <DetailRow title='Organization Name' value={data?.sku?.organization?.name!} />
-                            </Box>
-                        </SimpleGrid>
-                    </ContentCard>
+                    <SkuDetailsHTML data={data?.sku!} />
                 </Tabs.Panel>
 
-                <Tabs.Panel value="roles" pt="xs">
-                    Roles tab content
+                <Tabs.Panel value="batches" pt="xs">
+                    <BatchTable skuID={data?.sku.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

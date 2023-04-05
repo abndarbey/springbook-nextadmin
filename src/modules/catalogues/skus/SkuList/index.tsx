@@ -4,7 +4,7 @@ import PageHeader from 'components/PageHeader'
 import { useRouter } from 'next/router'
 import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
 import { PageProps } from 'types/types'
-import SkuCatTable from 'tables/SkuCatTable'
+import SkuCatTable from 'tables/catalogues/SkuCatTable'
 
 
 const navTrails: INavTrailProps[] = [

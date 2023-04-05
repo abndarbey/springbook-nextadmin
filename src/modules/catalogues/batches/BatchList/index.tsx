@@ -5,7 +5,7 @@ import PageHeader from 'components/PageHeader'
 import { useRouter } from 'next/router'
 import { IActionButtonProps } from 'components/PageHeader/ActionButtons'
 import { PageProps } from 'types/types'
-import BatchCatTable from 'tables/BatchCatTable'
+import BatchCatTable from 'tables/catalogues/BatchCatTable'
 
 
 
@@ -32,7 +32,7 @@ export default function BatchCatalogueList(props: PageProps) {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} buttons={actionButtons} />
-            <BatchCatTable/>
+            <BatchCatTable />
         </Page>
     )
 }

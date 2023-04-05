@@ -6,31 +6,29 @@ import PageHeader from "components/PageHeader"
 import { INavTrailProps } from "components/NavTrails"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import {
-    useSkuCatalogueQuery,
-    useSkuCatalogueFinalizeMutation,
-    useSkuCatalogueArchiveMutation,
-    useSkuCatalogueUnarchiveMutation,
+    useCartonQuery,
+    useCartonArchiveMutation,
+    useCartonUnarchiveMutation,
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
-import BatchCatTable from "tables/catalogues/BatchCatTable"
-import SkuCatDetailsHTML from "./SkuCatDetailsHTML"
+import CartonDetailsHTML from "./CartonDetailsHTML"
+import BatchTable from "tables/inventory/BatchTable"
 
-export default function SkuCatalogueDetails(props: PageProps) {
+export default function CartonDetails(props: PageProps) {
     const router = useRouter()
-    const [finalizeRequest] = useSkuCatalogueFinalizeMutation({})
-    const [archiveRequest] = useSkuCatalogueArchiveMutation({})
-    const [unarchiveRequest] = useSkuCatalogueUnarchiveMutation({})
+    const [archiveRequest] = useCartonArchiveMutation({})
+    const [unarchiveRequest] = useCartonUnarchiveMutation({})
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
-        { title: "Sku Catalogues", href: "/catalogues/skus" },
+        { title: "SKUs", href: "/inventory/cartons" },
         { title: props.code, href: "#" },
     ]
 
     // fetch data
-    const { data, loading, error } = useSkuCatalogueQuery(
+    const { data, loading, error } = useCartonQuery(
         {
             variables: {
                 code: props.code,
@@ -54,39 +52,19 @@ export default function SkuCatalogueDetails(props: PageProps) {
     // edit action
     const handleEdit = (e: any) => {
         e.preventDefault()
-        router.push(`/catalogues/skus/${props.code}/edit`)
-    }
-    
-    // finalize action
-    const handleFinalize = (e: any) => {
-        e.preventDefault()
-        finalizeRequest({
-            variables: {uid: data?.skuCatalogue.uid!}
-        }).then((res: any) => {
-            showNotification({
-                disallowClose: false,
-                color: "green",
-                message: `Finalized - ${res.data.skuCatalogueFinalize.name}`,
-            })
-        }).catch((error: any) => {
-            showNotification({
-                disallowClose: false,
-                color: "red",
-                message: error.message,
-            })
-        })
+        router.push(`/inventory/cartons/${props.code}/edit`)
     }
     
     // archive action
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {uid: data?.skuCatalogue.uid!}
+            variables: {id: data?.carton.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.skuCatalogueArchive.name}`,
+                message: `Archived - ${res.data.cartonArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -101,12 +79,12 @@ export default function SkuCatalogueDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {uid: data?.skuCatalogue.uid!}
+            variables: {id: data?.carton.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.skuCatalogueUnarchive.name}`,
+                message: `Unarchived - ${res.data.cartonUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -120,9 +98,8 @@ export default function SkuCatalogueDetails(props: PageProps) {
     // define action buttons
     const actionButtons: IActionButtonProps[] = [
         { type: "edit", name: "Edit", action: handleEdit },
-        { type: "finalize", name: "Finalize", action: handleFinalize, disabled: data?.skuCatalogue.isFinal!},
-        { type: "archive", name: "Archive", action: handleArchive, disabled: data?.skuCatalogue.isArchived! },
-        { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.skuCatalogue.isArchived! },
+        { type: "archive", name: "Archive", action: handleArchive, disabled: data?.carton.isArchived! },
+        { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.carton.isArchived! },
     ]
 
     return (
@@ -131,15 +108,30 @@ export default function SkuCatalogueDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="batches">Batches</Tabs.Tab>
+                    <Tabs.Tab value="qr">QR</Tabs.Tab>
+                    <Tabs.Tab value="transactions">Transactions</Tabs.Tab>
+                    <Tabs.Tab value="trackers">Trackers</Tabs.Tab>
+                    <Tabs.Tab value="history">History</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <SkuCatDetailsHTML data={data?.skuCatalogue!} />
+                    <CartonDetailsHTML data={data?.carton!} />
                 </Tabs.Panel>
 
-                <Tabs.Panel value="batches" pt="xs">
-                    <BatchCatTable skuUID={data?.skuCatalogue.uid} />
+                <Tabs.Panel value="qr" pt="xs">
+                    <h1>Carton QR</h1>
+                </Tabs.Panel>
+
+                <Tabs.Panel value="transactions" pt="xs">
+                    <h1>Carton Transactions</h1>
+                </Tabs.Panel>
+
+                <Tabs.Panel value="trackers" pt="xs">
+                    <h1>All trackers will be shown here</h1>
+                </Tabs.Panel>
+                
+                <Tabs.Panel value="history" pt="xs">
+                    <h1>All Ownership and Custodianship history will be shown here</h1>
                 </Tabs.Panel>
             </Tabs>
         </Page>

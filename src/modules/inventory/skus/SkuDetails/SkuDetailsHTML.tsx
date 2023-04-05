@@ -1,14 +1,14 @@
-import { Department } from "@lib/generated/hooks"
+import { Sku } from "@lib/generated/hooks"
 import { Box, SimpleGrid } from "@mantine/core"
 import ContentCard from "components/ContentCard"
 import DetailRow from "components/DetailRow"
 import React from "react"
 
-interface IDeptDetailsHTMLProps {
-    data: Department
+interface ISkuDetailsHTMLProps {
+    data: Sku
 }
 
-export default function DeptDetailsHTML(props: IDeptDetailsHTMLProps) {
+export default function SkuDetailsHTML(props: ISkuDetailsHTMLProps) {
     return (
         <ContentCard>
             <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>

@@ -67,6 +67,28 @@ export const Carton = gql`
         status
         isFinal
         isArchived
+        latestTransferLog {
+            id
+            owner {
+                id
+                code
+                name
+            }
+            custodian {
+                id
+                code
+                name
+            }
+        }
+        latestTrackerLog {
+            id
+            temperature
+            humidity
+            location {
+                lat
+                lon
+            }
+        }
         sku {
             uid
             code

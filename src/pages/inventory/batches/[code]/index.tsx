@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import PageTitle from 'components/PageTitle'
-import BatchDetails from 'modules/inventory/batches/BatchList'
+import BatchDetails from 'modules/inventory/batches/BatchDetails'
 import PageLoader from 'components/PageLoader'
 
 export default function Details() {
