@@ -103,7 +103,7 @@ export default function SkuCatTable(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.organizationArchive.name}`,
+                message: `Archived - ${res.data.skuCatalogueArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -121,7 +121,7 @@ export default function SkuCatTable(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
+                message: `Unarchived - ${res.data.skuCatalogueUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({

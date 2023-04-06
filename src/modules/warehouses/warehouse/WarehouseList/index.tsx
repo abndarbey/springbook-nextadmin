@@ -3,18 +3,18 @@ import Page from "components/Page"
 import PageHeader from "components/PageHeader"
 import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
-import RoleTable from "tables/company/RoleTable"
+import WarehouseTable from "tables/warehouses/WarehouseTable"
 import { PageProps } from "types/types"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },
-    { title: "Roles", href: "#" },
+    { title: "Warehouses", href: "#" },
 ]
 
-export default function RoleList(props: PageProps) {
+export default function WarehouseList(props: PageProps) {
     const router = useRouter()  
     const handleNew = () => {
-        router.push("/company/roles/new")
+        router.push("/warehouses/warehouses/new")
     }
 
     const actionButtons: IActionButtonProps[] = [
@@ -29,7 +29,7 @@ export default function RoleList(props: PageProps) {
     return (
         <Page navTrails={navTrails}>
             <PageHeader title={props.title!} buttons={actionButtons} />
-            <RoleTable />
+            <WarehouseTable />
         </Page>
     )
 }

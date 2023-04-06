@@ -2380,6 +2380,7 @@ export type NexportBatchCataloguesQuery = { __typename?: 'Query', nexportBatchCa
 
 export type CellsQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  rackID?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -2431,6 +2432,7 @@ export type CellUnarchiveMutation = { __typename?: 'Mutation', cellUnarchive: { 
 
 export type PalletsQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  typeID?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -2533,6 +2535,7 @@ export type PalletTypeUnarchiveMutation = { __typename?: 'Mutation', palletTypeU
 
 export type RacksQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  typeID?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -2635,6 +2638,7 @@ export type RackTypeUnarchiveMutation = { __typename?: 'Mutation', rackTypeUnarc
 
 export type WarehousesQueryVariables = Exact<{
   searchFilter: SearchFilter;
+  typeID?: InputMaybe<Scalars['ID']>;
 }>;
 
 
@@ -5828,8 +5832,8 @@ export type NexportBatchCataloguesQueryHookResult = ReturnType<typeof useNexport
 export type NexportBatchCataloguesLazyQueryHookResult = ReturnType<typeof useNexportBatchCataloguesLazyQuery>;
 export type NexportBatchCataloguesQueryResult = Apollo.QueryResult<NexportBatchCataloguesQuery, NexportBatchCataloguesQueryVariables>;
 export const CellsDocument = gql`
-    query Cells($searchFilter: SearchFilter!) {
-  cells(search: $searchFilter) {
+    query Cells($searchFilter: SearchFilter!, $rackID: ID) {
+  cells(search: $searchFilter, rackID: $rackID) {
     cells {
       ...CellFragment
     }
@@ -5851,6 +5855,7 @@ export const CellsDocument = gql`
  * const { data, loading, error } = useCellsQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      rackID: // value for 'rackID'
  *   },
  * });
  */
@@ -6068,8 +6073,8 @@ export type CellUnarchiveMutationHookResult = ReturnType<typeof useCellUnarchive
 export type CellUnarchiveMutationResult = Apollo.MutationResult<CellUnarchiveMutation>;
 export type CellUnarchiveMutationOptions = Apollo.BaseMutationOptions<CellUnarchiveMutation, CellUnarchiveMutationVariables>;
 export const PalletsDocument = gql`
-    query Pallets($searchFilter: SearchFilter!) {
-  pallets(search: $searchFilter) {
+    query Pallets($searchFilter: SearchFilter!, $typeID: ID) {
+  pallets(search: $searchFilter, typeID: $typeID) {
     pallets {
       ...PalletFragment
     }
@@ -6091,6 +6096,7 @@ export const PalletsDocument = gql`
  * const { data, loading, error } = usePalletsQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      typeID: // value for 'typeID'
  *   },
  * });
  */
@@ -6548,8 +6554,8 @@ export type PalletTypeUnarchiveMutationHookResult = ReturnType<typeof usePalletT
 export type PalletTypeUnarchiveMutationResult = Apollo.MutationResult<PalletTypeUnarchiveMutation>;
 export type PalletTypeUnarchiveMutationOptions = Apollo.BaseMutationOptions<PalletTypeUnarchiveMutation, PalletTypeUnarchiveMutationVariables>;
 export const RacksDocument = gql`
-    query Racks($searchFilter: SearchFilter!) {
-  racks(search: $searchFilter) {
+    query Racks($searchFilter: SearchFilter!, $typeID: ID) {
+  racks(search: $searchFilter, typeID: $typeID) {
     racks {
       ...RackFragment
     }
@@ -6571,6 +6577,7 @@ export const RacksDocument = gql`
  * const { data, loading, error } = useRacksQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      typeID: // value for 'typeID'
  *   },
  * });
  */
@@ -7028,8 +7035,8 @@ export type RackTypeUnarchiveMutationHookResult = ReturnType<typeof useRackTypeU
 export type RackTypeUnarchiveMutationResult = Apollo.MutationResult<RackTypeUnarchiveMutation>;
 export type RackTypeUnarchiveMutationOptions = Apollo.BaseMutationOptions<RackTypeUnarchiveMutation, RackTypeUnarchiveMutationVariables>;
 export const WarehousesDocument = gql`
-    query Warehouses($searchFilter: SearchFilter!) {
-  warehouses(search: $searchFilter) {
+    query Warehouses($searchFilter: SearchFilter!, $typeID: ID) {
+  warehouses(search: $searchFilter, typeID: $typeID) {
     warehouses {
       ...WarehouseFragment
     }
@@ -7051,6 +7058,7 @@ export const WarehousesDocument = gql`
  * const { data, loading, error } = useWarehousesQuery({
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
+ *      typeID: // value for 'typeID'
  *   },
  * });
  */

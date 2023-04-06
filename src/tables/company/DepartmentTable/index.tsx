@@ -70,7 +70,7 @@ export default function DepartmentTable(props: DepartmentTableProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.organizationArchive.name}`,
+                message: `Archived - ${res.data.departmentArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -88,7 +88,7 @@ export default function DepartmentTable(props: DepartmentTableProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
+                message: `Unarchived - ${res.data.departmentUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({

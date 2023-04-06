@@ -1,33 +1,35 @@
 import { useState } from "react"
-import { useRouter } from "next/router"
+
 import {
-    useSkusQuery,
-    useSkuArchiveMutation,
-    useSkuUnarchiveMutation,
-    Sku,
+    usePalletsQuery,
+    usePalletArchiveMutation,
+    usePalletUnarchiveMutation,
+    Pallet,
     SortByOption,
     SortDir,
     FilterOption
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
-import SkuTableHTML from "./SkuTableHTML"
+import { useRouter } from "next/router"
+import PalletTableHTML from "./PalletTableHTML"
 
-interface SkuTableProps {
+interface PalletTableProps {
     orgUID?: string | null | undefined
+    warehouseUID?: string | null | undefined
+    typeID?: string | null | undefined
 }
 
-export default function SkuTable(props: SkuTableProps) {
+export default function PalletTable(props: PalletTableProps) {
     const router = useRouter()
-
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
-    const [archiveRequest] = useSkuArchiveMutation({})
-    const [unarchiveRequest] = useSkuUnarchiveMutation({})
+    const [archiveRequest] = usePalletArchiveMutation({})
+    const [unarchiveRequest] = usePalletUnarchiveMutation({})
 
     const filterOptions: string[] = ["All", "Active", "Archived"]
 
     // fetch data
-    const { data, loading, error } = useSkusQuery(
+    const { data, loading, error } = usePalletsQuery(
         {
             variables: {
                 searchFilter: {
@@ -35,9 +37,11 @@ export default function SkuTable(props: SkuTableProps) {
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
                     orgUID: props.orgUID,
+                    warehouseUID: props.warehouseUID,
                     limit: 100,
                     offset: 0,
                 },
+                typeID: props.typeID,
             }
         }
     )
@@ -56,21 +60,21 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     // Row Actions
-    const viewAction = (item: Sku) => {
-        router.push(`/inventory/skus/${item.code}`)
+    const viewAction = (item: Pallet) => {
+        router.push(`/company/pallets/${item.code}`)
     }
-    const editAction = (item: Sku) => {
-        router.push(`/inventory/skus/${item.code}/edit`)
+    const editAction = (item: Pallet) => {
+        router.push(`/company/pallets/${item.code}/edit`)
     }
 
-    const archiveAction = (item: Sku) => {
+    const archiveAction = (item: Pallet) => {
         archiveRequest({
-            variables: {id: item.id!}
+            variables: {uid: item.uid!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.skuArchive.name}`,
+                message: `Archived - ${res.data.cellArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -81,14 +85,14 @@ export default function SkuTable(props: SkuTableProps) {
         })
     }
 
-    const unarchiveAction = (item: Sku) => {
+    const unarchiveAction = (item: Pallet) => {
         unarchiveRequest({
-            variables: {id: item.id!}
+            variables: {uid: item.uid!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.skuUnarchive.name}`,
+                message: `Unarchived - ${res.data.cellUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -100,7 +104,7 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     // Batch Actions
-    const batchViewAction = (selectedRecords: Sku[]) => {
+    const batchViewAction = (selectedRecords: Pallet[]) => {
         selectedRecords.map((item, key) => {
             console.log(item.code)
         })
@@ -123,8 +127,8 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     return (
-        <SkuTableHTML
-            data={data?.skus!}
+        <PalletTableHTML
+            data={data?.pallets!}
             viewAction={viewAction}
             editAction={editAction}
             archiveAction={archiveAction}

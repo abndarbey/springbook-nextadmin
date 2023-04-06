@@ -70,7 +70,7 @@ export default function RoleTable(props: RoleTableProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.organizationArchive.name}`,
+                message: `Archived - ${res.data.roleArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -88,7 +88,7 @@ export default function RoleTable(props: RoleTableProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.organizationUnarchive.name}`,
+                message: `Unarchived - ${res.data.roleUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({

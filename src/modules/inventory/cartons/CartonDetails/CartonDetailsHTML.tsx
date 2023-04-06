@@ -34,7 +34,6 @@ export default function CartonDetailsHTML(props: ICartonDetailsHTMLProps) {
                     <Text size="xl" weight={700} underline>Location</Text>
                         <DetailRow title="Latitude" value={props.data.latestTrackerLog?.location?.lat!} />
                         <DetailRow title="Longitude" value={props.data.latestTrackerLog?.location?.lon!} />
-                        {/* <DetailRow title="Name" value={props.data.name!} /> */}
                     </Box>
                     <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                     <Text size="xl" weight={700} underline>SKU</Text>

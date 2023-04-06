@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const PALLETS = gql`
-    query Pallets($searchFilter: SearchFilter!) {
-        pallets(search: $searchFilter) {
+    query Pallets($searchFilter: SearchFilter!, $typeID: ID) {
+        pallets(search: $searchFilter, typeID: $typeID) {
             pallets {
                     ...PalletFragment
                 }

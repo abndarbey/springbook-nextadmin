@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const RACKS = gql`
-    query Racks($searchFilter: SearchFilter!) {
-        racks(search: $searchFilter) {
+    query Racks($searchFilter: SearchFilter!, $typeID: ID) {
+        racks(search: $searchFilter, typeID: $typeID) {
             racks {
                     ...RackFragment
                 }

@@ -1,33 +1,33 @@
 import { useState } from "react"
-import { useRouter } from "next/router"
+
 import {
-    useSkusQuery,
-    useSkuArchiveMutation,
-    useSkuUnarchiveMutation,
-    Sku,
+    useRackTypesQuery,
+    useRackTypeArchiveMutation,
+    useRackTypeUnarchiveMutation,
+    RackType,
     SortByOption,
     SortDir,
     FilterOption
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
-import SkuTableHTML from "./SkuTableHTML"
+import { useRouter } from "next/router"
+import RackTypeTableHTML from "./RackTypeTableHTML"
 
-interface SkuTableProps {
+interface RackTypeTableProps {
     orgUID?: string | null | undefined
 }
 
-export default function SkuTable(props: SkuTableProps) {
+export default function RackTypeTable(props: RackTypeTableProps) {
     const router = useRouter()
-
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
-    const [archiveRequest] = useSkuArchiveMutation({})
-    const [unarchiveRequest] = useSkuUnarchiveMutation({})
+    const [archiveRequest] = useRackTypeArchiveMutation({})
+    const [unarchiveRequest] = useRackTypeUnarchiveMutation({})
 
     const filterOptions: string[] = ["All", "Active", "Archived"]
 
     // fetch data
-    const { data, loading, error } = useSkusQuery(
+    const { data, loading, error } = useRackTypesQuery(
         {
             variables: {
                 searchFilter: {
@@ -37,7 +37,7 @@ export default function SkuTable(props: SkuTableProps) {
                     orgUID: props.orgUID,
                     limit: 100,
                     offset: 0,
-                },
+                }
             }
         }
     )
@@ -56,21 +56,21 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     // Row Actions
-    const viewAction = (item: Sku) => {
-        router.push(`/inventory/skus/${item.code}`)
+    const viewAction = (item: RackType) => {
+        router.push(`/company/rack-types/${item.code}`)
     }
-    const editAction = (item: Sku) => {
-        router.push(`/inventory/skus/${item.code}/edit`)
+    const editAction = (item: RackType) => {
+        router.push(`/company/rack-types/${item.code}/edit`)
     }
 
-    const archiveAction = (item: Sku) => {
+    const archiveAction = (item: RackType) => {
         archiveRequest({
             variables: {id: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.skuArchive.name}`,
+                message: `Archived - ${res.data.rackTypeArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -81,14 +81,14 @@ export default function SkuTable(props: SkuTableProps) {
         })
     }
 
-    const unarchiveAction = (item: Sku) => {
+    const unarchiveAction = (item: RackType) => {
         unarchiveRequest({
             variables: {id: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.skuUnarchive.name}`,
+                message: `Unarchived - ${res.data.rackTypeUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -100,7 +100,7 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     // Batch Actions
-    const batchViewAction = (selectedRecords: Sku[]) => {
+    const batchViewAction = (selectedRecords: RackType[]) => {
         selectedRecords.map((item, key) => {
             console.log(item.code)
         })
@@ -123,8 +123,8 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     return (
-        <SkuTableHTML
-            data={data?.skus!}
+        <RackTypeTableHTML
+            data={data?.rackTypes!}
             viewAction={viewAction}
             editAction={editAction}
             archiveAction={archiveAction}

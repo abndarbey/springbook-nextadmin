@@ -1,33 +1,34 @@
 import { useState } from "react"
-import { useRouter } from "next/router"
+
 import {
-    useSkusQuery,
-    useSkuArchiveMutation,
-    useSkuUnarchiveMutation,
-    Sku,
+    useWarehousesQuery,
+    useWarehouseArchiveMutation,
+    useWarehouseUnarchiveMutation,
+    Warehouse,
     SortByOption,
     SortDir,
     FilterOption
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
-import SkuTableHTML from "./SkuTableHTML"
+import { useRouter } from "next/router"
+import WarehouseTableHTML from "./WarehouseTableHTML"
 
-interface SkuTableProps {
+interface WarehouseTableProps {
     orgUID?: string | null | undefined
+    typeID?: string | null | undefined
 }
 
-export default function SkuTable(props: SkuTableProps) {
+export default function WarehouseTable(props: WarehouseTableProps) {
     const router = useRouter()
-
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
-    const [archiveRequest] = useSkuArchiveMutation({})
-    const [unarchiveRequest] = useSkuUnarchiveMutation({})
+    const [archiveRequest] = useWarehouseArchiveMutation({})
+    const [unarchiveRequest] = useWarehouseUnarchiveMutation({})
 
     const filterOptions: string[] = ["All", "Active", "Archived"]
 
     // fetch data
-    const { data, loading, error } = useSkusQuery(
+    const { data, loading, error } = useWarehousesQuery(
         {
             variables: {
                 searchFilter: {
@@ -38,6 +39,7 @@ export default function SkuTable(props: SkuTableProps) {
                     limit: 100,
                     offset: 0,
                 },
+                typeID: props.typeID,
             }
         }
     )
@@ -56,21 +58,21 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     // Row Actions
-    const viewAction = (item: Sku) => {
-        router.push(`/inventory/skus/${item.code}`)
+    const viewAction = (item: Warehouse) => {
+        router.push(`/company/warehouses/${item.code}`)
     }
-    const editAction = (item: Sku) => {
-        router.push(`/inventory/skus/${item.code}/edit`)
+    const editAction = (item: Warehouse) => {
+        router.push(`/company/warehouses/${item.code}/edit`)
     }
 
-    const archiveAction = (item: Sku) => {
+    const archiveAction = (item: Warehouse) => {
         archiveRequest({
-            variables: {id: item.id!}
+            variables: {uid: item.uid!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.skuArchive.name}`,
+                message: `Archived - ${res.data.warehouseArchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -81,14 +83,14 @@ export default function SkuTable(props: SkuTableProps) {
         })
     }
 
-    const unarchiveAction = (item: Sku) => {
+    const unarchiveAction = (item: Warehouse) => {
         unarchiveRequest({
-            variables: {id: item.id!}
+            variables: {uid: item.uid!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.skuUnarchive.name}`,
+                message: `Unarchived - ${res.data.warehouseUnarchive.name}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -100,7 +102,7 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     // Batch Actions
-    const batchViewAction = (selectedRecords: Sku[]) => {
+    const batchViewAction = (selectedRecords: Warehouse[]) => {
         selectedRecords.map((item, key) => {
             console.log(item.code)
         })
@@ -123,8 +125,8 @@ export default function SkuTable(props: SkuTableProps) {
     }
 
     return (
-        <SkuTableHTML
-            data={data?.skus!}
+        <WarehouseTableHTML
+            data={data?.warehouses!}
             viewAction={viewAction}
             editAction={editAction}
             archiveAction={archiveAction}

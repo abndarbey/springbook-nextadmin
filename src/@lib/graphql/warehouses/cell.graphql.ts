@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const CellS = gql`
-    query Cells($searchFilter: SearchFilter!) {
-        cells(search: $searchFilter) {
+    query Cells($searchFilter: SearchFilter!, $rackID: ID) {
+        cells(search: $searchFilter, rackID: $rackID) {
             cells {
                     ...CellFragment
                 }
