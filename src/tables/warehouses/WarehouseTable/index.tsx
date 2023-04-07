@@ -59,10 +59,10 @@ export default function WarehouseTable(props: WarehouseTableProps) {
 
     // Row Actions
     const viewAction = (item: Warehouse) => {
-        router.push(`/company/warehouses/${item.code}`)
+        router.push(`/warehouses/warehouses/${item.code}`)
     }
     const editAction = (item: Warehouse) => {
-        router.push(`/company/warehouses/${item.code}/edit`)
+        router.push(`/warehouses/warehouses/${item.code}/edit`)
     }
 
     const archiveAction = (item: Warehouse) => {
