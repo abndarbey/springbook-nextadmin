@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 import { Carton } from "@lib/generated/hooks"
-import { Box, Group, SimpleGrid, Text } from "@mantine/core"
+import { Badge, Box, Group, SimpleGrid, Text } from "@mantine/core"
 import ContentCard from "components/ContentCard"
 import DetailRow from "components/DetailRow"
 import QrGen from "components/QrGen"
@@ -14,7 +14,7 @@ export default function CartonDetailsHTML(props: ICartonDetailsHTMLProps) {
         <SimpleGrid cols={2}>
             <SimpleGrid cols={1}>
                 <ContentCard>
-                    <SimpleGrid cols={3} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
+                    <SimpleGrid cols={4} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                             <DetailRow title="Code" value={props.data.code!} />
                             {/* <DetailRow title="Name" value={props.data.name!} /> */}
@@ -26,6 +26,9 @@ export default function CartonDetailsHTML(props: ICartonDetailsHTMLProps) {
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                             <DetailRow title="Batch Code" value={props.data?.batch?.code!} />
                             <DetailRow title="Batch Number" value={props.data?.batch?.batchNumber!} />
+                        </Box>
+                        <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
+                            <DetailRow title="Status" value={<Badge>{props.data?.status!}</Badge>} />
                         </Box>
                     </SimpleGrid>
                 </ContentCard>
