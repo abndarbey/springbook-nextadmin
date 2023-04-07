@@ -57,10 +57,10 @@ export default function WarehouseTypeTable(props: WarehouseTypeTableProps) {
 
     // Row Actions
     const viewAction = (item: WarehouseType) => {
-        router.push(`/company/warehouse-types/${item.code}`)
+        router.push(`/warehouses/warehouse-types/${item.code}`)
     }
     const editAction = (item: WarehouseType) => {
-        router.push(`/company/warehouse-types/${item.code}/edit`)
+        router.push(`/warehouses/warehouse-types/${item.code}/edit`)
     }
 
     const archiveAction = (item: WarehouseType) => {
