@@ -51,11 +51,16 @@ export default function RackTableHTML(props: RackTableHTMLProps) {
                     records={records}
                     columns={[
                         { accessor: "code", width: "10%" },
-                        { accessor: "name" },
-                        { accessor: "organization.code", title: "Organization" },
+                        {
+                            accessor: "matrix",
+                            render: (item) => (
+                                <>{item.rows} X {item.columns}</>
+                            )
+                        },
+                        { accessor: "warehouse.name", title: "Warehouse" },
+                        { accessor: "organization.name", title: "Organization" },
                         {
                             accessor: "status",
-                            // width: 160,
                             render: (item) => (
                                 <Badge
                                     color={!item.isArchived ? "blue" : "gray"}
