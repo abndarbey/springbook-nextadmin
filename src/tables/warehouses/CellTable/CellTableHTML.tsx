@@ -51,17 +51,22 @@ export default function CellTableHTML(props: CellTableHTMLProps) {
                     records={records}
                     columns={[
                         { accessor: "code", width: "10%" },
+                        {
+                            accessor: "position",
+                            render: (item) => (
+                                <>{item.row} x {item.col}</>
+                            )
+                        },
                         { accessor: "rack.code", title: "Rack" },
                         { accessor: "warehouse.code", title: "Warehouse" },
                         { accessor: "organization.code", title: "Organization" },
                         {
                             accessor: "status",
-                            // width: 160,
                             render: (item) => (
                                 <Badge
                                     color={!item.isArchived ? "blue" : "gray"}
                                     variant={theme.colorScheme === "dark" ? "light" : "light"}
-                                    >
+                                >
                                     {!item.isArchived ? "Active" : "Disabled"}
                                 </Badge>
                             )

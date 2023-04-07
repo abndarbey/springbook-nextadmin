@@ -15,12 +15,9 @@ import {
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
 import DetailRow from 'components/DetailRow'
+import { PageProps } from 'types/types'
 
-interface ICellDetailsProps {
-    code?: any
-}
-
-export default function CellDetails(props: ICellDetailsProps) {
+export default function CellDetails(props: PageProps) {
     const router = useRouter()
     const [finalizeRequest] = useCellFinalizeMutation({})
     const [archiveRequest] = useCellArchiveMutation({})
