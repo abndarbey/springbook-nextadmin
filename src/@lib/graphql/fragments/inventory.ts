@@ -116,3 +116,33 @@ export const Carton = gql`
         }
     }
 `
+
+export const CartonTransferLog = gql`
+    fragment CartonTransferLogFragment on CartonTransferLog {
+        id
+        owner {
+            uid
+            code
+            name
+        }
+        custodian {
+            uid
+            code
+            name
+        }
+        createdAt
+    } 
+`
+
+export const CartonTrackerLog = gql`
+    fragment CartonTrackerLogFragment on CartonTrackerLog {
+        id
+        temperature
+        humidity
+        location {
+            lat
+            lon
+        }
+        createdAt
+    } 
+`

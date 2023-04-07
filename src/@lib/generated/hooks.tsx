@@ -2201,6 +2201,10 @@ export type BatchFragmentFragment = { __typename?: 'Batch', id?: string | null, 
 
 export type CartonFragmentFragment = { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, location?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
+export type CartonTransferLogFragmentFragment = { __typename?: 'CartonTransferLog', id?: string | null, createdAt?: any | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+
+export type CartonTrackerLogFragmentFragment = { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, location?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null };
+
 export type WarehouseTypeFragmentFragment = { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackTypeFragmentFragment = { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null, storageType?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, storageDimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
@@ -2309,6 +2313,22 @@ export type CartonUnarchiveMutationVariables = Exact<{
 
 
 export type CartonUnarchiveMutation = { __typename?: 'Mutation', cartonUnarchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, location?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+
+export type CartonTransferLogsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  cartonUID: Scalars['UUID'];
+}>;
+
+
+export type CartonTransferLogsQuery = { __typename?: 'Query', cartonTransferLogs: { __typename?: 'CartonTransferLogsResult', total: number, cartonTransferLogs: Array<{ __typename?: 'CartonTransferLog', id?: string | null, createdAt?: any | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type CartonTrackerLogsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  cartonUID: Scalars['UUID'];
+}>;
+
+
+export type CartonTrackerLogsQuery = { __typename?: 'Query', cartonTrackerLogs: { __typename?: 'CartonTrackerLogsResult', total: number, cartonTrackerLogs: Array<{ __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, location?: { __typename?: 'Waypoint', lat?: any | null, lon?: any | null } | null }> } };
 
 export type SkusQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -3079,6 +3099,34 @@ export const CartonFragmentFragmentDoc = gql`
     code
     name
   }
+}
+    `;
+export const CartonTransferLogFragmentFragmentDoc = gql`
+    fragment CartonTransferLogFragment on CartonTransferLog {
+  id
+  owner {
+    uid
+    code
+    name
+  }
+  custodian {
+    uid
+    code
+    name
+  }
+  createdAt
+}
+    `;
+export const CartonTrackerLogFragmentFragmentDoc = gql`
+    fragment CartonTrackerLogFragment on CartonTrackerLog {
+  id
+  temperature
+  humidity
+  location {
+    lat
+    lon
+  }
+  createdAt
 }
     `;
 export const WarehouseTypeFragmentFragmentDoc = gql`
@@ -5507,6 +5555,84 @@ export function useCartonUnarchiveMutation(baseOptions?: Apollo.MutationHookOpti
 export type CartonUnarchiveMutationHookResult = ReturnType<typeof useCartonUnarchiveMutation>;
 export type CartonUnarchiveMutationResult = Apollo.MutationResult<CartonUnarchiveMutation>;
 export type CartonUnarchiveMutationOptions = Apollo.BaseMutationOptions<CartonUnarchiveMutation, CartonUnarchiveMutationVariables>;
+export const CartonTransferLogsDocument = gql`
+    query CartonTransferLogs($searchFilter: SearchFilter!, $cartonUID: UUID!) {
+  cartonTransferLogs(search: $searchFilter, cartonUID: $cartonUID) {
+    cartonTransferLogs {
+      ...CartonTransferLogFragment
+    }
+    total
+  }
+}
+    ${CartonTransferLogFragmentFragmentDoc}`;
+
+/**
+ * __useCartonTransferLogsQuery__
+ *
+ * To run a query within a React component, call `useCartonTransferLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCartonTransferLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCartonTransferLogsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      cartonUID: // value for 'cartonUID'
+ *   },
+ * });
+ */
+export function useCartonTransferLogsQuery(baseOptions: Apollo.QueryHookOptions<CartonTransferLogsQuery, CartonTransferLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CartonTransferLogsQuery, CartonTransferLogsQueryVariables>(CartonTransferLogsDocument, options);
+      }
+export function useCartonTransferLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartonTransferLogsQuery, CartonTransferLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CartonTransferLogsQuery, CartonTransferLogsQueryVariables>(CartonTransferLogsDocument, options);
+        }
+export type CartonTransferLogsQueryHookResult = ReturnType<typeof useCartonTransferLogsQuery>;
+export type CartonTransferLogsLazyQueryHookResult = ReturnType<typeof useCartonTransferLogsLazyQuery>;
+export type CartonTransferLogsQueryResult = Apollo.QueryResult<CartonTransferLogsQuery, CartonTransferLogsQueryVariables>;
+export const CartonTrackerLogsDocument = gql`
+    query CartonTrackerLogs($searchFilter: SearchFilter!, $cartonUID: UUID!) {
+  cartonTrackerLogs(search: $searchFilter, cartonUID: $cartonUID) {
+    cartonTrackerLogs {
+      ...CartonTrackerLogFragment
+    }
+    total
+  }
+}
+    ${CartonTrackerLogFragmentFragmentDoc}`;
+
+/**
+ * __useCartonTrackerLogsQuery__
+ *
+ * To run a query within a React component, call `useCartonTrackerLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCartonTrackerLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCartonTrackerLogsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      cartonUID: // value for 'cartonUID'
+ *   },
+ * });
+ */
+export function useCartonTrackerLogsQuery(baseOptions: Apollo.QueryHookOptions<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>(CartonTrackerLogsDocument, options);
+      }
+export function useCartonTrackerLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>(CartonTrackerLogsDocument, options);
+        }
+export type CartonTrackerLogsQueryHookResult = ReturnType<typeof useCartonTrackerLogsQuery>;
+export type CartonTrackerLogsLazyQueryHookResult = ReturnType<typeof useCartonTrackerLogsLazyQuery>;
+export type CartonTrackerLogsQueryResult = Apollo.QueryResult<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>;
 export const SkusDocument = gql`
     query Skus($searchFilter: SearchFilter!) {
   skus(search: $searchFilter) {

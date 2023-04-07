@@ -54,3 +54,31 @@ export const CARTON_UNARCHIVE = gql`
     }
     ${fragment.Carton}
 `
+
+//////////////////////////
+// Carton Transfer Log ///
+//////////////////////////
+
+export const CARTON_TRANSFER_LOGS = gql`
+    query CartonTransferLogs($searchFilter: SearchFilter!, $cartonUID: UUID!) {
+        cartonTransferLogs(search: $searchFilter, cartonUID: $cartonUID) {
+            cartonTransferLogs {
+                ...CartonTransferLogFragment
+            }
+            total
+        }
+    }
+    ${fragment.CartonTransferLog}
+`
+
+export const CARTON_TRACKER_LOGS = gql`
+    query CartonTrackerLogs($searchFilter: SearchFilter!, $cartonUID: UUID!) {
+        cartonTrackerLogs(search: $searchFilter, cartonUID: $cartonUID) {
+            cartonTrackerLogs {
+                ...CartonTrackerLogFragment
+            }
+            total
+        }
+    }
+    ${fragment.CartonTrackerLog}
+`

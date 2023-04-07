@@ -16,7 +16,7 @@ export default function CartonList(props: PageProps) {
     const router = useRouter()
 
     const handleNew = () => {
-        router.push("/inventory/skus/new")
+        router.push("/inventory/cartons/new")
     }
 
     const actionButtons: IActionButtonProps[] = [

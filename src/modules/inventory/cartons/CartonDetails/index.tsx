@@ -14,8 +14,9 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import CartonDetailsHTML from "./CartonDetailsHTML"
-import QrGen from "components/QrGen"
-import ContentCard from "components/ContentCard"
+import CartonTransferTable from "./CartonTransferTable"
+import CartonTrackerTable from "./CartonTrackerTable"
+import CartonTxnTable from "./CartonTxnTable"
 
 export default function CartonDetails(props: PageProps) {
     const router = useRouter()
@@ -109,7 +110,6 @@ export default function CartonDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="qr">QR</Tabs.Tab>
                     <Tabs.Tab value="transactions">Transactions</Tabs.Tab>
                     <Tabs.Tab value="trackers">Trackers</Tabs.Tab>
                     <Tabs.Tab value="history">History</Tabs.Tab>
@@ -119,23 +119,16 @@ export default function CartonDetails(props: PageProps) {
                     <CartonDetailsHTML data={data?.carton!} />
                 </Tabs.Panel>
 
-                <Tabs.Panel value="qr" pt="xs">
-                    <ContentCard>
-                        <QrGen uid={data?.carton.uid} />
-                        <Text mt="xs">{data?.carton.uid}</Text>
-                    </ContentCard>
-                </Tabs.Panel>
-
                 <Tabs.Panel value="transactions" pt="xs">
-                    <h1>Carton Transactions</h1>
+                    <CartonTxnTable cartonUID={data?.carton.uid} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="trackers" pt="xs">
-                    <h1>All trackers will be shown here</h1>
+                    <CartonTrackerTable cartonUID={data?.carton.uid} />
                 </Tabs.Panel>
                 
                 <Tabs.Panel value="history" pt="xs">
-                    <h1>All Ownership and Custodianship history will be shown here</h1>
+                    <CartonTransferTable cartonUID={data?.carton.uid} />
                 </Tabs.Panel>
             </Tabs>
         </Page>
