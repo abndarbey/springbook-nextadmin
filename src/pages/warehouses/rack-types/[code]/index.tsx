@@ -9,11 +9,12 @@ export default function Details() {
     if (!isReady) {
         return <PageLoader />
     }
+    const title: string = "Rack Type Details"
     
     return (
         <Fragment>
-            <PageTitle title='RackType Details' />
-            <RackTypeDetails code={query.code} />
+            <PageTitle title={title} />
+            <RackTypeDetails title={title} code={query.code} />
         </Fragment>
     )
 }
