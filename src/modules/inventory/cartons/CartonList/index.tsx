@@ -9,7 +9,7 @@ import CartonTable from "tables/inventory/CartonTable"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },
-    { title: "SKUs", href: "#" },
+    { title: "Cartons", href: "#" },
 ]
 
 export default function CartonList(props: PageProps) {
