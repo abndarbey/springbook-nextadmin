@@ -57,10 +57,10 @@ export default function PalletTypeTable(props: PalletTypeTableProps) {
 
     // Row Actions
     const viewAction = (item: PalletType) => {
-        router.push(`/company/pallet-types/${item.code}`)
+        router.push(`/warehouses/pallet-types/${item.code}`)
     }
     const editAction = (item: PalletType) => {
-        router.push(`/company/pallet-types/${item.code}/edit`)
+        router.push(`/warehouses/pallet-types/${item.code}/edit`)
     }
 
     const archiveAction = (item: PalletType) => {

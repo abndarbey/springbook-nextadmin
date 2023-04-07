@@ -61,10 +61,10 @@ export default function RackTable(props: RackTableProps) {
 
     // Row Actions
     const viewAction = (item: Rack) => {
-        router.push(`/company/racks/${item.code}`)
+        router.push(`/warehouses/racks/${item.code}`)
     }
     const editAction = (item: Rack) => {
-        router.push(`/company/racks/${item.code}/edit`)
+        router.push(`/warehouses/racks/${item.code}/edit`)
     }
 
     const archiveAction = (item: Rack) => {

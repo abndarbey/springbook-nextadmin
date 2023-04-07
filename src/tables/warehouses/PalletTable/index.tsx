@@ -61,10 +61,10 @@ export default function PalletTable(props: PalletTableProps) {
 
     // Row Actions
     const viewAction = (item: Pallet) => {
-        router.push(`/company/pallets/${item.code}`)
+        router.push(`/warehouses/pallets/${item.code}`)
     }
     const editAction = (item: Pallet) => {
-        router.push(`/company/pallets/${item.code}/edit`)
+        router.push(`/warehouses/pallets/${item.code}/edit`)
     }
 
     const archiveAction = (item: Pallet) => {

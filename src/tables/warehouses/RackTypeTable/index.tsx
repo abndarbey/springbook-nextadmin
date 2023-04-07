@@ -57,10 +57,10 @@ export default function RackTypeTable(props: RackTypeTableProps) {
 
     // Row Actions
     const viewAction = (item: RackType) => {
-        router.push(`/company/rack-types/${item.code}`)
+        router.push(`/warehouses/rack-types/${item.code}`)
     }
     const editAction = (item: RackType) => {
-        router.push(`/company/rack-types/${item.code}/edit`)
+        router.push(`/warehouses/rack-types/${item.code}/edit`)
     }
 
     const archiveAction = (item: RackType) => {

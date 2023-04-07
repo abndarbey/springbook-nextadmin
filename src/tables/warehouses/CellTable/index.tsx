@@ -61,10 +61,10 @@ export default function CellTable(props: CellTableProps) {
 
     // Row Actions
     const viewAction = (item: Cell) => {
-        router.push(`/company/cells/${item.code}`)
+        router.push(`/warehouses/cells/${item.code}`)
     }
     const editAction = (item: Cell) => {
-        router.push(`/company/cells/${item.code}/edit`)
+        router.push(`/warehouses/cells/${item.code}/edit`)
     }
 
     const archiveAction = (item: Cell) => {
