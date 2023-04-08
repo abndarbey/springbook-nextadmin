@@ -1,12 +1,13 @@
-import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
-import RackNew from 'modules/warehouses/rack/RackNew'
+import { Fragment } from "react"
+import PageTitle from "components/PageTitle"
+import RackNew from "modules/warehouses/rack/RackNew"
 
 export default function New() {
+    const title: string = "New Rack"
     return (
         <Fragment>
-            <PageTitle title='New Rack Type' />
-            <RackNew />
+            <PageTitle title={title} />
+            <RackNew title={title} />
         </Fragment>
     )
 }
