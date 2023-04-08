@@ -66,7 +66,7 @@ export default function RackDetails(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Finalized - ${res.data.rackFinalize.name}`,
+                message: `Finalized - ${res.data.rackFinalize.code}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -86,7 +86,7 @@ export default function RackDetails(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.rackArchive.name}`,
+                message: `Archived - ${res.data.rackArchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -106,7 +106,7 @@ export default function RackDetails(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.rackUnarchive.name}`,
+                message: `Unarchived - ${res.data.rackUnarchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
