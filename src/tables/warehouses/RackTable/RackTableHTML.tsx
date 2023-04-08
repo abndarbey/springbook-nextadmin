@@ -57,6 +57,7 @@ export default function RackTableHTML(props: RackTableHTMLProps) {
                                 <>{item.rows} X {item.columns}</>
                             )
                         },
+                        { accessor: "type.name", title: "Type" },
                         { accessor: "warehouse.name", title: "Warehouse" },
                         { accessor: "organization.name", title: "Organization" },
                         {

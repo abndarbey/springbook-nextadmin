@@ -51,8 +51,8 @@ export default function PalletTableHTML(props: PalletTableHTMLProps) {
                     records={records}
                     columns={[
                         { accessor: "code", width: "10%" },
-                        { accessor: "name" },
-                        { accessor: "organization.code", title: "Organization" },
+                        { accessor: "type.name", title: "Type" },
+                        { accessor: "organization.name", title: "Organization" },
                         {
                             accessor: "status",
                             // width: 160,

@@ -25,7 +25,7 @@ export default function WarehouseTypeDetails(props: PageProps) {
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
-        { title: "WarehouseTypes", href: "/warehouses/warehouse-types" },
+        { title: "Warehouse Types", href: "/warehouses/warehouse-types" },
         { title: props.code, href: "#" },
     ]
 
