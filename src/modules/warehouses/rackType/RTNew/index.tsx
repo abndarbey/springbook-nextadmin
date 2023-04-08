@@ -95,7 +95,7 @@ export default function RackTypeNew(props: PageProps) {
                 color: "green",
                 message: `Rack Type ${res.data.rackTypeCreate.name} Created`,
             })
-            router.push("/warehouses/rack-types")
+            router.push(`/warehouses/rack-types/${res.data.rackTypeCreate.code}`)
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
