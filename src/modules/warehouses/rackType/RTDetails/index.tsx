@@ -25,7 +25,7 @@ export default function RackTypeDetails(props: PageProps) {
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
-        { title: "RackTypes", href: "/warehouses/rack-types" },
+        { title: "Rack Types", href: "/warehouses/rack-types" },
         { title: props.code, href: "#" },
     ]
 

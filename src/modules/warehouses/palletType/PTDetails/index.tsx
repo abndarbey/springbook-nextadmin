@@ -25,7 +25,7 @@ export default function PalletTypeDetails(props: PageProps) {
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
-        { title: "PalletTypes", href: "/warehouses/pallet-types" },
+        { title: "Pallet Types", href: "/warehouses/pallet-types" },
         { title: props.code, href: "#" },
     ]
 
