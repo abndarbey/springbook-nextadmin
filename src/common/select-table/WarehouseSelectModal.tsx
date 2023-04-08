@@ -43,6 +43,7 @@ export default function WarehouseSelectModal(props: ISelectModalProps) {
                     limit: 100,
                     offset: 0,
                 },
+                isThirdParty: props.isThirdParty,
             }
         }
     )

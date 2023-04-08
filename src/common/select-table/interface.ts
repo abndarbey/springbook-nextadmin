@@ -13,4 +13,5 @@ export interface ISelectModalProps {
     custodianUID?: string
     skuUID?: string
     skuID?: string
+    isThirdParty?: boolean
 }

@@ -2659,6 +2659,7 @@ export type RackTypeUnarchiveMutation = { __typename?: 'Mutation', rackTypeUnarc
 export type WarehousesQueryVariables = Exact<{
   searchFilter: SearchFilter;
   typeID?: InputMaybe<Scalars['ID']>;
+  isThirdParty?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -7161,8 +7162,8 @@ export type RackTypeUnarchiveMutationHookResult = ReturnType<typeof useRackTypeU
 export type RackTypeUnarchiveMutationResult = Apollo.MutationResult<RackTypeUnarchiveMutation>;
 export type RackTypeUnarchiveMutationOptions = Apollo.BaseMutationOptions<RackTypeUnarchiveMutation, RackTypeUnarchiveMutationVariables>;
 export const WarehousesDocument = gql`
-    query Warehouses($searchFilter: SearchFilter!, $typeID: ID) {
-  warehouses(search: $searchFilter, typeID: $typeID) {
+    query Warehouses($searchFilter: SearchFilter!, $typeID: ID, $isThirdParty: Boolean) {
+  warehouses(search: $searchFilter, typeID: $typeID, isThirdParty: $isThirdParty) {
     warehouses {
       ...WarehouseFragment
     }
@@ -7185,6 +7186,7 @@ export const WarehousesDocument = gql`
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
  *      typeID: // value for 'typeID'
+ *      isThirdParty: // value for 'isThirdParty'
  *   },
  * });
  */

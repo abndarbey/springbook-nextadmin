@@ -73,7 +73,7 @@ export default function RackTypeSelectModal(props: ISelectModalProps) {
             overlayOpacity={0.55}
             overlayBlur={3}
         >
-            <PageHeader title='Select RackType' />
+            <PageHeader title='Select Rack Type' />
             <RackTypeTable
                 data={data?.rackTypes!}
                 filterAction={filterAction}
@@ -91,6 +91,7 @@ interface RackTypeTableProps {
     filterAction?: any
     filterOptions: string[]
     handleSelect: any
+    handleClear?: any
     setOpened: Dispatch<SetStateAction<boolean>>
 }
 
@@ -109,6 +110,15 @@ const RackTypeTable = (props: RackTypeTableProps) => {
         })
 
         props.setOpened(false)
+    }
+
+    const handleClear = (e: any) => {
+        e.preventDefault()
+        if (props.handleClear) {
+            props.handleClear()
+        }
+        props.setOpened(false)
+        return
     }
 
     const handleCancel = (e: any) => {
@@ -168,8 +178,10 @@ const RackTypeTable = (props: RackTypeTableProps) => {
                 />
             </Box>
             <Group position="apart" mt="md">
-                <Button
-                    color='dark'size="md" onClick={(e: any) => handleCancel(e)}>Cancel</Button>
+                <Group>
+                    <Button color='dark'size="md" onClick={(e: any) => handleCancel(e)}>Cancel</Button>
+                    <Button color='yellow'size="md" onClick={(e: any) => handleClear(e)}>Clear</Button>
+                </Group>
                 <Button size="md" onClick={(e: any) => handleSelect(e)}>Select</Button>
             </Group>
         </ContentCard>
