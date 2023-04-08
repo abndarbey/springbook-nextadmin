@@ -101,7 +101,7 @@ export default function PalletTypeNew(props: PageProps) {
                 color: "green",
                 message: `Pallet Type ${res.data.palletTypeCreate.name} Created`,
             })
-            router.push("/warehouses/pallet-types")
+            router.push(`/warehouses/pallet-types/${res.data.palletTypeCreate.code}`)
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
