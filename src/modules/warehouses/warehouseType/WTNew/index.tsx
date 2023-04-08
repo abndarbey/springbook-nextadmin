@@ -93,7 +93,7 @@ export default function WarehouseTypeNew(props: PageProps) {
                 color: "green",
                 message: `Warehouse Type ${res.data.warehouseTypeCreate.name} Created`,
             })
-            router.push("/warehouses/warehouse-types")
+            router.push(`/warehouses/warehouse-types/${res.data.warehouseTypeCreate.code}`)
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
