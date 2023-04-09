@@ -15,7 +15,7 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import RoleDetailsHTML from "./RoleDetailsHTML"
-import UserTable from "tables/UserTable"
+import UserTable from "tables/company/UserTable"
 
 export default function RoleDetails(props: PageProps) {
     const router = useRouter()

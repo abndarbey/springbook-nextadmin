@@ -15,7 +15,6 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import ContactDetailsHTML from "./ContactDetailsHTML"
-import Roles from "tables/Roles"
 
 export default function ContactDetails(props: PageProps) {
     const router = useRouter()
