@@ -309,7 +309,7 @@ export type Mutation = {
   organizationUnarchive: Organization;
   organizationUpdate: Organization;
   palletArchive: Pallet;
-  palletCreate: Pallet;
+  palletCreate: Scalars['Boolean'];
   palletFinalize: Pallet;
   palletTypeArchive: PalletType;
   palletTypeCreate: PalletType;
@@ -1534,6 +1534,7 @@ export type UpdateOrganization = {
 
 export type UpdatePallet = {
   orgUID?: InputMaybe<Scalars['NullUUID']>;
+  quantity?: InputMaybe<Scalars['NullInt']>;
   status?: InputMaybe<Scalars['NullString']>;
   typeID?: InputMaybe<Scalars['NullInt64']>;
   warehouseUID?: InputMaybe<Scalars['NullUUID']>;
@@ -2471,7 +2472,7 @@ export type PalletCreateMutationVariables = Exact<{
 }>;
 
 
-export type PalletCreateMutation = { __typename?: 'Mutation', palletCreate: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type PalletCreateMutation = { __typename?: 'Mutation', palletCreate: boolean };
 
 export type PalletUpdateMutationVariables = Exact<{
   uid: Scalars['UUID'];
@@ -6276,11 +6277,9 @@ export type PalletLazyQueryHookResult = ReturnType<typeof usePalletLazyQuery>;
 export type PalletQueryResult = Apollo.QueryResult<PalletQuery, PalletQueryVariables>;
 export const PalletCreateDocument = gql`
     mutation PalletCreate($input: UpdatePallet!) {
-  palletCreate(input: $input) {
-    ...PalletFragment
-  }
+  palletCreate(input: $input)
 }
-    ${PalletFragmentFragmentDoc}`;
+    `;
 export type PalletCreateMutationFn = Apollo.MutationFunction<PalletCreateMutation, PalletCreateMutationVariables>;
 
 /**

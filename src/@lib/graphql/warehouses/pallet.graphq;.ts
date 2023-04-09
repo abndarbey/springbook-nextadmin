@@ -24,11 +24,8 @@ export const PALLET = gql`
 
 export const PALLET_CREATE = gql`
     mutation PalletCreate($input: UpdatePallet!) {
-        palletCreate(input: $input) {
-            ...PalletFragment
-            }
-        }
-    ${fragment.Pallet}
+        palletCreate(input: $input)
+    }
 `
 
 export const PALLET_UPDATE = gql`
