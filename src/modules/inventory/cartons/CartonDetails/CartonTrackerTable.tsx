@@ -133,9 +133,9 @@ const CartonTrackerLogTable = (props: CartonTrackerLogTableProps) => {
                         { accessor: "temperature", title: "Temperature (C)" },
                         { accessor: "humidity", title: "Custodian (GM/M3)" },
                         {
-                            accessor: "location", title: "Geo Location",
+                            accessor: "geoLocation", title: "Geo Location",
                             render: (item) => (
-                                <>{item.location?.lat}, {item.location?.lon}</>
+                                <>{item.geoLocation?.lat}, {item.geoLocation?.lon}</>
                             )
                         },
                         {

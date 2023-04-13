@@ -132,6 +132,7 @@ const CartonTransferLogTable = (props: CartonTransferLogTableProps) => {
                         { accessor: "id", title: "ID" },
                         { accessor: "owner.name", title: "Owner" },
                         { accessor: "custodian.name", title: "Custodian" },
+                        { accessor: "warehouse.name", title: "Warehouse" },
                         {
                             accessor: "createdAt", title: "Timestamp",
                             render: (item) => (

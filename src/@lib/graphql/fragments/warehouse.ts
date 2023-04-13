@@ -96,7 +96,7 @@ export const Warehouse = gql`
             code
             name
         }
-        waypoint {
+        geoLocation {
             lat
             lon
         }

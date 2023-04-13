@@ -84,7 +84,7 @@ export const Carton = gql`
             id
             temperature
             humidity
-            location {
+            geoLocation {
                 lat
                 lon
             }
@@ -130,6 +130,11 @@ export const CartonTransferLog = gql`
             code
             name
         }
+        warehouse {
+            uid
+            code
+            name
+        }
         createdAt
     } 
 `
@@ -139,7 +144,7 @@ export const CartonTrackerLog = gql`
         id
         temperature
         humidity
-        location {
+        geoLocation {
             lat
             lon
         }
