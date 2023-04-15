@@ -58,8 +58,8 @@ export const Batch = gql`
     }
 `
 
-export const QrOrder = gql`
-    fragment QrOrderFragment on QrOrder {
+export const QROrder = gql`
+    fragment QROrderFragment on QROrder {
         id
         uid
         code
@@ -95,6 +95,14 @@ export const QrOrder = gql`
             code
             batchNumber
         }
+    }
+`
+
+export const QROrderObject = gql`
+    fragment QROrderObjectFragment on QROrderObject {
+        id
+        qrOrderUID
+        objectUID
     }
 `
 

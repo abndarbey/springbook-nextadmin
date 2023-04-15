@@ -120,9 +120,9 @@ export default function QrOrderNew(props: PageProps) {
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: `QrOrder Created`,
+                message: `QR Order Created`,
             })
-            router.push(`/inventory/qr-orders/${res.data.qrOrder.code}`)
+            router.push(`/inventory/qr-orders/${res.data.qrOrderCreate.code}`)
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,

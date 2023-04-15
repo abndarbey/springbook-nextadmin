@@ -994,7 +994,7 @@ export type PalletsResult = {
 };
 
 export type QrOrder = {
-  __typename?: 'QrOrder';
+  __typename?: 'QROrder';
   batch?: Maybe<Batch>;
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
@@ -1012,8 +1012,21 @@ export type QrOrder = {
   warehouse?: Maybe<Warehouse>;
 };
 
+export type QrOrderObject = {
+  __typename?: 'QROrderObject';
+  id?: Maybe<Scalars['ID']>;
+  objectUID?: Maybe<Scalars['UUID']>;
+  qrOrderUID?: Maybe<Scalars['UUID']>;
+};
+
+export type QrOrderObjectsResult = {
+  __typename?: 'QROrderObjectsResult';
+  qrOrderObjects: Array<QrOrderObject>;
+  total: Scalars['Int'];
+};
+
 export type QrOrdersResult = {
-  __typename?: 'QrOrdersResult';
+  __typename?: 'QROrdersResult';
   qrOrders: Array<QrOrder>;
   total: Scalars['Int'];
 };
@@ -1054,6 +1067,7 @@ export type Query = {
   pallets: PalletsResult;
   pendingTransactionsCount: Scalars['Int'];
   qrOrder: QrOrder;
+  qrOrderObjects: QrOrderObjectsResult;
   qrOrders: QrOrdersResult;
   rack: Rack;
   rackType: RackType;
@@ -1241,6 +1255,12 @@ export type QueryQrOrderArgs = {
   code?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   uid?: InputMaybe<Scalars['UUID']>;
+};
+
+
+export type QueryQrOrderObjectsArgs = {
+  qrOrderUID: Scalars['UUID'];
+  search: SearchFilter;
 };
 
 
@@ -2336,7 +2356,9 @@ export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?
 
 export type BatchFragmentFragment = { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, cartonCount?: number | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type QrOrderFragmentFragment = { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null };
+export type QrOrderFragmentFragment = { __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null };
+
+export type QrOrderObjectFragmentFragment = { __typename?: 'QROrderObject', id?: string | null, qrOrderUID?: any | null, objectUID?: any | null };
 
 export type CartonFragmentFragment = { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null };
 
@@ -2470,7 +2492,15 @@ export type QrOrdersQueryVariables = Exact<{
 }>;
 
 
-export type QrOrdersQuery = { __typename?: 'Query', qrOrders: { __typename?: 'QrOrdersResult', total: number, qrOrders: Array<{ __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null }> } };
+export type QrOrdersQuery = { __typename?: 'Query', qrOrders: { __typename?: 'QROrdersResult', total: number, qrOrders: Array<{ __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null }> } };
+
+export type QrOrderObjectsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  qrOrderUID: Scalars['UUID'];
+}>;
+
+
+export type QrOrderObjectsQuery = { __typename?: 'Query', qrOrderObjects: { __typename?: 'QROrderObjectsResult', total: number, qrOrderObjects: Array<{ __typename?: 'QROrderObject', id?: string | null, qrOrderUID?: any | null, objectUID?: any | null }> } };
 
 export type QrOrderQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -2478,14 +2508,14 @@ export type QrOrderQueryVariables = Exact<{
 }>;
 
 
-export type QrOrderQuery = { __typename?: 'Query', qrOrder: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+export type QrOrderQuery = { __typename?: 'Query', qrOrder: { __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type QrOrderCreateMutationVariables = Exact<{
   input: UpdateQrOrder;
 }>;
 
 
-export type QrOrderCreateMutation = { __typename?: 'Mutation', qrOrderCreate: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+export type QrOrderCreateMutation = { __typename?: 'Mutation', qrOrderCreate: { __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type UpdateQrOrderUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -2493,28 +2523,28 @@ export type UpdateQrOrderUpdateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateQrOrderUpdateMutation = { __typename?: 'Mutation', qrOrderUpdate: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+export type UpdateQrOrderUpdateMutation = { __typename?: 'Mutation', qrOrderUpdate: { __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type QrOrderFinalizeMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type QrOrderFinalizeMutation = { __typename?: 'Mutation', qrOrderFinalize: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+export type QrOrderFinalizeMutation = { __typename?: 'Mutation', qrOrderFinalize: { __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type QrOrderArchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type QrOrderArchiveMutation = { __typename?: 'Mutation', qrOrderArchive: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+export type QrOrderArchiveMutation = { __typename?: 'Mutation', qrOrderArchive: { __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type QrOrderUnarchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type QrOrderUnarchiveMutation = { __typename?: 'Mutation', qrOrderUnarchive: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+export type QrOrderUnarchiveMutation = { __typename?: 'Mutation', qrOrderUnarchive: { __typename?: 'QROrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type SkusQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -3239,7 +3269,7 @@ export const BatchFragmentFragmentDoc = gql`
 }
     `;
 export const QrOrderFragmentFragmentDoc = gql`
-    fragment QrOrderFragment on QrOrder {
+    fragment QROrderFragment on QROrder {
   id
   uid
   code
@@ -3275,6 +3305,13 @@ export const QrOrderFragmentFragmentDoc = gql`
     code
     batchNumber
   }
+}
+    `;
+export const QrOrderObjectFragmentFragmentDoc = gql`
+    fragment QROrderObjectFragment on QROrderObject {
+  id
+  qrOrderUID
+  objectUID
 }
     `;
 export const CartonFragmentFragmentDoc = gql`
@@ -5880,10 +5917,10 @@ export type CartonTrackerLogsQueryHookResult = ReturnType<typeof useCartonTracke
 export type CartonTrackerLogsLazyQueryHookResult = ReturnType<typeof useCartonTrackerLogsLazyQuery>;
 export type CartonTrackerLogsQueryResult = Apollo.QueryResult<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>;
 export const QrOrdersDocument = gql`
-    query QrOrders($searchFilter: SearchFilter!, $objectType: String) {
+    query QROrders($searchFilter: SearchFilter!, $objectType: String) {
   qrOrders(search: $searchFilter, objectType: $objectType) {
     qrOrders {
-      ...QrOrderFragment
+      ...QROrderFragment
     }
     total
   }
@@ -5918,10 +5955,49 @@ export function useQrOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Q
 export type QrOrdersQueryHookResult = ReturnType<typeof useQrOrdersQuery>;
 export type QrOrdersLazyQueryHookResult = ReturnType<typeof useQrOrdersLazyQuery>;
 export type QrOrdersQueryResult = Apollo.QueryResult<QrOrdersQuery, QrOrdersQueryVariables>;
+export const QrOrderObjectsDocument = gql`
+    query QROrderObjects($searchFilter: SearchFilter!, $qrOrderUID: UUID!) {
+  qrOrderObjects(search: $searchFilter, qrOrderUID: $qrOrderUID) {
+    qrOrderObjects {
+      ...QROrderObjectFragment
+    }
+    total
+  }
+}
+    ${QrOrderObjectFragmentFragmentDoc}`;
+
+/**
+ * __useQrOrderObjectsQuery__
+ *
+ * To run a query within a React component, call `useQrOrderObjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQrOrderObjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQrOrderObjectsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      qrOrderUID: // value for 'qrOrderUID'
+ *   },
+ * });
+ */
+export function useQrOrderObjectsQuery(baseOptions: Apollo.QueryHookOptions<QrOrderObjectsQuery, QrOrderObjectsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QrOrderObjectsQuery, QrOrderObjectsQueryVariables>(QrOrderObjectsDocument, options);
+      }
+export function useQrOrderObjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QrOrderObjectsQuery, QrOrderObjectsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QrOrderObjectsQuery, QrOrderObjectsQueryVariables>(QrOrderObjectsDocument, options);
+        }
+export type QrOrderObjectsQueryHookResult = ReturnType<typeof useQrOrderObjectsQuery>;
+export type QrOrderObjectsLazyQueryHookResult = ReturnType<typeof useQrOrderObjectsLazyQuery>;
+export type QrOrderObjectsQueryResult = Apollo.QueryResult<QrOrderObjectsQuery, QrOrderObjectsQueryVariables>;
 export const QrOrderDocument = gql`
-    query QrOrder($id: ID, $code: String) {
+    query QROrder($id: ID, $code: String) {
   qrOrder(id: $id, code: $code) {
-    ...QrOrderFragment
+    ...QROrderFragment
   }
 }
     ${QrOrderFragmentFragmentDoc}`;
@@ -5955,9 +6031,9 @@ export type QrOrderQueryHookResult = ReturnType<typeof useQrOrderQuery>;
 export type QrOrderLazyQueryHookResult = ReturnType<typeof useQrOrderLazyQuery>;
 export type QrOrderQueryResult = Apollo.QueryResult<QrOrderQuery, QrOrderQueryVariables>;
 export const QrOrderCreateDocument = gql`
-    mutation QrOrderCreate($input: UpdateQrOrder!) {
+    mutation QROrderCreate($input: UpdateQROrder!) {
   qrOrderCreate(input: $input) {
-    ...QrOrderFragment
+    ...QROrderFragment
   }
 }
     ${QrOrderFragmentFragmentDoc}`;
@@ -5988,9 +6064,9 @@ export type QrOrderCreateMutationHookResult = ReturnType<typeof useQrOrderCreate
 export type QrOrderCreateMutationResult = Apollo.MutationResult<QrOrderCreateMutation>;
 export type QrOrderCreateMutationOptions = Apollo.BaseMutationOptions<QrOrderCreateMutation, QrOrderCreateMutationVariables>;
 export const UpdateQrOrderUpdateDocument = gql`
-    mutation UpdateQrOrderUpdate($id: ID!, $input: UpdateQrOrder!) {
+    mutation UpdateQROrderUpdate($id: ID!, $input: UpdateQROrder!) {
   qrOrderUpdate(id: $id, input: $input) {
-    ...QrOrderFragment
+    ...QROrderFragment
   }
 }
     ${QrOrderFragmentFragmentDoc}`;
@@ -6022,9 +6098,9 @@ export type UpdateQrOrderUpdateMutationHookResult = ReturnType<typeof useUpdateQ
 export type UpdateQrOrderUpdateMutationResult = Apollo.MutationResult<UpdateQrOrderUpdateMutation>;
 export type UpdateQrOrderUpdateMutationOptions = Apollo.BaseMutationOptions<UpdateQrOrderUpdateMutation, UpdateQrOrderUpdateMutationVariables>;
 export const QrOrderFinalizeDocument = gql`
-    mutation QrOrderFinalize($id: ID!) {
+    mutation QROrderFinalize($id: ID!) {
   qrOrderFinalize(id: $id) {
-    ...QrOrderFragment
+    ...QROrderFragment
   }
 }
     ${QrOrderFragmentFragmentDoc}`;
@@ -6055,9 +6131,9 @@ export type QrOrderFinalizeMutationHookResult = ReturnType<typeof useQrOrderFina
 export type QrOrderFinalizeMutationResult = Apollo.MutationResult<QrOrderFinalizeMutation>;
 export type QrOrderFinalizeMutationOptions = Apollo.BaseMutationOptions<QrOrderFinalizeMutation, QrOrderFinalizeMutationVariables>;
 export const QrOrderArchiveDocument = gql`
-    mutation QrOrderArchive($id: ID!) {
+    mutation QROrderArchive($id: ID!) {
   qrOrderArchive(id: $id) {
-    ...QrOrderFragment
+    ...QROrderFragment
   }
 }
     ${QrOrderFragmentFragmentDoc}`;
@@ -6088,9 +6164,9 @@ export type QrOrderArchiveMutationHookResult = ReturnType<typeof useQrOrderArchi
 export type QrOrderArchiveMutationResult = Apollo.MutationResult<QrOrderArchiveMutation>;
 export type QrOrderArchiveMutationOptions = Apollo.BaseMutationOptions<QrOrderArchiveMutation, QrOrderArchiveMutationVariables>;
 export const QrOrderUnarchiveDocument = gql`
-    mutation QrOrderUnarchive($id: ID!) {
+    mutation QROrderUnarchive($id: ID!) {
   qrOrderUnarchive(id: $id) {
-    ...QrOrderFragment
+    ...QROrderFragment
   }
 }
     ${QrOrderFragmentFragmentDoc}`;

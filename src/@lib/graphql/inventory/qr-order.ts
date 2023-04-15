@@ -2,67 +2,79 @@ import { gql } from '@apollo/client'
 import { fragment } from "@lib/graphql/fragments"
 
 export const QR_ORDERS = gql`
-    query QrOrders($searchFilter: SearchFilter!, $objectType: String) {
+    query QROrders($searchFilter: SearchFilter!, $objectType: String) {
         qrOrders(search: $searchFilter, objectType: $objectType) {
             qrOrders {
-                    ...QrOrderFragment
+                    ...QROrderFragment
                 }
                 total
             }
         }
-    ${fragment.QrOrder}
+    ${fragment.QROrder}
+`
+
+export const QR_ORDER_OBJECTS = gql`
+    query QROrderObjects($searchFilter: SearchFilter!, $qrOrderUID: UUID!) {
+        qrOrderObjects(search: $searchFilter, qrOrderUID: $qrOrderUID) {
+            qrOrderObjects {
+                    ...QROrderObjectFragment
+                }
+                total
+            }
+        }
+    ${fragment.QROrderObject}
 `
 
 export const QR_ORDER = gql`
-    query QrOrder($id: ID, $code: String) {
+    query QROrder($id: ID, $code: String) {
         qrOrder(id: $id, code: $code) {
-            ...QrOrderFragment
+            ...QROrderFragment
             }
         }
-    ${fragment.QrOrder}
+    ${fragment.QROrder}
 `
 
 export const QR_ORDER_CREATE = gql`
-    mutation QrOrderCreate($input: UpdateQrOrder!) {
+    mutation QROrderCreate($input: UpdateQROrder!) {
         qrOrderCreate(input: $input) {
-            ...QrOrderFragment
+            ...QROrderFragment
             }
         }
-    ${fragment.QrOrder}
+    ${fragment.QROrder}
 `
 
 export const QR_ORDER_UPDATE = gql`
-    mutation UpdateQrOrderUpdate($id: ID!, $input: UpdateQrOrder!) {
+    mutation UpdateQROrderUpdate($id: ID!, $input: UpdateQROrder!) {
         qrOrderUpdate(id: $id, input: $input) {
-            ...QrOrderFragment
+            ...QROrderFragment
             }
         }
-    ${fragment.QrOrder}
+    ${fragment.QROrder}
 `
 
 export const QR_ORDER_FINALIZE = gql`
-    mutation QrOrderFinalize($id: ID!) {
+    mutation QROrderFinalize($id: ID!) {
         qrOrderFinalize(id: $id) {
-            ...QrOrderFragment
+            ...QROrderFragment
             }
         }
-    ${fragment.QrOrder}
+    ${fragment.QROrder}
 `
 
 export const QR_ORDER_ARCHIVE = gql`
-    mutation QrOrderArchive($id: ID!) {
+    mutation QROrderArchive($id: ID!) {
         qrOrderArchive(id: $id) {
-            ...QrOrderFragment
+            ...QROrderFragment
             }
         }
-    ${fragment.QrOrder}
+    ${fragment.QROrder}
 `
 
 export const QR_ORDER_UNARCHIVE = gql`
-    mutation QrOrderUnarchive($id: ID!) {
+    mutation QROrderUnarchive($id: ID!) {
         qrOrderUnarchive(id: $id) {
-            ...QrOrderFragment
+            ...QROrderFragment
             }
         }
-    ${fragment.QrOrder}
+    ${fragment.QROrder}
 `

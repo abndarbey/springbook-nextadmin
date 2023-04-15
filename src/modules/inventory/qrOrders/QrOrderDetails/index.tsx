@@ -15,7 +15,8 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import QrOrderDetailsHTML from "./QrOrderDetailsHTML"
-import BatchTable from "tables/inventory/BatchTable"
+import QrOrderObjectTable from "./QrOrderObjectTable"
+// import QrOrderObjectTable from "./QrOrderObjectTable"
 
 export default function QrOrderDetails(props: PageProps) {
     const router = useRouter()
@@ -131,15 +132,15 @@ export default function QrOrderDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="batches">Batches</Tabs.Tab>
+                    <Tabs.Tab value="objects">Objects</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
                     <QrOrderDetailsHTML data={data?.qrOrder!} />
                 </Tabs.Panel>
 
-                <Tabs.Panel value="batches" pt="xs">
-                    {/* <BatchTable qrOrderID={data?.qrOrder.id} /> */}
+                <Tabs.Panel value="objects" pt="xs">
+                    <QrOrderObjectTable qrOrderUID={data?.qrOrder.uid} />
                 </Tabs.Panel>
             </Tabs>
         </Page>
