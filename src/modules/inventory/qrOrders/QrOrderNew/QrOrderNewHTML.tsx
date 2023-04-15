@@ -90,47 +90,45 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                     {...props.form.getInputProps("objectType")}
                 />
 
-                <TextInput
-                    label="Object Type"
-                    mb="md"
-                    placeholder="Object Type"
-                    {...props.form.getInputProps("objectType")}
-                />
-
-                {props.form.values.orgUID != "" &&
-                    <SkuSelectModal
-                        opened={skuModalOpened}
-                        setOpened={setSkuModalOpened}
-                        handleSelect={props.handleSkuSelect}
-                        organizationUID={props.form.values.orgUID}
-                    />
+                {props.form.values.orgUID != "" && props.form.values.objectType == "CARTON" &&
+                    <>
+                        <SkuSelectModal
+                            opened={skuModalOpened}
+                            setOpened={setSkuModalOpened}
+                            handleSelect={props.handleSkuSelect}
+                            organizationUID={props.form.values.orgUID}
+                        />
+                        <TextInput
+                            label="SKU"
+                            mb="md"
+                            placeholder="Select SKU"
+                            disabled={props.form.values.orgUID != "" ? false : true}
+                            onClick={() => setSkuModalOpened(true)}
+                            {...props.form.getInputProps("skuName")}
+                        />
+                    </>
+                    
                 }
-                <TextInput
-                    label="SKU"
-                    mb="md"
-                    placeholder="Select SKU"
-                    disabled={props.form.values.orgUID != "" ? false : true}
-                    onClick={() => setSkuModalOpened(true)}
-                    {...props.form.getInputProps("skuName")}
-                />
 
-                {props.form.values.orgUID != "" && props.form.values.skuUID != "" &&
-                    <BatchSelectModal
-                        opened={batchModalOpened}
-                        setOpened={setBatchModalOpened}
-                        handleSelect={props.handleBatchSelect}
-                        organizationUID={props.form.values.orgUID}
-                        skuID={props.form.values.skuID}
-                    />
+                {props.form.values.orgUID != "" && props.form.values.skuUID != "" &&  props.form.values.objectType == "CARTON" &&
+                    <>
+                        <BatchSelectModal
+                            opened={batchModalOpened}
+                            setOpened={setBatchModalOpened}
+                            handleSelect={props.handleBatchSelect}
+                            organizationUID={props.form.values.orgUID}
+                            skuID={props.form.values.skuID}
+                        />
+                        <TextInput
+                            label="Batch"
+                            mb="md"
+                            placeholder="Select Batch"
+                            disabled={(props.form.values.orgUID != "" && props.form.values.skuUID != "") ? false : true}
+                            onClick={() => setBatchModalOpened(true)}
+                            {...props.form.getInputProps("batchNumber")}
+                        />
+                    </>
                 }
-                <TextInput
-                    label="Batch"
-                    mb="md"
-                    placeholder="Select Batch"
-                    disabled={(props.form.values.orgUID != "" && props.form.values.skuUID != "") ? false : true}
-                    onClick={() => setBatchModalOpened(true)}
-                    {...props.form.getInputProps("batchNumber")}
-                />
 
                 <WarehouseSelectModal
                     opened={warehouseModalOpened}
