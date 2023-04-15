@@ -1,36 +1,36 @@
 import { useEffect, useState } from "react"
-import { Carton, CartonsResult } from "@lib/generated/hooks"
-import { Badge, Box, Stack, Text, useMantineTheme } from "@mantine/core"
-import { DataTable } from "mantine-datatable"
+import { Badge, Box, Text, useMantineTheme } from "@mantine/core"
+import { QrOrder, QrOrdersResult } from "@lib/generated/hooks"
+import { PAGE_SIZES } from "types/enums"
 import ContentCard from "components/ContentCard"
 import TableActionBar from "components/TableWrapper/TableActionBar"
+import { DataTable } from "mantine-datatable"
 import TableRowActions from "components/TableWrapper/TableRowActions"
-import { PAGE_SIZES } from "types/enums"
 
-interface CartonTableProps {
-    data: CartonsResult
-    viewAction: (item: Carton) => void
-    editAction: (item: Carton) => void
-    archiveAction: (item: Carton) => void
-    unarchiveAction: (item: Carton) => void
-    batchViewAction?: (selectedRecords: Carton[]) => void
-    filterAction?: (filter: string) => void
+interface QrOrderTableHTMLProps {
+    data: QrOrdersResult
+    viewAction: any
+    editAction: any
+    archiveAction: any
+    unarchiveAction: any
+    batchViewAction?: any
+    filterAction?: any
     filterOptions: string[]
 }
 
-export default function CartonTable(props: CartonTableProps) {
+export default function QrOrderTableHTML(props: QrOrderTableHTMLProps) {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
     const [page, setPage] = useState(1)
-    const [records, setRecords] = useState<Carton[]>(props.data.cartons.slice(0, pageSize))
-    const [selectedRecords, setSelectedRecords] = useState<Carton[]>([])
+    const [records, setRecords] = useState<QrOrder[]>(props.data.qrOrders.slice(0, pageSize))
+    const [selectedRecords, setSelectedRecords] = useState<QrOrder[]>([])
 
     useEffect(() => {
         const from = (page - 1) * pageSize
         const to = from + pageSize
-        setRecords(props.data.cartons.slice(from, to))
-    }, [page, pageSize, props.data.cartons])
+        setRecords(props.data.qrOrders.slice(from, to))
+    }, [page, pageSize, props.data.qrOrders])
 
     return (
         <ContentCard>
@@ -50,28 +50,26 @@ export default function CartonTable(props: CartonTableProps) {
                     noRecordsText="No records to show"
                     records={records}
                     columns={[
-                        { accessor: "code", width: "10%" },
-                        { accessor: "sku.name", title: "SKU" },
-                        { accessor: "batch.batchNumber", title: "Batch Number" },
-                        { accessor: "latestTransferLog.owner.name", title: "Owner" },
-                        { accessor: "latestTransferLog.custodian.name", title: "Custodian" },
-                        { accessor: "latestTransferLog.warehouse.name", title: "Warehouse" },
-                        { accessor: "latestTransaction.name", title: "Latest Transaction" },
+                        { accessor: 'code', width: '10%' },
+                        { accessor: 'objectType', title: 'Object Type' },
+                        { accessor: 'quantity', title: 'Object Count' },
+                        { accessor: 'organization.code', title: 'Organization' },
                         {
-                            accessor: "status",
+                            accessor: 'status',
+                            // width: 160,
                             render: (item) => (
                                 <Badge
-                                    color={!item.isArchived ? "blue" : "gray"}
-                                    variant={theme.colorScheme === "dark" ? "light" : "light"}
+                                    color={!item.isArchived ? 'blue' : 'gray'}
+                                    variant={theme.colorScheme === 'dark' ? 'light' : 'light'}
                                     >
-                                    {!item.isArchived ? "Active" : "Disabled"}
+                                    {!item.isArchived ? 'Active' : 'Disabled'}
                                 </Badge>
                             )
                         },
                         {
-                            accessor: "actions",
+                            accessor: 'actions',
                             title: <Text mr="xs">Actions</Text>,
-                            textAlignment: "center",
+                            textAlignment: 'center',
                             render: (item) => (
                                 <TableRowActions
                                     item={item}
@@ -91,7 +89,7 @@ export default function CartonTable(props: CartonTableProps) {
                     recordsPerPage={pageSize}
                     recordsPerPageOptions={PAGE_SIZES}
                     onRecordsPerPageChange={setPageSize}
-                    recordsPerPageLabel="Rows Per Page"
+                    recordsPerPageLabel='Rows Per Page'
                 />
             </Box>
         </ContentCard>

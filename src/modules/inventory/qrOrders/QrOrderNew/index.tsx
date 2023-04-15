@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 import { useForm, yupResolver } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import {
-    useCartonCreateMutation,
-    UpdateCarton,
+    useQrOrderCreateMutation,
+    UpdateQrOrder,
     Sku,
     Batch,
     Organization,
@@ -15,37 +15,35 @@ import {
 
 import { getObjectFromLocalStorage } from 'common/localStorage'
 import PageLoader from 'components/PageLoader'
-import CartonsNewHTML from './CartonsNewHTML'
+import QrOrderNewHTML from './QrOrderNewHTML'
+import { PageProps } from 'types/types'
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
     orgUID: Yup.string().min(2, 'Invalid org UID'),
 })
 
-interface ICartonPageProps {
-    title: string
-}
-
-export default function CartonsNew(props: ICartonPageProps) {
+export default function QrOrderNew(props: PageProps) {
     const router = useRouter()
-    const [newObj] = useCartonCreateMutation({})
+    const [newObj] = useQrOrderCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
     const [orgUID, setOrgUID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
+            objectType: undefined,
             skuUID: "",
             batchUID: "",
             warehouseUID: "",
-            ownerUID: "",
+            orgUID: "",
             quantity: 0,
 
             skuID: "",
             skuName: "",
             batchNumber: "",
             warehouseName: "",
-            ownerName: "",
+            orgName: "",
         },
     })
 
@@ -54,8 +52,8 @@ export default function CartonsNew(props: ICartonPageProps) {
         const obj = getObjectFromLocalStorage("org")
         setOrgUID(obj.uid)
         if (obj.uid != "" && obj.name) {
-            form.values.ownerUID = obj.uid!
-            form.values.ownerName = obj.name!
+            form.values.orgUID = obj.uid!
+            form.values.orgName = obj.name!
         }
     }, [orgUID, form])
 
@@ -76,15 +74,15 @@ export default function CartonsNew(props: ICartonPageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ ownerUID: authData.data.auther.orgUID })
+            form.setValues({ orgUID: authData.data.auther.orgUID })
         }
         setAutherLoaded(true)
     }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.ownerUID = item.uid!
-            form.values.ownerName = item.name!
+            form.values.orgUID = item.uid!
+            form.values.orgName = item.name!
         }
     }
     const handleSkuSelect = (item: Sku | undefined) => {
@@ -108,12 +106,12 @@ export default function CartonsNew(props: ICartonPageProps) {
     }
 
     const handleSubmit = () => {
-        var newObjInput: UpdateCarton = {
+        var newObjInput: UpdateQrOrder = {
+            objectType: form.values.objectType,
             skuUID: form.values.skuUID,
             batchUID: form.values.batchUID,
             warehouseUID: form.values.warehouseUID,
             quantity: form.values.quantity,
-            ownerUID: form.values.ownerUID,
         }
 
         newObj({
@@ -122,9 +120,9 @@ export default function CartonsNew(props: ICartonPageProps) {
             showNotification({
                 disallowClose: false,
                 color: 'green',
-                message: `${form.values.quantity} Cartons Created`,
+                message: `QrOrder Created`,
             })
-            router.push('/inventory/cartons')
+            router.push(`/inventory/qr-orders/${res.data.qrOrder.code}`)
         }).catch((error: any) => {
             showNotification({
                 disallowClose: false,
@@ -135,12 +133,12 @@ export default function CartonsNew(props: ICartonPageProps) {
     }
 
     const handleCancel = () => {
-        router.push('/inventory/cartons')
+        router.push('/inventory/qr-orders')
     }
 
     return (
-        <CartonsNewHTML
-            title={props.title}
+        <QrOrderNewHTML
+            title={props.title!}
             auther={authData.data?.auther!}
             orgUID={orgUID}
             form={form}

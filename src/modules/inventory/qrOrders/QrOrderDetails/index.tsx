@@ -1,37 +1,36 @@
 import { useRouter } from "next/router"
-import { Tabs, Text } from "@mantine/core"
+import { Tabs } from "@mantine/core"
 
 import Page from "components/Page"
 import PageHeader from "components/PageHeader"
 import { INavTrailProps } from "components/NavTrails"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import {
-    useCartonQuery,
-    useCartonArchiveMutation,
-    useCartonUnarchiveMutation,
+    useQrOrderQuery,
+    useQrOrderFinalizeMutation,
+    useQrOrderArchiveMutation,
+    useQrOrderUnarchiveMutation,
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
-import CartonDetailsHTML from "./CartonDetailsHTML"
-import CartonTransferTable from "./CartonTransferTable"
-import CartonTrackerTable from "./CartonTrackerTable"
-import CartonTxnTable from "./CartonTxnTable"
-import TransactionTable from "tables/transactions/TransactionTable"
+import QrOrderDetailsHTML from "./QrOrderDetailsHTML"
+import BatchTable from "tables/inventory/BatchTable"
 
-export default function CartonDetails(props: PageProps) {
+export default function QrOrderDetails(props: PageProps) {
     const router = useRouter()
-    const [archiveRequest] = useCartonArchiveMutation({})
-    const [unarchiveRequest] = useCartonUnarchiveMutation({})
+    const [finalizeRequest] = useQrOrderFinalizeMutation({})
+    const [archiveRequest] = useQrOrderArchiveMutation({})
+    const [unarchiveRequest] = useQrOrderUnarchiveMutation({})
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
-        { title: "Cartons", href: "/inventory/cartons" },
+        { title: "QR Orders", href: "/inventory/qr-orders" },
         { title: props.code, href: "#" },
     ]
 
     // fetch data
-    const { data, loading, error } = useCartonQuery(
+    const { data, loading, error } = useQrOrderQuery(
         {
             variables: {
                 code: props.code,
@@ -55,19 +54,39 @@ export default function CartonDetails(props: PageProps) {
     // edit action
     const handleEdit = (e: any) => {
         e.preventDefault()
-        router.push(`/inventory/cartons/${props.code}/edit`)
+        router.push(`/inventory/qr-orders/${props.code}/edit`)
+    }
+    
+    // finalize action
+    const handleFinalize = (e: any) => {
+        e.preventDefault()
+        finalizeRequest({
+            variables: {id: data?.qrOrder.id!}
+        }).then((res: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "green",
+                message: `Finalized - ${res.data.qrOrderFinalize.code}`,
+            })
+        }).catch((error: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "red",
+                message: error.message,
+            })
+        })
     }
     
     // archive action
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {id: data?.carton.id!}
+            variables: {id: data?.qrOrder.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.cartonArchive.name}`,
+                message: `Archived - ${res.data.qrOrderArchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -82,12 +101,12 @@ export default function CartonDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {id: data?.carton.id!}
+            variables: {id: data?.qrOrder.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.cartonUnarchive.name}`,
+                message: `Unarchived - ${res.data.qrOrderUnarchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -101,8 +120,9 @@ export default function CartonDetails(props: PageProps) {
     // define action buttons
     const actionButtons: IActionButtonProps[] = [
         { type: "edit", name: "Edit", action: handleEdit },
-        { type: "archive", name: "Archive", action: handleArchive, disabled: data?.carton.isArchived! },
-        { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.carton.isArchived! },
+        { type: "finalize", name: "Finalize", action: handleFinalize, disabled: data?.qrOrder.isFinal! },
+        { type: "archive", name: "Archive", action: handleArchive, disabled: data?.qrOrder.isArchived! },
+        { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.qrOrder.isArchived! },
     ]
 
     return (
@@ -111,25 +131,15 @@ export default function CartonDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="transactions">Transactions</Tabs.Tab>
-                    <Tabs.Tab value="trackers">Trackers</Tabs.Tab>
-                    <Tabs.Tab value="history">History</Tabs.Tab>
+                    <Tabs.Tab value="batches">Batches</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <CartonDetailsHTML data={data?.carton!} />
+                    <QrOrderDetailsHTML data={data?.qrOrder!} />
                 </Tabs.Panel>
 
-                <Tabs.Panel value="transactions" pt="xs">
-                    <TransactionTable objectUID={data?.carton.uid} />
-                </Tabs.Panel>
-
-                <Tabs.Panel value="trackers" pt="xs">
-                    <CartonTrackerTable cartonUID={data?.carton.uid} />
-                </Tabs.Panel>
-                
-                <Tabs.Panel value="history" pt="xs">
-                    <CartonTransferTable cartonUID={data?.carton.uid} />
+                <Tabs.Panel value="batches" pt="xs">
+                    {/* <BatchTable qrOrderID={data?.qrOrder.id} /> */}
                 </Tabs.Panel>
             </Tabs>
         </Page>

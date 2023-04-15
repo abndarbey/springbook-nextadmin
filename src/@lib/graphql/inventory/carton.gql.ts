@@ -22,12 +22,6 @@ export const CARTON = gql`
     ${fragment.Carton}
 `
 
-export const CARTON_CREATE = gql`
-    mutation CartonCreate($input: UpdateCarton!) {
-        cartonCreate(input: $input)
-    }
-`
-
 export const CARTON_UPDATE = gql`
     mutation CartonUpdate($id: ID!, $input: UpdateCarton!) {
         cartonUpdate(id: $id, input: $input) {

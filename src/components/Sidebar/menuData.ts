@@ -82,6 +82,7 @@ export const menuData = [
         icon: IconBox,
         initiallyOpened: false,
         links: [
+            { label: 'QR Orders', link: '/inventory/qr-orders' },
             { label: 'SKUs', link: '/inventory/skus' },
             { label: 'Batches', link: '/inventory/batches' },
             { label: 'Cartons', link: '/inventory/cartons' },

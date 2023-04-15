@@ -58,6 +58,46 @@ export const Batch = gql`
     }
 `
 
+export const QrOrder = gql`
+    fragment QrOrderFragment on QrOrder {
+        id
+        uid
+        code
+        objectType
+        description
+        quantity
+        status
+        isFinal
+        isArchived
+        createdAt
+        updatedAt
+        organization {
+            id
+            uid
+            code
+            name
+        }
+        warehouse {
+            id
+            uid
+            code
+            name
+        }
+        sku {
+            id
+            uid
+            code
+            name
+        }
+        batch {
+            id
+            uid
+            code
+            batchNumber
+        }
+    }
+`
+
 export const Carton = gql`
     fragment CartonFragment on Carton {
         id
@@ -79,6 +119,11 @@ export const Carton = gql`
                 code
                 name
             }
+            warehouse {
+                id
+                code
+                name
+            }
         }
         latestTrackerLog {
             id
@@ -89,6 +134,10 @@ export const Carton = gql`
                 lon
             }
         }
+        latestTransaction {
+            name
+            createdAt
+        }
         sku {
             uid
             code
@@ -98,21 +147,6 @@ export const Carton = gql`
             uid
             code
             batchNumber
-        }
-        warehouse {
-            uid
-            code
-            name
-        }
-        owner {
-            uid
-            code
-            name
-        }
-        custodian {
-            uid
-            code
-            name
         }
     }
 `

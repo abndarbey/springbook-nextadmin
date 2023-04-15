@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react"
-import { Checkbox, TextInput } from "@mantine/core"
+import { Checkbox, Select, TextInput } from "@mantine/core"
 import FormCard from "components/FormCard"
 import Page from "components/Page"
 import PageHeader from "components/PageHeader"
@@ -11,25 +11,26 @@ import { INavTrailProps } from "components/NavTrails"
 import { Auther, Batch, Organization, Sku, Warehouse } from "@lib/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 
-export interface ICartonsFormValues {
+export interface QrOrderFormValues {
+    objectType: undefined
     skuUID: string
     batchUID: string
     warehouseUID: string
-    ownerUID: string
+    orgUID: string
     quantity: number,
 
     skuID: string
     skuName: string
     batchNumber: string
     warehouseName: string
-    ownerName: string
+    orgName: string
 }
 
-interface ICartonsNewHTML {
+interface QrOrderNewHTML {
     title: string
     auther: Auther
     orgUID: string
-    form: UseFormReturnType<ICartonsFormValues>
+    form: UseFormReturnType<QrOrderFormValues>
     handleSubmit: () => void
     handleCancel: () => void
     handleOrgSelect: (item: Organization) => void
@@ -38,7 +39,7 @@ interface ICartonsNewHTML {
     handleWarehouseSelect: (item: Warehouse) => void
 }
 
-export default function CartonsNewHTML(props: ICartonsNewHTML) {
+export default function QrOrderNewHTML(props: QrOrderNewHTML) {
     const [orgModalOpened, setOrgModalOpened] = useState(false)
     const [skuModalOpened, setSkuModalOpened] = useState(false)
     const [batchModalOpened, setBatchModalOpened] = useState(false)
@@ -46,7 +47,7 @@ export default function CartonsNewHTML(props: ICartonsNewHTML) {
 
     const navTrails: INavTrailProps[] = [
         { title: 'Dashboard', href: '/' },
-        { title: 'Cartons', href: '/inventory/cartons' },
+        { title: 'Qr Order', href: '/inventory/qr-orders' },
         { title: 'New', href: '#' },
     ]
 
@@ -72,34 +73,53 @@ export default function CartonsNewHTML(props: ICartonsNewHTML) {
                             placeholder="Select Organization"
                             name="organization"
                             onClick={() => setOrgModalOpened(true)}
-                            {...props.form.getInputProps('ownerName')}
+                            {...props.form.getInputProps('orgName')}
                         />
                     </Fragment>
                 }
 
-                {props.form.values.ownerUID != "" &&
+                <Select
+                    label="Object Type"
+                    placeholder="Pick one"
+                    mb="md"
+                    data={[
+                        { value: 'CARTON', label: 'Carton' },
+                        { value: 'PALLET', label: 'Pallet' },
+                        { value: 'CONTAINER', label: 'Container' },
+                    ]}
+                    {...props.form.getInputProps("objectType")}
+                />
+
+                <TextInput
+                    label="Object Type"
+                    mb="md"
+                    placeholder="Object Type"
+                    {...props.form.getInputProps("objectType")}
+                />
+
+                {props.form.values.orgUID != "" &&
                     <SkuSelectModal
                         opened={skuModalOpened}
                         setOpened={setSkuModalOpened}
                         handleSelect={props.handleSkuSelect}
-                        organizationUID={props.form.values.ownerUID}
+                        organizationUID={props.form.values.orgUID}
                     />
                 }
                 <TextInput
                     label="SKU"
                     mb="md"
                     placeholder="Select SKU"
-                    disabled={props.form.values.ownerUID != "" ? false : true}
+                    disabled={props.form.values.orgUID != "" ? false : true}
                     onClick={() => setSkuModalOpened(true)}
                     {...props.form.getInputProps("skuName")}
                 />
 
-                {props.form.values.ownerUID != "" && props.form.values.skuUID != "" &&
+                {props.form.values.orgUID != "" && props.form.values.skuUID != "" &&
                     <BatchSelectModal
                         opened={batchModalOpened}
                         setOpened={setBatchModalOpened}
                         handleSelect={props.handleBatchSelect}
-                        organizationUID={props.form.values.ownerUID}
+                        organizationUID={props.form.values.orgUID}
                         skuID={props.form.values.skuID}
                     />
                 }
@@ -107,7 +127,7 @@ export default function CartonsNewHTML(props: ICartonsNewHTML) {
                     label="Batch"
                     mb="md"
                     placeholder="Select Batch"
-                    disabled={(props.form.values.ownerUID != "" && props.form.values.skuUID != "") ? false : true}
+                    disabled={(props.form.values.orgUID != "" && props.form.values.skuUID != "") ? false : true}
                     onClick={() => setBatchModalOpened(true)}
                     {...props.form.getInputProps("batchNumber")}
                 />
@@ -116,13 +136,13 @@ export default function CartonsNewHTML(props: ICartonsNewHTML) {
                     opened={warehouseModalOpened}
                     setOpened={setWarehouseModalOpened}
                     handleSelect={props.handleWarehouseSelect}
-                    organizationUID={props.form.values.ownerUID}
+                    organizationUID={props.form.values.orgUID}
                 />
                 <TextInput
                     label="Warehouse"
                     mb="md"
                     placeholder="Select Warehouse"
-                    disabled={props.form.values.ownerUID != "" ? false : true}
+                    disabled={props.form.values.orgUID != "" ? false : true}
                     onClick={() => setWarehouseModalOpened(true)}
                     {...props.form.getInputProps("warehouseName")}
                 />

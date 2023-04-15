@@ -35,16 +35,16 @@ export default function CartonDetailsHTML(props: ICartonDetailsHTMLProps) {
                 <ContentCard>
                     <SimpleGrid cols={3} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Latitude" value={props.data.latestTrackerLog?.location?.lat!} />
-                            <DetailRow title="Longitude" value={props.data.latestTrackerLog?.location?.lon!} />
+                            <DetailRow title="Latitude" value={props.data.latestTrackerLog?.geoLocation?.lat!} />
+                            <DetailRow title="Longitude" value={props.data.latestTrackerLog?.geoLocation?.lon!} />
                         </Box>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Owner Code" value={props.data?.owner?.code!} />
-                            <DetailRow title="Owner Name" value={props.data?.owner?.name!} />
+                            <DetailRow title="Owner Code" value={props.data?.latestTransferLog?.owner?.code!} />
+                            <DetailRow title="Owner Name" value={props.data?.latestTransferLog?.owner?.name!} />
                         </Box>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Custodian Code" value={props.data?.custodian?.code!} />
-                            <DetailRow title="Custodian Name" value={props.data?.custodian?.name!} />
+                            <DetailRow title="Custodian Code" value={props.data?.latestTransferLog?.custodian?.code!} />
+                            <DetailRow title="Custodian Name" value={props.data?.latestTransferLog?.custodian?.name!} />
                         </Box>
                     </SimpleGrid>
                 </ContentCard>

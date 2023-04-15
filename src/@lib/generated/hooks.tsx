@@ -119,19 +119,17 @@ export type Carton = {
   batch?: Maybe<Batch>;
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
-  custodian?: Maybe<Organization>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   isArchived?: Maybe<Scalars['Boolean']>;
   isFinal?: Maybe<Scalars['Boolean']>;
   latestTrackerLog?: Maybe<CartonTrackerLog>;
+  latestTransaction?: Maybe<Transaction>;
   latestTransferLog?: Maybe<CartonTransferLog>;
-  owner?: Maybe<Organization>;
   sku?: Maybe<Sku>;
   status?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['UUID']>;
   updatedAt?: Maybe<Scalars['Time']>;
-  warehouse?: Maybe<Warehouse>;
 };
 
 export type CartonTrackerLog = {
@@ -267,10 +265,23 @@ export type GeoLocationInput = {
   lon: Scalars['Float'];
 };
 
+export type LatestTransactionInfo = {
+  __typename?: 'LatestTransactionInfo';
+  createdAt?: Maybe<Scalars['Time']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type LoginRequest = {
   email?: InputMaybe<Scalars['NullString']>;
   otp?: InputMaybe<Scalars['NullString']>;
   phone?: InputMaybe<Scalars['NullString']>;
+};
+
+export type Manifest = {
+  __typename?: 'Manifest';
+  id?: Maybe<Scalars['ID']>;
+  merkleRootSha256?: Maybe<Scalars['NullString']>;
+  transactionHash?: Maybe<Scalars['NullString']>;
 };
 
 export type Mutation = {
@@ -285,7 +296,6 @@ export type Mutation = {
   batchUnarchive: Batch;
   batchUpdate: Batch;
   cartonArchive: Carton;
-  cartonCreate: Scalars['Boolean'];
   cartonTrackerLogUpdate: CartonTrackerLog;
   cartonTransferLogUpdate: CartonTransferLog;
   cartonUnarchive: Carton;
@@ -309,6 +319,7 @@ export type Mutation = {
   deploySmartContract: Settings;
   fileUpload: File;
   fileUploadMultiple: Array<File>;
+  flushPendingTransactions: Scalars['Boolean'];
   generateOTP?: Maybe<Scalars['String']>;
   login: Auther;
   organizationArchive: Organization;
@@ -429,11 +440,6 @@ export type MutationBatchUpdateArgs = {
 
 export type MutationCartonArchiveArgs = {
   id: Scalars['ID'];
-};
-
-
-export type MutationCartonCreateArgs = {
-  input: UpdateCarton;
 };
 
 
@@ -988,7 +994,8 @@ export type PalletsResult = {
 };
 
 export type QrOrder = {
-  __typename?: 'QROrder';
+  __typename?: 'QrOrder';
+  batch?: Maybe<Batch>;
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
   description?: Maybe<Scalars['String']>;
@@ -997,13 +1004,16 @@ export type QrOrder = {
   isFinal?: Maybe<Scalars['Boolean']>;
   objectType?: Maybe<Scalars['String']>;
   organization?: Maybe<Organization>;
+  quantity?: Maybe<Scalars['Int']>;
+  sku?: Maybe<Sku>;
   status?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['UUID']>;
   updatedAt?: Maybe<Scalars['Time']>;
+  warehouse?: Maybe<Warehouse>;
 };
 
 export type QrOrdersResult = {
-  __typename?: 'QROrdersResult';
+  __typename?: 'QrOrdersResult';
   qrOrders: Array<QrOrder>;
   total: Scalars['Int'];
 };
@@ -1056,6 +1066,7 @@ export type Query = {
   skuCatalogue: SkuCatalogue;
   skuCatalogues: SkuCataloguesResult;
   skus: SkusResult;
+  transactions: TransactionsResult;
   user: User;
   userActivities: UserActivitiesResult;
   userActivity: UserActivity;
@@ -1293,6 +1304,12 @@ export type QuerySkuCataloguesArgs = {
 
 
 export type QuerySkusArgs = {
+  search: SearchFilter;
+};
+
+
+export type QueryTransactionsArgs = {
+  objectUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
 };
 
@@ -1549,6 +1566,36 @@ export type TickerInfo = {
   tickInterval: Scalars['Int'];
 };
 
+export type Transaction = {
+  __typename?: 'Transaction';
+  carton?: Maybe<Carton>;
+  createdAt?: Maybe<Scalars['Time']>;
+  creator?: Maybe<User>;
+  geoLocation?: Maybe<GeoLocation>;
+  id?: Maybe<Scalars['ID']>;
+  isArchived?: Maybe<Scalars['Boolean']>;
+  isFinal?: Maybe<Scalars['Boolean']>;
+  isPending?: Maybe<Scalars['Boolean']>;
+  manifest?: Maybe<Manifest>;
+  manifestLineJson?: Maybe<Scalars['NullString']>;
+  manifestLineSha256?: Maybe<Scalars['NullString']>;
+  memo?: Maybe<Scalars['NullString']>;
+  name?: Maybe<Scalars['String']>;
+  objectPhoto?: Maybe<File>;
+  objectType?: Maybe<Scalars['String']>;
+  organization?: Maybe<Organization>;
+  pallet?: Maybe<Pallet>;
+  scannedAt?: Maybe<Scalars['NullTime']>;
+  transactionHash?: Maybe<Scalars['NullString']>;
+  uid?: Maybe<Scalars['UUID']>;
+};
+
+export type TransactionsResult = {
+  __typename?: 'TransactionsResult';
+  total: Scalars['Int'];
+  transactions: Array<Transaction>;
+};
+
 export type UpdateBatch = {
   orgUID?: InputMaybe<Scalars['NullUUID']>;
   uid?: InputMaybe<Scalars['NullUUID']>;
@@ -1565,10 +1612,13 @@ export type UpdateBatchCatalogue = {
 };
 
 export type UpdateCarton = {
-  batchUID?: InputMaybe<Scalars['NullUUID']>;
+  custodianUID?: InputMaybe<Scalars['NullUUID']>;
+  description?: InputMaybe<Scalars['NullString']>;
+  geoLocation?: InputMaybe<GeoLocationInput>;
+  humidity?: InputMaybe<Scalars['NullFloat']>;
   ownerUID?: InputMaybe<Scalars['NullUUID']>;
-  quantity?: InputMaybe<Scalars['NullInt']>;
-  skuUID?: InputMaybe<Scalars['NullUUID']>;
+  status?: InputMaybe<Scalars['NullString']>;
+  temperature?: InputMaybe<Scalars['NullFloat']>;
   warehouseUID?: InputMaybe<Scalars['NullUUID']>;
 };
 
@@ -1632,11 +1682,14 @@ export type UpdatePalletType = {
 };
 
 export type UpdateQrOrder = {
+  batchUID?: InputMaybe<Scalars['NullUUID']>;
   description?: InputMaybe<Scalars['NullString']>;
   objectType?: InputMaybe<ObjectType>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
   quantity?: InputMaybe<Scalars['NullInt']>;
+  skuUID?: InputMaybe<Scalars['NullUUID']>;
   status?: InputMaybe<Scalars['NullString']>;
+  warehouseUID?: InputMaybe<Scalars['NullUUID']>;
 };
 
 export type UpdateRack = {
@@ -2283,11 +2336,15 @@ export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?
 
 export type BatchFragmentFragment = { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, cartonCount?: number | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type CartonFragmentFragment = { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+export type QrOrderFragmentFragment = { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null };
+
+export type CartonFragmentFragment = { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null };
 
 export type CartonTransferLogFragmentFragment = { __typename?: 'CartonTransferLog', id?: string | null, createdAt?: any | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type CartonTrackerLogFragmentFragment = { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null };
+
+export type TransactionFragmentFragment = { __typename?: 'Transaction', id?: string | null, uid?: any | null, name?: string | null, objectType?: string | null, scannedAt?: any | null, memo?: any | null, isPending?: boolean | null, manifestLineJson?: any | null, manifestLineSha256?: any | null, transactionHash?: any | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null, creator?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, name?: string | null } | null, manifest?: { __typename?: 'Manifest', id?: string | null } | null, carton?: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null } | null, pallet?: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null } | null };
 
 export type WarehouseTypeFragmentFragment = { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2358,7 +2415,7 @@ export type CartonsQueryVariables = Exact<{
 }>;
 
 
-export type CartonsQuery = { __typename?: 'Query', cartons: { __typename?: 'CartonsResult', total: number, cartons: Array<{ __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+export type CartonsQuery = { __typename?: 'Query', cartons: { __typename?: 'CartonsResult', total: number, cartons: Array<{ __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null }> } };
 
 export type CartonQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -2367,14 +2424,7 @@ export type CartonQueryVariables = Exact<{
 }>;
 
 
-export type CartonQuery = { __typename?: 'Query', carton: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type CartonCreateMutationVariables = Exact<{
-  input: UpdateCarton;
-}>;
-
-
-export type CartonCreateMutation = { __typename?: 'Mutation', cartonCreate: boolean };
+export type CartonQuery = { __typename?: 'Query', carton: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type CartonUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -2382,21 +2432,21 @@ export type CartonUpdateMutationVariables = Exact<{
 }>;
 
 
-export type CartonUpdateMutation = { __typename?: 'Mutation', cartonUpdate: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type CartonUpdateMutation = { __typename?: 'Mutation', cartonUpdate: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type CartonArchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CartonArchiveMutation = { __typename?: 'Mutation', cartonArchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type CartonArchiveMutation = { __typename?: 'Mutation', cartonArchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type CartonUnarchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type CartonUnarchiveMutation = { __typename?: 'Mutation', cartonUnarchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type CartonUnarchiveMutation = { __typename?: 'Mutation', cartonUnarchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type CartonTransferLogsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2413,6 +2463,58 @@ export type CartonTrackerLogsQueryVariables = Exact<{
 
 
 export type CartonTrackerLogsQuery = { __typename?: 'Query', cartonTrackerLogs: { __typename?: 'CartonTrackerLogsResult', total: number, cartonTrackerLogs: Array<{ __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null }> } };
+
+export type QrOrdersQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  objectType?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type QrOrdersQuery = { __typename?: 'Query', qrOrders: { __typename?: 'QrOrdersResult', total: number, qrOrders: Array<{ __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null }> } };
+
+export type QrOrderQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  code?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type QrOrderQuery = { __typename?: 'Query', qrOrder: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+
+export type QrOrderCreateMutationVariables = Exact<{
+  input: UpdateQrOrder;
+}>;
+
+
+export type QrOrderCreateMutation = { __typename?: 'Mutation', qrOrderCreate: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+
+export type UpdateQrOrderUpdateMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: UpdateQrOrder;
+}>;
+
+
+export type UpdateQrOrderUpdateMutation = { __typename?: 'Mutation', qrOrderUpdate: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+
+export type QrOrderFinalizeMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type QrOrderFinalizeMutation = { __typename?: 'Mutation', qrOrderFinalize: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+
+export type QrOrderArchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type QrOrderArchiveMutation = { __typename?: 'Mutation', qrOrderArchive: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
+
+export type QrOrderUnarchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type QrOrderUnarchiveMutation = { __typename?: 'Mutation', qrOrderUnarchive: { __typename?: 'QrOrder', id?: string | null, uid?: any | null, code?: string | null, objectType?: string | null, description?: string | null, quantity?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, updatedAt?: any | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type SkusQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2481,6 +2583,14 @@ export type NexportBatchCataloguesQueryVariables = Exact<{
 
 
 export type NexportBatchCataloguesQuery = { __typename?: 'Query', nexportBatchCatalogues: { __typename?: 'BatchCataloguesResult', total: number, batchCatalogues: Array<{ __typename?: 'BatchCatalogue', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, sku?: { __typename?: 'SkuCatalogue', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type TransactionsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  objectUID?: InputMaybe<Scalars['UUID']>;
+}>;
+
+
+export type TransactionsQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionsResult', total: number, transactions: Array<{ __typename?: 'Transaction', id?: string | null, uid?: any | null, name?: string | null, objectType?: string | null, scannedAt?: any | null, memo?: any | null, isPending?: boolean | null, manifestLineJson?: any | null, manifestLineSha256?: any | null, transactionHash?: any | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null, creator?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, name?: string | null } | null, manifest?: { __typename?: 'Manifest', id?: string | null } | null, carton?: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null } | null, pallet?: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null } | null }> } };
 
 export type CellsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -3128,6 +3238,45 @@ export const BatchFragmentFragmentDoc = gql`
   }
 }
     `;
+export const QrOrderFragmentFragmentDoc = gql`
+    fragment QrOrderFragment on QrOrder {
+  id
+  uid
+  code
+  objectType
+  description
+  quantity
+  status
+  isFinal
+  isArchived
+  createdAt
+  updatedAt
+  organization {
+    id
+    uid
+    code
+    name
+  }
+  warehouse {
+    id
+    uid
+    code
+    name
+  }
+  sku {
+    id
+    uid
+    code
+    name
+  }
+  batch {
+    id
+    uid
+    code
+    batchNumber
+  }
+}
+    `;
 export const CartonFragmentFragmentDoc = gql`
     fragment CartonFragment on Carton {
   id
@@ -3149,6 +3298,11 @@ export const CartonFragmentFragmentDoc = gql`
       code
       name
     }
+    warehouse {
+      id
+      code
+      name
+    }
   }
   latestTrackerLog {
     id
@@ -3159,6 +3313,10 @@ export const CartonFragmentFragmentDoc = gql`
       lon
     }
   }
+  latestTransaction {
+    name
+    createdAt
+  }
   sku {
     uid
     code
@@ -3168,21 +3326,6 @@ export const CartonFragmentFragmentDoc = gql`
     uid
     code
     batchNumber
-  }
-  warehouse {
-    uid
-    code
-    name
-  }
-  owner {
-    uid
-    code
-    name
-  }
-  custodian {
-    uid
-    code
-    name
   }
 }
     `;
@@ -3217,6 +3360,50 @@ export const CartonTrackerLogFragmentFragmentDoc = gql`
     lon
   }
   createdAt
+}
+    `;
+export const TransactionFragmentFragmentDoc = gql`
+    fragment TransactionFragment on Transaction {
+  id
+  uid
+  name
+  objectType
+  scannedAt
+  geoLocation {
+    lat
+    lon
+  }
+  memo
+  isPending
+  manifestLineJson
+  manifestLineSha256
+  transactionHash
+  isFinal
+  isArchived
+  createdAt
+  creator {
+    id
+    firstName
+    lastName
+  }
+  organization {
+    id
+    uid
+    name
+  }
+  manifest {
+    id
+  }
+  carton {
+    id
+    uid
+    code
+  }
+  pallet {
+    id
+    uid
+    code
+  }
 }
     `;
 export const WarehouseTypeFragmentFragmentDoc = gql`
@@ -5514,37 +5701,6 @@ export function useCartonLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Car
 export type CartonQueryHookResult = ReturnType<typeof useCartonQuery>;
 export type CartonLazyQueryHookResult = ReturnType<typeof useCartonLazyQuery>;
 export type CartonQueryResult = Apollo.QueryResult<CartonQuery, CartonQueryVariables>;
-export const CartonCreateDocument = gql`
-    mutation CartonCreate($input: UpdateCarton!) {
-  cartonCreate(input: $input)
-}
-    `;
-export type CartonCreateMutationFn = Apollo.MutationFunction<CartonCreateMutation, CartonCreateMutationVariables>;
-
-/**
- * __useCartonCreateMutation__
- *
- * To run a mutation, you first call `useCartonCreateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCartonCreateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [cartonCreateMutation, { data, loading, error }] = useCartonCreateMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useCartonCreateMutation(baseOptions?: Apollo.MutationHookOptions<CartonCreateMutation, CartonCreateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CartonCreateMutation, CartonCreateMutationVariables>(CartonCreateDocument, options);
-      }
-export type CartonCreateMutationHookResult = ReturnType<typeof useCartonCreateMutation>;
-export type CartonCreateMutationResult = Apollo.MutationResult<CartonCreateMutation>;
-export type CartonCreateMutationOptions = Apollo.BaseMutationOptions<CartonCreateMutation, CartonCreateMutationVariables>;
 export const CartonUpdateDocument = gql`
     mutation CartonUpdate($id: ID!, $input: UpdateCarton!) {
   cartonUpdate(id: $id, input: $input) {
@@ -5723,6 +5879,247 @@ export function useCartonTrackerLogsLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type CartonTrackerLogsQueryHookResult = ReturnType<typeof useCartonTrackerLogsQuery>;
 export type CartonTrackerLogsLazyQueryHookResult = ReturnType<typeof useCartonTrackerLogsLazyQuery>;
 export type CartonTrackerLogsQueryResult = Apollo.QueryResult<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>;
+export const QrOrdersDocument = gql`
+    query QrOrders($searchFilter: SearchFilter!, $objectType: String) {
+  qrOrders(search: $searchFilter, objectType: $objectType) {
+    qrOrders {
+      ...QrOrderFragment
+    }
+    total
+  }
+}
+    ${QrOrderFragmentFragmentDoc}`;
+
+/**
+ * __useQrOrdersQuery__
+ *
+ * To run a query within a React component, call `useQrOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQrOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQrOrdersQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      objectType: // value for 'objectType'
+ *   },
+ * });
+ */
+export function useQrOrdersQuery(baseOptions: Apollo.QueryHookOptions<QrOrdersQuery, QrOrdersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QrOrdersQuery, QrOrdersQueryVariables>(QrOrdersDocument, options);
+      }
+export function useQrOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QrOrdersQuery, QrOrdersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QrOrdersQuery, QrOrdersQueryVariables>(QrOrdersDocument, options);
+        }
+export type QrOrdersQueryHookResult = ReturnType<typeof useQrOrdersQuery>;
+export type QrOrdersLazyQueryHookResult = ReturnType<typeof useQrOrdersLazyQuery>;
+export type QrOrdersQueryResult = Apollo.QueryResult<QrOrdersQuery, QrOrdersQueryVariables>;
+export const QrOrderDocument = gql`
+    query QrOrder($id: ID, $code: String) {
+  qrOrder(id: $id, code: $code) {
+    ...QrOrderFragment
+  }
+}
+    ${QrOrderFragmentFragmentDoc}`;
+
+/**
+ * __useQrOrderQuery__
+ *
+ * To run a query within a React component, call `useQrOrderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useQrOrderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useQrOrderQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useQrOrderQuery(baseOptions?: Apollo.QueryHookOptions<QrOrderQuery, QrOrderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<QrOrderQuery, QrOrderQueryVariables>(QrOrderDocument, options);
+      }
+export function useQrOrderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<QrOrderQuery, QrOrderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<QrOrderQuery, QrOrderQueryVariables>(QrOrderDocument, options);
+        }
+export type QrOrderQueryHookResult = ReturnType<typeof useQrOrderQuery>;
+export type QrOrderLazyQueryHookResult = ReturnType<typeof useQrOrderLazyQuery>;
+export type QrOrderQueryResult = Apollo.QueryResult<QrOrderQuery, QrOrderQueryVariables>;
+export const QrOrderCreateDocument = gql`
+    mutation QrOrderCreate($input: UpdateQrOrder!) {
+  qrOrderCreate(input: $input) {
+    ...QrOrderFragment
+  }
+}
+    ${QrOrderFragmentFragmentDoc}`;
+export type QrOrderCreateMutationFn = Apollo.MutationFunction<QrOrderCreateMutation, QrOrderCreateMutationVariables>;
+
+/**
+ * __useQrOrderCreateMutation__
+ *
+ * To run a mutation, you first call `useQrOrderCreateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useQrOrderCreateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [qrOrderCreateMutation, { data, loading, error }] = useQrOrderCreateMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useQrOrderCreateMutation(baseOptions?: Apollo.MutationHookOptions<QrOrderCreateMutation, QrOrderCreateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<QrOrderCreateMutation, QrOrderCreateMutationVariables>(QrOrderCreateDocument, options);
+      }
+export type QrOrderCreateMutationHookResult = ReturnType<typeof useQrOrderCreateMutation>;
+export type QrOrderCreateMutationResult = Apollo.MutationResult<QrOrderCreateMutation>;
+export type QrOrderCreateMutationOptions = Apollo.BaseMutationOptions<QrOrderCreateMutation, QrOrderCreateMutationVariables>;
+export const UpdateQrOrderUpdateDocument = gql`
+    mutation UpdateQrOrderUpdate($id: ID!, $input: UpdateQrOrder!) {
+  qrOrderUpdate(id: $id, input: $input) {
+    ...QrOrderFragment
+  }
+}
+    ${QrOrderFragmentFragmentDoc}`;
+export type UpdateQrOrderUpdateMutationFn = Apollo.MutationFunction<UpdateQrOrderUpdateMutation, UpdateQrOrderUpdateMutationVariables>;
+
+/**
+ * __useUpdateQrOrderUpdateMutation__
+ *
+ * To run a mutation, you first call `useUpdateQrOrderUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQrOrderUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateQrOrderUpdateMutation, { data, loading, error }] = useUpdateQrOrderUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateQrOrderUpdateMutation(baseOptions?: Apollo.MutationHookOptions<UpdateQrOrderUpdateMutation, UpdateQrOrderUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateQrOrderUpdateMutation, UpdateQrOrderUpdateMutationVariables>(UpdateQrOrderUpdateDocument, options);
+      }
+export type UpdateQrOrderUpdateMutationHookResult = ReturnType<typeof useUpdateQrOrderUpdateMutation>;
+export type UpdateQrOrderUpdateMutationResult = Apollo.MutationResult<UpdateQrOrderUpdateMutation>;
+export type UpdateQrOrderUpdateMutationOptions = Apollo.BaseMutationOptions<UpdateQrOrderUpdateMutation, UpdateQrOrderUpdateMutationVariables>;
+export const QrOrderFinalizeDocument = gql`
+    mutation QrOrderFinalize($id: ID!) {
+  qrOrderFinalize(id: $id) {
+    ...QrOrderFragment
+  }
+}
+    ${QrOrderFragmentFragmentDoc}`;
+export type QrOrderFinalizeMutationFn = Apollo.MutationFunction<QrOrderFinalizeMutation, QrOrderFinalizeMutationVariables>;
+
+/**
+ * __useQrOrderFinalizeMutation__
+ *
+ * To run a mutation, you first call `useQrOrderFinalizeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useQrOrderFinalizeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [qrOrderFinalizeMutation, { data, loading, error }] = useQrOrderFinalizeMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useQrOrderFinalizeMutation(baseOptions?: Apollo.MutationHookOptions<QrOrderFinalizeMutation, QrOrderFinalizeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<QrOrderFinalizeMutation, QrOrderFinalizeMutationVariables>(QrOrderFinalizeDocument, options);
+      }
+export type QrOrderFinalizeMutationHookResult = ReturnType<typeof useQrOrderFinalizeMutation>;
+export type QrOrderFinalizeMutationResult = Apollo.MutationResult<QrOrderFinalizeMutation>;
+export type QrOrderFinalizeMutationOptions = Apollo.BaseMutationOptions<QrOrderFinalizeMutation, QrOrderFinalizeMutationVariables>;
+export const QrOrderArchiveDocument = gql`
+    mutation QrOrderArchive($id: ID!) {
+  qrOrderArchive(id: $id) {
+    ...QrOrderFragment
+  }
+}
+    ${QrOrderFragmentFragmentDoc}`;
+export type QrOrderArchiveMutationFn = Apollo.MutationFunction<QrOrderArchiveMutation, QrOrderArchiveMutationVariables>;
+
+/**
+ * __useQrOrderArchiveMutation__
+ *
+ * To run a mutation, you first call `useQrOrderArchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useQrOrderArchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [qrOrderArchiveMutation, { data, loading, error }] = useQrOrderArchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useQrOrderArchiveMutation(baseOptions?: Apollo.MutationHookOptions<QrOrderArchiveMutation, QrOrderArchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<QrOrderArchiveMutation, QrOrderArchiveMutationVariables>(QrOrderArchiveDocument, options);
+      }
+export type QrOrderArchiveMutationHookResult = ReturnType<typeof useQrOrderArchiveMutation>;
+export type QrOrderArchiveMutationResult = Apollo.MutationResult<QrOrderArchiveMutation>;
+export type QrOrderArchiveMutationOptions = Apollo.BaseMutationOptions<QrOrderArchiveMutation, QrOrderArchiveMutationVariables>;
+export const QrOrderUnarchiveDocument = gql`
+    mutation QrOrderUnarchive($id: ID!) {
+  qrOrderUnarchive(id: $id) {
+    ...QrOrderFragment
+  }
+}
+    ${QrOrderFragmentFragmentDoc}`;
+export type QrOrderUnarchiveMutationFn = Apollo.MutationFunction<QrOrderUnarchiveMutation, QrOrderUnarchiveMutationVariables>;
+
+/**
+ * __useQrOrderUnarchiveMutation__
+ *
+ * To run a mutation, you first call `useQrOrderUnarchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useQrOrderUnarchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [qrOrderUnarchiveMutation, { data, loading, error }] = useQrOrderUnarchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useQrOrderUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<QrOrderUnarchiveMutation, QrOrderUnarchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<QrOrderUnarchiveMutation, QrOrderUnarchiveMutationVariables>(QrOrderUnarchiveDocument, options);
+      }
+export type QrOrderUnarchiveMutationHookResult = ReturnType<typeof useQrOrderUnarchiveMutation>;
+export type QrOrderUnarchiveMutationResult = Apollo.MutationResult<QrOrderUnarchiveMutation>;
+export type QrOrderUnarchiveMutationOptions = Apollo.BaseMutationOptions<QrOrderUnarchiveMutation, QrOrderUnarchiveMutationVariables>;
 export const SkusDocument = gql`
     query Skus($searchFilter: SearchFilter!) {
   skus(search: $searchFilter) {
@@ -6047,6 +6444,45 @@ export function useNexportBatchCataloguesLazyQuery(baseOptions?: Apollo.LazyQuer
 export type NexportBatchCataloguesQueryHookResult = ReturnType<typeof useNexportBatchCataloguesQuery>;
 export type NexportBatchCataloguesLazyQueryHookResult = ReturnType<typeof useNexportBatchCataloguesLazyQuery>;
 export type NexportBatchCataloguesQueryResult = Apollo.QueryResult<NexportBatchCataloguesQuery, NexportBatchCataloguesQueryVariables>;
+export const TransactionsDocument = gql`
+    query Transactions($searchFilter: SearchFilter!, $objectUID: UUID) {
+  transactions(search: $searchFilter, objectUID: $objectUID) {
+    transactions {
+      ...TransactionFragment
+    }
+    total
+  }
+}
+    ${TransactionFragmentFragmentDoc}`;
+
+/**
+ * __useTransactionsQuery__
+ *
+ * To run a query within a React component, call `useTransactionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTransactionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTransactionsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      objectUID: // value for 'objectUID'
+ *   },
+ * });
+ */
+export function useTransactionsQuery(baseOptions: Apollo.QueryHookOptions<TransactionsQuery, TransactionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TransactionsQuery, TransactionsQueryVariables>(TransactionsDocument, options);
+      }
+export function useTransactionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TransactionsQuery, TransactionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TransactionsQuery, TransactionsQueryVariables>(TransactionsDocument, options);
+        }
+export type TransactionsQueryHookResult = ReturnType<typeof useTransactionsQuery>;
+export type TransactionsLazyQueryHookResult = ReturnType<typeof useTransactionsLazyQuery>;
+export type TransactionsQueryResult = Apollo.QueryResult<TransactionsQuery, TransactionsQueryVariables>;
 export const CellsDocument = gql`
     query Cells($searchFilter: SearchFilter!, $rackID: ID) {
   cells(search: $searchFilter, rackID: $rackID) {
