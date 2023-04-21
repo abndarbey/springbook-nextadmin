@@ -13,10 +13,10 @@ import { UseFormReturnType } from "@mantine/form"
 
 export interface QrOrderFormValues {
     objectType: undefined
-    skuUID: string
-    batchUID: string
-    warehouseUID: string
-    orgUID: string
+    skuUID: any
+    batchUID: any
+    warehouseUID: any
+    orgUID: any
     quantity: number,
 
     skuID: string

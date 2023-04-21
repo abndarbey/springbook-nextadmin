@@ -33,8 +33,8 @@ export default function QrOrderNew(props: PageProps) {
         validate: yupResolver(schema),
         initialValues: {
             objectType: undefined,
-            skuUID: "",
-            batchUID: "",
+            skuUID: null,
+            batchUID: null,
             warehouseUID: "",
             orgUID: "",
             quantity: 0,
