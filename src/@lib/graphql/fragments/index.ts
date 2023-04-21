@@ -5,11 +5,13 @@ import {
     Sku, Batch,
     QROrder, QROrderObject,
     Carton, CartonTransferLog, CartonTrackerLog,
+    Container, ContainerTransferLog, ContainerTrackerLog,
+    Pallet, PalletTransferLog, PalletTrackerLog,
 } from './inventory'
 import { Transaction } from './transaction'
 import {
-    WarehouseType, RackType, PalletType,
-    Warehouse, Rack, Cell, Pallet,
+    WarehouseType, RackType,
+    Warehouse, Rack, Cell,
     WarehouseContract,
 } from './warehouse'
 
@@ -37,11 +39,9 @@ export const fragment = {
 
     WarehouseType,
     RackType,
-    PalletType,
     Warehouse,
     Rack,
     Cell,
-    Pallet,
     WarehouseContract,
 
     Sku,
@@ -51,6 +51,12 @@ export const fragment = {
     Carton,
     CartonTransferLog,
     CartonTrackerLog,
+    Container,
+    ContainerTransferLog,
+    ContainerTrackerLog,
+    Pallet,
+    PalletTransferLog,
+    PalletTrackerLog,
 
     Transaction,
 }

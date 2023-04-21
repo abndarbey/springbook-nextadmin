@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Carton, CartonsResult } from "@lib/generated/hooks"
+import { Container, ContainersResult } from "@lib/generated/hooks"
 import { Badge, Box,Text, useMantineTheme } from "@mantine/core"
 import { DataTable } from "mantine-datatable"
 import ContentCard from "components/ContentCard"
@@ -7,30 +7,30 @@ import TableActionBar from "components/TableWrapper/TableActionBar"
 import TableRowActions from "components/TableWrapper/TableRowActions"
 import { PAGE_SIZES } from "types/enums"
 
-interface CartonTableProps {
-    data: CartonsResult
-    viewAction: (item: Carton) => void
-    editAction: (item: Carton) => void
-    archiveAction: (item: Carton) => void
-    unarchiveAction: (item: Carton) => void
-    batchViewAction?: (selectedRecords: Carton[]) => void
+interface ContainerTableProps {
+    data: ContainersResult
+    viewAction: (item: Container) => void
+    editAction: (item: Container) => void
+    archiveAction: (item: Container) => void
+    unarchiveAction: (item: Container) => void
+    batchViewAction?: (selectedRecords: Container[]) => void
     filterAction?: (filter: string) => void
     filterOptions: string[]
 }
 
-export default function CartonTable(props: CartonTableProps) {
+export default function ContainerTable(props: ContainerTableProps) {
     const theme = useMantineTheme()
 
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
     const [page, setPage] = useState(1)
-    const [records, setRecords] = useState<Carton[]>(props.data.cartons.slice(0, pageSize))
-    const [selectedRecords, setSelectedRecords] = useState<Carton[]>([])
+    const [records, setRecords] = useState<Container[]>(props.data.containers.slice(0, pageSize))
+    const [selectedRecords, setSelectedRecords] = useState<Container[]>([])
 
     useEffect(() => {
         const from = (page - 1) * pageSize
         const to = from + pageSize
-        setRecords(props.data.cartons.slice(from, to))
-    }, [page, pageSize, props.data.cartons])
+        setRecords(props.data.containers.slice(from, to))
+    }, [page, pageSize, props.data.containers])
 
     return (
         <ContentCard>
@@ -51,8 +51,6 @@ export default function CartonTable(props: CartonTableProps) {
                     records={records}
                     columns={[
                         { accessor: "code", width: "10%" },
-                        { accessor: "sku.name", title: "SKU" },
-                        { accessor: "batch.batchNumber", title: "Batch Number" },
                         { accessor: "latestTransferLog.owner.name", title: "Owner" },
                         { accessor: "latestTransferLog.custodian.name", title: "Custodian" },
                         { accessor: "latestTransferLog.warehouse.name", title: "Warehouse" },

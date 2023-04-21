@@ -86,6 +86,8 @@ export const menuData = [
             { label: 'SKUs', link: '/inventory/skus' },
             { label: 'Batches', link: '/inventory/batches' },
             { label: 'Cartons', link: '/inventory/cartons' },
+            { label: 'Pallets', link: '/inventory/pallets' },
+            { label: 'Containers', link: '/inventory/containers' },
         ],
     },
     {

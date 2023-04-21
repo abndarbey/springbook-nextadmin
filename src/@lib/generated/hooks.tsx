@@ -217,6 +217,62 @@ export type ContactsResult = {
   total: Scalars['Int'];
 };
 
+export type Container = {
+  __typename?: 'Container';
+  code?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Time']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['ID']>;
+  isArchived?: Maybe<Scalars['Boolean']>;
+  isFinal?: Maybe<Scalars['Boolean']>;
+  latestTrackerLog?: Maybe<ContainerTrackerLog>;
+  latestTransaction?: Maybe<Transaction>;
+  latestTransferLog?: Maybe<ContainerTransferLog>;
+  status?: Maybe<Scalars['String']>;
+  uid?: Maybe<Scalars['UUID']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
+export type ContainerTrackerLog = {
+  __typename?: 'ContainerTrackerLog';
+  container?: Maybe<Container>;
+  createdAt?: Maybe<Scalars['Time']>;
+  geoLocation?: Maybe<GeoLocation>;
+  humidity?: Maybe<Scalars['NullFloat']>;
+  id?: Maybe<Scalars['ID']>;
+  temperature?: Maybe<Scalars['NullFloat']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
+export type ContainerTrackerLogsResult = {
+  __typename?: 'ContainerTrackerLogsResult';
+  containerTrackerLogs: Array<ContainerTrackerLog>;
+  total: Scalars['Int'];
+};
+
+export type ContainerTransferLog = {
+  __typename?: 'ContainerTransferLog';
+  container?: Maybe<Container>;
+  createdAt?: Maybe<Scalars['Time']>;
+  custodian?: Maybe<Organization>;
+  id?: Maybe<Scalars['ID']>;
+  owner?: Maybe<Organization>;
+  updatedAt?: Maybe<Scalars['Time']>;
+  warehouse?: Maybe<Warehouse>;
+};
+
+export type ContainerTransferLogsResult = {
+  __typename?: 'ContainerTransferLogsResult';
+  containerTransferLogs: Array<ContainerTransferLog>;
+  total: Scalars['Int'];
+};
+
+export type ContainersResult = {
+  __typename?: 'ContainersResult';
+  containers: Array<Container>;
+  total: Scalars['Int'];
+};
+
 export type Department = {
   __typename?: 'Department';
   code?: Maybe<Scalars['String']>;
@@ -311,6 +367,11 @@ export type Mutation = {
   contactFinalize: Contact;
   contactUnarchive: Contact;
   contactUpdate: Contact;
+  containerArchive: Container;
+  containerTrackerLogUpdate: ContainerTrackerLog;
+  containerTransferLogUpdate: ContainerTransferLog;
+  containerUnarchive: Container;
+  containerUpdate: Container;
   departmentArchive: Department;
   departmentCreate: Department;
   departmentFinalize: Department;
@@ -327,13 +388,8 @@ export type Mutation = {
   organizationUnarchive: Organization;
   organizationUpdate: Organization;
   palletArchive: Pallet;
-  palletCreate: Scalars['Boolean'];
-  palletFinalize: Pallet;
-  palletTypeArchive: PalletType;
-  palletTypeCreate: PalletType;
-  palletTypeFinalize: PalletType;
-  palletTypeUnarchive: PalletType;
-  palletTypeUpdate: PalletType;
+  palletTrackerLogUpdate: PalletTrackerLog;
+  palletTransferLogUpdate: PalletTransferLog;
   palletUnarchive: Pallet;
   palletUpdate: Pallet;
   qrOrderArchive: QrOrder;
@@ -524,6 +580,34 @@ export type MutationContactUpdateArgs = {
 };
 
 
+export type MutationContainerArchiveArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationContainerTrackerLogUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdateContainerTrackerLog;
+};
+
+
+export type MutationContainerTransferLogUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdateContainerTransferLog;
+};
+
+
+export type MutationContainerUnarchiveArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationContainerUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdateContainer;
+};
+
+
 export type MutationDepartmentArchiveArgs = {
   id: Scalars['ID'];
 };
@@ -592,54 +676,30 @@ export type MutationOrganizationUpdateArgs = {
 
 
 export type MutationPalletArchiveArgs = {
-  uid: Scalars['UUID'];
-};
-
-
-export type MutationPalletCreateArgs = {
-  input: UpdatePallet;
-};
-
-
-export type MutationPalletFinalizeArgs = {
-  uid: Scalars['UUID'];
-};
-
-
-export type MutationPalletTypeArchiveArgs = {
   id: Scalars['ID'];
 };
 
 
-export type MutationPalletTypeCreateArgs = {
-  input: UpdatePalletType;
+export type MutationPalletTrackerLogUpdateArgs = {
+  id: Scalars['ID'];
+  input: UpdatePalletTrackerLog;
 };
 
 
-export type MutationPalletTypeFinalizeArgs = {
+export type MutationPalletTransferLogUpdateArgs = {
   id: Scalars['ID'];
-};
-
-
-export type MutationPalletTypeUnarchiveArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationPalletTypeUpdateArgs = {
-  id: Scalars['ID'];
-  input: UpdatePalletType;
+  input: UpdatePalletTransferLog;
 };
 
 
 export type MutationPalletUnarchiveArgs = {
-  uid: Scalars['UUID'];
+  id: Scalars['ID'];
 };
 
 
 export type MutationPalletUpdateArgs = {
+  id: Scalars['ID'];
   input: UpdatePallet;
-  uid: Scalars['UUID'];
 };
 
 
@@ -953,37 +1013,49 @@ export type Pallet = {
   __typename?: 'Pallet';
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
-  isAllocated?: Maybe<Scalars['Boolean']>;
   isArchived?: Maybe<Scalars['Boolean']>;
   isFinal?: Maybe<Scalars['Boolean']>;
-  isOccupied?: Maybe<Scalars['Boolean']>;
-  organization?: Maybe<Organization>;
+  latestTrackerLog?: Maybe<PalletTrackerLog>;
+  latestTransaction?: Maybe<Transaction>;
+  latestTransferLog?: Maybe<PalletTransferLog>;
   status?: Maybe<Scalars['String']>;
-  type?: Maybe<PalletType>;
   uid?: Maybe<Scalars['UUID']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
+export type PalletTrackerLog = {
+  __typename?: 'PalletTrackerLog';
+  createdAt?: Maybe<Scalars['Time']>;
+  geoLocation?: Maybe<GeoLocation>;
+  humidity?: Maybe<Scalars['NullFloat']>;
+  id?: Maybe<Scalars['ID']>;
+  pallet?: Maybe<Pallet>;
+  temperature?: Maybe<Scalars['NullFloat']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
+export type PalletTrackerLogsResult = {
+  __typename?: 'PalletTrackerLogsResult';
+  palletTrackerLogs: Array<PalletTrackerLog>;
+  total: Scalars['Int'];
+};
+
+export type PalletTransferLog = {
+  __typename?: 'PalletTransferLog';
+  createdAt?: Maybe<Scalars['Time']>;
+  custodian?: Maybe<Organization>;
+  id?: Maybe<Scalars['ID']>;
+  owner?: Maybe<Organization>;
+  pallet?: Maybe<Pallet>;
+  updatedAt?: Maybe<Scalars['Time']>;
   warehouse?: Maybe<Warehouse>;
 };
 
-export type PalletType = {
-  __typename?: 'PalletType';
-  breadth?: Maybe<Scalars['Float']>;
-  code?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Time']>;
-  id?: Maybe<Scalars['ID']>;
-  isArchived?: Maybe<Scalars['Boolean']>;
-  isFinal?: Maybe<Scalars['Boolean']>;
-  length?: Maybe<Scalars['Float']>;
-  name?: Maybe<Scalars['String']>;
-  organization?: Maybe<Organization>;
-  status?: Maybe<Scalars['String']>;
-  weightCapacity?: Maybe<Scalars['Float']>;
-  weightUnit?: Maybe<Scalars['String']>;
-};
-
-export type PalletTypesResult = {
-  __typename?: 'PalletTypesResult';
-  palletTypes: Array<PalletType>;
+export type PalletTransferLogsResult = {
+  __typename?: 'PalletTransferLogsResult';
+  palletTransferLogs: Array<PalletTransferLog>;
   total: Scalars['Int'];
 };
 
@@ -1048,6 +1120,12 @@ export type Query = {
   cells: CellsResult;
   contact: Contact;
   contacts: ContactsResult;
+  container: Container;
+  containerTrackerLog: ContainerTrackerLog;
+  containerTrackerLogs: ContainerTrackerLogsResult;
+  containerTransferLog: ContainerTransferLog;
+  containerTransferLogs: ContainerTransferLogsResult;
+  containers: ContainersResult;
   department: Department;
   departments: DepartmentsResult;
   ethereumAccountAddress: Scalars['String'];
@@ -1055,6 +1133,10 @@ export type Query = {
   getTickerInfo: TickerInfo;
   latestCartonTrackerLog: CartonTrackerLog;
   latestCartonTransferLog: CartonTransferLog;
+  latestContainerTrackerLog: ContainerTrackerLog;
+  latestContainerTransferLog: ContainerTransferLog;
+  latestPalletTrackerLog: PalletTrackerLog;
+  latestPalletTransferLog: PalletTransferLog;
   me: User;
   nexportBatchCatalogues: BatchCataloguesResult;
   nexportOrganizations: OrganizationsResult;
@@ -1062,8 +1144,10 @@ export type Query = {
   organization: Organization;
   organizations: OrganizationsResult;
   pallet: Pallet;
-  palletType: PalletType;
-  palletTypes: PalletTypesResult;
+  palletTrackerLog: PalletTrackerLog;
+  palletTrackerLogs: PalletTrackerLogsResult;
+  palletTransferLog: PalletTransferLog;
+  palletTransferLogs: PalletTransferLogsResult;
   pallets: PalletsResult;
   pendingTransactionsCount: Scalars['Int'];
   qrOrder: QrOrder;
@@ -1178,6 +1262,40 @@ export type QueryContactsArgs = {
 };
 
 
+export type QueryContainerArgs = {
+  code?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  uid?: InputMaybe<Scalars['UUID']>;
+};
+
+
+export type QueryContainerTrackerLogArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryContainerTrackerLogsArgs = {
+  containerUID: Scalars['UUID'];
+  search: SearchFilter;
+};
+
+
+export type QueryContainerTransferLogArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryContainerTransferLogsArgs = {
+  containerUID: Scalars['UUID'];
+  search: SearchFilter;
+};
+
+
+export type QueryContainersArgs = {
+  search: SearchFilter;
+};
+
+
 export type QueryDepartmentArgs = {
   code?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
@@ -1196,6 +1314,26 @@ export type QueryLatestCartonTrackerLogArgs = {
 
 export type QueryLatestCartonTransferLogArgs = {
   cartonUID: Scalars['UUID'];
+};
+
+
+export type QueryLatestContainerTrackerLogArgs = {
+  containerUID: Scalars['UUID'];
+};
+
+
+export type QueryLatestContainerTransferLogArgs = {
+  containerUID: Scalars['UUID'];
+};
+
+
+export type QueryLatestPalletTrackerLogArgs = {
+  palletUID: Scalars['UUID'];
+};
+
+
+export type QueryLatestPalletTransferLogArgs = {
+  palletUID: Scalars['UUID'];
 };
 
 
@@ -1230,24 +1368,35 @@ export type QueryOrganizationsArgs = {
 
 export type QueryPalletArgs = {
   code?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
   uid?: InputMaybe<Scalars['UUID']>;
 };
 
 
-export type QueryPalletTypeArgs = {
-  code?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+export type QueryPalletTrackerLogArgs = {
+  id: Scalars['ID'];
 };
 
 
-export type QueryPalletTypesArgs = {
+export type QueryPalletTrackerLogsArgs = {
+  palletUID: Scalars['UUID'];
+  search: SearchFilter;
+};
+
+
+export type QueryPalletTransferLogArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryPalletTransferLogsArgs = {
+  palletUID: Scalars['UUID'];
   search: SearchFilter;
 };
 
 
 export type QueryPalletsArgs = {
   search: SearchFilter;
-  typeID?: InputMaybe<Scalars['ID']>;
 };
 
 
@@ -1671,6 +1820,30 @@ export type UpdateContact = {
   status?: InputMaybe<Scalars['NullString']>;
 };
 
+export type UpdateContainer = {
+  custodianUID?: InputMaybe<Scalars['NullUUID']>;
+  description?: InputMaybe<Scalars['NullString']>;
+  geoLocation?: InputMaybe<GeoLocationInput>;
+  humidity?: InputMaybe<Scalars['NullFloat']>;
+  ownerUID?: InputMaybe<Scalars['NullUUID']>;
+  status?: InputMaybe<Scalars['NullString']>;
+  temperature?: InputMaybe<Scalars['NullFloat']>;
+  warehouseUID?: InputMaybe<Scalars['NullUUID']>;
+};
+
+export type UpdateContainerTrackerLog = {
+  humidity?: InputMaybe<Scalars['NullFloat']>;
+  lat?: InputMaybe<Scalars['NullFloat']>;
+  lon?: InputMaybe<Scalars['NullFloat']>;
+  temprature?: InputMaybe<Scalars['NullFloat']>;
+};
+
+export type UpdateContainerTransferLog = {
+  custodianUID?: InputMaybe<Scalars['NullUUID']>;
+  ownerUID?: InputMaybe<Scalars['NullUUID']>;
+  warehouseUID?: InputMaybe<Scalars['NullUUID']>;
+};
+
 export type UpdateDepartment = {
   name?: InputMaybe<Scalars['NullString']>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
@@ -1684,21 +1857,27 @@ export type UpdateOrganization = {
 };
 
 export type UpdatePallet = {
-  orgUID?: InputMaybe<Scalars['NullUUID']>;
-  quantity?: InputMaybe<Scalars['NullInt']>;
+  custodianUID?: InputMaybe<Scalars['NullUUID']>;
+  description?: InputMaybe<Scalars['NullString']>;
+  geoLocation?: InputMaybe<GeoLocationInput>;
+  humidity?: InputMaybe<Scalars['NullFloat']>;
+  ownerUID?: InputMaybe<Scalars['NullUUID']>;
   status?: InputMaybe<Scalars['NullString']>;
-  typeID?: InputMaybe<Scalars['NullInt64']>;
+  temperature?: InputMaybe<Scalars['NullFloat']>;
   warehouseUID?: InputMaybe<Scalars['NullUUID']>;
 };
 
-export type UpdatePalletType = {
-  breadth?: InputMaybe<Scalars['NullFloat']>;
-  length?: InputMaybe<Scalars['NullFloat']>;
-  name?: InputMaybe<Scalars['NullString']>;
-  orgUID?: InputMaybe<Scalars['NullUUID']>;
-  status?: InputMaybe<Scalars['NullString']>;
-  weightCapacity?: InputMaybe<Scalars['NullFloat']>;
-  weightUnit?: InputMaybe<Scalars['NullString']>;
+export type UpdatePalletTrackerLog = {
+  humidity?: InputMaybe<Scalars['NullFloat']>;
+  lat?: InputMaybe<Scalars['NullFloat']>;
+  lon?: InputMaybe<Scalars['NullFloat']>;
+  temprature?: InputMaybe<Scalars['NullFloat']>;
+};
+
+export type UpdatePalletTransferLog = {
+  custodianUID?: InputMaybe<Scalars['NullUUID']>;
+  ownerUID?: InputMaybe<Scalars['NullUUID']>;
+  warehouseUID?: InputMaybe<Scalars['NullUUID']>;
 };
 
 export type UpdateQrOrder = {
@@ -2366,21 +2545,29 @@ export type CartonTransferLogFragmentFragment = { __typename?: 'CartonTransferLo
 
 export type CartonTrackerLogFragmentFragment = { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null };
 
+export type ContainerFragmentFragment = { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null };
+
+export type ContainerTransferLogFragmentFragment = { __typename?: 'ContainerTransferLog', id?: string | null, createdAt?: any | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
+
+export type ContainerTrackerLogFragmentFragment = { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null };
+
+export type PalletFragmentFragment = { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null };
+
+export type PalletTransferLogFragmentFragment = { __typename?: 'PalletTransferLog', id?: string | null, createdAt?: any | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
+
+export type PalletTrackerLogFragmentFragment = { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null };
+
 export type TransactionFragmentFragment = { __typename?: 'Transaction', id?: string | null, uid?: any | null, name?: string | null, objectType?: string | null, scannedAt?: any | null, memo?: any | null, isPending?: boolean | null, manifestLineJson?: any | null, manifestLineSha256?: any | null, transactionHash?: any | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null, creator?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, name?: string | null } | null, manifest?: { __typename?: 'Manifest', id?: string | null } | null, carton?: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null } | null, pallet?: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null } | null };
 
 export type WarehouseTypeFragmentFragment = { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null, details?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackTypeFragmentFragment = { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null, storageType?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, storageDimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type PalletTypeFragmentFragment = { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
-
 export type WarehouseFragmentFragment = { __typename?: 'Warehouse', id?: string | null, uid?: any | null, code?: string | null, warehouseUID?: any | null, name?: string | null, details?: any | null, locality?: string | null, city?: string | null, pincode?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'WarehouseDimension', centralHeight?: any | null, wallHeight?: any | null, carpetLength?: any | null, carpetBreadth?: any | null, buildUpLength?: any | null, buildUpBreadth?: any | null } | null, specifications?: Array<{ __typename?: 'WarehouseSpecification', key?: string | null, value?: string | null }> | null, type?: { __typename?: 'WarehouseType', id?: string | null, code?: string | null, name?: string | null } | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type RackFragmentFragment = { __typename?: 'Rack', id?: string | null, code?: string | null, rows?: number | null, columns?: number | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, dimension?: { __typename?: 'StorageDimension', length?: number | null, breadth?: number | null, height?: number | null, unit?: string | null } | null, type?: { __typename?: 'RackType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type CellFragmentFragment = { __typename?: 'Cell', id?: string | null, code?: string | null, row?: number | null, col?: number | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, rack?: { __typename?: 'Rack', id?: string | null, code?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
-
-export type PalletFragmentFragment = { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type WarehouseContractFragmentFragment = { __typename?: 'WarehouseContract', id?: string | null, uid?: any | null, code?: string | null, message?: any | null, status?: string | null, acceptanceStatus?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, isAccepted?: boolean | null, createdAt?: any | null, contractor?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, client?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2485,6 +2672,114 @@ export type CartonTrackerLogsQueryVariables = Exact<{
 
 
 export type CartonTrackerLogsQuery = { __typename?: 'Query', cartonTrackerLogs: { __typename?: 'CartonTrackerLogsResult', total: number, cartonTrackerLogs: Array<{ __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null }> } };
+
+export type ContainersQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+}>;
+
+
+export type ContainersQuery = { __typename?: 'Query', containers: { __typename?: 'ContainersResult', total: number, containers: Array<{ __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null }> } };
+
+export type ContainerQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  uid?: InputMaybe<Scalars['UUID']>;
+  code?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type ContainerQuery = { __typename?: 'Query', container: { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type ContainerUpdateMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: UpdateContainer;
+}>;
+
+
+export type ContainerUpdateMutation = { __typename?: 'Mutation', containerUpdate: { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type ContainerArchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ContainerArchiveMutation = { __typename?: 'Mutation', containerArchive: { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type ContainerUnarchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ContainerUnarchiveMutation = { __typename?: 'Mutation', containerUnarchive: { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type ContainerTransferLogsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  containerUID: Scalars['UUID'];
+}>;
+
+
+export type ContainerTransferLogsQuery = { __typename?: 'Query', containerTransferLogs: { __typename?: 'ContainerTransferLogsResult', total: number, containerTransferLogs: Array<{ __typename?: 'ContainerTransferLog', id?: string | null, createdAt?: any | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type ContainerTrackerLogsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  containerUID: Scalars['UUID'];
+}>;
+
+
+export type ContainerTrackerLogsQuery = { __typename?: 'Query', containerTrackerLogs: { __typename?: 'ContainerTrackerLogsResult', total: number, containerTrackerLogs: Array<{ __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null }> } };
+
+export type PalletsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+}>;
+
+
+export type PalletsQuery = { __typename?: 'Query', pallets: { __typename?: 'PalletsResult', total: number, pallets: Array<{ __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null }> } };
+
+export type PalletQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  uid?: InputMaybe<Scalars['UUID']>;
+  code?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type PalletQuery = { __typename?: 'Query', pallet: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type PalletUpdateMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: UpdatePallet;
+}>;
+
+
+export type PalletUpdateMutation = { __typename?: 'Mutation', palletUpdate: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type PalletArchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PalletArchiveMutation = { __typename?: 'Mutation', palletArchive: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type PalletUnarchiveMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type PalletUnarchiveMutation = { __typename?: 'Mutation', palletUnarchive: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
+
+export type PalletTransferLogsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  palletUID: Scalars['UUID'];
+}>;
+
+
+export type PalletTransferLogsQuery = { __typename?: 'Query', palletTransferLogs: { __typename?: 'PalletTransferLogsResult', total: number, palletTransferLogs: Array<{ __typename?: 'PalletTransferLog', id?: string | null, createdAt?: any | null, owner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+
+export type PalletTrackerLogsQueryVariables = Exact<{
+  searchFilter: SearchFilter;
+  palletUID: Scalars['UUID'];
+}>;
+
+
+export type PalletTrackerLogsQuery = { __typename?: 'Query', palletTrackerLogs: { __typename?: 'PalletTrackerLogsResult', total: number, palletTrackerLogs: Array<{ __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null }> } };
 
 export type QrOrdersQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -2673,109 +2968,6 @@ export type CellUnarchiveMutationVariables = Exact<{
 
 
 export type CellUnarchiveMutation = { __typename?: 'Mutation', cellUnarchive: { __typename?: 'Cell', id?: string | null, code?: string | null, row?: number | null, col?: number | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, rack?: { __typename?: 'Rack', id?: string | null, code?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletsQueryVariables = Exact<{
-  searchFilter: SearchFilter;
-  typeID?: InputMaybe<Scalars['ID']>;
-}>;
-
-
-export type PalletsQuery = { __typename?: 'Query', pallets: { __typename?: 'PalletsResult', total: number, pallets: Array<{ __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
-
-export type PalletQueryVariables = Exact<{
-  uid?: InputMaybe<Scalars['UUID']>;
-  code?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type PalletQuery = { __typename?: 'Query', pallet: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletCreateMutationVariables = Exact<{
-  input: UpdatePallet;
-}>;
-
-
-export type PalletCreateMutation = { __typename?: 'Mutation', palletCreate: boolean };
-
-export type PalletUpdateMutationVariables = Exact<{
-  uid: Scalars['UUID'];
-  input: UpdatePallet;
-}>;
-
-
-export type PalletUpdateMutation = { __typename?: 'Mutation', palletUpdate: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletFinalizeMutationVariables = Exact<{
-  uid: Scalars['UUID'];
-}>;
-
-
-export type PalletFinalizeMutation = { __typename?: 'Mutation', palletFinalize: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletArchiveMutationVariables = Exact<{
-  uid: Scalars['UUID'];
-}>;
-
-
-export type PalletArchiveMutation = { __typename?: 'Mutation', palletArchive: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletUnarchiveMutationVariables = Exact<{
-  uid: Scalars['UUID'];
-}>;
-
-
-export type PalletUnarchiveMutation = { __typename?: 'Mutation', palletUnarchive: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, status?: string | null, isAllocated?: boolean | null, isOccupied?: boolean | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, type?: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletTypesQueryVariables = Exact<{
-  searchFilter: SearchFilter;
-}>;
-
-
-export type PalletTypesQuery = { __typename?: 'Query', palletTypes: { __typename?: 'PalletTypesResult', total: number, palletTypes: Array<{ __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
-
-export type PalletTypeQueryVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']>;
-  code?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type PalletTypeQuery = { __typename?: 'Query', palletType: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletTypeCreateMutationVariables = Exact<{
-  input: UpdatePalletType;
-}>;
-
-
-export type PalletTypeCreateMutation = { __typename?: 'Mutation', palletTypeCreate: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletTypeUpdateMutationVariables = Exact<{
-  id: Scalars['ID'];
-  input: UpdatePalletType;
-}>;
-
-
-export type PalletTypeUpdateMutation = { __typename?: 'Mutation', palletTypeUpdate: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletTypeFinalizeMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type PalletTypeFinalizeMutation = { __typename?: 'Mutation', palletTypeFinalize: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletTypeArchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type PalletTypeArchiveMutation = { __typename?: 'Mutation', palletTypeArchive: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
-
-export type PalletTypeUnarchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-
-export type PalletTypeUnarchiveMutation = { __typename?: 'Mutation', palletTypeUnarchive: { __typename?: 'PalletType', id?: string | null, code?: string | null, name?: string | null, length?: number | null, breadth?: number | null, weightCapacity?: number | null, weightUnit?: string | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type RacksQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -3399,6 +3591,156 @@ export const CartonTrackerLogFragmentFragmentDoc = gql`
   createdAt
 }
     `;
+export const ContainerFragmentFragmentDoc = gql`
+    fragment ContainerFragment on Container {
+  id
+  uid
+  code
+  description
+  status
+  isFinal
+  isArchived
+  latestTransferLog {
+    id
+    owner {
+      id
+      code
+      name
+    }
+    custodian {
+      id
+      code
+      name
+    }
+    warehouse {
+      id
+      code
+      name
+    }
+  }
+  latestTrackerLog {
+    id
+    temperature
+    humidity
+    geoLocation {
+      lat
+      lon
+    }
+  }
+  latestTransaction {
+    name
+    createdAt
+  }
+}
+    `;
+export const ContainerTransferLogFragmentFragmentDoc = gql`
+    fragment ContainerTransferLogFragment on ContainerTransferLog {
+  id
+  owner {
+    uid
+    code
+    name
+  }
+  custodian {
+    uid
+    code
+    name
+  }
+  warehouse {
+    uid
+    code
+    name
+  }
+  createdAt
+}
+    `;
+export const ContainerTrackerLogFragmentFragmentDoc = gql`
+    fragment ContainerTrackerLogFragment on ContainerTrackerLog {
+  id
+  temperature
+  humidity
+  geoLocation {
+    lat
+    lon
+  }
+  createdAt
+}
+    `;
+export const PalletFragmentFragmentDoc = gql`
+    fragment PalletFragment on Pallet {
+  id
+  uid
+  code
+  description
+  status
+  isFinal
+  isArchived
+  latestTransferLog {
+    id
+    owner {
+      id
+      code
+      name
+    }
+    custodian {
+      id
+      code
+      name
+    }
+    warehouse {
+      id
+      code
+      name
+    }
+  }
+  latestTrackerLog {
+    id
+    temperature
+    humidity
+    geoLocation {
+      lat
+      lon
+    }
+  }
+  latestTransaction {
+    name
+    createdAt
+  }
+}
+    `;
+export const PalletTransferLogFragmentFragmentDoc = gql`
+    fragment PalletTransferLogFragment on PalletTransferLog {
+  id
+  owner {
+    uid
+    code
+    name
+  }
+  custodian {
+    uid
+    code
+    name
+  }
+  warehouse {
+    uid
+    code
+    name
+  }
+  createdAt
+}
+    `;
+export const PalletTrackerLogFragmentFragmentDoc = gql`
+    fragment PalletTrackerLogFragment on PalletTrackerLog {
+  id
+  temperature
+  humidity
+  geoLocation {
+    lat
+    lon
+  }
+  createdAt
+}
+    `;
 export const TransactionFragmentFragmentDoc = gql`
     fragment TransactionFragment on Transaction {
   id
@@ -3472,26 +3814,6 @@ export const RackTypeFragmentFragmentDoc = gql`
     height
     unit
   }
-  status
-  isFinal
-  isArchived
-  createdAt
-  organization {
-    uid
-    code
-    name
-  }
-}
-    `;
-export const PalletTypeFragmentFragmentDoc = gql`
-    fragment PalletTypeFragment on PalletType {
-  id
-  code
-  name
-  length
-  breadth
-  weightCapacity
-  weightUnit
   status
   isFinal
   isArchived
@@ -3594,34 +3916,6 @@ export const CellFragmentFragmentDoc = gql`
   rack {
     id
     code
-  }
-  warehouse {
-    uid
-    code
-    name
-  }
-  organization {
-    uid
-    code
-    name
-  }
-}
-    `;
-export const PalletFragmentFragmentDoc = gql`
-    fragment PalletFragment on Pallet {
-  id
-  uid
-  code
-  status
-  isAllocated
-  isOccupied
-  isFinal
-  isArchived
-  createdAt
-  type {
-    id
-    code
-    name
   }
   warehouse {
     uid
@@ -5916,6 +6210,512 @@ export function useCartonTrackerLogsLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type CartonTrackerLogsQueryHookResult = ReturnType<typeof useCartonTrackerLogsQuery>;
 export type CartonTrackerLogsLazyQueryHookResult = ReturnType<typeof useCartonTrackerLogsLazyQuery>;
 export type CartonTrackerLogsQueryResult = Apollo.QueryResult<CartonTrackerLogsQuery, CartonTrackerLogsQueryVariables>;
+export const ContainersDocument = gql`
+    query Containers($searchFilter: SearchFilter!) {
+  containers(search: $searchFilter) {
+    containers {
+      ...ContainerFragment
+    }
+    total
+  }
+}
+    ${ContainerFragmentFragmentDoc}`;
+
+/**
+ * __useContainersQuery__
+ *
+ * To run a query within a React component, call `useContainersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useContainersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useContainersQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *   },
+ * });
+ */
+export function useContainersQuery(baseOptions: Apollo.QueryHookOptions<ContainersQuery, ContainersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ContainersQuery, ContainersQueryVariables>(ContainersDocument, options);
+      }
+export function useContainersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ContainersQuery, ContainersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ContainersQuery, ContainersQueryVariables>(ContainersDocument, options);
+        }
+export type ContainersQueryHookResult = ReturnType<typeof useContainersQuery>;
+export type ContainersLazyQueryHookResult = ReturnType<typeof useContainersLazyQuery>;
+export type ContainersQueryResult = Apollo.QueryResult<ContainersQuery, ContainersQueryVariables>;
+export const ContainerDocument = gql`
+    query Container($id: ID, $uid: UUID, $code: String) {
+  container(id: $id, uid: $uid, code: $code) {
+    ...ContainerFragment
+  }
+}
+    ${ContainerFragmentFragmentDoc}`;
+
+/**
+ * __useContainerQuery__
+ *
+ * To run a query within a React component, call `useContainerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useContainerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useContainerQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      uid: // value for 'uid'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useContainerQuery(baseOptions?: Apollo.QueryHookOptions<ContainerQuery, ContainerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ContainerQuery, ContainerQueryVariables>(ContainerDocument, options);
+      }
+export function useContainerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ContainerQuery, ContainerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ContainerQuery, ContainerQueryVariables>(ContainerDocument, options);
+        }
+export type ContainerQueryHookResult = ReturnType<typeof useContainerQuery>;
+export type ContainerLazyQueryHookResult = ReturnType<typeof useContainerLazyQuery>;
+export type ContainerQueryResult = Apollo.QueryResult<ContainerQuery, ContainerQueryVariables>;
+export const ContainerUpdateDocument = gql`
+    mutation ContainerUpdate($id: ID!, $input: UpdateContainer!) {
+  containerUpdate(id: $id, input: $input) {
+    ...ContainerFragment
+  }
+}
+    ${ContainerFragmentFragmentDoc}`;
+export type ContainerUpdateMutationFn = Apollo.MutationFunction<ContainerUpdateMutation, ContainerUpdateMutationVariables>;
+
+/**
+ * __useContainerUpdateMutation__
+ *
+ * To run a mutation, you first call `useContainerUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useContainerUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [containerUpdateMutation, { data, loading, error }] = useContainerUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useContainerUpdateMutation(baseOptions?: Apollo.MutationHookOptions<ContainerUpdateMutation, ContainerUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ContainerUpdateMutation, ContainerUpdateMutationVariables>(ContainerUpdateDocument, options);
+      }
+export type ContainerUpdateMutationHookResult = ReturnType<typeof useContainerUpdateMutation>;
+export type ContainerUpdateMutationResult = Apollo.MutationResult<ContainerUpdateMutation>;
+export type ContainerUpdateMutationOptions = Apollo.BaseMutationOptions<ContainerUpdateMutation, ContainerUpdateMutationVariables>;
+export const ContainerArchiveDocument = gql`
+    mutation ContainerArchive($id: ID!) {
+  containerArchive(id: $id) {
+    ...ContainerFragment
+  }
+}
+    ${ContainerFragmentFragmentDoc}`;
+export type ContainerArchiveMutationFn = Apollo.MutationFunction<ContainerArchiveMutation, ContainerArchiveMutationVariables>;
+
+/**
+ * __useContainerArchiveMutation__
+ *
+ * To run a mutation, you first call `useContainerArchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useContainerArchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [containerArchiveMutation, { data, loading, error }] = useContainerArchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useContainerArchiveMutation(baseOptions?: Apollo.MutationHookOptions<ContainerArchiveMutation, ContainerArchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ContainerArchiveMutation, ContainerArchiveMutationVariables>(ContainerArchiveDocument, options);
+      }
+export type ContainerArchiveMutationHookResult = ReturnType<typeof useContainerArchiveMutation>;
+export type ContainerArchiveMutationResult = Apollo.MutationResult<ContainerArchiveMutation>;
+export type ContainerArchiveMutationOptions = Apollo.BaseMutationOptions<ContainerArchiveMutation, ContainerArchiveMutationVariables>;
+export const ContainerUnarchiveDocument = gql`
+    mutation ContainerUnarchive($id: ID!) {
+  containerUnarchive(id: $id) {
+    ...ContainerFragment
+  }
+}
+    ${ContainerFragmentFragmentDoc}`;
+export type ContainerUnarchiveMutationFn = Apollo.MutationFunction<ContainerUnarchiveMutation, ContainerUnarchiveMutationVariables>;
+
+/**
+ * __useContainerUnarchiveMutation__
+ *
+ * To run a mutation, you first call `useContainerUnarchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useContainerUnarchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [containerUnarchiveMutation, { data, loading, error }] = useContainerUnarchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useContainerUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<ContainerUnarchiveMutation, ContainerUnarchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ContainerUnarchiveMutation, ContainerUnarchiveMutationVariables>(ContainerUnarchiveDocument, options);
+      }
+export type ContainerUnarchiveMutationHookResult = ReturnType<typeof useContainerUnarchiveMutation>;
+export type ContainerUnarchiveMutationResult = Apollo.MutationResult<ContainerUnarchiveMutation>;
+export type ContainerUnarchiveMutationOptions = Apollo.BaseMutationOptions<ContainerUnarchiveMutation, ContainerUnarchiveMutationVariables>;
+export const ContainerTransferLogsDocument = gql`
+    query ContainerTransferLogs($searchFilter: SearchFilter!, $containerUID: UUID!) {
+  containerTransferLogs(search: $searchFilter, containerUID: $containerUID) {
+    containerTransferLogs {
+      ...ContainerTransferLogFragment
+    }
+    total
+  }
+}
+    ${ContainerTransferLogFragmentFragmentDoc}`;
+
+/**
+ * __useContainerTransferLogsQuery__
+ *
+ * To run a query within a React component, call `useContainerTransferLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useContainerTransferLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useContainerTransferLogsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      containerUID: // value for 'containerUID'
+ *   },
+ * });
+ */
+export function useContainerTransferLogsQuery(baseOptions: Apollo.QueryHookOptions<ContainerTransferLogsQuery, ContainerTransferLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ContainerTransferLogsQuery, ContainerTransferLogsQueryVariables>(ContainerTransferLogsDocument, options);
+      }
+export function useContainerTransferLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ContainerTransferLogsQuery, ContainerTransferLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ContainerTransferLogsQuery, ContainerTransferLogsQueryVariables>(ContainerTransferLogsDocument, options);
+        }
+export type ContainerTransferLogsQueryHookResult = ReturnType<typeof useContainerTransferLogsQuery>;
+export type ContainerTransferLogsLazyQueryHookResult = ReturnType<typeof useContainerTransferLogsLazyQuery>;
+export type ContainerTransferLogsQueryResult = Apollo.QueryResult<ContainerTransferLogsQuery, ContainerTransferLogsQueryVariables>;
+export const ContainerTrackerLogsDocument = gql`
+    query ContainerTrackerLogs($searchFilter: SearchFilter!, $containerUID: UUID!) {
+  containerTrackerLogs(search: $searchFilter, containerUID: $containerUID) {
+    containerTrackerLogs {
+      ...ContainerTrackerLogFragment
+    }
+    total
+  }
+}
+    ${ContainerTrackerLogFragmentFragmentDoc}`;
+
+/**
+ * __useContainerTrackerLogsQuery__
+ *
+ * To run a query within a React component, call `useContainerTrackerLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useContainerTrackerLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useContainerTrackerLogsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      containerUID: // value for 'containerUID'
+ *   },
+ * });
+ */
+export function useContainerTrackerLogsQuery(baseOptions: Apollo.QueryHookOptions<ContainerTrackerLogsQuery, ContainerTrackerLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ContainerTrackerLogsQuery, ContainerTrackerLogsQueryVariables>(ContainerTrackerLogsDocument, options);
+      }
+export function useContainerTrackerLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ContainerTrackerLogsQuery, ContainerTrackerLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ContainerTrackerLogsQuery, ContainerTrackerLogsQueryVariables>(ContainerTrackerLogsDocument, options);
+        }
+export type ContainerTrackerLogsQueryHookResult = ReturnType<typeof useContainerTrackerLogsQuery>;
+export type ContainerTrackerLogsLazyQueryHookResult = ReturnType<typeof useContainerTrackerLogsLazyQuery>;
+export type ContainerTrackerLogsQueryResult = Apollo.QueryResult<ContainerTrackerLogsQuery, ContainerTrackerLogsQueryVariables>;
+export const PalletsDocument = gql`
+    query Pallets($searchFilter: SearchFilter!) {
+  pallets(search: $searchFilter) {
+    pallets {
+      ...PalletFragment
+    }
+    total
+  }
+}
+    ${PalletFragmentFragmentDoc}`;
+
+/**
+ * __usePalletsQuery__
+ *
+ * To run a query within a React component, call `usePalletsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePalletsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePalletsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *   },
+ * });
+ */
+export function usePalletsQuery(baseOptions: Apollo.QueryHookOptions<PalletsQuery, PalletsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PalletsQuery, PalletsQueryVariables>(PalletsDocument, options);
+      }
+export function usePalletsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletsQuery, PalletsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PalletsQuery, PalletsQueryVariables>(PalletsDocument, options);
+        }
+export type PalletsQueryHookResult = ReturnType<typeof usePalletsQuery>;
+export type PalletsLazyQueryHookResult = ReturnType<typeof usePalletsLazyQuery>;
+export type PalletsQueryResult = Apollo.QueryResult<PalletsQuery, PalletsQueryVariables>;
+export const PalletDocument = gql`
+    query Pallet($id: ID, $uid: UUID, $code: String) {
+  pallet(id: $id, uid: $uid, code: $code) {
+    ...PalletFragment
+  }
+}
+    ${PalletFragmentFragmentDoc}`;
+
+/**
+ * __usePalletQuery__
+ *
+ * To run a query within a React component, call `usePalletQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePalletQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePalletQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      uid: // value for 'uid'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function usePalletQuery(baseOptions?: Apollo.QueryHookOptions<PalletQuery, PalletQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PalletQuery, PalletQueryVariables>(PalletDocument, options);
+      }
+export function usePalletLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletQuery, PalletQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PalletQuery, PalletQueryVariables>(PalletDocument, options);
+        }
+export type PalletQueryHookResult = ReturnType<typeof usePalletQuery>;
+export type PalletLazyQueryHookResult = ReturnType<typeof usePalletLazyQuery>;
+export type PalletQueryResult = Apollo.QueryResult<PalletQuery, PalletQueryVariables>;
+export const PalletUpdateDocument = gql`
+    mutation PalletUpdate($id: ID!, $input: UpdatePallet!) {
+  palletUpdate(id: $id, input: $input) {
+    ...PalletFragment
+  }
+}
+    ${PalletFragmentFragmentDoc}`;
+export type PalletUpdateMutationFn = Apollo.MutationFunction<PalletUpdateMutation, PalletUpdateMutationVariables>;
+
+/**
+ * __usePalletUpdateMutation__
+ *
+ * To run a mutation, you first call `usePalletUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePalletUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [palletUpdateMutation, { data, loading, error }] = usePalletUpdateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePalletUpdateMutation(baseOptions?: Apollo.MutationHookOptions<PalletUpdateMutation, PalletUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PalletUpdateMutation, PalletUpdateMutationVariables>(PalletUpdateDocument, options);
+      }
+export type PalletUpdateMutationHookResult = ReturnType<typeof usePalletUpdateMutation>;
+export type PalletUpdateMutationResult = Apollo.MutationResult<PalletUpdateMutation>;
+export type PalletUpdateMutationOptions = Apollo.BaseMutationOptions<PalletUpdateMutation, PalletUpdateMutationVariables>;
+export const PalletArchiveDocument = gql`
+    mutation PalletArchive($id: ID!) {
+  palletArchive(id: $id) {
+    ...PalletFragment
+  }
+}
+    ${PalletFragmentFragmentDoc}`;
+export type PalletArchiveMutationFn = Apollo.MutationFunction<PalletArchiveMutation, PalletArchiveMutationVariables>;
+
+/**
+ * __usePalletArchiveMutation__
+ *
+ * To run a mutation, you first call `usePalletArchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePalletArchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [palletArchiveMutation, { data, loading, error }] = usePalletArchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePalletArchiveMutation(baseOptions?: Apollo.MutationHookOptions<PalletArchiveMutation, PalletArchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PalletArchiveMutation, PalletArchiveMutationVariables>(PalletArchiveDocument, options);
+      }
+export type PalletArchiveMutationHookResult = ReturnType<typeof usePalletArchiveMutation>;
+export type PalletArchiveMutationResult = Apollo.MutationResult<PalletArchiveMutation>;
+export type PalletArchiveMutationOptions = Apollo.BaseMutationOptions<PalletArchiveMutation, PalletArchiveMutationVariables>;
+export const PalletUnarchiveDocument = gql`
+    mutation PalletUnarchive($id: ID!) {
+  palletUnarchive(id: $id) {
+    ...PalletFragment
+  }
+}
+    ${PalletFragmentFragmentDoc}`;
+export type PalletUnarchiveMutationFn = Apollo.MutationFunction<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>;
+
+/**
+ * __usePalletUnarchiveMutation__
+ *
+ * To run a mutation, you first call `usePalletUnarchiveMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePalletUnarchiveMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [palletUnarchiveMutation, { data, loading, error }] = usePalletUnarchiveMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePalletUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>(PalletUnarchiveDocument, options);
+      }
+export type PalletUnarchiveMutationHookResult = ReturnType<typeof usePalletUnarchiveMutation>;
+export type PalletUnarchiveMutationResult = Apollo.MutationResult<PalletUnarchiveMutation>;
+export type PalletUnarchiveMutationOptions = Apollo.BaseMutationOptions<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>;
+export const PalletTransferLogsDocument = gql`
+    query PalletTransferLogs($searchFilter: SearchFilter!, $palletUID: UUID!) {
+  palletTransferLogs(search: $searchFilter, palletUID: $palletUID) {
+    palletTransferLogs {
+      ...PalletTransferLogFragment
+    }
+    total
+  }
+}
+    ${PalletTransferLogFragmentFragmentDoc}`;
+
+/**
+ * __usePalletTransferLogsQuery__
+ *
+ * To run a query within a React component, call `usePalletTransferLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePalletTransferLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePalletTransferLogsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      palletUID: // value for 'palletUID'
+ *   },
+ * });
+ */
+export function usePalletTransferLogsQuery(baseOptions: Apollo.QueryHookOptions<PalletTransferLogsQuery, PalletTransferLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PalletTransferLogsQuery, PalletTransferLogsQueryVariables>(PalletTransferLogsDocument, options);
+      }
+export function usePalletTransferLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletTransferLogsQuery, PalletTransferLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PalletTransferLogsQuery, PalletTransferLogsQueryVariables>(PalletTransferLogsDocument, options);
+        }
+export type PalletTransferLogsQueryHookResult = ReturnType<typeof usePalletTransferLogsQuery>;
+export type PalletTransferLogsLazyQueryHookResult = ReturnType<typeof usePalletTransferLogsLazyQuery>;
+export type PalletTransferLogsQueryResult = Apollo.QueryResult<PalletTransferLogsQuery, PalletTransferLogsQueryVariables>;
+export const PalletTrackerLogsDocument = gql`
+    query PalletTrackerLogs($searchFilter: SearchFilter!, $palletUID: UUID!) {
+  palletTrackerLogs(search: $searchFilter, palletUID: $palletUID) {
+    palletTrackerLogs {
+      ...PalletTrackerLogFragment
+    }
+    total
+  }
+}
+    ${PalletTrackerLogFragmentFragmentDoc}`;
+
+/**
+ * __usePalletTrackerLogsQuery__
+ *
+ * To run a query within a React component, call `usePalletTrackerLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePalletTrackerLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePalletTrackerLogsQuery({
+ *   variables: {
+ *      searchFilter: // value for 'searchFilter'
+ *      palletUID: // value for 'palletUID'
+ *   },
+ * });
+ */
+export function usePalletTrackerLogsQuery(baseOptions: Apollo.QueryHookOptions<PalletTrackerLogsQuery, PalletTrackerLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PalletTrackerLogsQuery, PalletTrackerLogsQueryVariables>(PalletTrackerLogsDocument, options);
+      }
+export function usePalletTrackerLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletTrackerLogsQuery, PalletTrackerLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PalletTrackerLogsQuery, PalletTrackerLogsQueryVariables>(PalletTrackerLogsDocument, options);
+        }
+export type PalletTrackerLogsQueryHookResult = ReturnType<typeof usePalletTrackerLogsQuery>;
+export type PalletTrackerLogsLazyQueryHookResult = ReturnType<typeof usePalletTrackerLogsLazyQuery>;
+export type PalletTrackerLogsQueryResult = Apollo.QueryResult<PalletTrackerLogsQuery, PalletTrackerLogsQueryVariables>;
 export const QrOrdersDocument = gql`
     query QROrders($searchFilter: SearchFilter!, $objectType: String) {
   qrOrders(search: $searchFilter, objectType: $objectType) {
@@ -6800,485 +7600,6 @@ export function useCellUnarchiveMutation(baseOptions?: Apollo.MutationHookOption
 export type CellUnarchiveMutationHookResult = ReturnType<typeof useCellUnarchiveMutation>;
 export type CellUnarchiveMutationResult = Apollo.MutationResult<CellUnarchiveMutation>;
 export type CellUnarchiveMutationOptions = Apollo.BaseMutationOptions<CellUnarchiveMutation, CellUnarchiveMutationVariables>;
-export const PalletsDocument = gql`
-    query Pallets($searchFilter: SearchFilter!, $typeID: ID) {
-  pallets(search: $searchFilter, typeID: $typeID) {
-    pallets {
-      ...PalletFragment
-    }
-    total
-  }
-}
-    ${PalletFragmentFragmentDoc}`;
-
-/**
- * __usePalletsQuery__
- *
- * To run a query within a React component, call `usePalletsQuery` and pass it any options that fit your needs.
- * When your component renders, `usePalletsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePalletsQuery({
- *   variables: {
- *      searchFilter: // value for 'searchFilter'
- *      typeID: // value for 'typeID'
- *   },
- * });
- */
-export function usePalletsQuery(baseOptions: Apollo.QueryHookOptions<PalletsQuery, PalletsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PalletsQuery, PalletsQueryVariables>(PalletsDocument, options);
-      }
-export function usePalletsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletsQuery, PalletsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PalletsQuery, PalletsQueryVariables>(PalletsDocument, options);
-        }
-export type PalletsQueryHookResult = ReturnType<typeof usePalletsQuery>;
-export type PalletsLazyQueryHookResult = ReturnType<typeof usePalletsLazyQuery>;
-export type PalletsQueryResult = Apollo.QueryResult<PalletsQuery, PalletsQueryVariables>;
-export const PalletDocument = gql`
-    query Pallet($uid: UUID, $code: String) {
-  pallet(uid: $uid, code: $code) {
-    ...PalletFragment
-  }
-}
-    ${PalletFragmentFragmentDoc}`;
-
-/**
- * __usePalletQuery__
- *
- * To run a query within a React component, call `usePalletQuery` and pass it any options that fit your needs.
- * When your component renders, `usePalletQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePalletQuery({
- *   variables: {
- *      uid: // value for 'uid'
- *      code: // value for 'code'
- *   },
- * });
- */
-export function usePalletQuery(baseOptions?: Apollo.QueryHookOptions<PalletQuery, PalletQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PalletQuery, PalletQueryVariables>(PalletDocument, options);
-      }
-export function usePalletLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletQuery, PalletQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PalletQuery, PalletQueryVariables>(PalletDocument, options);
-        }
-export type PalletQueryHookResult = ReturnType<typeof usePalletQuery>;
-export type PalletLazyQueryHookResult = ReturnType<typeof usePalletLazyQuery>;
-export type PalletQueryResult = Apollo.QueryResult<PalletQuery, PalletQueryVariables>;
-export const PalletCreateDocument = gql`
-    mutation PalletCreate($input: UpdatePallet!) {
-  palletCreate(input: $input)
-}
-    `;
-export type PalletCreateMutationFn = Apollo.MutationFunction<PalletCreateMutation, PalletCreateMutationVariables>;
-
-/**
- * __usePalletCreateMutation__
- *
- * To run a mutation, you first call `usePalletCreateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletCreateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletCreateMutation, { data, loading, error }] = usePalletCreateMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function usePalletCreateMutation(baseOptions?: Apollo.MutationHookOptions<PalletCreateMutation, PalletCreateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletCreateMutation, PalletCreateMutationVariables>(PalletCreateDocument, options);
-      }
-export type PalletCreateMutationHookResult = ReturnType<typeof usePalletCreateMutation>;
-export type PalletCreateMutationResult = Apollo.MutationResult<PalletCreateMutation>;
-export type PalletCreateMutationOptions = Apollo.BaseMutationOptions<PalletCreateMutation, PalletCreateMutationVariables>;
-export const PalletUpdateDocument = gql`
-    mutation PalletUpdate($uid: UUID!, $input: UpdatePallet!) {
-  palletUpdate(uid: $uid, input: $input) {
-    ...PalletFragment
-  }
-}
-    ${PalletFragmentFragmentDoc}`;
-export type PalletUpdateMutationFn = Apollo.MutationFunction<PalletUpdateMutation, PalletUpdateMutationVariables>;
-
-/**
- * __usePalletUpdateMutation__
- *
- * To run a mutation, you first call `usePalletUpdateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletUpdateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletUpdateMutation, { data, loading, error }] = usePalletUpdateMutation({
- *   variables: {
- *      uid: // value for 'uid'
- *      input: // value for 'input'
- *   },
- * });
- */
-export function usePalletUpdateMutation(baseOptions?: Apollo.MutationHookOptions<PalletUpdateMutation, PalletUpdateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletUpdateMutation, PalletUpdateMutationVariables>(PalletUpdateDocument, options);
-      }
-export type PalletUpdateMutationHookResult = ReturnType<typeof usePalletUpdateMutation>;
-export type PalletUpdateMutationResult = Apollo.MutationResult<PalletUpdateMutation>;
-export type PalletUpdateMutationOptions = Apollo.BaseMutationOptions<PalletUpdateMutation, PalletUpdateMutationVariables>;
-export const PalletFinalizeDocument = gql`
-    mutation PalletFinalize($uid: UUID!) {
-  palletFinalize(uid: $uid) {
-    ...PalletFragment
-  }
-}
-    ${PalletFragmentFragmentDoc}`;
-export type PalletFinalizeMutationFn = Apollo.MutationFunction<PalletFinalizeMutation, PalletFinalizeMutationVariables>;
-
-/**
- * __usePalletFinalizeMutation__
- *
- * To run a mutation, you first call `usePalletFinalizeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletFinalizeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletFinalizeMutation, { data, loading, error }] = usePalletFinalizeMutation({
- *   variables: {
- *      uid: // value for 'uid'
- *   },
- * });
- */
-export function usePalletFinalizeMutation(baseOptions?: Apollo.MutationHookOptions<PalletFinalizeMutation, PalletFinalizeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletFinalizeMutation, PalletFinalizeMutationVariables>(PalletFinalizeDocument, options);
-      }
-export type PalletFinalizeMutationHookResult = ReturnType<typeof usePalletFinalizeMutation>;
-export type PalletFinalizeMutationResult = Apollo.MutationResult<PalletFinalizeMutation>;
-export type PalletFinalizeMutationOptions = Apollo.BaseMutationOptions<PalletFinalizeMutation, PalletFinalizeMutationVariables>;
-export const PalletArchiveDocument = gql`
-    mutation PalletArchive($uid: UUID!) {
-  palletArchive(uid: $uid) {
-    ...PalletFragment
-  }
-}
-    ${PalletFragmentFragmentDoc}`;
-export type PalletArchiveMutationFn = Apollo.MutationFunction<PalletArchiveMutation, PalletArchiveMutationVariables>;
-
-/**
- * __usePalletArchiveMutation__
- *
- * To run a mutation, you first call `usePalletArchiveMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletArchiveMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletArchiveMutation, { data, loading, error }] = usePalletArchiveMutation({
- *   variables: {
- *      uid: // value for 'uid'
- *   },
- * });
- */
-export function usePalletArchiveMutation(baseOptions?: Apollo.MutationHookOptions<PalletArchiveMutation, PalletArchiveMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletArchiveMutation, PalletArchiveMutationVariables>(PalletArchiveDocument, options);
-      }
-export type PalletArchiveMutationHookResult = ReturnType<typeof usePalletArchiveMutation>;
-export type PalletArchiveMutationResult = Apollo.MutationResult<PalletArchiveMutation>;
-export type PalletArchiveMutationOptions = Apollo.BaseMutationOptions<PalletArchiveMutation, PalletArchiveMutationVariables>;
-export const PalletUnarchiveDocument = gql`
-    mutation PalletUnarchive($uid: UUID!) {
-  palletUnarchive(uid: $uid) {
-    ...PalletFragment
-  }
-}
-    ${PalletFragmentFragmentDoc}`;
-export type PalletUnarchiveMutationFn = Apollo.MutationFunction<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>;
-
-/**
- * __usePalletUnarchiveMutation__
- *
- * To run a mutation, you first call `usePalletUnarchiveMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletUnarchiveMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletUnarchiveMutation, { data, loading, error }] = usePalletUnarchiveMutation({
- *   variables: {
- *      uid: // value for 'uid'
- *   },
- * });
- */
-export function usePalletUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>(PalletUnarchiveDocument, options);
-      }
-export type PalletUnarchiveMutationHookResult = ReturnType<typeof usePalletUnarchiveMutation>;
-export type PalletUnarchiveMutationResult = Apollo.MutationResult<PalletUnarchiveMutation>;
-export type PalletUnarchiveMutationOptions = Apollo.BaseMutationOptions<PalletUnarchiveMutation, PalletUnarchiveMutationVariables>;
-export const PalletTypesDocument = gql`
-    query PalletTypes($searchFilter: SearchFilter!) {
-  palletTypes(search: $searchFilter) {
-    palletTypes {
-      ...PalletTypeFragment
-    }
-    total
-  }
-}
-    ${PalletTypeFragmentFragmentDoc}`;
-
-/**
- * __usePalletTypesQuery__
- *
- * To run a query within a React component, call `usePalletTypesQuery` and pass it any options that fit your needs.
- * When your component renders, `usePalletTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePalletTypesQuery({
- *   variables: {
- *      searchFilter: // value for 'searchFilter'
- *   },
- * });
- */
-export function usePalletTypesQuery(baseOptions: Apollo.QueryHookOptions<PalletTypesQuery, PalletTypesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PalletTypesQuery, PalletTypesQueryVariables>(PalletTypesDocument, options);
-      }
-export function usePalletTypesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletTypesQuery, PalletTypesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PalletTypesQuery, PalletTypesQueryVariables>(PalletTypesDocument, options);
-        }
-export type PalletTypesQueryHookResult = ReturnType<typeof usePalletTypesQuery>;
-export type PalletTypesLazyQueryHookResult = ReturnType<typeof usePalletTypesLazyQuery>;
-export type PalletTypesQueryResult = Apollo.QueryResult<PalletTypesQuery, PalletTypesQueryVariables>;
-export const PalletTypeDocument = gql`
-    query PalletType($id: ID, $code: String) {
-  palletType(id: $id, code: $code) {
-    ...PalletTypeFragment
-  }
-}
-    ${PalletTypeFragmentFragmentDoc}`;
-
-/**
- * __usePalletTypeQuery__
- *
- * To run a query within a React component, call `usePalletTypeQuery` and pass it any options that fit your needs.
- * When your component renders, `usePalletTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = usePalletTypeQuery({
- *   variables: {
- *      id: // value for 'id'
- *      code: // value for 'code'
- *   },
- * });
- */
-export function usePalletTypeQuery(baseOptions?: Apollo.QueryHookOptions<PalletTypeQuery, PalletTypeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<PalletTypeQuery, PalletTypeQueryVariables>(PalletTypeDocument, options);
-      }
-export function usePalletTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PalletTypeQuery, PalletTypeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<PalletTypeQuery, PalletTypeQueryVariables>(PalletTypeDocument, options);
-        }
-export type PalletTypeQueryHookResult = ReturnType<typeof usePalletTypeQuery>;
-export type PalletTypeLazyQueryHookResult = ReturnType<typeof usePalletTypeLazyQuery>;
-export type PalletTypeQueryResult = Apollo.QueryResult<PalletTypeQuery, PalletTypeQueryVariables>;
-export const PalletTypeCreateDocument = gql`
-    mutation PalletTypeCreate($input: UpdatePalletType!) {
-  palletTypeCreate(input: $input) {
-    ...PalletTypeFragment
-  }
-}
-    ${PalletTypeFragmentFragmentDoc}`;
-export type PalletTypeCreateMutationFn = Apollo.MutationFunction<PalletTypeCreateMutation, PalletTypeCreateMutationVariables>;
-
-/**
- * __usePalletTypeCreateMutation__
- *
- * To run a mutation, you first call `usePalletTypeCreateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletTypeCreateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletTypeCreateMutation, { data, loading, error }] = usePalletTypeCreateMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function usePalletTypeCreateMutation(baseOptions?: Apollo.MutationHookOptions<PalletTypeCreateMutation, PalletTypeCreateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletTypeCreateMutation, PalletTypeCreateMutationVariables>(PalletTypeCreateDocument, options);
-      }
-export type PalletTypeCreateMutationHookResult = ReturnType<typeof usePalletTypeCreateMutation>;
-export type PalletTypeCreateMutationResult = Apollo.MutationResult<PalletTypeCreateMutation>;
-export type PalletTypeCreateMutationOptions = Apollo.BaseMutationOptions<PalletTypeCreateMutation, PalletTypeCreateMutationVariables>;
-export const PalletTypeUpdateDocument = gql`
-    mutation PalletTypeUpdate($id: ID!, $input: UpdatePalletType!) {
-  palletTypeUpdate(id: $id, input: $input) {
-    ...PalletTypeFragment
-  }
-}
-    ${PalletTypeFragmentFragmentDoc}`;
-export type PalletTypeUpdateMutationFn = Apollo.MutationFunction<PalletTypeUpdateMutation, PalletTypeUpdateMutationVariables>;
-
-/**
- * __usePalletTypeUpdateMutation__
- *
- * To run a mutation, you first call `usePalletTypeUpdateMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletTypeUpdateMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletTypeUpdateMutation, { data, loading, error }] = usePalletTypeUpdateMutation({
- *   variables: {
- *      id: // value for 'id'
- *      input: // value for 'input'
- *   },
- * });
- */
-export function usePalletTypeUpdateMutation(baseOptions?: Apollo.MutationHookOptions<PalletTypeUpdateMutation, PalletTypeUpdateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletTypeUpdateMutation, PalletTypeUpdateMutationVariables>(PalletTypeUpdateDocument, options);
-      }
-export type PalletTypeUpdateMutationHookResult = ReturnType<typeof usePalletTypeUpdateMutation>;
-export type PalletTypeUpdateMutationResult = Apollo.MutationResult<PalletTypeUpdateMutation>;
-export type PalletTypeUpdateMutationOptions = Apollo.BaseMutationOptions<PalletTypeUpdateMutation, PalletTypeUpdateMutationVariables>;
-export const PalletTypeFinalizeDocument = gql`
-    mutation PalletTypeFinalize($id: ID!) {
-  palletTypeFinalize(id: $id) {
-    ...PalletTypeFragment
-  }
-}
-    ${PalletTypeFragmentFragmentDoc}`;
-export type PalletTypeFinalizeMutationFn = Apollo.MutationFunction<PalletTypeFinalizeMutation, PalletTypeFinalizeMutationVariables>;
-
-/**
- * __usePalletTypeFinalizeMutation__
- *
- * To run a mutation, you first call `usePalletTypeFinalizeMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletTypeFinalizeMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletTypeFinalizeMutation, { data, loading, error }] = usePalletTypeFinalizeMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function usePalletTypeFinalizeMutation(baseOptions?: Apollo.MutationHookOptions<PalletTypeFinalizeMutation, PalletTypeFinalizeMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletTypeFinalizeMutation, PalletTypeFinalizeMutationVariables>(PalletTypeFinalizeDocument, options);
-      }
-export type PalletTypeFinalizeMutationHookResult = ReturnType<typeof usePalletTypeFinalizeMutation>;
-export type PalletTypeFinalizeMutationResult = Apollo.MutationResult<PalletTypeFinalizeMutation>;
-export type PalletTypeFinalizeMutationOptions = Apollo.BaseMutationOptions<PalletTypeFinalizeMutation, PalletTypeFinalizeMutationVariables>;
-export const PalletTypeArchiveDocument = gql`
-    mutation PalletTypeArchive($id: ID!) {
-  palletTypeArchive(id: $id) {
-    ...PalletTypeFragment
-  }
-}
-    ${PalletTypeFragmentFragmentDoc}`;
-export type PalletTypeArchiveMutationFn = Apollo.MutationFunction<PalletTypeArchiveMutation, PalletTypeArchiveMutationVariables>;
-
-/**
- * __usePalletTypeArchiveMutation__
- *
- * To run a mutation, you first call `usePalletTypeArchiveMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletTypeArchiveMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletTypeArchiveMutation, { data, loading, error }] = usePalletTypeArchiveMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function usePalletTypeArchiveMutation(baseOptions?: Apollo.MutationHookOptions<PalletTypeArchiveMutation, PalletTypeArchiveMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletTypeArchiveMutation, PalletTypeArchiveMutationVariables>(PalletTypeArchiveDocument, options);
-      }
-export type PalletTypeArchiveMutationHookResult = ReturnType<typeof usePalletTypeArchiveMutation>;
-export type PalletTypeArchiveMutationResult = Apollo.MutationResult<PalletTypeArchiveMutation>;
-export type PalletTypeArchiveMutationOptions = Apollo.BaseMutationOptions<PalletTypeArchiveMutation, PalletTypeArchiveMutationVariables>;
-export const PalletTypeUnarchiveDocument = gql`
-    mutation PalletTypeUnarchive($id: ID!) {
-  palletTypeUnarchive(id: $id) {
-    ...PalletTypeFragment
-  }
-}
-    ${PalletTypeFragmentFragmentDoc}`;
-export type PalletTypeUnarchiveMutationFn = Apollo.MutationFunction<PalletTypeUnarchiveMutation, PalletTypeUnarchiveMutationVariables>;
-
-/**
- * __usePalletTypeUnarchiveMutation__
- *
- * To run a mutation, you first call `usePalletTypeUnarchiveMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePalletTypeUnarchiveMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [palletTypeUnarchiveMutation, { data, loading, error }] = usePalletTypeUnarchiveMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function usePalletTypeUnarchiveMutation(baseOptions?: Apollo.MutationHookOptions<PalletTypeUnarchiveMutation, PalletTypeUnarchiveMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PalletTypeUnarchiveMutation, PalletTypeUnarchiveMutationVariables>(PalletTypeUnarchiveDocument, options);
-      }
-export type PalletTypeUnarchiveMutationHookResult = ReturnType<typeof usePalletTypeUnarchiveMutation>;
-export type PalletTypeUnarchiveMutationResult = Apollo.MutationResult<PalletTypeUnarchiveMutation>;
-export type PalletTypeUnarchiveMutationOptions = Apollo.BaseMutationOptions<PalletTypeUnarchiveMutation, PalletTypeUnarchiveMutationVariables>;
 export const RacksDocument = gql`
     query Racks($searchFilter: SearchFilter!, $typeID: ID) {
   racks(search: $searchFilter, typeID: $typeID) {

@@ -193,3 +193,159 @@ export const CartonTrackerLog = gql`
         createdAt
     } 
 `
+
+
+export const Container = gql`
+    fragment ContainerFragment on Container {
+        id
+        uid
+        code
+        description
+        status
+        isFinal
+        isArchived
+        latestTransferLog {
+            id
+            owner {
+                id
+                code
+                name
+            }
+            custodian {
+                id
+                code
+                name
+            }
+            warehouse {
+                id
+                code
+                name
+            }
+        }
+        latestTrackerLog {
+            id
+            temperature
+            humidity
+            geoLocation {
+                lat
+                lon
+            }
+        }
+        latestTransaction {
+            name
+            createdAt
+        }
+    }
+`
+
+export const ContainerTransferLog = gql`
+    fragment ContainerTransferLogFragment on ContainerTransferLog {
+        id
+        owner {
+            uid
+            code
+            name
+        }
+        custodian {
+            uid
+            code
+            name
+        }
+        warehouse {
+            uid
+            code
+            name
+        }
+        createdAt
+    } 
+`
+
+export const ContainerTrackerLog = gql`
+    fragment ContainerTrackerLogFragment on ContainerTrackerLog {
+        id
+        temperature
+        humidity
+        geoLocation {
+            lat
+            lon
+        }
+        createdAt
+    } 
+`
+export const Pallet = gql`
+    fragment PalletFragment on Pallet {
+        id
+        uid
+        code
+        description
+        status
+        isFinal
+        isArchived
+        latestTransferLog {
+            id
+            owner {
+                id
+                code
+                name
+            }
+            custodian {
+                id
+                code
+                name
+            }
+            warehouse {
+                id
+                code
+                name
+            }
+        }
+        latestTrackerLog {
+            id
+            temperature
+            humidity
+            geoLocation {
+                lat
+                lon
+            }
+        }
+        latestTransaction {
+            name
+            createdAt
+        }
+    }
+`
+
+export const PalletTransferLog = gql`
+    fragment PalletTransferLogFragment on PalletTransferLog {
+        id
+        owner {
+            uid
+            code
+            name
+        }
+        custodian {
+            uid
+            code
+            name
+        }
+        warehouse {
+            uid
+            code
+            name
+        }
+        createdAt
+    } 
+`
+
+export const PalletTrackerLog = gql`
+    fragment PalletTrackerLogFragment on PalletTrackerLog {
+        id
+        temperature
+        humidity
+        geoLocation {
+            lat
+            lon
+        }
+        createdAt
+    } 
+`

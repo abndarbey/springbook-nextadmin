@@ -42,27 +42,6 @@ export const RackType = gql`
     }
 `
 
-export const PalletType = gql`
-    fragment PalletTypeFragment on PalletType {
-        id
-        code
-        name
-        length
-        breadth
-        weightCapacity
-        weightUnit
-        status
-        isFinal
-        isArchived
-        createdAt
-        organization {
-            uid
-            code
-            name
-        }
-    }
-`
-
 export const Warehouse = gql`
     fragment WarehouseFragment on Warehouse {
         id
@@ -157,35 +136,6 @@ export const Cell = gql`
         rack {
             id
             code
-        }
-        warehouse {
-            uid
-            code
-            name
-        }
-        organization {
-            uid
-            code
-            name
-        }
-    }
-`
-
-export const Pallet = gql`
-    fragment PalletFragment on Pallet {
-        id
-        uid
-        code
-        status
-        isAllocated
-        isOccupied
-        isFinal
-        isArchived
-        createdAt
-        type {
-            id
-            code
-            name
         }
         warehouse {
             uid
