@@ -110,7 +110,7 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                     
                 }
 
-                {props.form.values.orgUID != "" && props.form.values.skuUID != "" &&  props.form.values.objectType == "CARTON" &&
+                {props.form.values.orgUID != "" && props.form.values.skuUID &&  props.form.values.objectType == "CARTON" &&
                     <>
                         <BatchSelectModal
                             opened={batchModalOpened}
