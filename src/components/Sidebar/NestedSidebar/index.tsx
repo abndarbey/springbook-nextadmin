@@ -22,7 +22,7 @@ export default function NestedSidebar(props: ISidebarProps) {
                 <Group position="apart">
                     <Logo />
                     <ActionIcon onClick={props.toggleSidbar} size={27}>
-                        <IconChevronsLeft />
+                        <IconChevronsLeft size={20} stroke={1.5} />
                     </ActionIcon>
                 </Group>
             </Navbar.Section>

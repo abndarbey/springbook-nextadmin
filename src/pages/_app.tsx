@@ -9,6 +9,7 @@ import { AdminLayout, AuthLayout, ErrorLayout } from 'Layout'
 
 import { ApolloProvider } from '@apollo/client'
 import { client } from '@lib/apollo/client'
+import ThemeProvider from 'styles/ThemeProvider'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getAuthLayout?: (page: ReactElement) => ReactNode
@@ -36,32 +37,19 @@ export default function App(props: AppPropsWithLayout) {
 
     return (
         <ApolloProvider client={client}>
-            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-                <MantineProvider
-                    withGlobalStyles
-                    withNormalizeCSS
-                    theme={{
-                        /** Put your mantine theme override here */
-                        colorScheme,
-                        // colors: {
-                        //     brand: ['#F0BBDD', '#ED9BCF', '#EC7CC3', '#ED5DB8', '#F13EAF', '#F71FA7', '#FF00A1', '#E00890', '#C50E82','#AD1374' ],
-                        // },
-                        // primaryColor: 'brand',
-                    }}
-                >
-                    <NotificationsProvider position="bottom-right" zIndex={999999}>
-                        <ModalsProvider>
-                            {
-                                Component.getErrorLayout ? <ErrorLayout><Component {...pageProps} /></ErrorLayout> :
-                                Component.getAuthLayout ? <AuthLayout><Component {...pageProps} /></AuthLayout> :
-                                <AdminLayout>
-                                    <Component {...pageProps} />
-                                </AdminLayout>
-                            }
-                        </ModalsProvider>
-                    </NotificationsProvider>
-                </MantineProvider>
-            </ColorSchemeProvider>
+            <ThemeProvider>
+                <NotificationsProvider position="bottom-right" zIndex={999999}>
+                    <ModalsProvider>
+                        {
+                            Component.getErrorLayout ? <ErrorLayout><Component {...pageProps} /></ErrorLayout> :
+                            Component.getAuthLayout ? <AuthLayout><Component {...pageProps} /></AuthLayout> :
+                            <AdminLayout>
+                                <Component {...pageProps} />
+                            </AdminLayout>
+                        }
+                    </ModalsProvider>
+                </NotificationsProvider>
+            </ThemeProvider>
         </ApolloProvider>
     )
 }
