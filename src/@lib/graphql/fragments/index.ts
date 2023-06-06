@@ -14,6 +14,10 @@ import {
     Warehouse, Rack, Cell,
     WarehouseContract,
 } from './warehouse'
+import {
+    PurchaseOrder,
+    PurchaseOrderList,
+} from './order'
 
 const Auther = gql`
     fragment AutherFragment on Auther {
@@ -57,6 +61,9 @@ export const fragment = {
     Pallet,
     PalletTransferLog,
     PalletTrackerLog,
+
+    PurchaseOrder,
+    PurchaseOrderList,
 
     Transaction,
 }
