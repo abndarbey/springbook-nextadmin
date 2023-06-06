@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import PageTitle from 'components/PageTitle'
-import PurchaseOrderDetails from 'modules/procurements/purchase-orders/PurchaseOrderList'
+import PurchaseOrderDetails from 'modules/orders/purchase-orders/PurchaseOrderDetails'
 
 export default function Details() {
     const router = useRouter()
