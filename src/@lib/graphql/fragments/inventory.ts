@@ -113,7 +113,6 @@ export const Carton = gql`
         code
         description
         status
-        isFinal
         isArchived
         latestTransferLog {
             id
@@ -202,7 +201,6 @@ export const Container = gql`
         code
         description
         status
-        isFinal
         isArchived
         latestTransferLog {
             id
@@ -279,7 +277,6 @@ export const Pallet = gql`
         code
         description
         status
-        isFinal
         isArchived
         latestTransferLog {
             id
