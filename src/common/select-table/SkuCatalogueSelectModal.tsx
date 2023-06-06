@@ -73,7 +73,7 @@ export default function SkuCatalogueSelectModal(props: ISelectModalProps) {
             overlayOpacity={0.55}
             overlayBlur={3}
         >
-            <PageHeader title='Select SkuCatalogue' />
+            <PageHeader title='Select Sku Catalogue' />
             <SkuCatalogueTable
                 data={data?.skuCatalogues!}
                 filterAction={filterAction}
