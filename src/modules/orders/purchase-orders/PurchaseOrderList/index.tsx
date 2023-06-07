@@ -14,9 +14,10 @@ const navTrails: INavTrailProps[] = [
 
 export default function PurchaseOrderList(props: PageProps) {
     const router = useRouter()
+    const viewType: string = props.view == ViewOption.Buyer ? 'procurements' : 'sales'
 
     const handleNew = () => {
-        router.push("/procurements/purchase-orders/new")
+        router.push(`/${viewType}/purchase-orders/new`)
     }
 
     let actionButtons: IActionButtonProps[] = [

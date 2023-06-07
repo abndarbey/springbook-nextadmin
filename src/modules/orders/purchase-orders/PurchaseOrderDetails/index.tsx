@@ -10,22 +10,23 @@ import {
     usePurchaseOrderFinalizeMutation,
     usePurchaseOrderArchiveMutation,
     usePurchaseOrderUnarchiveMutation,
+    ViewOption,
 } from "@lib/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import PurchaseOrderDetailsHTML from "./PurchaseOrderDetailsHTML"
-import RoleTable from "tables/company/RoleTable"
 
 export default function PurchaseOrderDetails(props: PageProps) {
     const router = useRouter()
     const [finalizeRequest] = usePurchaseOrderFinalizeMutation({})
     const [archiveRequest] = usePurchaseOrderArchiveMutation({})
     const [unarchiveRequest] = usePurchaseOrderUnarchiveMutation({})
+    const viewType: string = props.view == ViewOption.Buyer ? 'procurements' : 'sales'
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
-        { title: "Purchase Orders", href: "/procurements/purchase-orders" },
+        { title: "Purchase Orders", href: `/${viewType}/purchase-orders` },
         { title: props.code, href: "#" },
     ]
 

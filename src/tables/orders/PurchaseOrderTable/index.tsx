@@ -21,6 +21,7 @@ interface PurchaseOrderTableProps {
 
 export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
     const router = useRouter()
+    const viewType: string = props.view == ViewOption.Buyer ? 'procurements' : 'sales'
 
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
     const [archiveRequest] = usePurchaseOrderArchiveMutation({})
@@ -60,10 +61,10 @@ export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
 
     // Row Actions
     const viewAction = (item: PurchaseOrder) => {
-        router.push(`/company/departments/${item.code}`)
+        router.push(`/${viewType}/purchase-orders/${item.code}`)
     }
     const editAction = (item: PurchaseOrder) => {
-        router.push(`/company/departments/${item.code}/edit`)
+        router.push(`/${viewType}/purchase-orders/${item.code}/edit`)
     }
 
     const archiveAction = (item: PurchaseOrder) => {
@@ -73,7 +74,7 @@ export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.departmentArchive.name}`,
+                message: `Archived - ${res.data.purchaseOrderArchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -91,7 +92,7 @@ export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.departmentUnarchive.name}`,
+                message: `Unarchived - ${res.data.purchaseOrderUnarchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
