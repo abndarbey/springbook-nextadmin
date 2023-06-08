@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import QuotationList from 'modules/procurements/quotations/QuotationList'
 
 export default function Quotations() {
@@ -7,7 +7,7 @@ export default function Quotations() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <QuotationList title={title} />
         </Fragment>
     )

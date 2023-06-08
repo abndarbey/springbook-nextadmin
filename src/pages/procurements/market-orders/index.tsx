@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import MarketOrderList from 'modules/procurements/market-orders/MarketOrderList'
 
 export default function MarketOrders() {
@@ -7,7 +7,7 @@ export default function MarketOrders() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <MarketOrderList title={title} />
         </Fragment>
     )

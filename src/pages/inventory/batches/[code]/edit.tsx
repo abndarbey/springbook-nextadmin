@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import BatchEdit from 'modules/catalogues/batches/BatchEdit'
 
 export default function Edit() {
@@ -10,7 +10,7 @@ export default function Edit() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <BatchEdit title={title} code={code} />
         </Fragment>
     )

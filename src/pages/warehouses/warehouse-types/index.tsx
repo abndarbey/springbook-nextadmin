@@ -6,7 +6,7 @@ export default function WarehouseTypes() {
     const title: string = "Warehouse Types"
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <WTList title={title} />
         </Fragment>
     )

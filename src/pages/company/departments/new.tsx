@@ -6,7 +6,7 @@ export default function New() {
     const title = "New Department"
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <DepartmentNew title={title} />
         </Fragment>
     )

@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import QuotationEdit from 'modules/procurements/quotations/QuotationEdit'
 
 export default function Edit() {
@@ -10,7 +10,7 @@ export default function Edit() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <QuotationEdit title={title} code={code} />
         </Fragment>
     )

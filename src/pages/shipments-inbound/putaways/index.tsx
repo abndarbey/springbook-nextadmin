@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import PutawayList from 'modules/shipments/inbound/putaways/PutawayList'
 
 export default function Putaways() {
@@ -7,7 +7,7 @@ export default function Putaways() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <PutawayList title={title} />
         </Fragment>
     )

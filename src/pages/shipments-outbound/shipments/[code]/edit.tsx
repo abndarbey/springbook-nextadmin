@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ShipmentEdit from 'modules/shipments/outbound/shipments/ShipmentEdit'
 
 export default function Edit() {
@@ -10,7 +10,7 @@ export default function Edit() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <ShipmentEdit title={title} code={code} />
         </Fragment>
     )

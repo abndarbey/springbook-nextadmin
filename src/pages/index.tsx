@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import Dashboard from '../modules/dashboard/Dashboard'
 
 export default function Home() {
     return (
         <Fragment>
-            <PageTitle title='Dashboard' />
+            <NextHead title='Dashboard' />
             <Dashboard />
         </Fragment>
     )

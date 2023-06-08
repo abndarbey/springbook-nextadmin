@@ -6,7 +6,7 @@ export default function Rack() {
     const title: string = "Racks"
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <RackList title={title} />
         </Fragment>
     )

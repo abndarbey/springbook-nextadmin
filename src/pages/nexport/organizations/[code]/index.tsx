@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import OrganizationDetails from 'modules/nexport/organizations/OrganizationDetails'
 import PageLoader from 'components/PageLoader'
 
@@ -12,7 +12,7 @@ export default function Details() {
     
     return (
         <Fragment>
-            <PageTitle title='Details Organization' />
+            <NextHead title='Details Organization' />
             <OrganizationDetails code={query.code} />
         </Fragment>
     )

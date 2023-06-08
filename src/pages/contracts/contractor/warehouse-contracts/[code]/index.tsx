@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import WCDetails from 'modules/contracts/contractor/warehouse-contracts/WCDetails'
 import PageLoader from 'components/PageLoader'
 
@@ -14,7 +14,7 @@ export default function Details() {
     
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <WCDetails code={query.code} title={title} />
         </Fragment>
     )

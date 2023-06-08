@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import PurchaseOrderList from 'modules/orders/purchase-orders/PurchaseOrderList'
 import { ViewOption } from 'gql/generated/hooks'
 
@@ -9,7 +9,7 @@ export default function PurchaseOrders() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <PurchaseOrderList title={title} view={view} />
         </Fragment>
     )

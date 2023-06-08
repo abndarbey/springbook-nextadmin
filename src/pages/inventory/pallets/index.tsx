@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import PalletList from 'modules/inventory/pallets/PalletList'
 
 export default function Pallets() {
@@ -7,7 +7,7 @@ export default function Pallets() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <PalletList title={title} />
         </Fragment>
     )

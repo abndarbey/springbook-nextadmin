@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import GRNList from 'modules/shipments/inbound/grns//GRNList'
 
 export default function GRNs() {
@@ -7,7 +7,7 @@ export default function GRNs() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <GRNList title={title} />
         </Fragment>
     )

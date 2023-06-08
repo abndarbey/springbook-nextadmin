@@ -1,11 +1,11 @@
 import { Fragment, ReactElement } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ErrorPage, { IErrorPage } from 'modules/errors'
 
 export default function Error404() {
     return (
         <Fragment>
-            <PageTitle title='404' />
+            <NextHead title='404' />
             <ErrorPage {...pageData} />
         </Fragment>
     )

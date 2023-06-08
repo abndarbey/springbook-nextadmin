@@ -14,7 +14,7 @@ export default function Details() {
     
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <OrganizationDetails title={title} code={query.code} />
         </Fragment>
     )

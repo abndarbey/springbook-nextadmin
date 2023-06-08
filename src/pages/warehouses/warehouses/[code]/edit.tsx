@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import WarehouseEdit from 'modules/warehouses/warehouse/WarehouseEdit'
 import PageLoader from 'components/PageLoader'
 
@@ -12,7 +12,7 @@ export default function Edit() {
 
     return (
         <Fragment>
-            <PageTitle title='Edit WT' />
+            <NextHead title='Edit WT' />
             <WarehouseEdit code={query.code} />
         </Fragment>
     )

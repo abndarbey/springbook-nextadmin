@@ -6,7 +6,7 @@ export default function New() {
     const title: string = "New Warehouse Type"
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <WTNew title={title} />
         </Fragment>
     )

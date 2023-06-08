@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ContactEdit from 'modules/company/contacts/ContactEdit'
 import PageLoader from 'components/PageLoader'
 
@@ -14,7 +14,7 @@ export default function Edit() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <ContactEdit code={query.code} title={title} />
         </Fragment>
     )

@@ -13,7 +13,7 @@ export default function Details() {
     
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <WarehouseTypeDetails title={title} code={query.code} />
         </Fragment>
     )

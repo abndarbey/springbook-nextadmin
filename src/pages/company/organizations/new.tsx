@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import OrganizationNew from 'modules/company/organizations/OrganizationNew'
 
 export default function New() {
     return (
         <Fragment>
-            <PageTitle title='New Organization' />
+            <NextHead title='New Organization' />
             <OrganizationNew />
         </Fragment>
     )

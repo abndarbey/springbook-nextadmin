@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ASNList from 'modules/shipments/inbound/asns/ASNList'
 
 export default function ASNs() {
@@ -7,7 +7,7 @@ export default function ASNs() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <ASNList title={title} />
         </Fragment>
     )

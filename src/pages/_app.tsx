@@ -9,7 +9,7 @@ import { AdminLayout, AuthLayout, ErrorLayout } from 'Layout'
 
 import { ApolloProvider } from '@apollo/client'
 import { client } from 'gql/apollo/client'
-import ThemeProvider from 'styles/ThemeProvider'
+import ThemeProvider from 'themes/ThemeProvider'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getAuthLayout?: (page: ReactElement) => ReactNode

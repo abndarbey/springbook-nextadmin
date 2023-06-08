@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import InvoiceList from 'modules/procurements/invoices/InvoiceList'
 
 export default function Invoices() {
@@ -7,7 +7,7 @@ export default function Invoices() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <InvoiceList title={title} />
         </Fragment>
     )

@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ContainerList from 'modules/inventory/containers/ContainerList'
 
 export default function Containers() {
@@ -7,7 +7,7 @@ export default function Containers() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <ContainerList title={title} />
         </Fragment>
     )

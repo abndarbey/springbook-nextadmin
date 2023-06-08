@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import WCList from 'modules/contracts/client/warehouse-contracts/WCList'
 
 export default function WarehouseContractss() {
@@ -7,7 +7,7 @@ export default function WarehouseContractss() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <WCList title={title} />
         </Fragment>
     )

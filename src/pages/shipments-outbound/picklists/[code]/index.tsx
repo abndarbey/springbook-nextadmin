@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import PicklistDetails from 'modules/shipments/outbound/picklists/PicklistDetails'
 
 export default function Details() {
@@ -10,7 +10,7 @@ export default function Details() {
     
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <PicklistDetails title={title} code={code} />
         </Fragment>
     )

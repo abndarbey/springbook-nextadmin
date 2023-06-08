@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ContactList from 'modules/company/contacts/ContactList'
 
 export default function Contacts() {
     return (
         <Fragment>
-            <PageTitle title='Contacts' />
+            <NextHead title='Contacts' />
             <ContactList />
         </Fragment>
     )

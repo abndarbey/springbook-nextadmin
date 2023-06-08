@@ -1,12 +1,12 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ContactNew from 'modules/company/contacts/ContactNew'
 
 export default function New() {
     const title: string = 'New Contact'
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <ContactNew title={title} />
         </Fragment>
     )

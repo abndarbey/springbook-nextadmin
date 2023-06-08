@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import GRNDetails from 'modules/shipments/outbound/grns/GRNDetails'
 
 export default function Details() {
@@ -10,7 +10,7 @@ export default function Details() {
     
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <GRNDetails title={title} code={code} />
         </Fragment>
     )

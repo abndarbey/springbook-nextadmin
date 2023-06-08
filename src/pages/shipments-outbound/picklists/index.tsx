@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import PicklistList from 'modules/shipments/outbound/picklists/PicklistList'
 
 export default function Picklists() {
@@ -7,7 +7,7 @@ export default function Picklists() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <PicklistList title={title} />
         </Fragment>
     )

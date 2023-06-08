@@ -6,7 +6,7 @@ export default function Cell() {
     const title: string = "Cells"
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <CellList title={title} />
         </Fragment>
     )

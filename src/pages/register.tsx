@@ -1,11 +1,11 @@
 import { Fragment, ReactElement } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import Register from '../modules/auth/Register'
 
 export default function RegisterPage() {
     return (
         <Fragment>
-            <PageTitle title='Register' />
+            <NextHead title='Register' />
             <Register />
         </Fragment>
     )

@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import SkuList from 'modules/catalogues/skus/SkuList'
 
 export default function Skus() {
@@ -7,7 +7,7 @@ export default function Skus() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <SkuList title={title} />
         </Fragment>
     )

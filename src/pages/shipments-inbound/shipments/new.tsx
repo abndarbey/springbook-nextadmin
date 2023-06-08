@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import ShipmentNew from 'modules/shipments/inbound/shipments/ShipmentNew'
 
 export default function New() {
@@ -7,7 +7,7 @@ export default function New() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <ShipmentNew title={title} />
         </Fragment>
     )

@@ -6,7 +6,7 @@ export default function Warehouse() {
     const title: string = "Warehouses"
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <WarehouseList title={title} />
         </Fragment>
     )

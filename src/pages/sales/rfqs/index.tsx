@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import RFQList from 'modules/sales/rfqs/RFQList'
 
 export default function RFQs() {
@@ -7,7 +7,7 @@ export default function RFQs() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <RFQList title={title} />
         </Fragment>
     )

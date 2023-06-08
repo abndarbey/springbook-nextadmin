@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import STOList from 'modules/shipments/outbound/stock-transfer-orders/STOList'
 
 export default function STOs() {
@@ -7,7 +7,7 @@ export default function STOs() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <STOList title={title} />
         </Fragment>
     )

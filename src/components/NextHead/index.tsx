@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import { FC } from 'react'
 
-interface PageTitleProps {
+interface NextHeadProps {
     title: string
 }
 
-const PageTitle: FC<PageTitleProps> = (props) => {
+export default function NextHead (props: NextHeadProps) {
     const pageTitle: string = `${props.title} | Springbook`
     return (
         <Head>
@@ -15,5 +14,3 @@ const PageTitle: FC<PageTitleProps> = (props) => {
         </Head>
     )
 }
-
-export default PageTitle

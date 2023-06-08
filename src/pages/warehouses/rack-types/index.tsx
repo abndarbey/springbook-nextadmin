@@ -1,12 +1,12 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import RTList from 'modules/warehouses/rackType/RTList'
 
 export default function RackTypes() {
     const title: string = "Rack Types"
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <RTList title={title} />
         </Fragment>
     )

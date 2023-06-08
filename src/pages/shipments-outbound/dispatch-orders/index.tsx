@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import DispatchOrderList from 'modules/shipments/outbound/dispatch-orders//DispatchOrderList'
 
 export default function DispatchOrders() {
@@ -7,7 +7,7 @@ export default function DispatchOrders() {
 
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <DispatchOrderList title={title} />
         </Fragment>
     )

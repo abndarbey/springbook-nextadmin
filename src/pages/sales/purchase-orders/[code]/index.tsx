@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { useRouter } from 'next/router'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import PurchaseOrderDetails from 'modules/orders/purchase-orders/PurchaseOrderDetails'
 import { ViewOption } from 'gql/generated/hooks'
 
@@ -12,7 +12,7 @@ export default function Details() {
     
     return (
         <Fragment>
-            <PageTitle title={title} />
+            <NextHead title={title} />
             <PurchaseOrderDetails title={title} code={code} view={view} />
         </Fragment>
     )

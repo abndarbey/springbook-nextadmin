@@ -1,11 +1,11 @@
 import { Fragment, ReactElement } from 'react'
-import PageTitle from 'components/PageTitle'
+import NextHead from 'components/NextHead'
 import Login from '../modules/auth/Login'
 
 export default function LoginPage() {
     return (
         <Fragment>
-            <PageTitle title='Login' />
+            <NextHead title='Login' />
             <Login />
         </Fragment>
     )
