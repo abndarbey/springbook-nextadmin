@@ -2,7 +2,7 @@ import { Fragment, useState } from "react"
 
 import FormCard from "components/FormCard"
 import OrgSelectModal from "common/select-table/OrgSelectModal"
-import { Auther, Contact, Organization, SkuCatalogue, Warehouse } from "@lib/generated/hooks"
+import { Auther, Contact, Organization, SkuCatalogue, Warehouse } from "gql/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 import { SegmentedControl, SimpleGrid, Text, TextInput, Textarea } from "@mantine/core"
 import ContactSelectModal from "common/select-table/ContactSelectModal"

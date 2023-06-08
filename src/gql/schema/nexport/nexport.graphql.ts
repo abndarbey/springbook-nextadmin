@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "@lib/graphql/fragments"
+import { fragment } from "gql/schema/fragments"
 
 export const NEXPORT_ORGANIZATIONS = gql`
     query NexportOrganizations($searchFilter: SearchFilter!, $sector: String) {

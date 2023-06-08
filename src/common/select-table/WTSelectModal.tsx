@@ -1,4 +1,4 @@
-import { FilterOption, WarehouseType, WarehouseTypesResult, SortByOption, SortDir, useWarehouseTypesQuery } from "@lib/generated/hooks"
+import { FilterOption, WarehouseType, WarehouseTypesResult, SortByOption, SortDir, useWarehouseTypesQuery } from "gql/generated/hooks"
 import { Badge, Box, Button, Group, Modal, useMantineTheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import ContentCard from "components/ContentCard"

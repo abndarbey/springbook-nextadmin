@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons'
-import { Organization } from '@lib/generated/hooks'
+import { Organization } from 'gql/generated/hooks'
 import OrgSelectModal from 'common/select-table/OrgSelectModal'
 import { setObjectToLocalStorage } from 'common/localStorage'
 

@@ -8,7 +8,7 @@ import SkuSelectModal from "common/select-table/SkuSelectModal"
 import BatchSelectModal from "common/select-table/BatchSelectModal"
 import WarehouseSelectModal from "common/select-table/WarehouseSelectModal"
 import { INavTrailProps } from "components/NavTrails"
-import { Auther, Batch, Organization, Sku, Warehouse } from "@lib/generated/hooks"
+import { Auther, Batch, Organization, Sku, Warehouse } from "gql/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 
 export interface QrOrderFormValues {

@@ -4,7 +4,7 @@ import { INavTrailProps } from 'components/NavTrails'
 import * as Yup from 'yup'
 import { useForm, yupResolver } from '@mantine/form'
 import { Textarea, TextInput } from '@mantine/core'
-import { useWarehouseTypeUpdateMutation, UpdateWarehouseType, Organization, useWarehouseTypeQuery, Warehouse, WarehouseType} from '@lib/generated/hooks'
+import { useWarehouseTypeUpdateMutation, UpdateWarehouseType, Organization, useWarehouseTypeQuery, Warehouse, WarehouseType} from 'gql/generated/hooks'
 import { showNotification } from '@mantine/notifications'
 
 import PageHeader from 'components/PageHeader'

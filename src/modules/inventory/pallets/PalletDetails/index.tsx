@@ -9,7 +9,7 @@ import {
     usePalletQuery,
     usePalletArchiveMutation,
     usePalletUnarchiveMutation,
-} from "@lib/generated/hooks"
+} from "gql/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"

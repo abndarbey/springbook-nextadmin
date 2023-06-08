@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "@lib/graphql/fragments"
+import { fragment } from "gql/schema/fragments"
 
 export const BATCH_CATALOGUES = gql`
     query BatchCatalogues($searchFilter: SearchFilter!, $skuUID: UUID) {

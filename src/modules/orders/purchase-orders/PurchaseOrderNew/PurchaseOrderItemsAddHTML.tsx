@@ -3,7 +3,7 @@ import { UseFormReturnType, useForm } from '@mantine/form'
 import { Group, Box, Text, Code, Button, TextInput, SimpleGrid, Grid, ActionIcon } from '@mantine/core'
 import { PurchaseOrderFormValues, PurchaseOrderItemFromValues } from './PurchanseOrderNewTypes'
 import { IconTrash } from '@tabler/icons'
-import { SkuCatalogue } from '@lib/generated/hooks'
+import { SkuCatalogue } from 'gql/generated/hooks'
 import NexportSkuCatalogueSelectModal from 'common/select-table/NexportSkuSelectModal'
 
 interface IPurchaseOrderItemsAddHTMLProps {

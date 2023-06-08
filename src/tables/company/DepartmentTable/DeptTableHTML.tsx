@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Department, DepartmentsResult } from "@lib/generated/hooks"
+import { Department, DepartmentsResult } from "gql/generated/hooks"
 import { Badge, Box, Text, useMantineTheme } from "@mantine/core"
 import { DataTable } from "mantine-datatable"
 import ContentCard from "components/ContentCard"

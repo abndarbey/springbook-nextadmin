@@ -13,7 +13,7 @@ import {
 } from "@mantine/core"
 // import { IconUpload } from "@tabler/icons"
 import { AuthCardTitle } from "./authElements"
-import { useOrganizationRegisterMutation, RegisterOrganization } from "@lib/generated/hooks"
+import { useOrganizationRegisterMutation, RegisterOrganization } from "gql/generated/hooks"
 
 const schema = Yup.object().shape({
     orgName: Yup.string().min(2, "Organization Name should have at least 2 letters"),

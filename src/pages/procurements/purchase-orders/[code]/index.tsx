@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { useRouter } from 'next/router'
 import PageTitle from 'components/PageTitle'
 import PurchaseOrderDetails from 'modules/orders/purchase-orders/PurchaseOrderDetails'
-import { ViewOption } from '@lib/generated/hooks'
+import { ViewOption } from 'gql/generated/hooks'
 
 export default function Details() {
     const router = useRouter()

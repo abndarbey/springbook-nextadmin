@@ -1,4 +1,4 @@
-import { FilterOption, Sku, SkusResult, SortByOption, SortDir, useSkusQuery } from "@lib/generated/hooks"
+import { FilterOption, Sku, SkusResult, SortByOption, SortDir, useSkusQuery } from "gql/generated/hooks"
 import { Badge, Box, Button, Group, Modal, useMantineTheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import ContentCard from "components/ContentCard"

@@ -11,7 +11,7 @@ import {
     Organization,
     Warehouse,
     Contact,
-} from '@lib/generated/hooks'
+} from 'gql/generated/hooks'
 import { showNotification } from '@mantine/notifications'
 
 import PageHeader from 'components/PageHeader'

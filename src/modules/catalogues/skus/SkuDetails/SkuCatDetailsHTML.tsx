@@ -1,7 +1,7 @@
 import { SimpleGrid, Box, Badge } from "@mantine/core"
 
 import ContentCard from "components/ContentCard"
-import { SkuCatalogue } from "@lib/generated/hooks"
+import { SkuCatalogue } from "gql/generated/hooks"
 import DetailRow from "components/DetailRow"
 
 interface ISkuCatPageProps {

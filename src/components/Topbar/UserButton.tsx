@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useApolloClient } from "@apollo/client"
 import { useRouter } from "next/router"
-import { Auther } from "@lib/generated/hooks"
+import { Auther } from "gql/generated/hooks"
 import { Avatar, Group, Menu, Text, UnstyledButton } from "@mantine/core"
 import {
     IconChevronDown,

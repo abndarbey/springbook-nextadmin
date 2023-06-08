@@ -1,4 +1,4 @@
-import { FilterOption, Organization, OrganizationsResult, SortByOption, SortDir, useOrganizationsQuery } from "@lib/generated/hooks"
+import { FilterOption, Organization, OrganizationsResult, SortByOption, SortDir, useOrganizationsQuery } from "gql/generated/hooks"
 import { Badge, Box, Button, Group, Modal, useMantineTheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import ContentCard from "components/ContentCard"

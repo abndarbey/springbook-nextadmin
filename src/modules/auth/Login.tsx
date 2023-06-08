@@ -17,7 +17,7 @@ import {
 } from '@mantine/core'
 import { AuthCardTitle } from './authElements'
 
-import { useGenerateOtpMutation, useLoginMutation, OtpRequest, LoginRequest } from '@lib/generated/hooks'
+import { useGenerateOtpMutation, useLoginMutation, OtpRequest, LoginRequest } from 'gql/generated/hooks'
 
 export default function Login() {
     const router = useRouter()

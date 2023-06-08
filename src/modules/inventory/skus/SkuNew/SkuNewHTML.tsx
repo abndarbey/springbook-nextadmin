@@ -6,7 +6,7 @@ import FormCard from "components/FormCard"
 import OrgSelectModal from "common/select-table/OrgSelectModal"
 import SkuCatalogueSelectModal from "common/select-table/SkuCatalogueSelectModal"
 import { INavTrailProps } from "components/NavTrails"
-import { Auther, SkuCatalogue, Organization } from "@lib/generated/hooks"
+import { Auther, SkuCatalogue, Organization } from "gql/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 import { TextInput } from "@mantine/core"
 

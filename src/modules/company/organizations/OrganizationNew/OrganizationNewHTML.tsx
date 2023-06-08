@@ -2,7 +2,7 @@ import Page from "components/Page"
 import PageHeader from "components/PageHeader"
 import FormCard from "components/FormCard"
 import { INavTrailProps } from "components/NavTrails"
-import { Auther } from "@lib/generated/hooks"
+import { Auther } from "gql/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 import { SimpleGrid, TextInput } from "@mantine/core"
 

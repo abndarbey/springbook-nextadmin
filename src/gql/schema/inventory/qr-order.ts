@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "@lib/graphql/fragments"
+import { fragment } from "gql/schema/fragments"
 
 export const QR_ORDERS = gql`
     query QROrders($searchFilter: SearchFilter!, $objectType: String) {

@@ -1,4 +1,4 @@
-import { FilterOption, SortByOption, SortDir, useDepartmentsQuery } from "@lib/generated/hooks"
+import { FilterOption, SortByOption, SortDir, useDepartmentsQuery } from "gql/generated/hooks"
 import { showNotification } from "@mantine/notifications"
 import { SelectFieldData } from "types/types"
 

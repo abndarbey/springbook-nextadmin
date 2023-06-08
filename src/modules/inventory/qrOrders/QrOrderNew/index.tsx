@@ -11,7 +11,7 @@ import {
     Organization,
     useAutherQuery,
     Warehouse,
-} from '@lib/generated/hooks'
+} from 'gql/generated/hooks'
 
 import { getObjectFromLocalStorage } from 'common/localStorage'
 import PageLoader from 'components/PageLoader'

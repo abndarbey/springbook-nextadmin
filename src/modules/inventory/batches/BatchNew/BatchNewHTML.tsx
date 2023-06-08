@@ -5,7 +5,7 @@ import OrgSelectModal from "common/select-table/OrgSelectModal"
 import Page from "components/Page"
 import PageHeader from "components/PageHeader"
 import FormCard from "components/FormCard"
-import { Auther, BatchCatalogue, Organization } from "@lib/generated/hooks"
+import { Auther, BatchCatalogue, Organization } from "gql/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 import { INavTrailProps } from "components/NavTrails"
 

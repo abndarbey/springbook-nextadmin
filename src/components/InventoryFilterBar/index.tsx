@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { Box, Button, Group, SimpleGrid, Text } from "@mantine/core"
-import { Organization } from "@lib/generated/hooks"
+import { Organization } from "gql/generated/hooks"
 import { setObjectToLocalStorage } from "common/localStorage"
 import OrgSelectModal from "common/select-table/OrgSelectModal"
 

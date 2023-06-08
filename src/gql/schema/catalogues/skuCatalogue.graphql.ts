@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "@lib/graphql/fragments"
+import { fragment } from "gql/schema/fragments"
 
 export const SKU_CATALOGUES = gql`
     query SkuCatalogues($searchFilter: SearchFilter!) {

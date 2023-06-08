@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Badge, Box, Text, useMantineTheme } from "@mantine/core"
-import { RackType, RackTypesResult } from "@lib/generated/hooks"
+import { RackType, RackTypesResult } from "gql/generated/hooks"
 import { PAGE_SIZES } from "types/enums"
 import ContentCard from "components/ContentCard"
 import TableActionBar from "components/TableWrapper/TableActionBar"

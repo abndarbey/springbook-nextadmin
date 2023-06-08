@@ -1,4 +1,4 @@
-import { ViewOption } from "@lib/generated/hooks"
+import { ViewOption } from "gql/generated/hooks"
 
 export type SelectFieldData = {
     value: string | null | undefined

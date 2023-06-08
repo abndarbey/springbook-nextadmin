@@ -3,7 +3,7 @@ import Page from "components/Page"
 import { INavTrailProps } from "components/NavTrails"
 import * as Yup from "yup"
 import { useForm, yupResolver } from "@mantine/form"
-import { useSkuCatalogueCreateMutation, UpdateSkuCatalogue, Organization, useAutherQuery } from "@lib/generated/hooks"
+import { useSkuCatalogueCreateMutation, UpdateSkuCatalogue, Organization, useAutherQuery } from "gql/generated/hooks"
 import { showNotification } from "@mantine/notifications"
 
 import PageHeader from "components/PageHeader"

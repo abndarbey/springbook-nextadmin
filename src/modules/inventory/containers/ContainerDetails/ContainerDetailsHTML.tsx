@@ -1,4 +1,4 @@
-import { Container } from "@lib/generated/hooks"
+import { Container } from "gql/generated/hooks"
 import { Badge, Box, Group, SimpleGrid, Text } from "@mantine/core"
 import ContentCard from "components/ContentCard"
 import DetailRow from "components/DetailRow"

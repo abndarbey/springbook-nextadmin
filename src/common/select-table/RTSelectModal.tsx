@@ -1,4 +1,4 @@
-import { FilterOption, RackType, RackTypesResult, SortByOption, SortDir, useRackTypesQuery } from "@lib/generated/hooks"
+import { FilterOption, RackType, RackTypesResult, SortByOption, SortDir, useRackTypesQuery } from "gql/generated/hooks"
 import { Badge, Box, Button, Group, Modal, useMantineTheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import ContentCard from "components/ContentCard"

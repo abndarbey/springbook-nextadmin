@@ -1,4 +1,4 @@
-import { FilterOption, Batch, BatchResult, SortByOption, SortDir, useBatchesQuery } from "@lib/generated/hooks"
+import { FilterOption, Batch, BatchResult, SortByOption, SortDir, useBatchesQuery } from "gql/generated/hooks"
 import { Badge, Box, Button, Group, Modal, useMantineTheme } from "@mantine/core"
 import { showNotification } from "@mantine/notifications"
 import ContentCard from "components/ContentCard"

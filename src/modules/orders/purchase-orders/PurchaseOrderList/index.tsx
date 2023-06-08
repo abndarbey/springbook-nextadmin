@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { IActionButtonProps } from "components/PageHeader/ActionButtons"
 import { PageProps } from "types/types"
 import PurchaseOrderTable from "tables/orders/PurchaseOrderTable"
-import { ViewOption } from "@lib/generated/hooks"
+import { ViewOption } from "gql/generated/hooks"
 
 const navTrails: INavTrailProps[] = [
     { title: "Dashboard", href: "/" },

@@ -1,7 +1,7 @@
 import { SimpleGrid, Box, Badge } from "@mantine/core"
 
 import ContentCard from "components/ContentCard"
-import { BatchCatalogue } from "@lib/generated/hooks"
+import { BatchCatalogue } from "gql/generated/hooks"
 import DetailRow from "components/DetailRow"
 
 interface IBatchCatPageProps {

@@ -4,7 +4,7 @@ import { INavTrailProps } from 'components/NavTrails'
 import * as Yup from 'yup'
 import { useForm, yupResolver } from '@mantine/form'
 import { TextInput } from '@mantine/core'
-import { useDepartmentUpdateMutation, UpdateDepartment, Organization, useDepartmentQuery } from '@lib/generated/hooks'
+import { useDepartmentUpdateMutation, UpdateDepartment, Organization, useDepartmentQuery } from 'gql/generated/hooks'
 import { showNotification } from '@mantine/notifications'
 
 import PageHeader from 'components/PageHeader'

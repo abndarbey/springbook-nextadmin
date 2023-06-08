@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react"
-import { Auther, useAutherQuery } from "@lib/generated/hooks"
+import { Auther, useAutherQuery } from "gql/generated/hooks"
 import { showNotification } from "@mantine/notifications"
 import PageLoader from "components/PageLoader"
 

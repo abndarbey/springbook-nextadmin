@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 
 import {
     SkuCatalogue, SkuCataloguesResult,
-} from "@lib/generated/hooks"
+} from "gql/generated/hooks"
 import ContentCard from "components/ContentCard"
 import TableActionBar from "components/TableWrapper/TableActionBar"
 import { Badge, Box, Text, useMantineTheme } from "@mantine/core"

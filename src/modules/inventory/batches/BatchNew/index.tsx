@@ -3,7 +3,7 @@ import * as Yup from "yup"
 import { useRouter } from "next/router"
 import { useForm, yupResolver } from "@mantine/form"
 import { showNotification } from "@mantine/notifications"
-import { useBatchCreateMutation, UpdateBatch, BatchCatalogue, Organization, useAutherQuery } from "@lib/generated/hooks"
+import { useBatchCreateMutation, UpdateBatch, BatchCatalogue, Organization, useAutherQuery } from "gql/generated/hooks"
 
 import { getObjectFromLocalStorage } from "common/localStorage"
 import PageLoader from "components/PageLoader"

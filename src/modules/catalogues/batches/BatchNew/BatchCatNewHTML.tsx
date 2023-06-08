@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react"
 import FormCard from "components/FormCard"
 import OrgSelectModal from "common/select-table/OrgSelectModal"
-import { Auther, Organization, SkuCatalogue } from "@lib/generated/hooks"
+import { Auther, Organization, SkuCatalogue } from "gql/generated/hooks"
 import { UseFormReturnType } from "@mantine/form"
 import { SimpleGrid, TextInput } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
