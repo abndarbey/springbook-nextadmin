@@ -4,29 +4,36 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, run the development server:
 
-```bash
+```bash 
 pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `page/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Generate GraphQL Types
+This project uses graphql-generator to generate types along with query and mutation hooks.
+All graphql related codes are stored inside `src/gql` directory
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### src/gql directory structure
+- gql
+- `gql/apollo` - this contains code for apollo client
+- `gql/schema/fragments` - this contains all the graphql api request/response body
+- `gql/schema/**/*.ts` - all query and mutation APIs are defined in these directories and files
+- to generate the types and hooks, run the following command:
+```bash 
+pnpm gqlgen
+```
 
-## Learn More
+## Modules
+- All modules are kept inside `src/modules` directory
 
-To learn more about Next.js, take a look at the following resources:
+## Component Library
+- This project uses [mantine](https://mantine.dev/) as component library.
+- The theme and colors are defined inside `src/themes`
+- The theme is wrapped to entire pages and body inside `src/app/layout.tsx`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Change component library
+- One can also use MUI or Chakra as component library
+- Update themes and modules with respected component library
