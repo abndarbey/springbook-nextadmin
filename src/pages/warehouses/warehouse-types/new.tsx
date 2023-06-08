@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import PageTitle from "components/PageTitle"
+import NextHead from "components/NextHead"
 import WTNew from "modules/warehouses/warehouseType/WTNew"
 
 export default function New() {

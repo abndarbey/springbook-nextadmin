@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import PageTitle from "components/PageTitle"
+import NextHead from "components/NextHead"
 import RTNew from "modules/warehouses/rackType/RTNew"
 
 export default function New() {

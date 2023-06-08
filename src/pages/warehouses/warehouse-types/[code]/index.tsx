@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 import { useRouter } from "next/router"
-import PageTitle from "components/PageTitle"
+import NextHead from "components/NextHead"
 import WarehouseTypeDetails from "modules/warehouses/warehouseType/WTDetails"
 import PageLoader from "components/PageLoader"
 

@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import PageTitle from "components/PageTitle"
+import NextHead from "components/NextHead"
 import WTList from "modules/warehouses/warehouseType/WTList"
 
 export default function WarehouseTypes() {

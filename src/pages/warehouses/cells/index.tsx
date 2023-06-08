@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import PageTitle from "components/PageTitle"
+import NextHead from "components/NextHead"
 import CellList from "modules/warehouses/cell/CellList"
 
 export default function Cell() {
