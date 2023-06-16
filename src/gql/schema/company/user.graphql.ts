@@ -14,8 +14,8 @@ export const USERS = gql`
 `
 
 export const USER = gql`
-    query User($id: ID, $email: String, $phone: String) {
-        user(id: $id, email: $email, phone: $phone) {
+    query User($id: ID, $handle: String) {
+        user(id: $id, handle: $handle) {
             ...UserFragment
             }
         }

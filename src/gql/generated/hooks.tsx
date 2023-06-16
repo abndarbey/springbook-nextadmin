@@ -326,9 +326,8 @@ export type LatestTransactionInfo = {
 };
 
 export type LoginRequest = {
-  email?: InputMaybe<Scalars['NullString']>;
-  otp?: InputMaybe<Scalars['NullString']>;
-  phone?: InputMaybe<Scalars['NullString']>;
+  handle: Scalars['String'];
+  otp: Scalars['String'];
 };
 
 export type Manifest = {
@@ -650,7 +649,7 @@ export type MutationFileUploadMultipleArgs = {
 
 
 export type MutationGenerateOtpArgs = {
-  input?: InputMaybe<OtpRequest>;
+  input: OtpRequest;
 };
 
 
@@ -1016,8 +1015,7 @@ export type MutationWarehouseUpdateArgs = {
 };
 
 export type OtpRequest = {
-  email?: InputMaybe<Scalars['NullString']>;
-  phone?: InputMaybe<Scalars['NullString']>;
+  handle: Scalars['String'];
 };
 
 export enum ObjectType {
@@ -1602,9 +1600,8 @@ export type QueryTransactionsArgs = {
 
 
 export type QueryUserArgs = {
-  email?: InputMaybe<Scalars['String']>;
+  handle?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
-  phone?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -2616,8 +2613,7 @@ export type UsersQuery = { __typename?: 'Query', users: { __typename?: 'UserResu
 
 export type UserQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
-  email?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
+  handle?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -5810,8 +5806,8 @@ export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
 export const UserDocument = gql`
-    query User($id: ID, $email: String, $phone: String) {
-  user(id: $id, email: $email, phone: $phone) {
+    query User($id: ID, $handle: String) {
+  user(id: $id, handle: $handle) {
     ...UserFragment
   }
 }
@@ -5830,8 +5826,7 @@ export const UserDocument = gql`
  * const { data, loading, error } = useUserQuery({
  *   variables: {
  *      id: // value for 'id'
- *      email: // value for 'email'
- *      phone: // value for 'phone'
+ *      handle: // value for 'handle'
  *   },
  * });
  */

@@ -28,26 +28,26 @@ export default function Login() {
     const [loginRequest] = useLoginMutation({})
 
     const schema = Yup.object().shape({
-        email: Yup.string().email('Invalid email'),
+        // handle: Yup.string().handle('Invalid handle'),
         // otp: Yup.string().min(5, 'Password should have at least 5 letters'),
     })
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            email: '',
+            handle: '',
             otp: '',
         },
     })
 
     const handleSubmit = () => {
         if (!isOtpGenerated) {
-            var emailInput: OtpRequest = {
-                email: form.values.email
+            var handleInput: OtpRequest = {
+                handle: form.values.handle
             }
     
             otpRequest({
-                variables: {input: emailInput}
+                variables: {input: handleInput}
             }).then((res: any) => {
                 form.values.otp = ''
                 setOTP(res.data.generateOTP)
@@ -66,7 +66,7 @@ export default function Login() {
             })
         } else {
             var loginInput: LoginRequest = {
-                email: form.values.email,
+                handle: form.values.handle,
                 otp: form.values.otp
             }
     
@@ -95,12 +95,12 @@ export default function Login() {
     }
 
     const handleResendOTP = () => {
-        var emailInput: OtpRequest = {
-            email: form.values.email
+        var handleInput: OtpRequest = {
+            handle: form.values.handle
         }
 
         otpRequest({
-            variables: {input: emailInput}
+            variables: {input: handleInput}
         }).then((res: any) => {
             form.values.otp = ''
             setOTP(res.data.generateOTP)
@@ -127,16 +127,16 @@ export default function Login() {
                                     label="Email"
                                     placeholder="yourname@example.com"
                                     required
-                                    {...form.getInputProps('email')}
+                                    {...form.getInputProps('handle')}
                                 />
                                 <Group position="apart" mt="lg">
                                     <Checkbox label="Remember me" sx={{ lineHeight: 1 }} />
                                         <Anchor<'a'> onClick={(event) => event.preventDefault()} href="#" size="sm">
-                                            Forgot email?
+                                            Forgot handle?
                                         </Anchor>
                                 </Group>
                                 {
-                                    !form.values.email ?
+                                    !form.values.handle ?
                                     <Button disabled fullWidth mt="xl">
                                         Request OTP
                                     </Button> :
@@ -150,7 +150,7 @@ export default function Login() {
                                     label="Email"
                                     placeholder="yourname@example.com"
                                     disabled
-                                    {...form.getInputProps('email')}
+                                    {...form.getInputProps('handle')}
                                 />
                                 <PasswordInput
                                     mt="md"
