@@ -13,23 +13,37 @@ export const PurchaseOrder = gql`
             uid
             code
             name
+            website
         }
         seller {
             uid
             code
             name
+            website
         }
         financier {
             uid
             code
             name
+            website
         }
         details {
             id
             purchaseOrderUID
             version
-            warehouseUID
-            requitionerUID
+            warehouse {
+                uid
+                code
+                locality
+                city
+                pincode
+            }
+            requitioner {
+                uid
+                code
+                name
+                website
+            }
             currency
             addressLine1
             addressLine2

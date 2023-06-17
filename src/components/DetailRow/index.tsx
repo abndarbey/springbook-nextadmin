@@ -1,15 +1,15 @@
-import { Box, Text } from '@mantine/core'
+import { Text } from '@mantine/core'
 import React from 'react'
 
-interface IDetailRow {
+type DetailRowProps = {
     title: string
-    value: any
+    value: string
 }
-export default function DetailRow(props: IDetailRow) {
+export default function DetailRow(props: DetailRowProps) {
     return (
-        <Box mb={10}>
-            <Text size="sm" weight={700}>{props.title}</Text>
-            <Text>{props.value}</Text>
-        </Box>
+        <tr>
+            <td><Text weight={700} mr="sm">{props.title}:</Text></td>
+            <td>{props.value}</td>
+        </tr>
     )
 }

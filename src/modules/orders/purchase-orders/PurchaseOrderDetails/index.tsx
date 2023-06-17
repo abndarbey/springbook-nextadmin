@@ -16,6 +16,9 @@ import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
 import { PageProps } from "types/types"
 import PurchaseOrderDetailsHTML from "./PurchaseOrderDetailsHTML"
+import PurchaseOrderItemTable from "./PurchaseOrderItemTable"
+import PurchaseOrderAdditionalDetailsHTML from "./PurchaseOrderAdditionalDetailsHTML"
+import PurchaseOrderTermsHTML from "./PurchaseOrderTermsHTML"
 
 export default function PurchaseOrderDetails(props: PageProps) {
     const router = useRouter()
@@ -132,11 +135,14 @@ export default function PurchaseOrderDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="roles">Roles</Tabs.Tab>
+                    <Tabs.Tab value="roles">History</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
-                    <PurchaseOrderDetailsHTML data={data?.purchaseOrder!} />
+                    <PurchaseOrderDetailsHTML mb="md" data={data?.purchaseOrder!} />
+                    <PurchaseOrderItemTable mb="md" items={data?.purchaseOrder?.items!} />
+                    <PurchaseOrderAdditionalDetailsHTML mb="md" data={data?.purchaseOrder?.details!} />
+                    <PurchaseOrderTermsHTML mb="md" data={data?.purchaseOrder?.details!} />
                 </Tabs.Panel>
 
                 {/* <Tabs.Panel value="roles" pt="xs">

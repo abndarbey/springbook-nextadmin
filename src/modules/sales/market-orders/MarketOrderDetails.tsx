@@ -14,7 +14,7 @@ import {
 } from 'gql/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
-import DetailRow from 'components/DetailRow'
+import DetailColumn from 'components/DetailColumn'
 import { PageProps } from 'types/types'
 
 export default function DepartmentDetails(props: PageProps) {
@@ -138,12 +138,12 @@ export default function DepartmentDetails(props: PageProps) {
                     <ContentCard>
                         <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Code' value={data?.department.code!} />
-                                <DetailRow title='Name' value={data?.department.name!} />
+                                <DetailColumn title='Code' value={data?.department.code!} />
+                                <DetailColumn title='Name' value={data?.department.name!} />
                             </Box>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Organization Code' value={data?.department?.organization?.code!} />
-                                <DetailRow title='Organization Name' value={data?.department?.organization?.name!} />
+                                <DetailColumn title='Organization Code' value={data?.department?.organization?.code!} />
+                                <DetailColumn title='Organization Name' value={data?.department?.organization?.name!} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>

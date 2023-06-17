@@ -17,7 +17,7 @@ import {
 } from 'gql/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
-import DetailRow from 'components/DetailRow'
+import DetailColumn from 'components/DetailColumn'
 import { PageProps } from 'types/types'
 
 
@@ -123,26 +123,26 @@ export default function WarehouseContractDetails(props: PageProps) {
                     <ContentCard mb="sm">
                         <SimpleGrid cols={3} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Code' value={objectData.data?.warehouseContract.code!} />
-                                <DetailRow title='Status' value={<Badge>{objectData.data?.warehouseContract.status!}</Badge>} />
-                                <DetailRow title='Acceptance Status' value={<Badge>{objectData.data?.warehouseContract.acceptanceStatus!}</Badge>} />
+                                <DetailColumn title='Code' value={objectData.data?.warehouseContract.code!} />
+                                <DetailColumn title='Status' value={<Badge>{objectData.data?.warehouseContract.status!}</Badge>} />
+                                <DetailColumn title='Acceptance Status' value={<Badge>{objectData.data?.warehouseContract.acceptanceStatus!}</Badge>} />
                             </Box>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Contractor Code' value={objectData.data?.warehouseContract?.contractor?.code!} />
-                                <DetailRow title='Contractor Name' value={objectData.data?.warehouseContract?.contractor?.name!} />
+                                <DetailColumn title='Contractor Code' value={objectData.data?.warehouseContract?.contractor?.code!} />
+                                <DetailColumn title='Contractor Name' value={objectData.data?.warehouseContract?.contractor?.name!} />
                             </Box>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Client Code' value={objectData.data?.warehouseContract?.client?.code!} />
-                                <DetailRow title='Client Name' value={objectData.data?.warehouseContract?.client?.name!} />
+                                <DetailColumn title='Client Code' value={objectData.data?.warehouseContract?.client?.code!} />
+                                <DetailColumn title='Client Name' value={objectData.data?.warehouseContract?.client?.name!} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>
                     <ContentCard mb="sm">
                         <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Warehouse Code' value={objectData.data?.warehouseContract?.warehouse?.code!} />
-                                <DetailRow title='Warehouse Name' value={objectData.data?.warehouseContract?.warehouse?.name!} />
-                                <DetailRow title='Warehouse UID' value={objectData.data?.warehouseContract?.warehouse?.uid!} />
+                                <DetailColumn title='Warehouse Code' value={objectData.data?.warehouseContract?.warehouse?.code!} />
+                                <DetailColumn title='Warehouse Name' value={objectData.data?.warehouseContract?.warehouse?.name!} />
+                                <DetailColumn title='Warehouse UID' value={objectData.data?.warehouseContract?.warehouse?.uid!} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>

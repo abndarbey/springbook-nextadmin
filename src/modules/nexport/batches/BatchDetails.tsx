@@ -8,7 +8,7 @@ import { INavTrailProps } from 'components/NavTrails'
 import { useBatchCatalogueQuery } from 'gql/generated/hooks'
 import PageLoader from 'components/PageLoader'
 import { showNotification } from '@mantine/notifications'
-import DetailRow from 'components/DetailRow'
+import DetailColumn from 'components/DetailColumn'
 import { PageProps } from 'types/types'
 
 export default function BatchCatalogueDetails(props: PageProps) {
@@ -56,16 +56,16 @@ export default function BatchCatalogueDetails(props: PageProps) {
                     <ContentCard>
                         <SimpleGrid cols={3} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Code' value={data?.batchCatalogue.code!} />
-                                <DetailRow title='Name' value={data?.batchCatalogue.batchNumber!} />
-                                <DetailRow title='Brand' value={data?.batchCatalogue.sku?.name!} />
+                                <DetailColumn title='Code' value={data?.batchCatalogue.code!} />
+                                <DetailColumn title='Name' value={data?.batchCatalogue.batchNumber!} />
+                                <DetailColumn title='Brand' value={data?.batchCatalogue.sku?.name!} />
                             </Box>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Organization Code' value={data?.batchCatalogue?.organization?.code!} />
-                                <DetailRow title='Organization Name' value={data?.batchCatalogue?.organization?.name!} />
+                                <DetailColumn title='Organization Code' value={data?.batchCatalogue?.organization?.code!} />
+                                <DetailColumn title='Organization Name' value={data?.batchCatalogue?.organization?.name!} />
                             </Box>
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                                <DetailRow title='Status' value={<Badge>{data?.batchCatalogue?.status!}</Badge>} />
+                                <DetailColumn title='Status' value={<Badge>{data?.batchCatalogue?.status!}</Badge>} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>

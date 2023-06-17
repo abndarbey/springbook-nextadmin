@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import { Carton } from "gql/generated/hooks"
 import { Badge, Box, Group, SimpleGrid, Text } from "@mantine/core"
 import ContentCard from "components/ContentCard"
-import DetailRow from "components/DetailRow"
+import DetailColumn from "components/DetailColumn"
 import QrGen from "components/QrGen"
 
 interface ICartonDetailsHTMLProps {
@@ -16,35 +16,35 @@ export default function CartonDetailsHTML(props: ICartonDetailsHTMLProps) {
                 <ContentCard>
                     <SimpleGrid cols={4} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Code" value={props.data.code!} />
-                            {/* <DetailRow title="Name" value={props.data.name!} /> */}
+                            <DetailColumn title="Code" value={props.data.code!} />
+                            {/* <DetailColumn title="Name" value={props.data.name!} /> */}
                         </Box>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="SKU Code" value={props.data?.sku?.code!} />
-                            <DetailRow title="SKU Name" value={props.data?.sku?.name!} />
+                            <DetailColumn title="SKU Code" value={props.data?.sku?.code!} />
+                            <DetailColumn title="SKU Name" value={props.data?.sku?.name!} />
                         </Box>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Batch Code" value={props.data?.batch?.code!} />
-                            <DetailRow title="Batch Number" value={props.data?.batch?.batchNumber!} />
+                            <DetailColumn title="Batch Code" value={props.data?.batch?.code!} />
+                            <DetailColumn title="Batch Number" value={props.data?.batch?.batchNumber!} />
                         </Box>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Status" value={<Badge>{props.data?.status!}</Badge>} />
+                            <DetailColumn title="Status" value={<Badge>{props.data?.status!}</Badge>} />
                         </Box>
                     </SimpleGrid>
                 </ContentCard>
                 <ContentCard>
                     <SimpleGrid cols={3} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Latitude" value={props.data.latestTrackerLog?.geoLocation?.lat!} />
-                            <DetailRow title="Longitude" value={props.data.latestTrackerLog?.geoLocation?.lon!} />
+                            <DetailColumn title="Latitude" value={props.data.latestTrackerLog?.geoLocation?.lat!} />
+                            <DetailColumn title="Longitude" value={props.data.latestTrackerLog?.geoLocation?.lon!} />
                         </Box>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Owner Code" value={props.data?.latestTransferLog?.owner?.code!} />
-                            <DetailRow title="Owner Name" value={props.data?.latestTransferLog?.owner?.name!} />
+                            <DetailColumn title="Owner Code" value={props.data?.latestTransferLog?.owner?.code!} />
+                            <DetailColumn title="Owner Name" value={props.data?.latestTransferLog?.owner?.name!} />
                         </Box>
                         <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
-                            <DetailRow title="Custodian Code" value={props.data?.latestTransferLog?.custodian?.code!} />
-                            <DetailRow title="Custodian Name" value={props.data?.latestTransferLog?.custodian?.name!} />
+                            <DetailColumn title="Custodian Code" value={props.data?.latestTransferLog?.custodian?.code!} />
+                            <DetailColumn title="Custodian Name" value={props.data?.latestTransferLog?.custodian?.name!} />
                         </Box>
                     </SimpleGrid>
                 </ContentCard>
