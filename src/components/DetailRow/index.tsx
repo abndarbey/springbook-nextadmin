@@ -1,9 +1,9 @@
-import { Text } from '@mantine/core'
+import { Table, Text } from '@mantine/core'
 import React from 'react'
 
 type DetailRowProps = {
     title: string
-    value: string
+    value: any
 }
 export default function DetailRow(props: DetailRowProps) {
     return (

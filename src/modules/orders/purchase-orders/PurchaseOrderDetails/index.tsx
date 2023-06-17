@@ -10,6 +10,7 @@ import {
     usePurchaseOrderFinalizeMutation,
     usePurchaseOrderArchiveMutation,
     usePurchaseOrderUnarchiveMutation,
+    usePurchaseOrderSellerAcceptMutation,
     ViewOption,
 } from "gql/generated/hooks"
 import PageLoader from "components/PageLoader"
@@ -19,12 +20,15 @@ import PurchaseOrderDetailsHTML from "./PurchaseOrderDetailsHTML"
 import PurchaseOrderItemTable from "./PurchaseOrderItemTable"
 import PurchaseOrderAdditionalDetailsHTML from "./PurchaseOrderAdditionalDetailsHTML"
 import PurchaseOrderTermsHTML from "./PurchaseOrderTermsHTML"
+import PurchaseOrderHistoryTable from "./PurchaseOrderHistoryTable"
+import { boolean } from "yup"
 
 export default function PurchaseOrderDetails(props: PageProps) {
     const router = useRouter()
     const [finalizeRequest] = usePurchaseOrderFinalizeMutation({})
     const [archiveRequest] = usePurchaseOrderArchiveMutation({})
     const [unarchiveRequest] = usePurchaseOrderUnarchiveMutation({})
+    const [sellerAcceptRequest] = usePurchaseOrderSellerAcceptMutation({})
     const viewType: string = props.view == ViewOption.Buyer ? 'procurements' : 'sales'
 
     const navTrails: INavTrailProps[] = [
@@ -120,14 +124,68 @@ export default function PurchaseOrderDetails(props: PageProps) {
             })
         })
     }
+    
+    // seller accept action
+    const handleSellerAccept = (e: any) => {
+        e.preventDefault()
+        sellerAcceptRequest({
+            variables: {uid: data?.purchaseOrder.uid!, acceptance: true}
+        }).then((res: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "green",
+                message: `Seller Acceptd - ${res.data.purchaseOrderSellerAccept.code}`,
+            })
+        }).catch((error: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "red",
+                message: error.message,
+            })
+        })
+    }
+    
+    // seller decline action
+    const handleSellerDecline = (e: any) => {
+        e.preventDefault()
+        sellerAcceptRequest({
+            variables: {uid: data?.purchaseOrder.uid!, acceptance: false}
+        }).then((res: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "green",
+                message: `Seller Declined - ${res.data.purchaseOrderSellerAccept.code}`,
+            })
+        }).catch((error: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "red",
+                message: error.message,
+            })
+        })
+    }
 
     // define action buttons
-    const actionButtons: IActionButtonProps[] = [
+    let actionButtons: IActionButtonProps[] = []
+
+    const buyerActionButtons: IActionButtonProps[] = [
         { type: "edit", name: "Edit", action: handleEdit },
         { type: "finalize", name: "Finalize", action: handleFinalize, disabled: data?.purchaseOrder.isFinal!},
         { type: "archive", name: "Archive", action: handleArchive, disabled: data?.purchaseOrder.isArchived! },
         { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.purchaseOrder.isArchived! },
     ]
+
+    const sellerActionButtons: IActionButtonProps[] = [
+        { type: "accept", name: "Accept", action: handleSellerAccept, disabled: data?.purchaseOrder?.details?.isSellerAccepted != null},
+        { type: "decline", name: "Decline", action: handleSellerDecline, disabled: data?.purchaseOrder?.details?.isSellerAccepted != null},
+    ]
+
+    if (props.view == ViewOption.Buyer) {
+        actionButtons = buyerActionButtons
+    }
+    if (props.view == ViewOption.Seller) {
+        actionButtons = sellerActionButtons
+    }
 
     return (
         <Page navTrails={navTrails}>
@@ -135,7 +193,7 @@ export default function PurchaseOrderDetails(props: PageProps) {
             <Tabs variant="pills" radius="xs" defaultValue="details">
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
-                    <Tabs.Tab value="roles">History</Tabs.Tab>
+                    <Tabs.Tab value="history">History</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
@@ -145,9 +203,9 @@ export default function PurchaseOrderDetails(props: PageProps) {
                     <PurchaseOrderTermsHTML mb="md" data={data?.purchaseOrder?.details!} />
                 </Tabs.Panel>
 
-                {/* <Tabs.Panel value="roles" pt="xs">
-                    <RoleTable purchaseOrderUID={data?.purchaseOrder.uid} />
-                </Tabs.Panel> */}
+                <Tabs.Panel value="history" pt="xs">
+                    <PurchaseOrderHistoryTable poUID={data?.purchaseOrder.uid}/>
+                </Tabs.Panel>
             </Tabs>
         </Page>
     )

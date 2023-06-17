@@ -41,24 +41,12 @@ export default function PurchaseOrderItemTable(props: PurchaseOrderItemTableProp
                         { accessor: "units", title: "Units" },
                         { accessor: "unitCost", title: "Unit Cost" },
                         { accessor: "unitOfMeasure", title: "Unit Of Measure" },
-                        // {
-                        //     accessor: "geoLocation", title: "Geo Location",
-                        //     render: (item) => (
-                        //         <>{item.geoLocation?.lat}, {item.geoLocation?.lon}</>
-                        //     )
-                        // },
-                        // {
-                        //     accessor: "createdAt", title: "Timestamp",
-                        //     render: (item) => (
-                        //         <Text>{moment(item.createdAt).format('Do MMMM YYYY, h:mm:ss a')}</Text>
-                        //     )
-                        // },
-                        // {
-                        //     accessor: "createdAt", title: "Relative Time",
-                        //     render: (item) => (
-                        //         <Text>{moment(item.createdAt, "YYYYMMDD").fromNow()}</Text>
-                        //     )
-                        // },
+                        {
+                            accessor: "total",
+                            render: (item) => (
+                                <Text>{item.unitCost! * item.units!}</Text>
+                            )
+                        },
                     ]}
                     selectedRecords={selectedRecords}
                     onSelectedRecordsChange={setSelectedRecords}

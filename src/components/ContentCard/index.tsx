@@ -1,14 +1,21 @@
 import { Paper } from '@mantine/core'
 import { ReactNode } from 'react'
+import { useContentCardStyles } from './styles'
 
-interface IContentCard {
+type ContentCardProps = {
     mb?: string | number
     children: ReactNode
 }
 
-export default function ContentCard(props: IContentCard) {
+export default function ContentCard(props: ContentCardProps) {
+    const { classes } = useContentCardStyles()
     return (
-        <Paper p='xl' mb={props.mb} withBorder>
+        <Paper
+            // className={classes.container}
+            p='xl' mb={props.mb}
+            withBorder
+            // shadow="sm"
+        >
             {props.children}
         </Paper>
     )

@@ -17,6 +17,7 @@ import {
 import {
     PurchaseOrder,
     PurchaseOrderList,
+    PurchaseOrderDetail,
 } from './order'
 
 const Auther = gql`
@@ -64,6 +65,7 @@ export const fragment = {
 
     PurchaseOrder,
     PurchaseOrderList,
+    PurchaseOrderDetail,
 
     Transaction,
 }

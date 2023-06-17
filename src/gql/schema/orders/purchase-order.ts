@@ -13,6 +13,18 @@ export const PURCHASE_ORDERS = gql`
     ${fragment.PurchaseOrderList}
 `
 
+export const PURCHASE_ORDER_HISTORY = gql`
+    query PurchaseOrderHistory($searchFilter: SearchFilter!, $poUID: UUID!) {
+        purchaseOrderHistory(search: $searchFilter, poUID: $poUID) {
+            purchaseOrderHistory {
+                    ...PurchaseOrderDetailFragment
+                }
+                total
+            }
+        }
+    ${fragment.PurchaseOrderDetail}
+`
+
 export const PURCHASE_ORDER = gql`
     query PurchaseOrder($id: ID, $uid: UUID $code: String) {
         purchaseOrder(id: $id, uid: $uid, code: $code) {
@@ -43,6 +55,15 @@ export const PURCHASE_ORDER_UPDATE = gql`
 export const PURCHASE_ORDER_FINALIZE = gql`
     mutation PurchaseOrderFinalize($uid: UUID!) {
         purchaseOrderFinalize(uid: $uid) {
+            ...PurchaseOrderFragment
+            }
+        }
+    ${fragment.PurchaseOrder}
+`
+
+export const PURCHASE_ORDER_SELLER_ACCEPT = gql`
+    mutation PurchaseOrderSellerAccept($uid: UUID!, $acceptance: Boolean!) {
+        purchaseOrderSellerAccept(uid: $uid, acceptance: $acceptance) {
             ...PurchaseOrderFragment
             }
         }

@@ -60,7 +60,9 @@ export const PurchaseOrder = gql`
             contractTerms
             documentStatus
             isSellerAccepted
-            isFinanceirApproved
+            sellerAcceptedStatus
+            isFinancierApproved
+            financierApprovedStatus
             createdAt
             updatedAt
         }
@@ -109,5 +111,47 @@ export const PurchaseOrderList = gql`
             code
             name
         }
+    }
+`
+
+export const PurchaseOrderDetail = gql`
+    fragment PurchaseOrderDetailFragment on PurchaseOrderDetail {
+        id
+        purchaseOrderUID
+        version
+        warehouse {
+            uid
+            code
+            locality
+            city
+            pincode
+        }
+        requitioner {
+            uid
+            code
+            name
+            website
+        }
+        currency
+        addressLine1
+        addressLine2
+        addressLine3
+        city
+        country
+        pincode
+        shippingMethod
+        incoterm
+        notes
+        buyerMessage
+        sellerMessage
+        shippingTerms
+        contractTerms
+        documentStatus
+        isSellerAccepted
+        sellerAcceptedStatus
+        isFinancierApproved
+        financierApprovedStatus
+        createdAt
+        updatedAt
     }
 `
