@@ -22,6 +22,7 @@ import PurchaseOrderAdditionalDetailsHTML from "./PurchaseOrderAdditionalDetails
 import PurchaseOrderTermsHTML from "./PurchaseOrderTermsHTML"
 import PurchaseOrderHistoryTable from "./PurchaseOrderHistoryTable"
 import { boolean } from "yup"
+import PurchaseOrderTxnTable from "./PurchaseOrderTxnTable"
 
 export default function PurchaseOrderDetails(props: PageProps) {
     const router = useRouter()
@@ -194,6 +195,7 @@ export default function PurchaseOrderDetails(props: PageProps) {
                 <Tabs.List>
                     <Tabs.Tab value="details">Details</Tabs.Tab>
                     <Tabs.Tab value="history">History</Tabs.Tab>
+                    <Tabs.Tab value="transactions">Transactions</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
@@ -205,6 +207,10 @@ export default function PurchaseOrderDetails(props: PageProps) {
 
                 <Tabs.Panel value="history" pt="xs">
                     <PurchaseOrderHistoryTable poUID={data?.purchaseOrder.uid}/>
+                </Tabs.Panel>
+
+                <Tabs.Panel value="transactions" pt="xs">
+                    <PurchaseOrderTxnTable uid={data?.purchaseOrder.uid}/>
                 </Tabs.Panel>
             </Tabs>
         </Page>

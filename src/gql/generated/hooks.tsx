@@ -396,6 +396,7 @@ export type Mutation = {
   purchaseOrderSellerAccept: PurchaseOrder;
   purchaseOrderUnarchive: PurchaseOrder;
   purchaseOrderUpdate: PurchaseOrder;
+  purchaseOrderVersionHashVerify: Scalars['Boolean'];
   qrOrderArchive: QrOrder;
   qrOrderCreate: QrOrder;
   qrOrderFinalize: QrOrder;
@@ -742,6 +743,11 @@ export type MutationPurchaseOrderUnarchiveArgs = {
 export type MutationPurchaseOrderUpdateArgs = {
   input: UpdatePurchaseOrder;
   uid: Scalars['UUID'];
+};
+
+
+export type MutationPurchaseOrderVersionHashVerifyArgs = {
+  versionUID: Scalars['UUID'];
 };
 
 
@@ -1146,6 +1152,7 @@ export type PurchaseOrderDetail = {
   sellerMessage?: Maybe<Scalars['NullString']>;
   shippingMethod?: Maybe<Scalars['String']>;
   shippingTerms?: Maybe<Array<Scalars['String']>>;
+  uid?: Maybe<Scalars['UUID']>;
   updatedAt?: Maybe<Scalars['Time']>;
   version?: Maybe<Scalars['Int']>;
   warehouse?: Maybe<Warehouse>;
@@ -1163,6 +1170,7 @@ export type PurchaseOrderItem = {
   purchaseOrderUID?: Maybe<Scalars['UUID']>;
   serial?: Maybe<Scalars['Int']>;
   sku?: Maybe<SkuCatalogue>;
+  total?: Maybe<Scalars['Float']>;
   unitCost?: Maybe<Scalars['Float']>;
   unitOfMeasure?: Maybe<Scalars['String']>;
   units?: Maybe<Scalars['Int']>;
@@ -1261,6 +1269,7 @@ export type Query = {
   pendingTransactionsCount: Scalars['Int'];
   purchaseOrder: PurchaseOrder;
   purchaseOrderHistory: PurchaseOrderHistoryResult;
+  purchaseOrderVersionHash: Scalars['String'];
   purchaseOrders: PurchaseOrdersResult;
   qrOrder: QrOrder;
   qrOrderObjects: QrOrderObjectsResult;
@@ -1522,6 +1531,11 @@ export type QueryPurchaseOrderArgs = {
 export type QueryPurchaseOrderHistoryArgs = {
   poUID: Scalars['UUID'];
   search: SearchFilter;
+};
+
+
+export type QueryPurchaseOrderVersionHashArgs = {
+  versionUID: Scalars['UUID'];
 };
 
 
@@ -2723,7 +2737,7 @@ export type PurchaseOrderFragmentFragment = { __typename?: 'PurchaseOrder', id?:
 
 export type PurchaseOrderListFragmentFragment = { __typename?: 'PurchaseOrder', id?: string | null, uid?: any | null, code?: string | null, totalValue?: number | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, details?: { __typename?: 'PurchaseOrderDetail', currency?: string | null, documentStatus?: string | null } | null, buyer?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, seller?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null, financier?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
-export type PurchaseOrderDetailFragmentFragment = { __typename?: 'PurchaseOrderDetail', id?: string | null, purchaseOrderUID?: any | null, version?: number | null, currency?: string | null, addressLine1?: string | null, addressLine2?: any | null, addressLine3?: any | null, city?: string | null, country?: string | null, pincode?: string | null, shippingMethod?: string | null, incoterm?: string | null, notes?: any | null, buyerMessage?: any | null, sellerMessage?: any | null, shippingTerms?: Array<string> | null, contractTerms?: Array<string> | null, documentStatus?: string | null, isSellerAccepted?: any | null, sellerAcceptedStatus?: string | null, isFinancierApproved?: any | null, financierApprovedStatus?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, locality?: string | null, city?: string | null, pincode?: string | null } | null, requitioner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null };
+export type PurchaseOrderDetailFragmentFragment = { __typename?: 'PurchaseOrderDetail', id?: string | null, uid?: any | null, purchaseOrderUID?: any | null, version?: number | null, currency?: string | null, addressLine1?: string | null, addressLine2?: any | null, addressLine3?: any | null, city?: string | null, country?: string | null, pincode?: string | null, shippingMethod?: string | null, incoterm?: string | null, notes?: any | null, buyerMessage?: any | null, sellerMessage?: any | null, shippingTerms?: Array<string> | null, contractTerms?: Array<string> | null, documentStatus?: string | null, isSellerAccepted?: any | null, sellerAcceptedStatus?: string | null, isFinancierApproved?: any | null, financierApprovedStatus?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, locality?: string | null, city?: string | null, pincode?: string | null } | null, requitioner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null };
 
 export type TransactionFragmentFragment = { __typename?: 'Transaction', id?: string | null, uid?: any | null, name?: string | null, objectType?: string | null, scannedAt?: any | null, memo?: any | null, isPending?: boolean | null, manifestLineJson?: any | null, manifestLineSha256?: any | null, transactionHash?: any | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null, creator?: { __typename?: 'User', id?: string | null, firstName?: string | null, lastName?: string | null } | null, organization?: { __typename?: 'Organization', id?: string | null, uid?: any | null, name?: string | null } | null, manifest?: { __typename?: 'Manifest', id?: string | null } | null, carton?: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null } | null, pallet?: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null } | null };
 
@@ -3091,7 +3105,7 @@ export type PurchaseOrderHistoryQueryVariables = Exact<{
 }>;
 
 
-export type PurchaseOrderHistoryQuery = { __typename?: 'Query', purchaseOrderHistory: { __typename?: 'PurchaseOrderHistoryResult', total: number, purchaseOrderHistory: Array<{ __typename?: 'PurchaseOrderDetail', id?: string | null, purchaseOrderUID?: any | null, version?: number | null, currency?: string | null, addressLine1?: string | null, addressLine2?: any | null, addressLine3?: any | null, city?: string | null, country?: string | null, pincode?: string | null, shippingMethod?: string | null, incoterm?: string | null, notes?: any | null, buyerMessage?: any | null, sellerMessage?: any | null, shippingTerms?: Array<string> | null, contractTerms?: Array<string> | null, documentStatus?: string | null, isSellerAccepted?: any | null, sellerAcceptedStatus?: string | null, isFinancierApproved?: any | null, financierApprovedStatus?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, locality?: string | null, city?: string | null, pincode?: string | null } | null, requitioner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null }> } };
+export type PurchaseOrderHistoryQuery = { __typename?: 'Query', purchaseOrderHistory: { __typename?: 'PurchaseOrderHistoryResult', total: number, purchaseOrderHistory: Array<{ __typename?: 'PurchaseOrderDetail', id?: string | null, uid?: any | null, purchaseOrderUID?: any | null, version?: number | null, currency?: string | null, addressLine1?: string | null, addressLine2?: any | null, addressLine3?: any | null, city?: string | null, country?: string | null, pincode?: string | null, shippingMethod?: string | null, incoterm?: string | null, notes?: any | null, buyerMessage?: any | null, sellerMessage?: any | null, shippingTerms?: Array<string> | null, contractTerms?: Array<string> | null, documentStatus?: string | null, isSellerAccepted?: any | null, sellerAcceptedStatus?: string | null, isFinancierApproved?: any | null, financierApprovedStatus?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, locality?: string | null, city?: string | null, pincode?: string | null } | null, requitioner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null }> } };
 
 export type PurchaseOrderQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -3101,6 +3115,13 @@ export type PurchaseOrderQueryVariables = Exact<{
 
 
 export type PurchaseOrderQuery = { __typename?: 'Query', purchaseOrder: { __typename?: 'PurchaseOrder', id?: string | null, uid?: any | null, code?: string | null, totalValue?: number | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, buyer?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null, seller?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null, financier?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null, details?: { __typename?: 'PurchaseOrderDetail', id?: string | null, purchaseOrderUID?: any | null, version?: number | null, currency?: string | null, addressLine1?: string | null, addressLine2?: any | null, addressLine3?: any | null, city?: string | null, country?: string | null, pincode?: string | null, shippingMethod?: string | null, incoterm?: string | null, notes?: any | null, buyerMessage?: any | null, sellerMessage?: any | null, shippingTerms?: Array<string> | null, contractTerms?: Array<string> | null, documentStatus?: string | null, isSellerAccepted?: any | null, sellerAcceptedStatus?: string | null, isFinancierApproved?: any | null, financierApprovedStatus?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, locality?: string | null, city?: string | null, pincode?: string | null } | null, requitioner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null } | null, items?: Array<{ __typename?: 'PurchaseOrderItem', id?: string | null, purchaseOrderUID?: any | null, serial?: number | null, units?: number | null, unitCost?: number | null, unitOfMeasure?: string | null, sku?: { __typename?: 'SkuCatalogue', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null }> | null } };
+
+export type PurchaseOrderVersionHashQueryVariables = Exact<{
+  versionUID: Scalars['UUID'];
+}>;
+
+
+export type PurchaseOrderVersionHashQuery = { __typename?: 'Query', purchaseOrderVersionHash: string };
 
 export type PurchaseOrderCreateMutationVariables = Exact<{
   input: UpdatePurchaseOrder;
@@ -3145,6 +3166,13 @@ export type PurchaseOrderUnarchiveMutationVariables = Exact<{
 
 
 export type PurchaseOrderUnarchiveMutation = { __typename?: 'Mutation', purchaseOrderUnarchive: { __typename?: 'PurchaseOrder', id?: string | null, uid?: any | null, code?: string | null, totalValue?: number | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, buyer?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null, seller?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null, financier?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null, details?: { __typename?: 'PurchaseOrderDetail', id?: string | null, purchaseOrderUID?: any | null, version?: number | null, currency?: string | null, addressLine1?: string | null, addressLine2?: any | null, addressLine3?: any | null, city?: string | null, country?: string | null, pincode?: string | null, shippingMethod?: string | null, incoterm?: string | null, notes?: any | null, buyerMessage?: any | null, sellerMessage?: any | null, shippingTerms?: Array<string> | null, contractTerms?: Array<string> | null, documentStatus?: string | null, isSellerAccepted?: any | null, sellerAcceptedStatus?: string | null, isFinancierApproved?: any | null, financierApprovedStatus?: string | null, createdAt?: any | null, updatedAt?: any | null, warehouse?: { __typename?: 'Warehouse', uid?: any | null, code?: string | null, locality?: string | null, city?: string | null, pincode?: string | null } | null, requitioner?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null, website?: any | null } | null } | null, items?: Array<{ __typename?: 'PurchaseOrderItem', id?: string | null, purchaseOrderUID?: any | null, serial?: number | null, units?: number | null, unitCost?: number | null, unitOfMeasure?: string | null, sku?: { __typename?: 'SkuCatalogue', id?: string | null, uid?: any | null, code?: string | null, name?: string | null } | null }> | null } };
+
+export type PurchaseOrderVersionHashVerifyMutationVariables = Exact<{
+  versionUID: Scalars['UUID'];
+}>;
+
+
+export type PurchaseOrderVersionHashVerifyMutation = { __typename?: 'Mutation', purchaseOrderVersionHashVerify: boolean };
 
 export type TransactionsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -4090,6 +4118,7 @@ export const PurchaseOrderListFragmentFragmentDoc = gql`
 export const PurchaseOrderDetailFragmentFragmentDoc = gql`
     fragment PurchaseOrderDetailFragment on PurchaseOrderDetail {
   id
+  uid
   purchaseOrderUID
   version
   warehouse {
@@ -7821,6 +7850,39 @@ export function usePurchaseOrderLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type PurchaseOrderQueryHookResult = ReturnType<typeof usePurchaseOrderQuery>;
 export type PurchaseOrderLazyQueryHookResult = ReturnType<typeof usePurchaseOrderLazyQuery>;
 export type PurchaseOrderQueryResult = Apollo.QueryResult<PurchaseOrderQuery, PurchaseOrderQueryVariables>;
+export const PurchaseOrderVersionHashDocument = gql`
+    query PurchaseOrderVersionHash($versionUID: UUID!) {
+  purchaseOrderVersionHash(versionUID: $versionUID)
+}
+    `;
+
+/**
+ * __usePurchaseOrderVersionHashQuery__
+ *
+ * To run a query within a React component, call `usePurchaseOrderVersionHashQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePurchaseOrderVersionHashQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePurchaseOrderVersionHashQuery({
+ *   variables: {
+ *      versionUID: // value for 'versionUID'
+ *   },
+ * });
+ */
+export function usePurchaseOrderVersionHashQuery(baseOptions: Apollo.QueryHookOptions<PurchaseOrderVersionHashQuery, PurchaseOrderVersionHashQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PurchaseOrderVersionHashQuery, PurchaseOrderVersionHashQueryVariables>(PurchaseOrderVersionHashDocument, options);
+      }
+export function usePurchaseOrderVersionHashLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PurchaseOrderVersionHashQuery, PurchaseOrderVersionHashQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PurchaseOrderVersionHashQuery, PurchaseOrderVersionHashQueryVariables>(PurchaseOrderVersionHashDocument, options);
+        }
+export type PurchaseOrderVersionHashQueryHookResult = ReturnType<typeof usePurchaseOrderVersionHashQuery>;
+export type PurchaseOrderVersionHashLazyQueryHookResult = ReturnType<typeof usePurchaseOrderVersionHashLazyQuery>;
+export type PurchaseOrderVersionHashQueryResult = Apollo.QueryResult<PurchaseOrderVersionHashQuery, PurchaseOrderVersionHashQueryVariables>;
 export const PurchaseOrderCreateDocument = gql`
     mutation PurchaseOrderCreate($input: UpdatePurchaseOrder!) {
   purchaseOrderCreate(input: $input) {
@@ -8021,6 +8083,37 @@ export function usePurchaseOrderUnarchiveMutation(baseOptions?: Apollo.MutationH
 export type PurchaseOrderUnarchiveMutationHookResult = ReturnType<typeof usePurchaseOrderUnarchiveMutation>;
 export type PurchaseOrderUnarchiveMutationResult = Apollo.MutationResult<PurchaseOrderUnarchiveMutation>;
 export type PurchaseOrderUnarchiveMutationOptions = Apollo.BaseMutationOptions<PurchaseOrderUnarchiveMutation, PurchaseOrderUnarchiveMutationVariables>;
+export const PurchaseOrderVersionHashVerifyDocument = gql`
+    mutation PurchaseOrderVersionHashVerify($versionUID: UUID!) {
+  purchaseOrderVersionHashVerify(versionUID: $versionUID)
+}
+    `;
+export type PurchaseOrderVersionHashVerifyMutationFn = Apollo.MutationFunction<PurchaseOrderVersionHashVerifyMutation, PurchaseOrderVersionHashVerifyMutationVariables>;
+
+/**
+ * __usePurchaseOrderVersionHashVerifyMutation__
+ *
+ * To run a mutation, you first call `usePurchaseOrderVersionHashVerifyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePurchaseOrderVersionHashVerifyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [purchaseOrderVersionHashVerifyMutation, { data, loading, error }] = usePurchaseOrderVersionHashVerifyMutation({
+ *   variables: {
+ *      versionUID: // value for 'versionUID'
+ *   },
+ * });
+ */
+export function usePurchaseOrderVersionHashVerifyMutation(baseOptions?: Apollo.MutationHookOptions<PurchaseOrderVersionHashVerifyMutation, PurchaseOrderVersionHashVerifyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PurchaseOrderVersionHashVerifyMutation, PurchaseOrderVersionHashVerifyMutationVariables>(PurchaseOrderVersionHashVerifyDocument, options);
+      }
+export type PurchaseOrderVersionHashVerifyMutationHookResult = ReturnType<typeof usePurchaseOrderVersionHashVerifyMutation>;
+export type PurchaseOrderVersionHashVerifyMutationResult = Apollo.MutationResult<PurchaseOrderVersionHashVerifyMutation>;
+export type PurchaseOrderVersionHashVerifyMutationOptions = Apollo.BaseMutationOptions<PurchaseOrderVersionHashVerifyMutation, PurchaseOrderVersionHashVerifyMutationVariables>;
 export const TransactionsDocument = gql`
     query Transactions($searchFilter: SearchFilter!, $objectUID: UUID) {
   transactions(search: $searchFilter, objectUID: $objectUID) {

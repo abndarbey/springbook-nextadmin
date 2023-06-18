@@ -34,6 +34,12 @@ export const PURCHASE_ORDER = gql`
     ${fragment.PurchaseOrder}
 `
 
+export const PURCHASE_ORDER_VERSION_HASH = gql`
+    query PurchaseOrderVersionHash($versionUID: UUID!) {
+        purchaseOrderVersionHash(versionUID: $versionUID)
+    }
+`
+
 export const PURCHASE_ORDER_CREATE = gql`
     mutation PurchaseOrderCreate($input: UpdatePurchaseOrder!) {
         purchaseOrderCreate(input: $input) {
@@ -86,4 +92,10 @@ export const PURCHASE_ORDER_UNARCHIVE = gql`
             }
         }
     ${fragment.PurchaseOrder}
+`
+
+export const PURCHASE_ORDER_VERSION_HASH_VERIFY = gql`
+    mutation PurchaseOrderVersionHashVerify($versionUID: UUID!) {
+        purchaseOrderVersionHashVerify(versionUID: $versionUID)
+    }
 `

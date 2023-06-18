@@ -2,13 +2,12 @@ import { useRouter } from "next/router"
 import { Fragment, useEffect, useState } from "react"
 
 import {
-    usePurchaseOrderHistoryQuery,
-    PurchaseOrderDetail,
-    PurchaseOrderHistoryResult,
     SortByOption,
     SortDir,
     FilterOption,
-    usePurchaseOrderVersionHashVerifyMutation
+    useTransactionsQuery,
+    Transaction,
+    TransactionsResult,
 } from "gql/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
@@ -18,39 +17,36 @@ import { Badge, Box, Text } from "@mantine/core"
 import { DataTable } from "mantine-datatable"
 import { PAGE_SIZES } from "types/enums"
 import moment from "moment"
-import TableRowActions from "components/TableWrapper/TableRowActions"
 
-interface PurchaseOrderHistoryTableHTMLProps {
-    data: PurchaseOrderHistoryResult
-    viewAction: (item: PurchaseOrderDetail) => void
+type PurchaseOrderTxnTableHTMLProps = {
+    data: TransactionsResult
     batchViewAction?: any
     filterAction?: any
     filterOptions: string[]
 }
 
-interface PurchaseOrderHistoryTableProps {
-    poUID: any
+type PurchaseOrderTxnTableProps = {
+    uid: string | null | undefined
 }
 
-export default function PurchaseOrderHistoryTable(props: PurchaseOrderHistoryTableProps) {
+export default function PurchaseOrderTxnTable(props: PurchaseOrderTxnTableProps) {
     const router = useRouter()
     const [filterValue, setFilterValue] = useState<FilterOption>(FilterOption.All)
-    const [verifyDocumentHashRequest] = usePurchaseOrderVersionHashVerifyMutation()
 
     const filterOptions: string[] = ["All", "Active", "Archived"]
 
     // fetch data
-    const { data, loading, error } = usePurchaseOrderHistoryQuery(
+    const { data, loading, error } = useTransactionsQuery(
         {
             variables: {
                 searchFilter: {
                     sortBy: SortByOption.DateCreated,
-                    sortDir: SortDir.Descending,
+                    sortDir: SortDir.Ascending,
                     filter: filterValue,
                     limit: 100,
                     offset: 0,
                 },
-                poUID: props.poUID,
+                objectUID: props.uid,
             }
         }
     )
@@ -66,10 +62,10 @@ export default function PurchaseOrderHistoryTable(props: PurchaseOrderHistoryTab
             message: error.message,
         })
         return <PageLoader isError={true} />
-    }
+    }    
 
     // Batch Actions
-    const batchViewAction = (selectedRecords: PurchaseOrderDetail[]) => {
+    const batchViewAction = (selectedRecords: Transaction[]) => {
         selectedRecords.map((item, key) => {
             console.log(item.id)
         })
@@ -91,29 +87,10 @@ export default function PurchaseOrderHistoryTable(props: PurchaseOrderHistoryTab
         }
     }
 
-    const verifyDocumentHash = (item: PurchaseOrderDetail) => {
-        verifyDocumentHashRequest({
-            variables: {versionUID: item.uid!}
-        }).then((res: any) => {
-            showNotification({
-                disallowClose: false,
-                color: "green",
-                message: `Verified`,
-            })
-        }).catch((error: any) => {
-            showNotification({
-                disallowClose: false,
-                color: "red",
-                message: error.message,
-            })
-        })
-    }
-
     return (
         <Fragment>
-            <PurchaseOrderHistoryTableHTML
-                data={data?.purchaseOrderHistory!}
-                viewAction={verifyDocumentHash}
+            <PurchaseOrderTxnTableHTML
+                data={data?.transactions!}
                 batchViewAction={batchViewAction}
                 filterAction={filterAction}
                 filterOptions={filterOptions}
@@ -122,17 +99,17 @@ export default function PurchaseOrderHistoryTable(props: PurchaseOrderHistoryTab
     )
 }
 
-const PurchaseOrderHistoryTableHTML = (props: PurchaseOrderHistoryTableHTMLProps) => {
+const PurchaseOrderTxnTableHTML = (props: PurchaseOrderTxnTableHTMLProps) => {
     const [pageSize, setPageSize] = useState(PAGE_SIZES[1])
     const [page, setPage] = useState(1)
-    const [records, setRecords] = useState<PurchaseOrderDetail[]>(props.data.purchaseOrderHistory.slice(0, pageSize))
-    const [selectedRecords, setSelectedRecords] = useState<PurchaseOrderDetail[]>([])
+    const [records, setRecords] = useState<Transaction[]>(props.data?.transactions?.slice(0, pageSize))
+    const [selectedRecords, setSelectedRecords] = useState<Transaction[]>([])
 
     useEffect(() => {
         const from = (page - 1) * pageSize
         const to = from + pageSize
-        setRecords(props.data.purchaseOrderHistory.slice(from, to))
-    }, [page, pageSize, props.data.purchaseOrderHistory])
+        setRecords(props.data?.transactions.slice(from, to))
+    }, [page, pageSize, props.data])
 
     return (
         <ContentCard>
@@ -152,25 +129,15 @@ const PurchaseOrderHistoryTableHTML = (props: PurchaseOrderHistoryTableHTMLProps
                     noRecordsText="No records to show"
                     records={records}
                     columns={[
-                        { accessor: "version" },
-                        { accessor: "currency" },
-                        { accessor: "incoterm" },
-                        { accessor: "shippingMethod", title: "Shipping Method" },
+                        { accessor: "id", title: "ID" },
+                        { accessor: "name", title: "Name" },
+                        { accessor: "organization.name", title: "Organization" },
                         {
-                            accessor: "sellerAcceptedStatus",
-                            title: "Seller Acceptance Status",
+                            accessor: "isPending",
+                            title: "Status",
                             render: (item) => (
-                                <Badge color={item.isSellerAccepted ? "blue" : "gray"}>
-                                    {item.sellerAcceptedStatus}
-                                </Badge>
-                            )
-                        },
-                        {
-                            accessor: "financierApprovedStatus",
-                            title: "Financier Acceptance Status",
-                            render: (item) => (
-                                <Badge color={item.isFinancierApproved ? "blue" : "gray"}>
-                                    {item.financierApprovedStatus}
+                                <Badge color={item.isPending ? "blue" : "green"}>
+                                    {item.isPending ? "Pending" : "Commited"}
                                 </Badge>
                             )
                         },
@@ -186,21 +153,10 @@ const PurchaseOrderHistoryTableHTML = (props: PurchaseOrderHistoryTableHTMLProps
                                 <Text>{moment(item.createdAt, "YYYYMMDD").fromNow()}</Text>
                             )
                         },
-                        {
-                            accessor: "actions",
-                            title: <Text mr="xs">Actions</Text>,
-                            textAlignment: "center",
-                            render: (item) => (
-                                <TableRowActions
-                                    item={item}
-                                    viewAction={props.viewAction}
-                                />
-                            )
-                        },
                     ]}
                     selectedRecords={selectedRecords}
                     onSelectedRecordsChange={setSelectedRecords}
-                    totalRecords={props.data.total}
+                    totalRecords={props.data?.total}
                     page={page}
                     onPageChange={(p) => setPage(p)}
                     recordsPerPage={pageSize}

@@ -117,6 +117,7 @@ export const PurchaseOrderList = gql`
 export const PurchaseOrderDetail = gql`
     fragment PurchaseOrderDetailFragment on PurchaseOrderDetail {
         id
+        uid
         purchaseOrderUID
         version
         warehouse {

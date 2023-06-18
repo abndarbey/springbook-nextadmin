@@ -11,6 +11,7 @@ export const Transaction = gql`
             lat
             lon
         }
+        # documentHash
         memo
         isPending
         manifestLineJson
