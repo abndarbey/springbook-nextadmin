@@ -48,7 +48,7 @@ export function ActionButton (props: IActionButtonProps) {
         )
     }
 
-    if (props.type === 'accept') {
+    if (props.type === 'accept' || props.type === 'create') {
         return (
             <Button
                 uppercase
