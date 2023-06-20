@@ -12,6 +12,7 @@ import {
     usePurchaseOrderUnarchiveMutation,
     usePurchaseOrderSellerAcceptMutation,
     ViewOption,
+    useSalesOrderCreateMutation,
 } from "gql/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
@@ -30,6 +31,7 @@ export default function PurchaseOrderDetails(props: PageProps) {
     const [archiveRequest] = usePurchaseOrderArchiveMutation({})
     const [unarchiveRequest] = usePurchaseOrderUnarchiveMutation({})
     const [sellerAcceptRequest] = usePurchaseOrderSellerAcceptMutation({})
+    const [soCreateRequest] = useSalesOrderCreateMutation({})
     const viewType: string = props.view == ViewOption.Buyer ? 'procurements' : 'sales'
 
     const navTrails: INavTrailProps[] = [
@@ -166,6 +168,32 @@ export default function PurchaseOrderDetails(props: PageProps) {
         })
     }
 
+    // sales order create action
+    const handleSOCreate = (e: any) => {
+        e.preventDefault()
+        soCreateRequest({
+            variables: {
+                input: {
+                    purchaseOrderUID: data?.purchaseOrder.uid!,
+                    sellerUID: data?.purchaseOrder.seller?.uid!,
+                }
+            }
+        }).then((res: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "green",
+                message: `Purchase Order ${res.data.salesOrderCreate.code} Created`,
+            })
+            router.push(`/sales/sales-orders/${res.data.salesOrderCreate.code}`)
+        }).catch((error: any) => {
+            showNotification({
+                disallowClose: false,
+                color: "red",
+                message: error.message,
+            })
+        })
+    }
+
     // define action buttons
     let actionButtons: IActionButtonProps[] = []
 
@@ -177,8 +205,9 @@ export default function PurchaseOrderDetails(props: PageProps) {
     ]
 
     const sellerActionButtons: IActionButtonProps[] = [
-        { type: "accept", name: "Accept", action: handleSellerAccept, disabled: data?.purchaseOrder?.details?.isSellerAccepted != null},
-        { type: "decline", name: "Decline", action: handleSellerDecline, disabled: data?.purchaseOrder?.details?.isSellerAccepted != null},
+        { type: "accept", name: "Accept", action: handleSellerAccept, disabled: data?.purchaseOrder?.details?.isSellerAccepted != null },
+        { type: "decline", name: "Decline", action: handleSellerDecline, disabled: data?.purchaseOrder?.details?.isSellerAccepted != null },
+        { type: "create", name: "Create Sales Order", action: handleSOCreate, disabled: data?.purchaseOrder?.details?.isSellerAccepted == null || data?.purchaseOrder?.details?.isSellerAccepted == false },
     ]
 
     if (props.view == ViewOption.Buyer) {
