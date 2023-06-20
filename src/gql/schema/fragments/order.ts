@@ -45,9 +45,7 @@ export const PurchaseOrder = gql`
                 website
             }
             currency
-            addressLine1
-            addressLine2
-            addressLine3
+            shippingAddress
             city
             country
             pincode
@@ -134,9 +132,7 @@ export const PurchaseOrderDetail = gql`
             website
         }
         currency
-        addressLine1
-        addressLine2
-        addressLine3
+        shippingAddress
         city
         country
         pincode
@@ -152,6 +148,161 @@ export const PurchaseOrderDetail = gql`
         sellerAcceptedStatus
         isFinancierApproved
         financierApprovedStatus
+        createdAt
+        updatedAt
+    }
+`
+
+export const SalesOrder = gql`
+    fragment SalesOrderFragment on SalesOrder {
+        id
+        uid
+        code
+        totalValue
+        isFinal
+        isArchived
+        createdAt
+        buyer {
+            uid
+            code
+            name
+            website
+        }
+        seller {
+            uid
+            code
+            name
+            website
+        }
+        financier {
+            uid
+            code
+            name
+            website
+        }
+        details {
+            id
+            salesOrderUID
+            version
+            warehouse {
+                uid
+                code
+                locality
+                city
+                pincode
+            }
+            requitioner {
+                uid
+                code
+                name
+                website
+            }
+            currency
+            shippingAddress
+            city
+            country
+            pincode
+            shippingMethod
+            incoterm
+            notes
+            buyerMessage
+            sellerMessage
+            shippingTerms
+            contractTerms
+            documentStatus
+            createdAt
+            updatedAt
+        }
+        items {
+            id
+            salesOrderUID
+            serial
+            units
+            unitCost
+            unitOfMeasure
+            sku {
+                id
+                uid
+                code
+                name
+            }
+        }
+        purchaseOrder {
+            id
+            uid
+            code
+        }
+    }
+`
+
+export const SalesOrderList = gql`
+    fragment SalesOrderListFragment on SalesOrder {
+        id
+        uid
+        code
+        totalValue
+        isFinal
+        isArchived
+        createdAt
+        details {
+            currency
+            documentStatus
+        }
+        buyer {
+            uid
+            code
+            name
+        }
+        seller {
+            uid
+            code
+            name
+        }
+        financier {
+            uid
+            code
+            name
+        }
+        purchaseOrder {
+            id
+            uid
+            code
+        }
+    }
+`
+
+export const SalesOrderDetail = gql`
+    fragment SalesOrderDetailFragment on SalesOrderDetail {
+        id
+        uid
+        salesOrderUID
+        version
+        warehouse {
+            uid
+            code
+            locality
+            city
+            pincode
+        }
+        requitioner {
+            uid
+            code
+            name
+            website
+        }
+        currency
+        shippingAddress
+        city
+        country
+        pincode
+        shippingMethod
+        incoterm
+        notes
+        buyerMessage
+        sellerMessage
+        shippingTerms
+        contractTerms
+        documentStatus
         createdAt
         updatedAt
     }
