@@ -4,7 +4,7 @@ import {
     SalesOrderItem
 } from "gql/generated/hooks"
 import ContentCard from "components/ContentCard"
-import { Box, Text } from "@mantine/core"
+import { Box, Button, Text } from "@mantine/core"
 import { DataTable } from "mantine-datatable"
 import { PAGE_SIZES } from "types/enums"
 
@@ -45,6 +45,12 @@ export default function SalesOrderItemTable(props: SalesOrderItemTableProps) {
                             accessor: "total",
                             render: (item) => (
                                 <Text>{item.unitCost! * item.units!}</Text>
+                            )
+                        },
+                        {
+                            accessor: "Action",
+                            render: (item) => (
+                                <Button>Select Warehouse</Button>
                             )
                         },
                     ]}

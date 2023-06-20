@@ -2,8 +2,8 @@ import { gql } from '@apollo/client'
 import { fragment } from "gql/schema/fragments"
 
 export const SALES_ORDERS = gql`
-    query SalesOrders($searchFilter: SearchFilter!, $view: ViewOption) {
-        salesOrders(search: $searchFilter, view: $view) {
+    query SalesOrders($searchFilter: SearchFilter!, $view: ViewOption, $purchaseOrderUID: UUID) {
+        salesOrders(search: $searchFilter, view: $view, purchaseOrderUID: $purchaseOrderUID) {
             salesOrders {
                 ...SalesOrderListFragment
             }

@@ -17,6 +17,7 @@ import SalesOrderTableHTML from "./SalesOrderTableHTML"
 interface SalesOrderTableProps {
     view: ViewOption
     orgUID?: string | null | undefined
+    poUID?: string | null | undefined
 }
 
 export default function SalesOrderTable(props: SalesOrderTableProps) {
@@ -42,6 +43,7 @@ export default function SalesOrderTable(props: SalesOrderTableProps) {
                     offset: 0,
                 },
                 view: props.view,
+                purchaseOrderUID: props.poUID
             }
         }
     )

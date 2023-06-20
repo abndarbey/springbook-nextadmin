@@ -1655,6 +1655,7 @@ export type QuerySalesOrderVersionHashArgs = {
 
 
 export type QuerySalesOrdersArgs = {
+  purchaseOrderUID?: InputMaybe<Scalars['UUID']>;
   search: SearchFilter;
   view?: InputMaybe<ViewOption>;
 };
@@ -3308,6 +3309,7 @@ export type PurchaseOrderVersionHashVerifyMutation = { __typename?: 'Mutation', 
 export type SalesOrdersQueryVariables = Exact<{
   searchFilter: SearchFilter;
   view?: InputMaybe<ViewOption>;
+  purchaseOrderUID?: InputMaybe<Scalars['UUID']>;
 }>;
 
 
@@ -8461,8 +8463,12 @@ export type PurchaseOrderVersionHashVerifyMutationHookResult = ReturnType<typeof
 export type PurchaseOrderVersionHashVerifyMutationResult = Apollo.MutationResult<PurchaseOrderVersionHashVerifyMutation>;
 export type PurchaseOrderVersionHashVerifyMutationOptions = Apollo.BaseMutationOptions<PurchaseOrderVersionHashVerifyMutation, PurchaseOrderVersionHashVerifyMutationVariables>;
 export const SalesOrdersDocument = gql`
-    query SalesOrders($searchFilter: SearchFilter!, $view: ViewOption) {
-  salesOrders(search: $searchFilter, view: $view) {
+    query SalesOrders($searchFilter: SearchFilter!, $view: ViewOption, $purchaseOrderUID: UUID) {
+  salesOrders(
+    search: $searchFilter
+    view: $view
+    purchaseOrderUID: $purchaseOrderUID
+  ) {
     salesOrders {
       ...SalesOrderListFragment
     }
@@ -8485,6 +8491,7 @@ export const SalesOrdersDocument = gql`
  *   variables: {
  *      searchFilter: // value for 'searchFilter'
  *      view: // value for 'view'
+ *      purchaseOrderUID: // value for 'purchaseOrderUID'
  *   },
  * });
  */
