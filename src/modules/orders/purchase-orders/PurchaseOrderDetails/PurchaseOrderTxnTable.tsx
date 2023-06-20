@@ -41,7 +41,7 @@ export default function PurchaseOrderTxnTable(props: PurchaseOrderTxnTableProps)
             variables: {
                 searchFilter: {
                     sortBy: SortByOption.DateCreated,
-                    sortDir: SortDir.Ascending,
+                    sortDir: SortDir.Descending,
                     filter: filterValue,
                     limit: 100,
                     offset: 0,
@@ -134,7 +134,7 @@ const PurchaseOrderTxnTableHTML = (props: PurchaseOrderTxnTableHTMLProps) => {
                         { accessor: "organization.name", title: "Organization" },
                         {
                             accessor: "isPending",
-                            title: "Status",
+                            title: "Blockchain Commit Status",
                             render: (item) => (
                                 <Badge color={item.isPending ? "blue" : "green"}>
                                     {item.isPending ? "Pending" : "Commited"}
