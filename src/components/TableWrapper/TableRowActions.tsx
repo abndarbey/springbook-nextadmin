@@ -7,6 +7,7 @@ import {
 import {
     IconArchive,
     IconArchiveOff,
+    IconCheckbox,
     IconDots,
     IconEdit,
     IconEye,
@@ -23,6 +24,7 @@ interface TableRowActionProps {
     archiveAction?: any
     unarchiveAction?: any
     addAction?: any
+    verifyAction?: any
 }
 
 const TableRowActions = (props: TableRowActionProps) => {
@@ -41,6 +43,11 @@ const TableRowActions = (props: TableRowActionProps) => {
             {props.addAction &&
                 <ActionIcon color="blue" onClick={(e: any) => { e.stopPropagation(); props.addAction(props.item) }}>
                     <IconPlus size={16} />
+                </ActionIcon>
+            }
+            {props.verifyAction &&
+                <ActionIcon color="blue" onClick={(e: any) => { e.stopPropagation(); props.verifyAction(props.item) }}>
+                    <IconCheckbox size={16} />
                 </ActionIcon>
             }
             <Menu transition="pop" withArrow position="bottom-end">

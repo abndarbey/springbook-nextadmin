@@ -22,7 +22,7 @@ import TableRowActions from "components/TableWrapper/TableRowActions"
 
 interface PurchaseOrderHistoryTableHTMLProps {
     data: PurchaseOrderHistoryResult
-    viewAction: (item: PurchaseOrderDetail) => void
+    verifyAction: (item: PurchaseOrderDetail) => void
     batchViewAction?: any
     filterAction?: any
     filterOptions: string[]
@@ -113,7 +113,7 @@ export default function PurchaseOrderHistoryTable(props: PurchaseOrderHistoryTab
         <Fragment>
             <PurchaseOrderHistoryTableHTML
                 data={data?.purchaseOrderHistory!}
-                viewAction={verifyDocumentHash}
+                verifyAction={verifyDocumentHash}
                 batchViewAction={batchViewAction}
                 filterAction={filterAction}
                 filterOptions={filterOptions}
@@ -193,7 +193,7 @@ const PurchaseOrderHistoryTableHTML = (props: PurchaseOrderHistoryTableHTMLProps
                             render: (item) => (
                                 <TableRowActions
                                     item={item}
-                                    viewAction={props.viewAction}
+                                    verifyAction={props.verifyAction}
                                 />
                             )
                         },
