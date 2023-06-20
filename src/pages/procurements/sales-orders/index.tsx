@@ -5,7 +5,7 @@ import { ViewOption } from 'gql/generated/hooks'
 
 export default function SalesOrders() {
     const title: string = 'Sales Orders'
-    const view: ViewOption = ViewOption.Seller
+    const view: ViewOption = ViewOption.Buyer
 
     return (
         <Fragment>

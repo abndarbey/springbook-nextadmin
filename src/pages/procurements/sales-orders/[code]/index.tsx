@@ -11,7 +11,7 @@ export default function Details() {
         return <PageLoader />
     }
     const title: string = 'Sales Order Details'
-    const view: ViewOption = ViewOption.Seller
+    const view: ViewOption = ViewOption.Buyer
     
     return (
         <Fragment>

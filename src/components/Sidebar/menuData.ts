@@ -98,6 +98,7 @@ export const menuData = [
         links: [
             { label: 'Purchase Orders', link: '/procurements/purchase-orders' },
             { label: 'Market Orders', link: '/procurements/market-orders' },
+            { label: 'Sales Orders', link: '/procurements/sales-orders' },
             { label: 'Invoices', link: '/procurements/invoices' },
             { label: 'RFQs', link: '/procurements/rfqs' },
             { label: 'Quotations', link: '/procurements/quotations' },
