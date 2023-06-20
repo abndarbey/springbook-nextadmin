@@ -1,8 +1,6 @@
 export type PurchaseOrderDetailsFormValues = {
     warehouseUID: any
-    addressLine1: string
-	addressLine2: string
-	addressLine3: string
+    shippingAddress: string
 	city: string
 	country: string
 	pincode: string

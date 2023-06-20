@@ -132,23 +132,11 @@ export default function PurchaseOrderNewHTML(props: IPurchaseOrderNewHTMLProps) 
             }
             {isCustomAddress &&
                 <Fragment>
-                    <TextInput
-                        label="Address Line 1"
-                        placeholder="Address Line 1"
+                    <Textarea
+                        label="Shipping Address"
+                        placeholder="Shipping Address"
                         mb="md"
-                        {...props.form.getInputProps("details.addressLine1")}
-                    />
-                    <TextInput
-                        label="Address Line 2"
-                        placeholder="Address Line 2"
-                        mb="md"
-                        {...props.form.getInputProps("details.addressLine2")}
-                    />
-                    <TextInput
-                        label="Address Line 3"
-                        placeholder="Address Line 3"
-                        mb="md"
-                        {...props.form.getInputProps("details.addressLine3")}
+                        {...props.form.getInputProps("details.shippingAddress")}
                     />
                     <SimpleGrid cols={3}>
                         <TextInput

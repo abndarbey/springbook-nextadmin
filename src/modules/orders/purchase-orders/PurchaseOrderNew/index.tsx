@@ -37,9 +37,7 @@ export default function PurchaseOrderNew(props: PageProps) {
 
             details: {
                 warehouseUID: null,
-                addressLine1: "",
-                addressLine2: "",
-                addressLine3: "",
+                shippingAddress: "",
                 city: "",
                 country: "",
                 pincode: "",
