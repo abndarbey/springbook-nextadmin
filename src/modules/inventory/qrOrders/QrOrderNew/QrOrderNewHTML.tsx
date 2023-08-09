@@ -130,12 +130,15 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                     </>
                 }
 
-                <WarehouseSelectModal
-                    opened={warehouseModalOpened}
-                    setOpened={setWarehouseModalOpened}
-                    handleSelect={props.handleWarehouseSelect}
-                    organizationUID={props.form.values.orgUID}
-                />
+                {props.form.values.orgUID != "" &&
+                    <WarehouseSelectModal
+                        opened={warehouseModalOpened}
+                        setOpened={setWarehouseModalOpened}
+                        handleSelect={props.handleWarehouseSelect}
+                        organizationUID={props.form.values.orgUID}
+                    />
+                }
+
                 <TextInput
                     label="Warehouse"
                     mb="md"
