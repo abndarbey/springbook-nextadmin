@@ -15,6 +15,7 @@ export default function SkuDetailsHTML(props: ISkuDetailsHTMLProps) {
                 <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                     <DetailColumn title="Code" value={props.data.code!} />
                     <DetailColumn title="Name" value={props.data.name!} />
+                    <DetailColumn title="Raw Material" value={props.data.isRawMaterial} />
                 </Box>
                 <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                     <DetailColumn title="Organization Code" value={props.data?.organization?.code!} />

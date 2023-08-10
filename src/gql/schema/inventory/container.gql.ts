@@ -23,8 +23,8 @@ export const CONTAINER = gql`
 `
 
 export const CONTAINER_UPDATE = gql`
-    mutation ContainerUpdate($id: ID!, $input: UpdateContainer!) {
-        containerUpdate(id: $id, input: $input) {
+    mutation ContainerUpdate($uid: UUID!, $input: UpdateContainer!) {
+        containerUpdate(uid: $uid, input: $input) {
             ...ContainerFragment
         }
     }
@@ -32,8 +32,8 @@ export const CONTAINER_UPDATE = gql`
 `
 
 export const CONTAINER_ARCHIVE = gql`
-    mutation ContainerArchive($id: ID!) {
-        containerArchive(id: $id) {
+    mutation ContainerArchive($uid: UUID!) {
+        containerArchive(uid: $uid) {
             ...ContainerFragment
         }
     }
@@ -41,8 +41,8 @@ export const CONTAINER_ARCHIVE = gql`
 `
 
 export const CONTAINER_UNARCHIVE = gql`
-    mutation ContainerUnarchive($id: ID!) {
-        containerUnarchive(id: $id) {
+    mutation ContainerUnarchive($uid: UUID!) {
+        containerUnarchive(uid: $uid) {
         ...ContainerFragment
         }
     }

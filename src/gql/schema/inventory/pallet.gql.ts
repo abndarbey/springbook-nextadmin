@@ -23,8 +23,8 @@ export const PALLET = gql`
 `
 
 export const PALLET_UPDATE = gql`
-    mutation PalletUpdate($id: ID!, $input: UpdatePallet!) {
-        palletUpdate(id: $id, input: $input) {
+    mutation PalletUpdate($uid: UUID!, $input: UpdatePallet!) {
+        palletUpdate(uid: $uid, input: $input) {
             ...PalletFragment
         }
     }
@@ -32,8 +32,8 @@ export const PALLET_UPDATE = gql`
 `
 
 export const PALLET_ARCHIVE = gql`
-    mutation PalletArchive($id: ID!) {
-        palletArchive(id: $id) {
+    mutation PalletArchive($uid: UUID!) {
+        palletArchive(uid: $uid) {
             ...PalletFragment
         }
     }
@@ -41,8 +41,8 @@ export const PALLET_ARCHIVE = gql`
 `
 
 export const PALLET_UNARCHIVE = gql`
-    mutation PalletUnarchive($id: ID!) {
-        palletUnarchive(id: $id) {
+    mutation PalletUnarchive($uid: UUID!) {
+        palletUnarchive(uid: $uid) {
         ...PalletFragment
         }
     }

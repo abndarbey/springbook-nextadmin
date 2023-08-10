@@ -119,16 +119,20 @@ export type Carton = {
   batch?: Maybe<Batch>;
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
+  custodian?: Maybe<Organization>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   isArchived?: Maybe<Scalars['Boolean']>;
   latestTrackerLog?: Maybe<CartonTrackerLog>;
   latestTransaction?: Maybe<Transaction>;
   latestTransferLog?: Maybe<CartonTransferLog>;
+  org?: Maybe<Organization>;
+  owner?: Maybe<Organization>;
   sku?: Maybe<Sku>;
   status?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['UUID']>;
   updatedAt?: Maybe<Scalars['Time']>;
+  warehouse?: Maybe<Warehouse>;
 };
 
 export type CartonTrackerLog = {
@@ -220,15 +224,19 @@ export type Container = {
   __typename?: 'Container';
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
+  custodian?: Maybe<Organization>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   isArchived?: Maybe<Scalars['Boolean']>;
   latestTrackerLog?: Maybe<ContainerTrackerLog>;
   latestTransaction?: Maybe<Transaction>;
   latestTransferLog?: Maybe<ContainerTransferLog>;
+  org?: Maybe<Organization>;
+  owner?: Maybe<Organization>;
   status?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['UUID']>;
   updatedAt?: Maybe<Scalars['Time']>;
+  warehouse?: Maybe<Warehouse>;
 };
 
 export type ContainerTrackerLog = {
@@ -510,7 +518,7 @@ export type MutationBatchUpdateArgs = {
 
 
 export type MutationCartonArchiveArgs = {
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 };
 
 
@@ -527,13 +535,13 @@ export type MutationCartonTransferLogUpdateArgs = {
 
 
 export type MutationCartonUnarchiveArgs = {
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 };
 
 
 export type MutationCartonUpdateArgs = {
-  id: Scalars['ID'];
   input: UpdateCarton;
+  uid: Scalars['UUID'];
 };
 
 
@@ -596,7 +604,7 @@ export type MutationContactUpdateArgs = {
 
 
 export type MutationContainerArchiveArgs = {
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 };
 
 
@@ -613,13 +621,13 @@ export type MutationContainerTransferLogUpdateArgs = {
 
 
 export type MutationContainerUnarchiveArgs = {
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 };
 
 
 export type MutationContainerUpdateArgs = {
-  id: Scalars['ID'];
   input: UpdateContainer;
+  uid: Scalars['UUID'];
 };
 
 
@@ -691,7 +699,7 @@ export type MutationOrganizationUpdateArgs = {
 
 
 export type MutationPalletArchiveArgs = {
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 };
 
 
@@ -708,13 +716,13 @@ export type MutationPalletTransferLogUpdateArgs = {
 
 
 export type MutationPalletUnarchiveArgs = {
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 };
 
 
 export type MutationPalletUpdateArgs = {
-  id: Scalars['ID'];
   input: UpdatePallet;
+  uid: Scalars['UUID'];
 };
 
 
@@ -1095,15 +1103,19 @@ export type Pallet = {
   __typename?: 'Pallet';
   code?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Time']>;
+  custodian?: Maybe<Organization>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   isArchived?: Maybe<Scalars['Boolean']>;
   latestTrackerLog?: Maybe<PalletTrackerLog>;
   latestTransaction?: Maybe<Transaction>;
   latestTransferLog?: Maybe<PalletTransferLog>;
+  org?: Maybe<Organization>;
+  owner?: Maybe<Organization>;
   status?: Maybe<Scalars['String']>;
   uid?: Maybe<Scalars['UUID']>;
   updatedAt?: Maybe<Scalars['Time']>;
+  warehouse?: Maybe<Warehouse>;
 };
 
 export type PalletTrackerLog = {
@@ -1680,6 +1692,7 @@ export type QuerySkuCataloguesArgs = {
 
 
 export type QuerySkusArgs = {
+  isRawMaterial?: InputMaybe<Scalars['Boolean']>;
   search: SearchFilter;
 };
 
@@ -1930,6 +1943,7 @@ export type Sku = {
   isArchived?: Maybe<Scalars['Boolean']>;
   isFinal?: Maybe<Scalars['Boolean']>;
   isParent?: Maybe<Scalars['Boolean']>;
+  isRawMaterial?: Maybe<Scalars['Boolean']>;
   masterPhoto?: Maybe<File>;
   name?: Maybe<Scalars['String']>;
   organization?: Maybe<Organization>;
@@ -2222,8 +2236,9 @@ export type UpdateRole = {
 };
 
 export type UpdateSku = {
+  isRawMaterial?: InputMaybe<Scalars['Boolean']>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
-  uid?: InputMaybe<Scalars['NullUUID']>;
+  uid?: InputMaybe<Scalars['UUID']>;
 };
 
 export type UpdateSkuCatalogue = {
@@ -2232,6 +2247,7 @@ export type UpdateSkuCatalogue = {
   hsnCode?: InputMaybe<Scalars['NullString']>;
   ingredients?: InputMaybe<Scalars['NullString']>;
   isParent?: InputMaybe<Scalars['NullBool']>;
+  isRawMaterial?: InputMaybe<Scalars['NullBool']>;
   masterPhoto?: InputMaybe<FileInput>;
   name?: InputMaybe<Scalars['NullString']>;
   orgUID?: InputMaybe<Scalars['NullUUID']>;
@@ -2833,7 +2849,7 @@ export type ContactFragmentFragment = { __typename?: 'Contact', id?: string | nu
 
 export type AutherFragmentFragment = { __typename?: 'Auther', id?: string | null, isAdmin?: boolean | null, orgUID?: any | null, roleID?: any | null, sessionToken?: any | null };
 
-export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
+export type SkuFragmentFragment = { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, isRawMaterial?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
 export type BatchFragmentFragment = { __typename?: 'Batch', id?: string | null, uid?: any | null, code?: string | null, batchNumber?: string | null, description?: string | null, productionDate?: any | null, expiryDate?: any | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, cartonCount?: number | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null };
 
@@ -2950,7 +2966,7 @@ export type CartonQueryVariables = Exact<{
 export type CartonQuery = { __typename?: 'Query', carton: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type CartonUpdateMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
   input: UpdateCarton;
 }>;
 
@@ -2958,14 +2974,14 @@ export type CartonUpdateMutationVariables = Exact<{
 export type CartonUpdateMutation = { __typename?: 'Mutation', cartonUpdate: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type CartonArchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 }>;
 
 
 export type CartonArchiveMutation = { __typename?: 'Mutation', cartonArchive: { __typename?: 'Carton', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'CartonTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'CartonTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null, sku?: { __typename?: 'Sku', uid?: any | null, code?: string | null, name?: string | null } | null, batch?: { __typename?: 'Batch', uid?: any | null, code?: string | null, batchNumber?: string | null } | null } };
 
 export type CartonUnarchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 }>;
 
 
@@ -3004,7 +3020,7 @@ export type ContainerQueryVariables = Exact<{
 export type ContainerQuery = { __typename?: 'Query', container: { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
 
 export type ContainerUpdateMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
   input: UpdateContainer;
 }>;
 
@@ -3012,14 +3028,14 @@ export type ContainerUpdateMutationVariables = Exact<{
 export type ContainerUpdateMutation = { __typename?: 'Mutation', containerUpdate: { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
 
 export type ContainerArchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 }>;
 
 
 export type ContainerArchiveMutation = { __typename?: 'Mutation', containerArchive: { __typename?: 'Container', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'ContainerTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'ContainerTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
 
 export type ContainerUnarchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 }>;
 
 
@@ -3058,7 +3074,7 @@ export type PalletQueryVariables = Exact<{
 export type PalletQuery = { __typename?: 'Query', pallet: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
 
 export type PalletUpdateMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
   input: UpdatePallet;
 }>;
 
@@ -3066,14 +3082,14 @@ export type PalletUpdateMutationVariables = Exact<{
 export type PalletUpdateMutation = { __typename?: 'Mutation', palletUpdate: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
 
 export type PalletArchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 }>;
 
 
 export type PalletArchiveMutation = { __typename?: 'Mutation', palletArchive: { __typename?: 'Pallet', id?: string | null, uid?: any | null, code?: string | null, description?: string | null, status?: string | null, isArchived?: boolean | null, latestTransferLog?: { __typename?: 'PalletTransferLog', id?: string | null, owner?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, custodian?: { __typename?: 'Organization', id?: string | null, code?: string | null, name?: string | null } | null, warehouse?: { __typename?: 'Warehouse', id?: string | null, code?: string | null, name?: string | null } | null } | null, latestTrackerLog?: { __typename?: 'PalletTrackerLog', id?: string | null, temperature?: any | null, humidity?: any | null, geoLocation?: { __typename?: 'GeoLocation', lat?: any | null, lon?: any | null } | null } | null, latestTransaction?: { __typename?: 'Transaction', name?: string | null, createdAt?: any | null } | null } };
 
 export type PalletUnarchiveMutationVariables = Exact<{
-  id: Scalars['ID'];
+  uid: Scalars['UUID'];
 }>;
 
 
@@ -3160,7 +3176,7 @@ export type SkusQueryVariables = Exact<{
 }>;
 
 
-export type SkusQuery = { __typename?: 'Query', skus: { __typename?: 'SkusResult', total: number, skus: Array<{ __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
+export type SkusQuery = { __typename?: 'Query', skus: { __typename?: 'SkusResult', total: number, skus: Array<{ __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, isRawMaterial?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null }> } };
 
 export type SkuQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -3169,14 +3185,14 @@ export type SkuQueryVariables = Exact<{
 }>;
 
 
-export type SkuQuery = { __typename?: 'Query', sku: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type SkuQuery = { __typename?: 'Query', sku: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, isRawMaterial?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type SkuCreateMutationVariables = Exact<{
   input: UpdateSku;
 }>;
 
 
-export type SkuCreateMutation = { __typename?: 'Mutation', skuCreate: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type SkuCreateMutation = { __typename?: 'Mutation', skuCreate: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, isRawMaterial?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type SkuUpdateMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -3184,21 +3200,21 @@ export type SkuUpdateMutationVariables = Exact<{
 }>;
 
 
-export type SkuUpdateMutation = { __typename?: 'Mutation', skuUpdate: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type SkuUpdateMutation = { __typename?: 'Mutation', skuUpdate: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, isRawMaterial?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type SkuArchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type SkuArchiveMutation = { __typename?: 'Mutation', skuArchive: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type SkuArchiveMutation = { __typename?: 'Mutation', skuArchive: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, isRawMaterial?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type SkuUnarchiveMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type SkuUnarchiveMutation = { __typename?: 'Mutation', skuUnarchive: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
+export type SkuUnarchiveMutation = { __typename?: 'Mutation', skuUnarchive: { __typename?: 'Sku', id?: string | null, uid?: any | null, code?: string | null, name?: string | null, hsnCode?: string | null, brand?: string | null, description?: string | null, ingredients?: string | null, weight?: number | null, weightUnit?: string | null, parentSkuUID?: any | null, isParent?: boolean | null, isRawMaterial?: boolean | null, status?: string | null, isFinal?: boolean | null, isArchived?: boolean | null, createdAt?: any | null, batchCount?: number | null, cartonCount?: number | null, masterPhoto?: { __typename?: 'File', name: string, url: string } | null, organization?: { __typename?: 'Organization', uid?: any | null, code?: string | null, name?: string | null } | null } };
 
 export type NexportOrganizationsQueryVariables = Exact<{
   searchFilter: SearchFilter;
@@ -3887,6 +3903,7 @@ export const SkuFragmentFragmentDoc = gql`
   }
   parentSkuUID
   isParent
+  isRawMaterial
   status
   isFinal
   isArchived
@@ -6796,8 +6813,8 @@ export type CartonQueryHookResult = ReturnType<typeof useCartonQuery>;
 export type CartonLazyQueryHookResult = ReturnType<typeof useCartonLazyQuery>;
 export type CartonQueryResult = Apollo.QueryResult<CartonQuery, CartonQueryVariables>;
 export const CartonUpdateDocument = gql`
-    mutation CartonUpdate($id: ID!, $input: UpdateCarton!) {
-  cartonUpdate(id: $id, input: $input) {
+    mutation CartonUpdate($uid: UUID!, $input: UpdateCarton!) {
+  cartonUpdate(uid: $uid, input: $input) {
     ...CartonFragment
   }
 }
@@ -6817,7 +6834,7 @@ export type CartonUpdateMutationFn = Apollo.MutationFunction<CartonUpdateMutatio
  * @example
  * const [cartonUpdateMutation, { data, loading, error }] = useCartonUpdateMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *      input: // value for 'input'
  *   },
  * });
@@ -6830,8 +6847,8 @@ export type CartonUpdateMutationHookResult = ReturnType<typeof useCartonUpdateMu
 export type CartonUpdateMutationResult = Apollo.MutationResult<CartonUpdateMutation>;
 export type CartonUpdateMutationOptions = Apollo.BaseMutationOptions<CartonUpdateMutation, CartonUpdateMutationVariables>;
 export const CartonArchiveDocument = gql`
-    mutation CartonArchive($id: ID!) {
-  cartonArchive(id: $id) {
+    mutation CartonArchive($uid: UUID!) {
+  cartonArchive(uid: $uid) {
     ...CartonFragment
   }
 }
@@ -6851,7 +6868,7 @@ export type CartonArchiveMutationFn = Apollo.MutationFunction<CartonArchiveMutat
  * @example
  * const [cartonArchiveMutation, { data, loading, error }] = useCartonArchiveMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *   },
  * });
  */
@@ -6863,8 +6880,8 @@ export type CartonArchiveMutationHookResult = ReturnType<typeof useCartonArchive
 export type CartonArchiveMutationResult = Apollo.MutationResult<CartonArchiveMutation>;
 export type CartonArchiveMutationOptions = Apollo.BaseMutationOptions<CartonArchiveMutation, CartonArchiveMutationVariables>;
 export const CartonUnarchiveDocument = gql`
-    mutation CartonUnarchive($id: ID!) {
-  cartonUnarchive(id: $id) {
+    mutation CartonUnarchive($uid: UUID!) {
+  cartonUnarchive(uid: $uid) {
     ...CartonFragment
   }
 }
@@ -6884,7 +6901,7 @@ export type CartonUnarchiveMutationFn = Apollo.MutationFunction<CartonUnarchiveM
  * @example
  * const [cartonUnarchiveMutation, { data, loading, error }] = useCartonUnarchiveMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *   },
  * });
  */
@@ -7049,8 +7066,8 @@ export type ContainerQueryHookResult = ReturnType<typeof useContainerQuery>;
 export type ContainerLazyQueryHookResult = ReturnType<typeof useContainerLazyQuery>;
 export type ContainerQueryResult = Apollo.QueryResult<ContainerQuery, ContainerQueryVariables>;
 export const ContainerUpdateDocument = gql`
-    mutation ContainerUpdate($id: ID!, $input: UpdateContainer!) {
-  containerUpdate(id: $id, input: $input) {
+    mutation ContainerUpdate($uid: UUID!, $input: UpdateContainer!) {
+  containerUpdate(uid: $uid, input: $input) {
     ...ContainerFragment
   }
 }
@@ -7070,7 +7087,7 @@ export type ContainerUpdateMutationFn = Apollo.MutationFunction<ContainerUpdateM
  * @example
  * const [containerUpdateMutation, { data, loading, error }] = useContainerUpdateMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *      input: // value for 'input'
  *   },
  * });
@@ -7083,8 +7100,8 @@ export type ContainerUpdateMutationHookResult = ReturnType<typeof useContainerUp
 export type ContainerUpdateMutationResult = Apollo.MutationResult<ContainerUpdateMutation>;
 export type ContainerUpdateMutationOptions = Apollo.BaseMutationOptions<ContainerUpdateMutation, ContainerUpdateMutationVariables>;
 export const ContainerArchiveDocument = gql`
-    mutation ContainerArchive($id: ID!) {
-  containerArchive(id: $id) {
+    mutation ContainerArchive($uid: UUID!) {
+  containerArchive(uid: $uid) {
     ...ContainerFragment
   }
 }
@@ -7104,7 +7121,7 @@ export type ContainerArchiveMutationFn = Apollo.MutationFunction<ContainerArchiv
  * @example
  * const [containerArchiveMutation, { data, loading, error }] = useContainerArchiveMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *   },
  * });
  */
@@ -7116,8 +7133,8 @@ export type ContainerArchiveMutationHookResult = ReturnType<typeof useContainerA
 export type ContainerArchiveMutationResult = Apollo.MutationResult<ContainerArchiveMutation>;
 export type ContainerArchiveMutationOptions = Apollo.BaseMutationOptions<ContainerArchiveMutation, ContainerArchiveMutationVariables>;
 export const ContainerUnarchiveDocument = gql`
-    mutation ContainerUnarchive($id: ID!) {
-  containerUnarchive(id: $id) {
+    mutation ContainerUnarchive($uid: UUID!) {
+  containerUnarchive(uid: $uid) {
     ...ContainerFragment
   }
 }
@@ -7137,7 +7154,7 @@ export type ContainerUnarchiveMutationFn = Apollo.MutationFunction<ContainerUnar
  * @example
  * const [containerUnarchiveMutation, { data, loading, error }] = useContainerUnarchiveMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *   },
  * });
  */
@@ -7302,8 +7319,8 @@ export type PalletQueryHookResult = ReturnType<typeof usePalletQuery>;
 export type PalletLazyQueryHookResult = ReturnType<typeof usePalletLazyQuery>;
 export type PalletQueryResult = Apollo.QueryResult<PalletQuery, PalletQueryVariables>;
 export const PalletUpdateDocument = gql`
-    mutation PalletUpdate($id: ID!, $input: UpdatePallet!) {
-  palletUpdate(id: $id, input: $input) {
+    mutation PalletUpdate($uid: UUID!, $input: UpdatePallet!) {
+  palletUpdate(uid: $uid, input: $input) {
     ...PalletFragment
   }
 }
@@ -7323,7 +7340,7 @@ export type PalletUpdateMutationFn = Apollo.MutationFunction<PalletUpdateMutatio
  * @example
  * const [palletUpdateMutation, { data, loading, error }] = usePalletUpdateMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *      input: // value for 'input'
  *   },
  * });
@@ -7336,8 +7353,8 @@ export type PalletUpdateMutationHookResult = ReturnType<typeof usePalletUpdateMu
 export type PalletUpdateMutationResult = Apollo.MutationResult<PalletUpdateMutation>;
 export type PalletUpdateMutationOptions = Apollo.BaseMutationOptions<PalletUpdateMutation, PalletUpdateMutationVariables>;
 export const PalletArchiveDocument = gql`
-    mutation PalletArchive($id: ID!) {
-  palletArchive(id: $id) {
+    mutation PalletArchive($uid: UUID!) {
+  palletArchive(uid: $uid) {
     ...PalletFragment
   }
 }
@@ -7357,7 +7374,7 @@ export type PalletArchiveMutationFn = Apollo.MutationFunction<PalletArchiveMutat
  * @example
  * const [palletArchiveMutation, { data, loading, error }] = usePalletArchiveMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *   },
  * });
  */
@@ -7369,8 +7386,8 @@ export type PalletArchiveMutationHookResult = ReturnType<typeof usePalletArchive
 export type PalletArchiveMutationResult = Apollo.MutationResult<PalletArchiveMutation>;
 export type PalletArchiveMutationOptions = Apollo.BaseMutationOptions<PalletArchiveMutation, PalletArchiveMutationVariables>;
 export const PalletUnarchiveDocument = gql`
-    mutation PalletUnarchive($id: ID!) {
-  palletUnarchive(id: $id) {
+    mutation PalletUnarchive($uid: UUID!) {
+  palletUnarchive(uid: $uid) {
     ...PalletFragment
   }
 }
@@ -7390,7 +7407,7 @@ export type PalletUnarchiveMutationFn = Apollo.MutationFunction<PalletUnarchiveM
  * @example
  * const [palletUnarchiveMutation, { data, loading, error }] = usePalletUnarchiveMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      uid: // value for 'uid'
  *   },
  * });
  */

@@ -18,6 +18,7 @@ export const Sku = gql`
         }
         parentSkuUID
         isParent
+        isRawMaterial
         status
         isFinal
         isArchived

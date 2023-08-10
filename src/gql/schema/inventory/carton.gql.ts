@@ -23,8 +23,8 @@ export const CARTON = gql`
 `
 
 export const CARTON_UPDATE = gql`
-    mutation CartonUpdate($id: ID!, $input: UpdateCarton!) {
-        cartonUpdate(id: $id, input: $input) {
+    mutation CartonUpdate($uid: UUID!, $input: UpdateCarton!) {
+        cartonUpdate(uid: $uid, input: $input) {
             ...CartonFragment
         }
     }
@@ -32,8 +32,8 @@ export const CARTON_UPDATE = gql`
 `
 
 export const CARTON_ARCHIVE = gql`
-    mutation CartonArchive($id: ID!) {
-        cartonArchive(id: $id) {
+    mutation CartonArchive($uid: UUID!) {
+        cartonArchive(uid: $uid) {
             ...CartonFragment
         }
     }
@@ -41,8 +41,8 @@ export const CARTON_ARCHIVE = gql`
 `
 
 export const CARTON_UNARCHIVE = gql`
-    mutation CartonUnarchive($id: ID!) {
-        cartonUnarchive(id: $id) {
+    mutation CartonUnarchive($uid: UUID!) {
+        cartonUnarchive(uid: $uid) {
         ...CartonFragment
         }
     }
