@@ -29,7 +29,7 @@ interface SalesOrderHistoryTableHTMLProps {
 }
 
 interface SalesOrderHistoryTableProps {
-    soUID: any
+    soID: any
 }
 
 export default function SalesOrderHistoryTable(props: SalesOrderHistoryTableProps) {
@@ -50,7 +50,7 @@ export default function SalesOrderHistoryTable(props: SalesOrderHistoryTableProp
                     limit: 100,
                     offset: 0,
                 },
-                soUID: props.soUID,
+                soID: props.soID,
             }
         }
     )
@@ -93,7 +93,7 @@ export default function SalesOrderHistoryTable(props: SalesOrderHistoryTableProp
 
     const verifyDocumentHash = (item: SalesOrderDetail) => {
         verifyDocumentHashRequest({
-            variables: {versionUID: item.uid!}
+            variables: {versionID: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

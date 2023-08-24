@@ -15,7 +15,7 @@ import PageLoader from 'components/PageLoader'
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
-    orgUID: Yup.string().min(2, 'Invalid org UID'),
+    orgID: Yup.string().min(2, 'Invalid org ID'),
 })
 
 interface IContactEditProps {
@@ -41,8 +41,8 @@ export default function ContactEdit(props: IContactEditProps) {
         validate: yupResolver(schema),
         initialValues: {
             name: '',
-            companyUID: '',
-            orgUID: '',
+            companyID: '',
+            orgID: '',
             sector: '',
 
             orgName: '',
@@ -70,9 +70,9 @@ export default function ContactEdit(props: IContactEditProps) {
         form.setValues(
             {
                 name: data.contact?.name!,
-                companyUID: data.contact.companyUID,
+                companyID: data.contact.companyID,
                 sector: data.contact.sector!,
-                orgUID: data.contact.organization?.uid,
+                orgID: data.contact.organization?.id,
                 orgName: data.contact.organization?.name!
             }
         )
@@ -81,22 +81,22 @@ export default function ContactEdit(props: IContactEditProps) {
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.orgUID = item.uid!
+            form.values.orgID = item.id!
             form.values.orgName = item.name!
         }
     }
 
     const handleCompanySelect = (item: Organization) => {
         if (item) {
-            form.values.companyUID = item.uid!
+            form.values.companyID = item.id!
             form.values.name = item.name!
         }
     }
 
     const handleSubmit = () => {
         var updateDeptInput: UpdateContact = {
-            companyUID: form.values.companyUID,
-            orgUID: form.values.orgUID,
+            companyID: form.values.companyID,
+            orgID: form.values.orgID,
         }
 
         updateDept({

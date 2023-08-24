@@ -32,7 +32,7 @@ const navTrails: INavTrailProps[] = [
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
-    orgUID: Yup.string().min(2, 'Invalid org UID'),
+    orgID: Yup.string().min(2, 'Invalid org ID'),
 })
 
 export default function WarehouseContractNew(props: PageProps) {
@@ -42,14 +42,14 @@ export default function WarehouseContractNew(props: PageProps) {
     const [clientModalOpened, setClientModalOpened] = useState(false)
     const [whModalOpened, setWHModalOpened] = useState(false)
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
+    const [orgID, setOrgID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            contractorUID: '',
-            clientUID: '',
-            warehouseUID: '',
+            contractorID: '',
+            clientID: '',
+            warehouseID: '',
             message: '',
 
             contractorName: '',
@@ -58,15 +58,15 @@ export default function WarehouseContractNew(props: PageProps) {
         },
     })
 
-    // get org uid from local storage
+    // get org id from local storage
     useEffect(() => {
         const obj = getObjectFromLocalStorage("org")
-        setOrgUID(obj.uid)
-        if (obj.uid != "" && obj.name) {
-            form.values.contractorUID = obj.uid!
+        setOrgID(obj.id)
+        if (obj.id != "" && obj.name) {
+            form.values.contractorID = obj.id!
             form.values.contractorName = obj.name!
         }
-    }, [orgUID, form])
+    }, [orgID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -85,7 +85,7 @@ export default function WarehouseContractNew(props: PageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ contractorUID: authData.data.auther.orgUID })
+            form.setValues({ contractorID: authData.data.auther.orgID })
         }
         setAutherLoaded(true)
     }
@@ -93,28 +93,28 @@ export default function WarehouseContractNew(props: PageProps) {
     // action functions
     const handleContractorSelect = (item: Organization| undefined) => {
         if (item) {
-            form.values.contractorUID = item.uid!
+            form.values.contractorID = item.id!
             form.values.contractorName = item.name!
         }
     }
     const handleClientSelect = (item: Contact | undefined) => {
         if (item) {
-            form.values.clientUID = item.companyUID!
+            form.values.clientID = item.companyID!
             form.values.clientName = item.name!
         }
     }
     const handleWarehouseSelect = (item: Warehouse | undefined) => {
         if (item) {
-            form.values.warehouseUID = item?.uid!
+            form.values.warehouseID = item?.id!
             form.values.whCode = item?.code!
         }
     }
 
     const handleSubmit = () => {
         var newObjInput: UpdateWarehouseContract = {
-            contractorUID: form.values.contractorUID,
-            clientUID: form.values.clientUID,
-            warehouseUID: form.values.warehouseUID,
+            contractorID: form.values.contractorID,
+            clientID: form.values.clientID,
+            warehouseID: form.values.warehouseID,
             message: form.values.message,
         }
 
@@ -151,7 +151,7 @@ export default function WarehouseContractNew(props: PageProps) {
                 handleCancel={handleCancel}
             >
                 {/* Select Contractor */}
-                {authData.data?.auther.isAdmin && orgUID == "" &&
+                {authData.data?.auther.isAdmin && orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={contractorModalOpened}
@@ -170,12 +170,12 @@ export default function WarehouseContractNew(props: PageProps) {
                 }
 
                 {/* Select Client */}
-                {form.values.contractorUID != "" &&
+                {form.values.contractorID != "" &&
                     <ContactSelectModal
                         opened={clientModalOpened}
                         setOpened={setClientModalOpened}
                         handleSelect={handleClientSelect}
-                        organizationUID={form.values.contractorUID}
+                        organizationID={form.values.contractorID}
                     />
                 }
                 <TextInput
@@ -183,18 +183,18 @@ export default function WarehouseContractNew(props: PageProps) {
                     placeholder="Select Client"
                     name="client"
                     mb="md"
-                    disabled={form.values.contractorUID != "" ? false : true}
+                    disabled={form.values.contractorID != "" ? false : true}
                     onClick={() => setClientModalOpened(true)}
                     {...form.getInputProps('clientName')}
                 />
 
                 {/* Select Warehouse */}
-                {form.values.contractorUID != "" &&
+                {form.values.contractorID != "" &&
                     <WarehouseSelectModal
                         opened={whModalOpened}
                         setOpened={setWHModalOpened}
                         handleSelect={handleWarehouseSelect}
-                        organizationUID={form.values.contractorUID}
+                        organizationID={form.values.contractorID}
                     />
                 }
                 <TextInput
@@ -202,7 +202,7 @@ export default function WarehouseContractNew(props: PageProps) {
                     placeholder="Select Warehouse"
                     name="warhouse"
                     mb="md"
-                    disabled={form.values.contractorUID != "" ? false : true}
+                    disabled={form.values.contractorID != "" ? false : true}
                     onClick={() => setWHModalOpened(true)}
                     {...form.getInputProps('whCode')}
                 />

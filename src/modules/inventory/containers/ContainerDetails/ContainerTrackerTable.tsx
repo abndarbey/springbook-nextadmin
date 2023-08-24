@@ -26,7 +26,7 @@ interface ContainerTrackerLogTableProps {
 }
 
 interface ContainerTrackerTableProps {
-    containerUID: string | null | undefined
+    containerID: string | null | undefined
 }
 
 export default function ContainerTrackerTable(props: ContainerTrackerTableProps) {
@@ -46,7 +46,7 @@ export default function ContainerTrackerTable(props: ContainerTrackerTableProps)
                     limit: 100,
                     offset: 0,
                 },
-                containerUID: props.containerUID,
+                containerID: props.containerID,
             }
         }
     )

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const RACK_TYPES = gql`
     query RackTypes($searchFilter: SearchFilter!) {

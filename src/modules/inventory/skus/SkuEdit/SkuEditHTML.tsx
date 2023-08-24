@@ -10,7 +10,7 @@ import { UseFormReturnType } from "@mantine/form"
 import { TextInput } from "@mantine/core"
 
 interface SkuFormValues {
-    orgUID: string,
+    orgID: string,
     isRawMaterial: boolean,
 
     orgName: string,
@@ -19,7 +19,7 @@ interface SkuFormValues {
 interface SkuEditHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<SkuFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -38,7 +38,7 @@ export default function SkuEditHTML(props: SkuEditHTML) {
                 handleCancel={props.handleCancel}
             >
                 {/* Select Contractor */}
-                {props.auther.isAdmin && props.orgUID == "" &&
+                {props.auther.isAdmin && props.orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={orgModalOpened}

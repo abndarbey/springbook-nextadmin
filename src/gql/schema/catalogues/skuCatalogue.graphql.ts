@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const SKU_CATALOGUES = gql`
     query SkuCatalogues($searchFilter: SearchFilter!) {
@@ -14,8 +14,8 @@ export const SKU_CATALOGUES = gql`
 `
 
 export const SKU_CATALOGUE = gql`
-    query SkuCatalogue($uid: UUID, $code: String) {
-        skuCatalogue(uid: $uid, code: $code) {
+    query SkuCatalogue($id: ID, $code: String) {
+        skuCatalogue(id: $id, code: $code) {
             ...SkuCatalogueFragment
             }
         }
@@ -32,8 +32,8 @@ export const SKU_CATALOGUE_CREATE = gql`
 `
 
 export const SKU_CATALOGUE_UPDATE = gql`
-    mutation SkuCatalogueUpdate($uid: UUID!, $input: UpdateSkuCatalogue!) {
-        skuCatalogueUpdate(uid: $uid, input: $input) {
+    mutation SkuCatalogueUpdate($id: ID!, $input: UpdateSkuCatalogue!) {
+        skuCatalogueUpdate(id: $id, input: $input) {
             ...SkuCatalogueFragment
             }
         }
@@ -41,8 +41,8 @@ export const SKU_CATALOGUE_UPDATE = gql`
 `
 
 export const SKU_CATALOGUE_FINALIZE = gql`
-    mutation SkuCatalogueFinalize($uid: UUID!) {
-        skuCatalogueFinalize(uid: $uid) {
+    mutation SkuCatalogueFinalize($id: ID!) {
+        skuCatalogueFinalize(id: $id) {
             ...SkuCatalogueFragment
             }
         }
@@ -50,8 +50,8 @@ export const SKU_CATALOGUE_FINALIZE = gql`
 `
 
 export const SKU_CATALOGUE_ARCHIVE = gql`
-    mutation SkuCatalogueArchive($uid: UUID!) {
-        skuCatalogueArchive(uid: $uid) {
+    mutation SkuCatalogueArchive($id: ID!) {
+        skuCatalogueArchive(id: $id) {
             ...SkuCatalogueFragment
             }
         }
@@ -59,8 +59,8 @@ export const SKU_CATALOGUE_ARCHIVE = gql`
 `
 
 export const SKU_CATALOGUE_UNARCHIVE = gql`
-    mutation SkuCatalogueUnarchive($uid: UUID!) {
-        skuCatalogueUnarchive(uid: $uid) {
+    mutation SkuCatalogueUnarchive($id: ID!) {
+        skuCatalogueUnarchive(id: $id) {
             ...SkuCatalogueFragment
             }
         }

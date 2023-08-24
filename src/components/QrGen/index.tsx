@@ -9,7 +9,7 @@ interface IQrGenProps {
 export default function QrGen(props: IQrGenProps) {
     return (
         <Box>
-            <QRCodeSVG value={props.uid} height="300" width="300" />
+            <QRCodeSVG value={props.id} height="300" width="300" />
         </Box>
     )
 }

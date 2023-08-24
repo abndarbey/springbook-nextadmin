@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const BATCH_CATALOGUES = gql`
-    query BatchCatalogues($searchFilter: SearchFilter!, $skuUID: UUID) {
-        batchCatalogues(search: $searchFilter, skuUID: $skuUID) {
+    query BatchCatalogues($searchFilter: SearchFilter!, $skuID: ID) {
+        batchCatalogues(search: $searchFilter, skuID: $skuID) {
             batchCatalogues {
                     ...BatchCatalogueFragment
                 }
@@ -14,8 +14,8 @@ export const BATCH_CATALOGUES = gql`
 `
 
 export const BATCH_CATALOGUE = gql`
-    query BatchCatalogue($uid: UUID, $code: String) {
-        batchCatalogue(uid: $uid, code: $code) {
+    query BatchCatalogue($id: ID, $code: String) {
+        batchCatalogue(id: $id, code: $code) {
             ...BatchCatalogueFragment
             }
         }
@@ -32,8 +32,8 @@ export const BATCH_CATALOGUE_CREATE = gql`
 `
 
 export const BATCH_CATALOGUE_UPDATE = gql`
-    mutation BatchCatalogueUpdate($uid: UUID!, $input: UpdateBatchCatalogue!) {
-        batchCatalogueUpdate(uid: $uid, input: $input) {
+    mutation BatchCatalogueUpdate($id: ID!, $input: UpdateBatchCatalogue!) {
+        batchCatalogueUpdate(id: $id, input: $input) {
             ...BatchCatalogueFragment
             }
         }
@@ -41,8 +41,8 @@ export const BATCH_CATALOGUE_UPDATE = gql`
 `
 
 export const BATCH_CATALOGUE_FINALIZE = gql`
-    mutation BatchCatalogueFinalize($uid: UUID!) {
-        batchCatalogueFinalize(uid: $uid) {
+    mutation BatchCatalogueFinalize($id: ID!) {
+        batchCatalogueFinalize(id: $id) {
             ...BatchCatalogueFragment
             }
         }
@@ -50,8 +50,8 @@ export const BATCH_CATALOGUE_FINALIZE = gql`
 `
 
 export const BATCH_CATALOGUE_ARCHIVE = gql`
-    mutation BatchCatalogueArchive($uid: UUID!) {
-        batchCatalogueArchive(uid: $uid) {
+    mutation BatchCatalogueArchive($id: ID!) {
+        batchCatalogueArchive(id: $id) {
             ...BatchCatalogueFragment
             }
         }
@@ -59,8 +59,8 @@ export const BATCH_CATALOGUE_ARCHIVE = gql`
 `
 
 export const BATCH_CATALOGUE_UNARCHIVE = gql`
-    mutation BatchCatalogueUnarchive($uid: UUID!) {
-        batchCatalogueUnarchive(uid: $uid) {
+    mutation BatchCatalogueUnarchive($id: ID!) {
+        batchCatalogueUnarchive(id: $id) {
             ...BatchCatalogueFragment
             }
         }

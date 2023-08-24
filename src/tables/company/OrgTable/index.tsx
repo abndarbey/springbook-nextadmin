@@ -64,7 +64,7 @@ export default function OrgTable() {
 
     const archiveAction = (item: Organization) => {
         archiveRequest({
-            variables: {uid: item.uid}
+            variables: {uid: item.id}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -82,7 +82,7 @@ export default function OrgTable() {
 
     const unarchiveAction = (item: Organization) => {
         unarchiveRequest({
-            variables: {uid: item.uid}
+            variables: {uid: item.id}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

@@ -78,7 +78,7 @@ export default function SkuCatTable(props: PageProps) {
         newSku({
             variables: {
                 input: {
-                    uid: item.uid
+                    uid: item.id
                 }
             }
         }).then((res: any) => {
@@ -98,7 +98,7 @@ export default function SkuCatTable(props: PageProps) {
 
     const archiveAction = (item: SkuCatalogue) => {
         archiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -116,7 +116,7 @@ export default function SkuCatTable(props: PageProps) {
 
     const unarchiveAction = (item: SkuCatalogue) => {
         unarchiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

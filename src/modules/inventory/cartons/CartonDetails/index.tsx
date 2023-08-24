@@ -9,6 +9,7 @@ import {
     useCartonQuery,
     useCartonArchiveMutation,
     useCartonUnarchiveMutation,
+    useCartonWeightLogCreateMutation,
 } from "gql/generated/hooks"
 import PageLoader from "components/PageLoader"
 import { showNotification } from "@mantine/notifications"
@@ -18,6 +19,8 @@ import CartonTransferTable from "./CartonTransferTable"
 import CartonTrackerTable from "./CartonTrackerTable"
 import CartonTxnTable from "./CartonTxnTable"
 import TransactionTable from "tables/transactions/TransactionTable"
+import CartonWeightTable from "./CartonWeightLogTable"
+import { cartonWeightLogAddModal } from "./CartonWeightLogAdd"
 
 export default function CartonDetails(props: PageProps) {
     const router = useRouter()
@@ -62,12 +65,12 @@ export default function CartonDetails(props: PageProps) {
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {id: data?.carton.id!}
+            variables: {uid: data?.carton.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Archived - ${res.data.cartonArchive.name}`,
+                message: `Archived - ${res.data.cartonArchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -82,12 +85,12 @@ export default function CartonDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {id: data?.carton.id!}
+            variables: {uid: data?.carton.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
                 color: "green",
-                message: `Unarchived - ${res.data.cartonUnarchive.name}`,
+                message: `Unarchived - ${res.data.cartonUnarchive.code}`,
             })
         }).catch((error: any) => {
             showNotification({
@@ -100,6 +103,7 @@ export default function CartonDetails(props: PageProps) {
 
     // define action buttons
     const actionButtons: IActionButtonProps[] = [
+        { type: "new", name: "Add Weight Log", action: cartonWeightLogAddModal },
         { type: "edit", name: "Edit", action: handleEdit },
         { type: "archive", name: "Archive", action: handleArchive, disabled: data?.carton.isArchived! },
         { type: "unarchive", name: "Unarchive", action: handleUnarchive, disabled: !data?.carton.isArchived! },
@@ -114,6 +118,7 @@ export default function CartonDetails(props: PageProps) {
                     <Tabs.Tab value="transactions">Transactions</Tabs.Tab>
                     <Tabs.Tab value="trackers">Trackers</Tabs.Tab>
                     <Tabs.Tab value="history">History</Tabs.Tab>
+                    <Tabs.Tab value="weights-logs">Weight Logs</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="details" pt="xs">
@@ -121,15 +126,19 @@ export default function CartonDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="transactions" pt="xs">
-                    <TransactionTable objectUID={data?.carton.uid} />
+                    <TransactionTable objectID={data?.carton.id} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="trackers" pt="xs">
-                    <CartonTrackerTable cartonUID={data?.carton.uid} />
+                    <CartonTrackerTable cartonID={data?.carton.id} />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="history" pt="xs">
+                    <CartonTransferTable cartonID={data?.carton.id} />
                 </Tabs.Panel>
                 
-                <Tabs.Panel value="history" pt="xs">
-                    <CartonTransferTable cartonUID={data?.carton.uid} />
+                <Tabs.Panel value="weights-logs" pt="xs">
+                    <CartonWeightTable cartonID={data?.carton.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

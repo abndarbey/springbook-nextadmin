@@ -8,14 +8,14 @@ import { TextInput } from "@mantine/core"
 
 interface IDepartmentFormValues {
     name: string,
-    orgUID: string,
+    orgID: string,
 
     orgName: string,
 }
 
 interface IDepartmentNewHTML {
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IDepartmentFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -32,7 +32,7 @@ export default function DepartmentNewHTML(props: IDepartmentNewHTML) {
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={orgModalOpened}

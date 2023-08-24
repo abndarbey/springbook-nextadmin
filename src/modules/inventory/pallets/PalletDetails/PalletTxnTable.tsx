@@ -26,7 +26,7 @@ interface PalletTransferLogTableProps {
 }
 
 interface PalletTransferTableProps {
-    palletUID: string | null | undefined
+    palletID: string | null | undefined
 }
 
 export default function PalletTxnTable(props: PalletTransferTableProps) {
@@ -46,7 +46,7 @@ export default function PalletTxnTable(props: PalletTransferTableProps) {
                     limit: 100,
                     offset: 0,
                 },
-                palletUID: props.palletUID,
+                palletID: props.palletID,
             }
         }
     )

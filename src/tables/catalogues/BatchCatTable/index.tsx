@@ -16,7 +16,7 @@ import { showNotification } from "@mantine/notifications"
 import BatchCatTableHTML from "./BatchCatTableHTML"
 
 interface IBatchCatTableProps {
-    skuUID?: string | null | undefined
+    skuID?: string | null | undefined
 }
 
 export default function BatchCatTable(props: IBatchCatTableProps) {
@@ -39,7 +39,7 @@ export default function BatchCatTable(props: IBatchCatTableProps) {
                     limit: 100,
                     offset: 0,
                 },
-                skuUID: props.skuUID
+                skuID: props.skuID
             }
         }
     )
@@ -69,7 +69,7 @@ export default function BatchCatTable(props: IBatchCatTableProps) {
         newBatch({
             variables: {
                 input: {
-                    uid: item.uid
+                    uid: item.id
                 }
             }
         }).then((res: any) => {
@@ -89,7 +89,7 @@ export default function BatchCatTable(props: IBatchCatTableProps) {
 
     const archiveAction = (item: BatchCatalogue) => {
         archiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -107,7 +107,7 @@ export default function BatchCatTable(props: IBatchCatTableProps) {
 
     const unarchiveAction = (item: BatchCatalogue) => {
         unarchiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

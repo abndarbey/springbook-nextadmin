@@ -121,15 +121,15 @@ export default function ContainerDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="transactions" pt="xs">
-                    <TransactionTable objectUID={data?.container.uid} />
+                    <TransactionTable objectID={data?.container.id} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="trackers" pt="xs">
-                    <ContainerTrackerTable containerUID={data?.container.uid} />
+                    <ContainerTrackerTable containerID={data?.container.id} />
                 </Tabs.Panel>
                 
                 <Tabs.Panel value="history" pt="xs">
-                    <ContainerTransferTable containerUID={data?.container.uid} />
+                    <ContainerTransferTable containerID={data?.container.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

@@ -26,7 +26,7 @@ interface PalletTrackerLogTableProps {
 }
 
 interface PalletTrackerTableProps {
-    palletUID: string | null | undefined
+    palletID: string | null | undefined
 }
 
 export default function PalletTrackerTable(props: PalletTrackerTableProps) {
@@ -46,7 +46,7 @@ export default function PalletTrackerTable(props: PalletTrackerTableProps) {
                     limit: 100,
                     offset: 0,
                 },
-                palletUID: props.palletUID,
+                palletID: props.palletID,
             }
         }
     )

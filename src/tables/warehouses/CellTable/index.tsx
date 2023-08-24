@@ -15,8 +15,8 @@ import { useRouter } from "next/router"
 import CellTableHTML from "./CellTableHTML"
 
 interface CellTableProps {
-    orgUID?: string | null | undefined
-    warehouseUID?: string | null | undefined
+    orgID?: string | null | undefined
+    warehouseID?: string | null | undefined
     rackID?: string | null | undefined
 }
 
@@ -36,8 +36,8 @@ export default function CellTable(props: CellTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
-                    warehouseUID: props.warehouseUID,
+                    orgID: props.orgID,
+                    warehouseID: props.warehouseID,
                     limit: 100,
                     offset: 0,
                 },

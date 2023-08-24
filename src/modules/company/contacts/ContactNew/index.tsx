@@ -11,20 +11,20 @@ import ContactNewHTML from "./ContactNewHTML"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
-    orgUID: Yup.string().min(2, "Invalid org UID"),
+    orgID: Yup.string().min(2, "Invalid org ID"),
 })
 
 export default function ContactNew(props: PageProps) {
     const router = useRouter()
     const [newObj] = useContactCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
+    const [orgID, setOrgID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            companyUID: "",
-            orgUID: "",
+            companyID: "",
+            orgID: "",
 
             companyName: "",
             orgName: "",
@@ -34,12 +34,12 @@ export default function ContactNew(props: PageProps) {
     // get org uid from local storage
     useEffect(() => {
         const obj = getObjectFromLocalStorage("org")
-        setOrgUID(obj.uid)
-        if (obj.uid != "" && obj.name) {
-            form.values.orgUID = obj.uid!
+        setOrgID(obj.id)
+        if (obj.id != "" && obj.name) {
+            form.values.orgID = obj.id!
             form.values.orgName = obj.name!
         }
-    }, [orgUID, form])
+    }, [orgID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -58,29 +58,29 @@ export default function ContactNew(props: PageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ orgUID: authData.data.auther.orgUID })
+            form.setValues({ orgID: authData.data.auther.orgID })
         }
         setAutherLoaded(true)
     }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.orgUID = item.uid!
+            form.values.orgID = item.id!
             form.values.orgName = item.name!
         }
     }
 
     const handleContactSelect = (item: Organization) => {
         if (item) {
-            form.values.companyUID = item.uid!
+            form.values.companyID = item.id!
             form.values.companyName = item.name!
         }
     }
 
     const handleSubmit = () => {
         var input: UpdateContact = {
-            companyUID: form.values.companyUID,
-            orgUID: form.values.orgUID,
+            companyID: form.values.companyID,
+            orgID: form.values.orgID,
         }
 
         newObj({
@@ -109,7 +109,7 @@ export default function ContactNew(props: PageProps) {
         <ContactNewHTML
             title={props.title!}
             auther={authData.data?.auther!}
-            orgUID={orgUID}
+            orgID={orgID}
             form={form}
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}

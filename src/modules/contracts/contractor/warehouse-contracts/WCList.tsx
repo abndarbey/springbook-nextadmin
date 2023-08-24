@@ -93,7 +93,7 @@ export default function WarehouseContractList(props: PageProps) {
 
     const archiveAction = (item: WarehouseContract) => {
         archiveRequest({
-            variables: {uid: item.uid!}
+            variables: {id: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -111,7 +111,7 @@ export default function WarehouseContractList(props: PageProps) {
 
     const unarchiveAction = (item: WarehouseContract) => {
         unarchiveRequest({
-            variables: {uid: item.uid!}
+            variables: {id: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

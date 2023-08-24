@@ -16,7 +16,7 @@ import PurchaseOrderTableHTML from "./PurchaseOrderTableHTML"
 
 interface PurchaseOrderTableProps {
     view: ViewOption
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
 }
 
 export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
@@ -37,7 +37,7 @@ export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },
@@ -69,7 +69,7 @@ export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
 
     const archiveAction = (item: PurchaseOrder) => {
         archiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -87,7 +87,7 @@ export default function PurchaseOrderTable(props: PurchaseOrderTableProps) {
 
     const unarchiveAction = (item: PurchaseOrder) => {
         unarchiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

@@ -15,7 +15,7 @@ import { useRouter } from "next/router"
 import RackTypeTableHTML from "./RackTypeTableHTML"
 
 interface RackTypeTableProps {
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
 }
 
 export default function RackTypeTable(props: RackTypeTableProps) {
@@ -34,7 +34,7 @@ export default function RackTypeTable(props: RackTypeTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 }

@@ -16,7 +16,7 @@ interface IUserFormValues {
     lastName: string,
     email: string,
     phone: string,
-    orgUID: string,
+    orgID: string,
     roleID: string,
     
     departmentID: string,
@@ -28,7 +28,7 @@ interface IUserFormValues {
 interface IUserNewHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IUserFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -89,7 +89,7 @@ export default function UserNewHTML(props: IUserNewHTML) {
                     />
                 </SimpleGrid>
                 {/* Select Organization */}
-                {props.auther.isAdmin && props.orgUID == "" &&
+                {props.auther.isAdmin && props.orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={orgModalOpened}
@@ -106,27 +106,27 @@ export default function UserNewHTML(props: IUserNewHTML) {
                         />
                     </Fragment>
                 }
-                {props.form.values.orgUID != "" &&
+                {props.form.values.orgID != "" &&
                     <DepartmentSelectModal
                         opened={deptModalOpened}
                         setOpened={setDeptModalOpened}
                         handleSelect={props.handleDepartmentSelect}
-                        organizationUID={props.form.values.orgUID}
+                        organizationID={props.form.values.orgID}
                     />
                 }
-                {props.form.values.orgUID != "" &&
+                {props.form.values.orgID != "" &&
                     <DepartmentSelectModal
                         opened={deptModalOpened}
                         setOpened={setDeptModalOpened}
                         handleSelect={props.handleDepartmentSelect}
-                        organizationUID={props.form.values.orgUID}
+                        organizationID={props.form.values.orgID}
                     />
                 }
                 <TextInput
                     label="Department"
                     placeholder="Select Department"
                     mb="md"
-                    disabled={props.form.values.orgUID != "" ? false : true}
+                    disabled={props.form.values.orgID != "" ? false : true}
                     onClick={() => setDeptModalOpened(true)}
                     {...props.form.getInputProps('departmentName')}
                 />

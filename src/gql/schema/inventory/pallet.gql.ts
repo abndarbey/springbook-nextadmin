@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const PALLETS = gql`
     query Pallets($searchFilter: SearchFilter!) {
@@ -14,8 +14,8 @@ export const PALLETS = gql`
 `
 
 export const PALLET = gql`
-    query Pallet($id: ID, $uid: UUID, $code: String) {
-        pallet(id: $id, uid: $uid, code: $code) {
+    query Pallet($id: ID, $code: String) {
+        pallet(id: $id, code: $code) {
             ...PalletFragment
         }
     }
@@ -23,8 +23,8 @@ export const PALLET = gql`
 `
 
 export const PALLET_UPDATE = gql`
-    mutation PalletUpdate($uid: UUID!, $input: UpdatePallet!) {
-        palletUpdate(uid: $uid, input: $input) {
+    mutation PalletUpdate($id: ID!, $input: UpdatePallet!) {
+        palletUpdate(id: $id, input: $input) {
             ...PalletFragment
         }
     }
@@ -32,8 +32,8 @@ export const PALLET_UPDATE = gql`
 `
 
 export const PALLET_ARCHIVE = gql`
-    mutation PalletArchive($uid: UUID!) {
-        palletArchive(uid: $uid) {
+    mutation PalletArchive($id: ID!) {
+        palletArchive(id: $id) {
             ...PalletFragment
         }
     }
@@ -41,8 +41,8 @@ export const PALLET_ARCHIVE = gql`
 `
 
 export const PALLET_UNARCHIVE = gql`
-    mutation PalletUnarchive($uid: UUID!) {
-        palletUnarchive(uid: $uid) {
+    mutation PalletUnarchive($id: ID!) {
+        palletUnarchive(id: $id) {
         ...PalletFragment
         }
     }
@@ -54,8 +54,8 @@ export const PALLET_UNARCHIVE = gql`
 //////////////////////////
 
 export const PALLET_TRANSFER_LOGS = gql`
-    query PalletTransferLogs($searchFilter: SearchFilter!, $palletUID: UUID!) {
-        palletTransferLogs(search: $searchFilter, palletUID: $palletUID) {
+    query PalletTransferLogs($searchFilter: SearchFilter!, $palletID: ID!) {
+        palletTransferLogs(search: $searchFilter, palletID: $palletID) {
             palletTransferLogs {
                 ...PalletTransferLogFragment
             }
@@ -66,8 +66,8 @@ export const PALLET_TRANSFER_LOGS = gql`
 `
 
 export const PALLET_TRACKER_LOGS = gql`
-    query PalletTrackerLogs($searchFilter: SearchFilter!, $palletUID: UUID!) {
-        palletTrackerLogs(search: $searchFilter, palletUID: $palletUID) {
+    query PalletTrackerLogs($searchFilter: SearchFilter!, $palletID: ID!) {
+        palletTrackerLogs(search: $searchFilter, palletID: $palletID) {
             palletTrackerLogs {
                 ...PalletTrackerLogFragment
             }

@@ -121,15 +121,15 @@ export default function PalletDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="transactions" pt="xs">
-                    <TransactionTable objectUID={data?.pallet.uid} />
+                    <TransactionTable objectID={data?.pallet.id} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="trackers" pt="xs">
-                    <PalletTrackerTable palletUID={data?.pallet.uid} />
+                    <PalletTrackerTable palletID={data?.pallet.id} />
                 </Tabs.Panel>
                 
                 <Tabs.Panel value="history" pt="xs">
-                    <PalletTransferTable palletUID={data?.pallet.uid} />
+                    <PalletTransferTable palletID={data?.pallet.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

@@ -14,9 +14,9 @@ import { showNotification } from "@mantine/notifications"
 import CartonTableHTML from "./CartonTableHTML"
 
 interface CartonTableProps {
-    orgUID?: string | null | undefined
-    skuUID?: string | null | undefined
-    batchUID?: string | null | undefined
+    orgID?: string | null | undefined
+    skuID?: string | null | undefined
+    batchID?: string | null | undefined
 }
 
 export default function CartonTable(props: CartonTableProps) {
@@ -36,12 +36,12 @@ export default function CartonTable(props: CartonTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },
-                skuUID: props.skuUID,
-                batchUID: props.batchUID,
+                skuID: props.skuID,
+                batchID: props.batchID,
             }
         }
     )

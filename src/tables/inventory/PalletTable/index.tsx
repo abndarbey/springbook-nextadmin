@@ -14,7 +14,7 @@ import { showNotification } from "@mantine/notifications"
 import PalletTableHTML from "./PalletTableHTML"
 
 interface PalletTableProps {
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
 }
 
 export default function PalletTable(props: PalletTableProps) {
@@ -34,7 +34,7 @@ export default function PalletTable(props: PalletTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },

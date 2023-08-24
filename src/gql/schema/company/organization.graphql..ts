@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const ORGANIZATIONS = gql`
     query Organizations($searchFilter: SearchFilter!, $sector: String) {
@@ -14,8 +14,8 @@ export const ORGANIZATIONS = gql`
 `
 
 export const ORGANIZATION = gql`
-    query Organization($uid: UUID, $code: String) {
-        organization(uid: $uid, code: $code) {
+    query Organization($id: ID, $code: String) {
+        organization(id: $id, code: $code) {
             ...OrganizationFragment
             }
         }
@@ -23,8 +23,8 @@ export const ORGANIZATION = gql`
 `
 
 export const ORGANIZATION_UPDATE = gql`
-    mutation OrganizationUpdate($uid: UUID!, $input: UpdateOrganization!) {
-        organizationUpdate(uid: $uid, input: $input) {
+    mutation OrganizationUpdate($id: ID!, $input: UpdateOrganization!) {
+        organizationUpdate(id: $id, input: $input) {
             ...OrganizationFragment
             }
         }
@@ -32,8 +32,8 @@ export const ORGANIZATION_UPDATE = gql`
 `
 
 export const ORGANIZATION_ARCHIVE = gql`
-    mutation OrganizationArchive($uid: UUID!) {
-        organizationArchive(uid: $uid) {
+    mutation OrganizationArchive($id: ID!) {
+        organizationArchive(id: $id) {
             ...OrganizationFragment
             }
         }
@@ -41,8 +41,8 @@ export const ORGANIZATION_ARCHIVE = gql`
 `
 
 export const ORGANIZATION_UNARCHIVE = gql`
-    mutation OrganizationUnarchive($uid: UUID!) {
-        organizationUnarchive(uid: $uid) {
+    mutation OrganizationUnarchive($id: ID!) {
+        organizationUnarchive(id: $id) {
             ...OrganizationFragment
             }
         }

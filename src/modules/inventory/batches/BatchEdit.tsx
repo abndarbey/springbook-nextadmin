@@ -16,7 +16,7 @@ import { PageProps } from 'types/types'
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
-    orgUID: Yup.string().min(2, 'Invalid org UID'),
+    orgID: Yup.string().min(2, 'Invalid org ID'),
 })
 
 export default function BatchEdit(props: PageProps) {
@@ -36,7 +36,7 @@ export default function BatchEdit(props: PageProps) {
         validate: yupResolver(schema),
         initialValues: {
             uid: '',
-            orgUID: '',
+            orgID: '',
 
             batchNumber: '',
             orgName: '',
@@ -63,8 +63,8 @@ export default function BatchEdit(props: PageProps) {
     if (data && !formData) {
         form.setValues(
             {
-                uid: data.batch?.uid!,
-                orgUID: data.batch.organization?.uid,
+                uid: data.batch?.id!,
+                orgID: data.batch.organization?.id,
                 batchNumber: data.batch?.batchNumber!,
                 orgName: data.batch.organization?.name!
             }
@@ -73,14 +73,14 @@ export default function BatchEdit(props: PageProps) {
     }
 
     const handleOrgSelect = (item: Organization) => {
-        form.values.orgUID = item.uid!
+        form.values.orgID = item.id!
         form.values.orgName = item.name!
     }
 
     const handleSubmit = () => {
         var updateDeptInput: UpdateBatch = {
-            uid: form.values.uid,
-            orgUID: form.values.orgUID,
+            uid: form.values.id,
+            orgID: form.values.orgID,
         }
 
         updateDept({

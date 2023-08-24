@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const PURCHASE_ORDERS = gql`
     query PurchaseOrders($searchFilter: SearchFilter!, $view: ViewOption) {
@@ -14,8 +14,8 @@ export const PURCHASE_ORDERS = gql`
 `
 
 export const PURCHASE_ORDER_HISTORY = gql`
-    query PurchaseOrderHistory($searchFilter: SearchFilter!, $poUID: UUID!) {
-        purchaseOrderHistory(search: $searchFilter, poUID: $poUID) {
+    query PurchaseOrderHistory($searchFilter: SearchFilter!, $poID: ID!) {
+        purchaseOrderHistory(search: $searchFilter, poID: $poID) {
             purchaseOrderHistory {
                     ...PurchaseOrderDetailFragment
                 }
@@ -26,8 +26,8 @@ export const PURCHASE_ORDER_HISTORY = gql`
 `
 
 export const PURCHASE_ORDER = gql`
-    query PurchaseOrder($id: ID, $uid: UUID $code: String) {
-        purchaseOrder(id: $id, uid: $uid, code: $code) {
+    query PurchaseOrder($id: ID, $code: String) {
+        purchaseOrder(id: $id, code: $code) {
             ...PurchaseOrderFragment
             }
         }
@@ -35,8 +35,8 @@ export const PURCHASE_ORDER = gql`
 `
 
 export const PURCHASE_ORDER_VERSION_HASH = gql`
-    query PurchaseOrderVersionHash($versionUID: UUID!) {
-        purchaseOrderVersionHash(versionUID: $versionUID)
+    query PurchaseOrderVersionHash($versionID: ID!) {
+        purchaseOrderVersionHash(versionID: $versionID)
     }
 `
 
@@ -50,8 +50,8 @@ export const PURCHASE_ORDER_CREATE = gql`
 `
 
 export const PURCHASE_ORDER_UPDATE = gql`
-    mutation UpdatePurchaseOrderUpdate($uid: UUID!, $input: UpdatePurchaseOrder!) {
-        purchaseOrderUpdate(uid: $uid, input: $input) {
+    mutation UpdatePurchaseOrderUpdate($id: ID!, $input: UpdatePurchaseOrder!) {
+        purchaseOrderUpdate(id: $id, input: $input) {
             ...PurchaseOrderFragment
             }
         }
@@ -59,8 +59,8 @@ export const PURCHASE_ORDER_UPDATE = gql`
 `
 
 export const PURCHASE_ORDER_FINALIZE = gql`
-    mutation PurchaseOrderFinalize($uid: UUID!) {
-        purchaseOrderFinalize(uid: $uid) {
+    mutation PurchaseOrderFinalize($id: ID!) {
+        purchaseOrderFinalize(id: $id) {
             ...PurchaseOrderFragment
             }
         }
@@ -68,8 +68,8 @@ export const PURCHASE_ORDER_FINALIZE = gql`
 `
 
 export const PURCHASE_ORDER_SELLER_ACCEPT = gql`
-    mutation PurchaseOrderSellerAccept($uid: UUID!, $acceptance: Boolean!) {
-        purchaseOrderSellerAccept(uid: $uid, acceptance: $acceptance) {
+    mutation PurchaseOrderSellerAccept($id: ID!, $acceptance: Boolean!) {
+        purchaseOrderSellerAccept(id: $id, acceptance: $acceptance) {
             ...PurchaseOrderFragment
             }
         }
@@ -77,8 +77,8 @@ export const PURCHASE_ORDER_SELLER_ACCEPT = gql`
 `
 
 export const PURCHASE_ORDER_ARCHIVE = gql`
-    mutation PurchaseOrderArchive($uid: UUID!) {
-        purchaseOrderArchive(uid: $uid) {
+    mutation PurchaseOrderArchive($id: ID!) {
+        purchaseOrderArchive(id: $id) {
             ...PurchaseOrderFragment
             }
         }
@@ -86,8 +86,8 @@ export const PURCHASE_ORDER_ARCHIVE = gql`
 `
 
 export const PURCHASE_ORDER_UNARCHIVE = gql`
-    mutation PurchaseOrderUnarchive($uid: UUID!) {
-        purchaseOrderUnarchive(uid: $uid) {
+    mutation PurchaseOrderUnarchive($id: ID!) {
+        purchaseOrderUnarchive(id: $id) {
             ...PurchaseOrderFragment
             }
         }
@@ -95,7 +95,7 @@ export const PURCHASE_ORDER_UNARCHIVE = gql`
 `
 
 export const PURCHASE_ORDER_VERSION_HASH_VERIFY = gql`
-    mutation PurchaseOrderVersionHashVerify($versionUID: UUID!) {
-        purchaseOrderVersionHashVerify(versionUID: $versionUID)
+    mutation PurchaseOrderVersionHashVerify($versionID: ID!) {
+        purchaseOrderVersionHashVerify(versionID: $versionID)
     }
 `

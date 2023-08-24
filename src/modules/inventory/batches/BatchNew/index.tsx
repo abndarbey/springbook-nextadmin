@@ -12,20 +12,20 @@ import BatchNewHTML from "./BatchNewHTML"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
-    orgUID: Yup.string().min(2, "Invalid org UID"),
+    orgID: Yup.string().min(2, "Invalid org ID"),
 })
 
 export default function BatchNew(props: PageProps) {
     const router = useRouter()
     const [newBatch] = useBatchCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
+    const [orgID, setOrgID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            batchUID: "",
-            orgUID: "",
+            batchID: "",
+            orgID: "",
 
             orgName: "",
             batchNumber: "",
@@ -35,12 +35,12 @@ export default function BatchNew(props: PageProps) {
     // get org uid from local storage
     useEffect(() => {
         const obj = getObjectFromLocalStorage("org")
-        setOrgUID(obj.uid)
-        if (obj.uid != "" && obj.name) {
-            form.values.orgUID = obj.uid!
+        setOrgID(obj.id)
+        if (obj.id != "" && obj.name) {
+            form.values.orgID = obj.id!
             form.values.orgName = obj.name!
         }
-    }, [orgUID, form])
+    }, [orgID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -59,29 +59,29 @@ export default function BatchNew(props: PageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ orgUID: authData.data.auther.orgUID })
+            form.setValues({ orgID: authData.data.auther.orgID })
         }
         setAutherLoaded(true)
     }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.orgUID = item.uid!
+            form.values.orgID = item.id!
             form.values.orgName = item.name!
         }
     }
 
     const handleBatchCatalogueSelect = (item: BatchCatalogue | undefined) => {
         if (item) {
-            form.values.batchUID = item?.uid!
+            form.values.batchID = item?.id!
             form.values.batchNumber = item?.batchNumber!
         }
     }
 
     const handleSubmit = () => {
         var newBatchInput: UpdateBatch = {
-            uid: form.values.batchUID,
-            orgUID: form.values.orgUID,
+            uid: form.values.batchID,
+            orgID: form.values.orgID,
         }
 
         newBatch({
@@ -110,7 +110,7 @@ export default function BatchNew(props: PageProps) {
         <BatchNewHTML
             title={props.title!}
             auther={authData.data?.auther!}
-            orgUID={orgUID}
+            orgID={orgID}
             form={form}
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}

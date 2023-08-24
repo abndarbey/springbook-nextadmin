@@ -14,7 +14,7 @@ import { showNotification } from "@mantine/notifications"
 import ContainerTableHTML from "./ContainerTableHTML"
 
 interface ContainerTableProps {
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
 }
 
 export default function ContainerTable(props: ContainerTableProps) {
@@ -34,7 +34,7 @@ export default function ContainerTable(props: ContainerTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },

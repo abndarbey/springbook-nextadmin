@@ -140,7 +140,7 @@ export default function QrOrderDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="objects" pt="xs">
-                    <QrOrderObjectTable qrOrderUID={data?.qrOrder.uid} />
+                    <QrOrderObjectTable qrOrderID={data?.qrOrder.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

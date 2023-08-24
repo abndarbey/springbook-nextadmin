@@ -16,7 +16,7 @@ import { PageProps } from 'types/types'
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
-    orgUID: Yup.string().min(2, 'Invalid org UID'),
+    orgID: Yup.string().min(2, 'Invalid org ID'),
 })
 
 export default function DepartmentEdit(props: PageProps) {
@@ -36,7 +36,7 @@ export default function DepartmentEdit(props: PageProps) {
         validate: yupResolver(schema),
         initialValues: {
             name: '',
-            orgUID: '',
+            orgID: '',
 
             orgName: '',
         },
@@ -63,7 +63,7 @@ export default function DepartmentEdit(props: PageProps) {
         form.setValues(
             {
                 name: data.department?.name!,
-                orgUID: data.department.organization?.uid,
+                orgID: data.department.organization?.id,
                 orgName: data.department.organization?.name!
             }
         )
@@ -71,14 +71,14 @@ export default function DepartmentEdit(props: PageProps) {
     }
 
     const handleOrgSelect = (item: Organization) => {
-        form.values.orgUID = item.uid!
+        form.values.orgID = item.id!
         form.values.orgName = item.name!
     }
 
     const handleSubmit = () => {
         var updateDeptInput: UpdateDepartment = {
             name: form.values.name,
-            orgUID: form.values.orgUID,
+            orgID: form.values.orgID,
         }
 
         updateDept({

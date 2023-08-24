@@ -26,7 +26,7 @@ interface CartonTransferLogTableProps {
 }
 
 interface CartonTransferTableProps {
-    cartonUID: string | null | undefined
+    cartonID: string | null | undefined
 }
 
 export default function CartonTransferTable(props: CartonTransferTableProps) {
@@ -46,7 +46,7 @@ export default function CartonTransferTable(props: CartonTransferTableProps) {
                     limit: 100,
                     offset: 0,
                 },
-                cartonUID: props.cartonUID,
+                cartonID: props.cartonID,
             }
         }
     )

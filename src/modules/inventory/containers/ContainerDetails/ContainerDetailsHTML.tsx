@@ -42,10 +42,10 @@ export default function ContainerDetailsHTML(props: IContainerDetailsHTMLProps) 
             </SimpleGrid>
             <ContentCard>
                 <Group position="center">
-                    <QrGen uid={props.data?.uid} />
+                    <QrGen uid={props.data?.id} />
                 </Group>
                 <Group position="center">
-                    <Text mt="xs">{props.data?.uid}</Text>
+                    <Text mt="xs">{props.data?.id}</Text>
                 </Group>
             </ContentCard>
         </SimpleGrid>

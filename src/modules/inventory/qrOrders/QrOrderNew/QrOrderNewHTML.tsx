@@ -13,13 +13,14 @@ import { UseFormReturnType } from "@mantine/form"
 
 export interface QrOrderFormValues {
     objectType: undefined
-    skuUID: any
-    batchUID: any
-    warehouseUID: any
-    orgUID: any
+    skuID: any
+    batchID: any
+    warehouseID: any
+    orgID: any
     quantity: number,
+    weight: number,
 
-    skuID: string
+    skuLocalID: string
     skuName: string
     batchNumber: string
     warehouseName: string
@@ -29,7 +30,7 @@ export interface QrOrderFormValues {
 interface QrOrderNewHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<QrOrderFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -60,7 +61,7 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                 handleCancel={props.handleCancel}
             >
                 {/* Select Contractor */}
-                {props.auther.isAdmin && props.orgUID == "" &&
+                {props.auther.isAdmin && props.orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={orgModalOpened}
@@ -90,19 +91,19 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                     {...props.form.getInputProps("objectType")}
                 />
 
-                {props.form.values.orgUID != "" && props.form.values.objectType == "CARTON" &&
+                {props.form.values.orgID != "" && props.form.values.objectType == "CARTON" &&
                     <>
                         <SkuSelectModal
                             opened={skuModalOpened}
                             setOpened={setSkuModalOpened}
                             handleSelect={props.handleSkuSelect}
-                            organizationUID={props.form.values.orgUID}
+                            organizationID={props.form.values.orgID}
                         />
                         <TextInput
                             label="SKU"
                             mb="md"
                             placeholder="Select SKU"
-                            disabled={props.form.values.orgUID != "" ? false : true}
+                            disabled={props.form.values.orgID != "" ? false : true}
                             onClick={() => setSkuModalOpened(true)}
                             {...props.form.getInputProps("skuName")}
                         />
@@ -110,32 +111,32 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                     
                 }
 
-                {props.form.values.orgUID != "" && props.form.values.skuUID &&  props.form.values.objectType == "CARTON" &&
+                {props.form.values.orgID != "" && props.form.values.skuID &&  props.form.values.objectType == "CARTON" &&
                     <>
                         <BatchSelectModal
                             opened={batchModalOpened}
                             setOpened={setBatchModalOpened}
                             handleSelect={props.handleBatchSelect}
-                            organizationUID={props.form.values.orgUID}
-                            skuID={props.form.values.skuID}
+                            organizationID={props.form.values.orgID}
+                            skuID={props.form.values.skuLocalID}
                         />
                         <TextInput
                             label="Batch"
                             mb="md"
                             placeholder="Select Batch"
-                            disabled={(props.form.values.orgUID != "" && props.form.values.skuUID != "") ? false : true}
+                            disabled={(props.form.values.orgID != "" && props.form.values.skuID != "") ? false : true}
                             onClick={() => setBatchModalOpened(true)}
                             {...props.form.getInputProps("batchNumber")}
                         />
                     </>
                 }
 
-                {props.form.values.orgUID != "" &&
+                {props.form.values.orgID != "" &&
                     <WarehouseSelectModal
                         opened={warehouseModalOpened}
                         setOpened={setWarehouseModalOpened}
                         handleSelect={props.handleWarehouseSelect}
-                        organizationUID={props.form.values.orgUID}
+                        organizationID={props.form.values.orgID}
                     />
                 }
 
@@ -143,7 +144,7 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                     label="Warehouse"
                     mb="md"
                     placeholder="Select Warehouse"
-                    disabled={props.form.values.orgUID != "" ? false : true}
+                    disabled={props.form.values.orgID != "" ? false : true}
                     onClick={() => setWarehouseModalOpened(true)}
                     {...props.form.getInputProps("warehouseName")}
                 />
@@ -155,6 +156,15 @@ export default function QrOrderNewHTML(props: QrOrderNewHTML) {
                     mb="md"
                     name="quantity"
                     {...props.form.getInputProps('quantity')}
+                />
+
+                <TextInput
+                    label="Weight"
+                    type="number"
+                    placeholder="Weight"
+                    mb="md"
+                    name="quantity"
+                    {...props.form.getInputProps('weight')}
                 />
             </FormCard>
         </Page>

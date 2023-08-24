@@ -59,7 +59,7 @@ export default function WarehouseContractDetails(props: PageProps) {
     const handleFinalize = (e: any) => {
         e.preventDefault()
         finalizeRequest({
-            variables: {uid: objectData.data?.warehouseContract.uid!}
+            variables: {id: objectData.data?.warehouseContract.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -79,7 +79,7 @@ export default function WarehouseContractDetails(props: PageProps) {
     const handleAccept = (e: any) => {
         e.preventDefault()
         acceptRequest({
-            variables: {uid: objectData.data?.warehouseContract.uid!}
+            variables: {id: objectData.data?.warehouseContract.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -99,7 +99,7 @@ export default function WarehouseContractDetails(props: PageProps) {
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {uid: objectData.data?.warehouseContract.uid!}
+            variables: {id: objectData.data?.warehouseContract.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -119,7 +119,7 @@ export default function WarehouseContractDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {uid: objectData.data?.warehouseContract.uid!}
+            variables: {id: objectData.data?.warehouseContract.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -175,7 +175,7 @@ export default function WarehouseContractDetails(props: PageProps) {
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                                 <DetailColumn title='Warehouse Code' value={objectData.data?.warehouseContract?.warehouse?.code!} />
                                 <DetailColumn title='Warehouse Name' value={objectData.data?.warehouseContract?.warehouse?.name!} />
-                                <DetailColumn title='Warehouse UID' value={objectData.data?.warehouseContract?.warehouse?.uid!} />
+                                <DetailColumn title='Warehouse ID' value={objectData.data?.warehouseContract?.warehouse?.id!} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>

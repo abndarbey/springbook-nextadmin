@@ -14,15 +14,15 @@ import PageHeader from "components/PageHeader"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
-    orgUID: Yup.string().min(2, "Invalid org UID"),
+    orgID: Yup.string().min(2, "Invalid org ID"),
 })
 
 export default function RackEdit(props: PageProps) {
     const router = useRouter()
     const [newRack] = useRackCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
-    const [whUID, setWhUID] = useState("")
+    const [orgID, setOrgID] = useState("")
+    const [whID, setWhID] = useState("")
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
@@ -33,9 +33,9 @@ export default function RackEdit(props: PageProps) {
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            orgUID: "",
+            orgID: "",
             typeID: "",
-            warehouseUID: "",
+            warehouseID: "",
             rows: 0,
             columns: 0,
         
@@ -48,18 +48,18 @@ export default function RackEdit(props: PageProps) {
     // get org uid from local storage
     useEffect(() => {
         const org = getObjectFromLocalStorage("org")
-        setOrgUID(org.uid)
-        if (org.uid != "" && org.name) {
-            form.values.orgUID = org.uid!
+        setOrgID(org.id)
+        if (org.id != "" && org.name) {
+            form.values.orgID = org.id!
             form.values.orgName = org.name!
         }
         const wh = getObjectFromLocalStorage("org")
-        setOrgUID(wh.uid)
-        if (wh.uid != "" && wh.name) {
-            form.values.orgUID = wh.uid!
+        setOrgID(wh.id)
+        if (wh.id != "" && wh.name) {
+            form.values.orgID = wh.id!
             form.values.orgName = wh.name!
         }
-    }, [orgUID, whUID, form])
+    }, [orgID, whID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -78,20 +78,20 @@ export default function RackEdit(props: PageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ orgUID: authData.data.auther.orgUID })
+            form.setValues({ orgID: authData.data.auther.orgID })
         }
         setAutherLoaded(true)
     }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.orgUID = item.uid!
+            form.values.orgID = item.id!
             form.values.orgName = item.name!
         }
     }
     const handleWarehouseSelect = (item: Warehouse) => {
         if (item) {
-            form.values.warehouseUID = item.uid!
+            form.values.warehouseID = item.id!
             form.values.whName = item.name!
         }
     }
@@ -104,9 +104,9 @@ export default function RackEdit(props: PageProps) {
 
     const handleSubmit = () => {
         var newRackInput: UpdateRack = {
-            orgUID: form.values.orgUID,
+            orgID: form.values.orgID,
             typeID: form.values.typeID,
-            warehouseUID: form.values.warehouseUID,
+            warehouseID: form.values.warehouseID,
             rows: form.values.rows,
             columns: form.values.columns
         }
@@ -138,8 +138,8 @@ export default function RackEdit(props: PageProps) {
             <PageHeader title={props.title!} />
             <RackEditHTML
                 auther={authData.data?.auther!}
-                orgUID={orgUID}
-                whUID={whUID}
+                orgID={orgID}
+                whID={whID}
                 form={form}
                 handleSubmit={handleSubmit}
                 handleCancel={handleCancel}

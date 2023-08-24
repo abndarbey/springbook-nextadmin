@@ -14,7 +14,7 @@ interface IRoleFormValues {
     name: string,
     isManagement: boolean,
     departmentID: string,
-    orgUID: string,
+    orgID: string,
 
     orgName: string,
     departmentName: string,
@@ -23,7 +23,7 @@ interface IRoleFormValues {
 interface IRoleNewHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IRoleFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -50,7 +50,7 @@ export default function RoleNewHTML(props: IRoleNewHTML) {
                 handleCancel={props.handleCancel}
             >
                 {/* Select Organization */}
-                {props.auther.isAdmin && props.orgUID == "" &&
+                {props.auther.isAdmin && props.orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={orgModalOpened}
@@ -67,19 +67,19 @@ export default function RoleNewHTML(props: IRoleNewHTML) {
                         />
                     </Fragment>
                 }
-                {props.form.values.orgUID != "" &&
+                {props.form.values.orgID != "" &&
                     <DepartmentSelectModal
                         opened={deptModalOpened}
                         setOpened={setDeptModalOpened}
                         handleSelect={props.handleDepartmentSelect}
-                        organizationUID={props.form.values.orgUID}
+                        organizationID={props.form.values.orgID}
                     />
                 }
                 <TextInput
                     label="Department"
                     placeholder="Select Department"
                     mt="md"
-                    disabled={props.form.values.orgUID != "" ? false : true}
+                    disabled={props.form.values.orgID != "" ? false : true}
                     onClick={() => setDeptModalOpened(true)}
                     {...props.form.getInputProps("departmentName")}
                 />

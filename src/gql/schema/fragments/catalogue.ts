@@ -3,7 +3,6 @@ import { gql } from '@apollo/client'
 export const SkuCatalogue = gql`
     fragment SkuCatalogueFragment on SkuCatalogue {
         id
-        uid
         code
         name
         hsnCode
@@ -16,7 +15,7 @@ export const SkuCatalogue = gql`
             name
             url
         }
-        parentSkuUID
+        parentSkuID
         isParent
         status
         isFinal
@@ -24,7 +23,7 @@ export const SkuCatalogue = gql`
         createdAt
         batchCount
         organization {
-            uid
+            id
             code
             name
         }
@@ -34,7 +33,6 @@ export const SkuCatalogue = gql`
 export const BatchCatalogue = gql`
     fragment BatchCatalogueFragment on BatchCatalogue {
         id
-        uid
         code
         batchNumber
         description
@@ -44,12 +42,12 @@ export const BatchCatalogue = gql`
         isFinal
         isArchived
         organization {
-            uid
+            id
             code
             name
         }
         sku {
-            uid
+            id
             code
             name
         }

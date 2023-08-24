@@ -19,7 +19,7 @@ interface IOrganizationFormValues {
 interface IOrganizationNewHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IOrganizationFormValues>
     handleSubmit: () => void
     handleCancel: () => void

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const QR_ORDERS = gql`
     query QROrders($searchFilter: SearchFilter!, $objectType: String) {
@@ -14,8 +14,8 @@ export const QR_ORDERS = gql`
 `
 
 export const QR_ORDER_OBJECTS = gql`
-    query QROrderObjects($searchFilter: SearchFilter!, $qrOrderUID: UUID!) {
-        qrOrderObjects(search: $searchFilter, qrOrderUID: $qrOrderUID) {
+    query QROrderObjects($searchFilter: SearchFilter!, $qrOrderID: ID!) {
+        qrOrderObjects(search: $searchFilter, qrOrderID: $qrOrderID) {
             qrOrderObjects {
                     ...QROrderObjectFragment
                 }

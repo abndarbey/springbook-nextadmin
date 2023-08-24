@@ -69,7 +69,7 @@ export default function SalesOrderDetails(props: PageProps) {
     const handleFinalize = (e: any) => {
         e.preventDefault()
         finalizeRequest({
-            variables: {uid: data?.salesOrder.uid!}
+            variables: {uid: data?.salesOrder.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -89,7 +89,7 @@ export default function SalesOrderDetails(props: PageProps) {
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {uid: data?.salesOrder.uid!}
+            variables: {uid: data?.salesOrder.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -109,7 +109,7 @@ export default function SalesOrderDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {uid: data?.salesOrder.uid!}
+            variables: {uid: data?.salesOrder.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -131,8 +131,8 @@ export default function SalesOrderDetails(props: PageProps) {
     //     soCreateRequest({
     //         variables: {
     //             input: {
-    //                 salesOrderUID: data?.salesOrder.uid!,
-    //                 sellerUID: data?.salesOrder.seller?.uid!,
+    //                 salesOrderID: data?.salesOrder.id!,
+    //                 sellerID: data?.salesOrder.seller?.id!,
     //             }
     //         }
     //     }).then((res: any) => {
@@ -182,11 +182,11 @@ export default function SalesOrderDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="history" pt="xs">
-                    <SalesOrderHistoryTable soUID={data?.salesOrder.uid}/>
+                    <SalesOrderHistoryTable soID={data?.salesOrder.id}/>
                 </Tabs.Panel>
 
                 <Tabs.Panel value="transactions" pt="xs">
-                    <SalesOrderTxnTable uid={data?.salesOrder.uid}/>
+                    <SalesOrderTxnTable uid={data?.salesOrder.id}/>
                 </Tabs.Panel>
             </Tabs>
         </Page>

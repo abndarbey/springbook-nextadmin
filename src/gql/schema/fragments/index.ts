@@ -4,7 +4,7 @@ import { SkuCatalogue, BatchCatalogue } from './catalogue'
 import {
     Sku, Batch,
     QROrder, QROrderObject,
-    Carton, CartonTransferLog, CartonTrackerLog,
+    Carton, CartonTransferLog, CartonTrackerLog, CartonWeightLog,
     Container, ContainerTransferLog, ContainerTrackerLog,
     Pallet, PalletTransferLog, PalletTrackerLog,
 } from './inventory'
@@ -22,12 +22,16 @@ import {
     SalesOrderList,
     SalesOrderDetail,
 } from './order'
+import {
+    Recepie,
+    RecepieList,
+} from './manufacturing'
 
 const Auther = gql`
     fragment AutherFragment on Auther {
         id
         isAdmin
-        orgUID
+        orgID
         roleID
         sessionToken
     }
@@ -59,6 +63,7 @@ export const fragment = {
     Carton,
     CartonTransferLog,
     CartonTrackerLog,
+    CartonWeightLog,
     Container,
     ContainerTransferLog,
     ContainerTrackerLog,
@@ -72,6 +77,9 @@ export const fragment = {
     SalesOrder,
     SalesOrderList,
     SalesOrderDetail,
+
+    Recepie,
+    RecepieList,
 
     Transaction,
 }

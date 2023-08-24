@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const WAREHOUSES = gql`
     query Warehouses($searchFilter: SearchFilter!, $typeID: ID, $isThirdParty: Boolean) {
@@ -14,8 +14,8 @@ export const WAREHOUSES = gql`
 `
 
 export const WAREHOUSE = gql`
-    query Warehouse($uid: UUID, $code: String) {
-        warehouse(uid: $uid, code: $code) {
+    query Warehouse($id: ID, $code: String) {
+        warehouse(id: $id, code: $code) {
             ...WarehouseFragment
             }
         }
@@ -34,8 +34,8 @@ export const WAREHOUSE_CREATE = gql`
 
 
 export const WAREHOUSE_UPDATE = gql`
-    mutation WarehouseUpdate($uid: UUID!, $input: UpdateWarehouse!) {
-        warehouseUpdate(uid: $uid, input: $input) {
+    mutation WarehouseUpdate($id: ID!, $input: UpdateWarehouse!) {
+        warehouseUpdate(id: $id, input: $input) {
             ...WarehouseFragment
             }
         }
@@ -43,8 +43,8 @@ export const WAREHOUSE_UPDATE = gql`
 `
 
 export const WAREHOUSE_FINALIZE = gql`
-    mutation WarehouseFinalize($uid: UUID!) {
-        warehouseFinalize(uid: $uid) {
+    mutation WarehouseFinalize($id: ID!) {
+        warehouseFinalize(id: $id) {
             ...WarehouseFragment
             }
         }
@@ -52,8 +52,8 @@ export const WAREHOUSE_FINALIZE = gql`
 `
 
 export const WAREHOUSE_ARCHIVE = gql`
-    mutation WarehouseArchive($uid: UUID!) {
-        warehouseArchive(uid: $uid) {
+    mutation WarehouseArchive($id: ID!) {
+        warehouseArchive(id: $id) {
             ...WarehouseFragment
             }
         }
@@ -61,8 +61,8 @@ export const WAREHOUSE_ARCHIVE = gql`
 `
 
 export const WAREHOUSE_UNARCHIVE = gql`
-    mutation WarehouseUnarchive($uid: UUID!) {
-        warehouseUnarchive(uid: $uid) {
+    mutation WarehouseUnarchive($id: ID!) {
+        warehouseUnarchive(id: $id) {
             ...WarehouseFragment
             }
         }

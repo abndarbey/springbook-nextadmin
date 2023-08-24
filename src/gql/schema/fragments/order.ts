@@ -3,43 +3,42 @@ import { gql } from '@apollo/client'
 export const PurchaseOrder = gql`
     fragment PurchaseOrderFragment on PurchaseOrder {
         id
-        uid
         code
         totalValue
         isFinal
         isArchived
         createdAt
         buyer {
-            uid
+            id
             code
             name
             website
         }
         seller {
-            uid
+            id
             code
             name
             website
         }
         financier {
-            uid
+            id
             code
             name
             website
         }
         details {
             id
-            purchaseOrderUID
+            purchaseOrderID
             version
             warehouse {
-                uid
+                id
                 code
                 locality
                 city
                 pincode
             }
             requitioner {
-                uid
+                id
                 code
                 name
                 website
@@ -66,14 +65,13 @@ export const PurchaseOrder = gql`
         }
         items {
             id
-            purchaseOrderUID
+            purchaseOrderID
             serial
             units
             unitCost
             unitOfMeasure
             sku {
                 id
-                uid
                 code
                 name
             }
@@ -84,7 +82,6 @@ export const PurchaseOrder = gql`
 export const PurchaseOrderList = gql`
     fragment PurchaseOrderListFragment on PurchaseOrder {
         id
-        uid
         code
         totalValue
         isFinal
@@ -95,17 +92,17 @@ export const PurchaseOrderList = gql`
             documentStatus
         }
         buyer {
-            uid
+            id
             code
             name
         }
         seller {
-            uid
+            id
             code
             name
         }
         financier {
-            uid
+            id
             code
             name
         }
@@ -115,18 +112,17 @@ export const PurchaseOrderList = gql`
 export const PurchaseOrderDetail = gql`
     fragment PurchaseOrderDetailFragment on PurchaseOrderDetail {
         id
-        uid
-        purchaseOrderUID
+        purchaseOrderID
         version
         warehouse {
-            uid
+            id
             code
             locality
             city
             pincode
         }
         requitioner {
-            uid
+            id
             code
             name
             website
@@ -156,43 +152,42 @@ export const PurchaseOrderDetail = gql`
 export const SalesOrder = gql`
     fragment SalesOrderFragment on SalesOrder {
         id
-        uid
         code
         totalValue
         isFinal
         isArchived
         createdAt
         buyer {
-            uid
+            id
             code
             name
             website
         }
         seller {
-            uid
+            id
             code
             name
             website
         }
         financier {
-            uid
+            id
             code
             name
             website
         }
         details {
             id
-            salesOrderUID
+            salesOrderID
             version
             warehouse {
-                uid
+                id
                 code
                 locality
                 city
                 pincode
             }
             requitioner {
-                uid
+                id
                 code
                 name
                 website
@@ -215,21 +210,21 @@ export const SalesOrder = gql`
         }
         items {
             id
-            salesOrderUID
+            salesOrderID
             serial
             units
             unitCost
             unitOfMeasure
             sku {
                 id
-                uid
+                id
                 code
                 name
             }
         }
         purchaseOrder {
             id
-            uid
+            id
             code
         }
     }
@@ -238,7 +233,7 @@ export const SalesOrder = gql`
 export const SalesOrderList = gql`
     fragment SalesOrderListFragment on SalesOrder {
         id
-        uid
+        id
         code
         totalValue
         isFinal
@@ -249,23 +244,22 @@ export const SalesOrderList = gql`
             documentStatus
         }
         buyer {
-            uid
+            id
             code
             name
         }
         seller {
-            uid
+            id
             code
             name
         }
         financier {
-            uid
+            id
             code
             name
         }
         purchaseOrder {
             id
-            uid
             code
         }
     }
@@ -274,18 +268,17 @@ export const SalesOrderList = gql`
 export const SalesOrderDetail = gql`
     fragment SalesOrderDetailFragment on SalesOrderDetail {
         id
-        uid
-        salesOrderUID
+        salesOrderID
         version
         warehouse {
-            uid
+            id
             code
             locality
             city
             pincode
         }
         requitioner {
-            uid
+            id
             code
             name
             website

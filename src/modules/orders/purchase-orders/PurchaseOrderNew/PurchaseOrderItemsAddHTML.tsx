@@ -15,7 +15,7 @@ export default function PurchaseOrderItemsAddHTML(props: IPurchaseOrderItemsAddH
 
     const handleSkuSelect = (index: number, item: SkuCatalogue) => {
         if (item) {
-            props.form.values.items[index].skuUID = item.uid!
+            props.form.values.items[index].skuID = item.id!
             props.form.values.items[index].skuName = item.name!
         }
     }
@@ -24,7 +24,7 @@ export default function PurchaseOrderItemsAddHTML(props: IPurchaseOrderItemsAddH
         props.form.insertListItem(
             'items',
             {
-                skuUID: null,
+                skuID: null,
                 units: 0,
                 unitCost: 0,
                 unitOfMeasure: '',

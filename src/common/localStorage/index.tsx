@@ -2,10 +2,10 @@ import { LocalStorageObject } from "types/types"
 
 export function setObjectToLocalStorage(key: string, item: any): LocalStorageObject {
     let obj: LocalStorageObject = {
-        uid: item.uid!,
+        id: item.id!,
         code: item.code!,
         name: item.name!,
-        warehouseUID: item.warehouseUID,
+        warehouseID: item.warehouseID,
     }
     localStorage.setItem(key, JSON.stringify(obj))
     return obj
@@ -13,7 +13,7 @@ export function setObjectToLocalStorage(key: string, item: any): LocalStorageObj
 
 export function getObjectFromLocalStorage(key: string): LocalStorageObject {
     let savedItem = localStorage.getItem(key)
-    let obj: LocalStorageObject = {uid: "", code: "", name: "", warehouseUID: ""}
+    let obj: LocalStorageObject = {id: "", code: "", name: "", warehouseID: ""}
     if (savedItem) {
         obj = JSON.parse(savedItem)
     }

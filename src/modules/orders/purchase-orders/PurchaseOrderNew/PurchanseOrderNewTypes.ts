@@ -1,5 +1,5 @@
 export type PurchaseOrderDetailsFormValues = {
-    warehouseUID: any
+    warehouseID: any
     shippingAddress: string
 	city: string
 	country: string
@@ -13,7 +13,7 @@ export type PurchaseOrderDetailsFormValues = {
 }
 
 export type PurchaseOrderItemFromValues = {
-    skuUID: any
+    skuID: any
 	units: number
 	unitCost: number
 	unitOfMeasure: string
@@ -22,8 +22,8 @@ export type PurchaseOrderItemFromValues = {
 }
 
 export type PurchaseOrderFormValues = {
-    buyerUID: any
-    sellerUID: any
+    buyerID: any
+    sellerID: any
 
     details: PurchaseOrderDetailsFormValues
     items: PurchaseOrderItemFromValues[]

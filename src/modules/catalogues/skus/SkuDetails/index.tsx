@@ -61,7 +61,7 @@ export default function SkuCatalogueDetails(props: PageProps) {
     const handleFinalize = (e: any) => {
         e.preventDefault()
         finalizeRequest({
-            variables: {uid: data?.skuCatalogue.uid!}
+            variables: {uid: data?.skuCatalogue.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -81,7 +81,7 @@ export default function SkuCatalogueDetails(props: PageProps) {
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {uid: data?.skuCatalogue.uid!}
+            variables: {uid: data?.skuCatalogue.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -101,7 +101,7 @@ export default function SkuCatalogueDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {uid: data?.skuCatalogue.uid!}
+            variables: {uid: data?.skuCatalogue.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -139,7 +139,7 @@ export default function SkuCatalogueDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="batches" pt="xs">
-                    <BatchCatTable skuUID={data?.skuCatalogue.uid} />
+                    <BatchCatTable skuID={data?.skuCatalogue.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

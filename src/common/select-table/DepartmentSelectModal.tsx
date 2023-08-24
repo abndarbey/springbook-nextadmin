@@ -39,7 +39,7 @@ export default function DepartmentSelectModal(props: ISelectModalProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.organizationUID,
+                    orgID: props.organizationID,
                     limit: 100,
                     offset: 0,
                 },

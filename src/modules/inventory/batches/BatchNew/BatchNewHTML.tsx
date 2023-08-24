@@ -10,8 +10,8 @@ import { UseFormReturnType } from "@mantine/form"
 import { INavTrailProps } from "components/NavTrails"
 
 interface IBatchFormValues {
-    batchUID: string,
-    orgUID: string,
+    batchID: string,
+    orgID: string,
 
     orgName: string,
     batchNumber: string,
@@ -20,7 +20,7 @@ interface IBatchFormValues {
 interface IBatchNewHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IBatchFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -47,7 +47,7 @@ export default function BatchNewHTML(props: IBatchNewHTML) {
                 handleCancel={props.handleCancel}
             >
                 {/* Select Contractor */}
-                {props.auther.isAdmin && props.orgUID == "" &&
+                {props.auther.isAdmin && props.orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={orgModalOpened}
@@ -65,19 +65,19 @@ export default function BatchNewHTML(props: IBatchNewHTML) {
                     </Fragment>
                 }
 
-                {props.form.values.orgUID != "" &&
+                {props.form.values.orgID != "" &&
                     <BatchCatalogueSelectModal
                         opened={batchCatModalOpened}
                         setOpened={setBatchCatModalOpened}
                         handleSelect={props.handleBatchCatalogueSelect}
-                        organizationUID={props.form.values.orgUID}
+                        organizationID={props.form.values.orgID}
                     />
                 }
                 <TextInput
                     label="Batch Catalogue"
                     mb="md"
                     placeholder="Select Batch Catalogue"
-                    disabled={props.form.values.orgUID != "" ? false : true}
+                    disabled={props.form.values.orgID != "" ? false : true}
                     onClick={() => setBatchCatModalOpened(true)}
                     {...props.form.getInputProps("batchNumber")}
                 />

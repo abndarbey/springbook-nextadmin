@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const CONTAINERS = gql`
     query Containers($searchFilter: SearchFilter!) {
@@ -14,8 +14,8 @@ export const CONTAINERS = gql`
 `
 
 export const CONTAINER = gql`
-    query Container($id: ID, $uid: UUID, $code: String) {
-        container(id: $id, uid: $uid, code: $code) {
+    query Container($id: ID, $code: String) {
+        container(id: $id, code: $code) {
             ...ContainerFragment
         }
     }
@@ -23,8 +23,8 @@ export const CONTAINER = gql`
 `
 
 export const CONTAINER_UPDATE = gql`
-    mutation ContainerUpdate($uid: UUID!, $input: UpdateContainer!) {
-        containerUpdate(uid: $uid, input: $input) {
+    mutation ContainerUpdate($id: ID!, $input: UpdateContainer!) {
+        containerUpdate(id: $id, input: $input) {
             ...ContainerFragment
         }
     }
@@ -32,8 +32,8 @@ export const CONTAINER_UPDATE = gql`
 `
 
 export const CONTAINER_ARCHIVE = gql`
-    mutation ContainerArchive($uid: UUID!) {
-        containerArchive(uid: $uid) {
+    mutation ContainerArchive($id: ID!) {
+        containerArchive(id: $id) {
             ...ContainerFragment
         }
     }
@@ -41,8 +41,8 @@ export const CONTAINER_ARCHIVE = gql`
 `
 
 export const CONTAINER_UNARCHIVE = gql`
-    mutation ContainerUnarchive($uid: UUID!) {
-        containerUnarchive(uid: $uid) {
+    mutation ContainerUnarchive($id: ID!) {
+        containerUnarchive(id: $id) {
         ...ContainerFragment
         }
     }
@@ -54,8 +54,8 @@ export const CONTAINER_UNARCHIVE = gql`
 //////////////////////////
 
 export const CONTAINER_TRANSFER_LOGS = gql`
-    query ContainerTransferLogs($searchFilter: SearchFilter!, $containerUID: UUID!) {
-        containerTransferLogs(search: $searchFilter, containerUID: $containerUID) {
+    query ContainerTransferLogs($searchFilter: SearchFilter!, $containerID: ID!) {
+        containerTransferLogs(search: $searchFilter, containerID: $containerID) {
             containerTransferLogs {
                 ...ContainerTransferLogFragment
             }
@@ -66,8 +66,8 @@ export const CONTAINER_TRANSFER_LOGS = gql`
 `
 
 export const CONTAINER_TRACKER_LOGS = gql`
-    query ContainerTrackerLogs($searchFilter: SearchFilter!, $containerUID: UUID!) {
-        containerTrackerLogs(search: $searchFilter, containerUID: $containerUID) {
+    query ContainerTrackerLogs($searchFilter: SearchFilter!, $containerID: ID!) {
+        containerTrackerLogs(search: $searchFilter, containerID: $containerID) {
             containerTrackerLogs {
                 ...ContainerTrackerLogFragment
             }

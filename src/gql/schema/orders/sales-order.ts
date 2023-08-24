@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const SALES_ORDERS = gql`
-    query SalesOrders($searchFilter: SearchFilter!, $view: ViewOption, $purchaseOrderUID: UUID) {
-        salesOrders(search: $searchFilter, view: $view, purchaseOrderUID: $purchaseOrderUID) {
+    query SalesOrders($searchFilter: SearchFilter!, $view: ViewOption, $purchaseOrderID: ID) {
+        salesOrders(search: $searchFilter, view: $view, purchaseOrderID: $purchaseOrderID) {
             salesOrders {
                 ...SalesOrderListFragment
             }
@@ -14,8 +14,8 @@ export const SALES_ORDERS = gql`
 `
 
 export const SALES_ORDER_HISTORY = gql`
-    query SalesOrderHistory($searchFilter: SearchFilter!, $soUID: UUID!) {
-        salesOrderHistory(search: $searchFilter, soUID: $soUID) {
+    query SalesOrderHistory($searchFilter: SearchFilter!, $soID: ID!) {
+        salesOrderHistory(search: $searchFilter, soID: $soID) {
             salesOrderHistory {
                 ...SalesOrderDetailFragment
             }
@@ -26,8 +26,8 @@ export const SALES_ORDER_HISTORY = gql`
 `
 
 export const SALES_ORDER = gql`
-    query SalesOrder($id: ID, $uid: UUID $code: String) {
-        salesOrder(id: $id, uid: $uid, code: $code) {
+    query SalesOrder($id: ID, $code: String) {
+        salesOrder(id: $id, code: $code) {
             ...SalesOrderFragment
         }
     }
@@ -35,8 +35,8 @@ export const SALES_ORDER = gql`
 `
 
 export const SALES_ORDER_VERSION_HASH = gql`
-    query SalesOrderVersionHash($versionUID: UUID!) {
-        salesOrderVersionHash(versionUID: $versionUID)
+    query SalesOrderVersionHash($versionID: ID!) {
+        salesOrderVersionHash(versionID: $versionID)
     }
 `
 
@@ -50,8 +50,8 @@ export const SALES_ORDER_CREATE = gql`
 `
 
 export const SALES_ORDER_FINALIZE = gql`
-    mutation SalesOrderFinalize($uid: UUID!) {
-        salesOrderFinalize(uid: $uid) {
+    mutation SalesOrderFinalize($id: ID!) {
+        salesOrderFinalize(id: $id) {
             ...SalesOrderFragment
         }
     }
@@ -59,8 +59,8 @@ export const SALES_ORDER_FINALIZE = gql`
 `
 
 export const SALES_ORDER_ARCHIVE = gql`
-    mutation SalesOrderArchive($uid: UUID!) {
-        salesOrderArchive(uid: $uid) {
+    mutation SalesOrderArchive($id: ID!) {
+        salesOrderArchive(id: $id) {
             ...SalesOrderFragment
         }
     }
@@ -68,8 +68,8 @@ export const SALES_ORDER_ARCHIVE = gql`
 `
 
 export const SALES_ORDER_UNARCHIVE = gql`
-    mutation SalesOrderUnarchive($uid: UUID!) {
-        salesOrderUnarchive(uid: $uid) {
+    mutation SalesOrderUnarchive($id: ID!) {
+        salesOrderUnarchive(id: $id) {
             ...SalesOrderFragment
         }
     }
@@ -77,7 +77,7 @@ export const SALES_ORDER_UNARCHIVE = gql`
 `
 
 export const SALES_ORDER_VERSION_HASH_VERIFY = gql`
-    mutation SalesOrderVersionHashVerify($versionUID: UUID!) {
-        salesOrderVersionHashVerify(versionUID: $versionUID)
+    mutation SalesOrderVersionHashVerify($versionID: ID!) {
+        salesOrderVersionHashVerify(versionID: $versionID)
     }
 `

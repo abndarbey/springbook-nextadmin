@@ -12,8 +12,8 @@ export type PageProps = {
 }
 
 export type LocalStorageObject = {
-    uid: string
+    id: string
     code: string
     name: string
-    warehouseUID?: string
+    warehouseID?: string
 }

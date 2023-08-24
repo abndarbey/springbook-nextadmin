@@ -116,7 +116,7 @@ export default function BatchDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="cartons" pt="xs">
-                    <CartonTable batchUID={data?.batch.uid} />
+                    <CartonTable batchID={data?.batch.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

@@ -16,8 +16,8 @@ import SalesOrderTableHTML from "./SalesOrderTableHTML"
 
 interface SalesOrderTableProps {
     view: ViewOption
-    orgUID?: string | null | undefined
-    poUID?: string | null | undefined
+    orgID?: string | null | undefined
+    poID?: string | null | undefined
 }
 
 export default function SalesOrderTable(props: SalesOrderTableProps) {
@@ -38,12 +38,12 @@ export default function SalesOrderTable(props: SalesOrderTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Descending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },
                 view: props.view,
-                purchaseOrderUID: props.poUID
+                purchaseOrderID: props.poID
             }
         }
     )
@@ -71,7 +71,7 @@ export default function SalesOrderTable(props: SalesOrderTableProps) {
 
     const archiveAction = (item: SalesOrder) => {
         archiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -89,7 +89,7 @@ export default function SalesOrderTable(props: SalesOrderTableProps) {
 
     const unarchiveAction = (item: SalesOrder) => {
         unarchiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

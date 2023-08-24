@@ -15,7 +15,7 @@ import PageLoader from 'components/PageLoader'
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
-    orgUID: Yup.string().min(2, 'Invalid org UID'),
+    orgID: Yup.string().min(2, 'Invalid org ID'),
 })
 
 interface IWarehouseTypeEditProps {
@@ -40,7 +40,7 @@ export default function WarehouseTypeEdit(props: IWarehouseTypeEditProps) {
         initialValues: {
             name: '',
             details: '',
-            orgUID: '',
+            orgID: '',
 
             orgName: ''
         },
@@ -68,7 +68,7 @@ export default function WarehouseTypeEdit(props: IWarehouseTypeEditProps) {
             {
                 name: data.warehouseType.name!,
                 details: data.warehouseType.details,
-                orgUID: data.warehouseType.organization?.uid,
+                orgID: data.warehouseType.organization?.id,
                 orgName: data.warehouseType.organization?.name!
             }
            
@@ -78,14 +78,14 @@ export default function WarehouseTypeEdit(props: IWarehouseTypeEditProps) {
     }
 
     const handleOrgSelect = (item: Organization) => {
-        form.values.orgUID = item.uid!
+        form.values.orgID = item.id!
     }
 
     const handleSubmit = () => {
         var updateDeptInput: UpdateWarehouseType = {
             name: form.values.name,
             details: form.values.details,
-            orgUID: form.values.orgUID,
+            orgID: form.values.orgID,
         }
 
         updateDept({

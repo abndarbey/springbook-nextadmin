@@ -15,7 +15,7 @@ import { PageProps } from 'types/types'
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, 'Organization Name should have at least 2 letters'),
-    orgUID: Yup.string().min(2, 'Invalid org UID'),
+    orgID: Yup.string().min(2, 'Invalid org ID'),
 })
 
 export default function SkuEdit(props: PageProps) {

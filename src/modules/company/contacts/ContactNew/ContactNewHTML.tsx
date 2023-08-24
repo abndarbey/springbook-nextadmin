@@ -10,8 +10,8 @@ import { UseFormReturnType } from "@mantine/form"
 import { TextInput } from "@mantine/core"
 
 interface IContactFormValues {
-    companyUID: string,
-    orgUID: string,
+    companyID: string,
+    orgID: string,
 
     companyName: string,
     orgName: string,
@@ -20,7 +20,7 @@ interface IContactFormValues {
 interface IContactNewHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IContactFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -47,7 +47,7 @@ export default function ContactNewHTML(props: IContactNewHTML) {
                 handleCancel={props.handleCancel}
             >
                 {/* Select Organization */}
-                {props.auther.isAdmin && props.orgUID == "" &&
+                {props.auther.isAdmin && props.orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={orgModalOpened}
@@ -65,7 +65,7 @@ export default function ContactNewHTML(props: IContactNewHTML) {
                     </Fragment>
                 }
                 {/* Select Contact Organization */}
-                {props.form.values.orgUID != "" &&
+                {props.form.values.orgID != "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={contactModalOpened}

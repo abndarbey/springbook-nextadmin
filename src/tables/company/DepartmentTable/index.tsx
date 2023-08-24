@@ -14,7 +14,7 @@ import { useRouter } from "next/router"
 import DeptTableHTML from "./DeptTableHTML"
 
 interface DepartmentTableProps {
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
 }
 
 export default function DepartmentTable(props: DepartmentTableProps) {
@@ -34,7 +34,7 @@ export default function DepartmentTable(props: DepartmentTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },

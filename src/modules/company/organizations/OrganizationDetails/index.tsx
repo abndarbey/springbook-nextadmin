@@ -59,7 +59,7 @@ export default function OrganizationDetails(props: PageProps) {
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {uid: data?.organization.uid!}
+            variables: {uid: data?.organization.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -79,7 +79,7 @@ export default function OrganizationDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {uid: data?.organization.uid!}
+            variables: {uid: data?.organization.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -116,7 +116,7 @@ export default function OrganizationDetails(props: PageProps) {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="departments" pt="xs">
-                    <DepartmentTable orgUID={data?.organization.uid} />
+                    <DepartmentTable orgID={data?.organization.id} />
                 </Tabs.Panel>
             </Tabs>
         </Page>

@@ -12,8 +12,8 @@ import { useRouter } from "next/router"
 import TransactionTableHTML from "./TransactionTableHTML"
 
 interface TransactionTableProps {
-    orgUID?: string | null | undefined
-    objectUID?: string | null | undefined
+    orgID?: string | null | undefined
+    objectID?: string | null | undefined
 }
 
 export default function TransactionTable(props: TransactionTableProps) {
@@ -31,11 +31,11 @@ export default function TransactionTable(props: TransactionTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },
-                objectUID: props.objectUID,
+                objectID: props.objectID,
             }
         }
     )
@@ -55,10 +55,10 @@ export default function TransactionTable(props: TransactionTableProps) {
 
     // Row Actions
     const viewAction = (item: Transaction) => {
-        router.push(`/settings/transactions/${item.uid}`)
+        router.push(`/settings/transactions/${item.id}`)
     }
     const editAction = (item: Transaction) => {
-        router.push(`/settings/transactions/${item.uid}/edit`)
+        router.push(`/settings/transactions/${item.id}/edit`)
     }
 
     // Filter Actions

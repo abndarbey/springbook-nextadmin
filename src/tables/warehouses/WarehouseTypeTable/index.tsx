@@ -15,7 +15,7 @@ import { useRouter } from "next/router"
 import WarehouseTypeTableHTML from "./WarehouseTypeTableHTML"
 
 interface WarehouseTypeTableProps {
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
 }
 
 export default function WarehouseTypeTable(props: WarehouseTypeTableProps) {
@@ -34,7 +34,7 @@ export default function WarehouseTypeTable(props: WarehouseTypeTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 }

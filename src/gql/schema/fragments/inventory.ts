@@ -3,7 +3,7 @@ import { gql } from '@apollo/client'
 export const Sku = gql`
     fragment SkuFragment on Sku {
         id
-        uid
+        gid
         code
         name
         hsnCode
@@ -16,7 +16,7 @@ export const Sku = gql`
             name
             url
         }
-        parentSkuUID
+        parentSkuID
         isParent
         isRawMaterial
         status
@@ -26,7 +26,7 @@ export const Sku = gql`
         batchCount
         cartonCount
         organization {
-            uid
+            id
             code
             name
         }
@@ -36,7 +36,7 @@ export const Sku = gql`
 export const Batch = gql`
     fragment BatchFragment on Batch {
         id
-        uid
+        gid
         code
         batchNumber
         description
@@ -47,12 +47,13 @@ export const Batch = gql`
         isArchived
         cartonCount
         sku {
-            uid
+            id
+            gid
             code
             name
         }
         organization {
-            uid
+            id
             code
             name
         }
@@ -62,7 +63,6 @@ export const Batch = gql`
 export const QROrder = gql`
     fragment QROrderFragment on QROrder {
         id
-        uid
         code
         objectType
         description
@@ -74,25 +74,21 @@ export const QROrder = gql`
         updatedAt
         organization {
             id
-            uid
             code
             name
         }
         warehouse {
             id
-            uid
             code
             name
         }
         sku {
             id
-            uid
             code
             name
         }
         batch {
             id
-            uid
             code
             batchNumber
         }
@@ -102,15 +98,14 @@ export const QROrder = gql`
 export const QROrderObject = gql`
     fragment QROrderObjectFragment on QROrderObject {
         id
-        qrOrderUID
-        objectUID
+        qrOrderID
+        objectID
     }
 `
 
 export const Carton = gql`
     fragment CartonFragment on Carton {
         id
-        uid
         code
         description
         status
@@ -147,12 +142,14 @@ export const Carton = gql`
             createdAt
         }
         sku {
-            uid
+            id
+            gid
             code
             name
         }
         batch {
-            uid
+            id
+            gid
             code
             batchNumber
         }
@@ -163,17 +160,17 @@ export const CartonTransferLog = gql`
     fragment CartonTransferLogFragment on CartonTransferLog {
         id
         owner {
-            uid
+            id
             code
             name
         }
         custodian {
-            uid
+            id
             code
             name
         }
         warehouse {
-            uid
+            id
             code
             name
         }
@@ -194,11 +191,23 @@ export const CartonTrackerLog = gql`
     } 
 `
 
+export const CartonWeightLog = gql`
+    fragment CartonWeightLogFragment on CartonWeightLog {
+        id
+        drawdownWeight
+        measuredWeight
+        createdAt
+        productionOrder {
+            id
+            code
+        }
+    } 
+`
+
 
 export const Container = gql`
     fragment ContainerFragment on Container {
         id
-        uid
         code
         description
         status
@@ -241,17 +250,17 @@ export const ContainerTransferLog = gql`
     fragment ContainerTransferLogFragment on ContainerTransferLog {
         id
         owner {
-            uid
+            id
             code
             name
         }
         custodian {
-            uid
+            id
             code
             name
         }
         warehouse {
-            uid
+            id
             code
             name
         }
@@ -274,7 +283,6 @@ export const ContainerTrackerLog = gql`
 export const Pallet = gql`
     fragment PalletFragment on Pallet {
         id
-        uid
         code
         description
         status
@@ -317,17 +325,17 @@ export const PalletTransferLog = gql`
     fragment PalletTransferLogFragment on PalletTransferLog {
         id
         owner {
-            uid
+            id
             code
             name
         }
         custodian {
-            uid
+            id
             code
             name
         }
         warehouse {
-            uid
+            id
             code
             name
         }

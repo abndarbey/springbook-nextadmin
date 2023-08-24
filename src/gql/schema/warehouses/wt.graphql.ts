@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const WAREHOUSE_TYPES = gql`
     query WarehouseTypes($searchFilter: SearchFilter!) {

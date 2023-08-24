@@ -13,6 +13,7 @@ export default function WarehouseDetailsHTML(props: IWarehouseDetailsHTMLProps) 
         <ContentCard>
             <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                 <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
+                    <DetailColumn title="ID" value={props.data.id!} />
                     <DetailColumn title="Code" value={props.data.code!} />
                     <DetailColumn title="Name" value={props.data.name!} />
                 </Box>

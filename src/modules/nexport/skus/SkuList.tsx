@@ -87,7 +87,7 @@ export default function SkuCatalogueList(props: PageProps) {
         newSku({
             variables: {
                 input: {
-                    uid: item.uid
+                    gid: item.id
                 }
             }
         }).then((res: any) => {

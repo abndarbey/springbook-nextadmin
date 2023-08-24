@@ -10,14 +10,14 @@ interface IRackTypeFormValues {
     name: string,
     details: string,
     storageType: string,
-    orgUID: string,
+    orgID: string,
 
     orgName: string,
 }
 
 interface IRackTypeNewHTML {
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IRackTypeFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -34,7 +34,7 @@ export default function RackTypeNewHTML(props: IRackTypeNewHTML) {
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={orgModalOpened}

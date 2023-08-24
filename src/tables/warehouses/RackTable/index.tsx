@@ -15,8 +15,8 @@ import { useRouter } from "next/router"
 import RackTableHTML from "./RackTableHTML"
 
 interface RackTableProps {
-    orgUID?: string | null | undefined
-    warehouseUID?: string | null | undefined
+    orgID?: string | null | undefined
+    warehouseID?: string | null | undefined
     typeID?: string | null | undefined
 }
 
@@ -36,8 +36,8 @@ export default function RackTable(props: RackTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
-                    warehouseUID: props.warehouseUID,
+                    orgID: props.orgID,
+                    warehouseID: props.warehouseID,
                     limit: 100,
                     offset: 0,
                 },

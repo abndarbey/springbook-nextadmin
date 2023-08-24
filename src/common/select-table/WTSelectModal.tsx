@@ -41,7 +41,7 @@ export default function WarehouseTypeSelectModal(props: ISelectModalProps) {
                     filter: filterValue,
                     limit: 100,
                     offset: 0,
-                    orgUID: props.organizationUID,
+                    orgID: props.organizationID,
                 },
             }
         }

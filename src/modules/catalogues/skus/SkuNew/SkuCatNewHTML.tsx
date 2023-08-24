@@ -6,7 +6,7 @@ import { UseFormReturnType } from "@mantine/form"
 import { SimpleGrid, Textarea, TextInput } from "@mantine/core"
 
 interface ISkuCatFormValues {
-    orgUID: string,
+    orgID: string,
     name: string,
     hsnCode: string,
     brand: string,
@@ -20,7 +20,7 @@ interface ISkuCatFormValues {
 
 interface ISkuCatNewHTML {
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<ISkuCatFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -37,7 +37,7 @@ export default function SkuCatNewHTML(props: ISkuCatNewHTML) {
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={orgModalOpened}

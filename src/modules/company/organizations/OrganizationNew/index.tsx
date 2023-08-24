@@ -11,14 +11,14 @@ import OrganizationNewHTML from "./OrganizationNewHTML"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
-    orgUID: Yup.string().min(2, "Invalid org UID"),
+    orgID: Yup.string().min(2, "Invalid org ID"),
 })
 
 export default function OrganizationNew(props: PageProps) {
     const router = useRouter()
     const [newOrganization] = useOrganizationRegisterMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
+    const [orgID, setOrgID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
@@ -92,7 +92,7 @@ export default function OrganizationNew(props: PageProps) {
         <OrganizationNewHTML
             title={props.title!}
             auther={authData.data?.auther!}
-            orgUID={orgUID}
+            orgID={orgID}
             form={form}
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}

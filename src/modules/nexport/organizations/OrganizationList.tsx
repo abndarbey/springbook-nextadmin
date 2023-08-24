@@ -90,7 +90,7 @@ export default function OrganizationList() {
         newContact({
             variables: {
                 input: {
-                    companyUID: item.uid
+                    companyID: item.id
                 }
             }
         }).then((res: any) => {

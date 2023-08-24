@@ -174,6 +174,16 @@ export const menuData = [
         ],
     },
     {
+        label: 'Manufacturing',
+        link: '',
+        icon: IconBuildingWarehouse,
+        initiallyOpened: false,
+        links: [
+            { label: 'Recepies', link: '/manufacturing/recepies' },
+            { label: 'Production Orders', link: '/manufacturing/production-orders' },
+        ],
+    },
+    {
         label: 'Settings',
         link: '/dashboard',
         icon: IconAdjustments,

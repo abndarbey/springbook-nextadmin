@@ -85,7 +85,7 @@ export default function BatchCatalogueList(props: PageProps) {
         newBatch({
             variables: {
                 input: {
-                    uid: item.uid
+                    gid: item.id
                 }
             }
         }).then((res: any) => {

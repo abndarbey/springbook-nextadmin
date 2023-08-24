@@ -11,7 +11,7 @@ export const WarehouseType = gql`
         isArchived
         createdAt
         organization {
-            uid
+            id
             code
             name
         }
@@ -35,7 +35,7 @@ export const RackType = gql`
         isArchived
         createdAt
         organization {
-            uid
+            id
             code
             name
         }
@@ -45,9 +45,8 @@ export const RackType = gql`
 export const Warehouse = gql`
     fragment WarehouseFragment on Warehouse {
         id
-        uid
         code
-        warehouseUID
+        warehouseID
         name
         details
         
@@ -80,7 +79,7 @@ export const Warehouse = gql`
             lon
         }
         organization {
-            uid
+            id
             code
             name
         }
@@ -109,12 +108,12 @@ export const Rack = gql`
             name
         }
         warehouse {
-            uid
+            id
             code
             name
         }
         organization {
-            uid
+            id
             code
             name
         }
@@ -138,12 +137,12 @@ export const Cell = gql`
             code
         }
         warehouse {
-            uid
+            id
             code
             name
         }
         organization {
-            uid
+            id
             code
             name
         }
@@ -153,7 +152,6 @@ export const Cell = gql`
 export const WarehouseContract = gql`
     fragment WarehouseContractFragment on WarehouseContract {
         id
-        uid
         code
         message
         status
@@ -163,17 +161,17 @@ export const WarehouseContract = gql`
         isAccepted
         createdAt
         contractor {
-            uid
+            id
             code
             name
         }
         client {
-            uid
+            id
             code
             name
         }
         warehouse {
-            uid
+            id
             code
             name
         }

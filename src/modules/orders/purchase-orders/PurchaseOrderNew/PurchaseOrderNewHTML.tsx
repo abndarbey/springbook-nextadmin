@@ -12,7 +12,7 @@ import PurchaseOrderItemsAddHTML from "./PurchaseOrderItemsAddHTML"
 
 interface IPurchaseOrderNewHTMLProps {
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<PurchaseOrderFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -26,19 +26,19 @@ export default function PurchaseOrderNewHTML(props: IPurchaseOrderNewHTMLProps) 
 
     const handleBuyerSelect = (item: Organization) => {
         if (item) {
-            props.form.values.buyerUID = item.uid!
+            props.form.values.buyerID = item.id!
             props.form.values.buyerName = item.name!
         }
     }
     const handleSellerSelect = (item: Contact) => {
         if (item) {
-            props.form.values.sellerUID = item.companyUID!
+            props.form.values.sellerID = item.companyID!
             props.form.values.sellerName = item.name!
         }
     }
     const handleWarehouseSelect = (item: Warehouse) => {
         if (item) {
-            props.form.values.details.warehouseUID = item.uid!
+            props.form.values.details.warehouseID = item.id!
             props.form.values.warehouseName = item.name!
         }
     }
@@ -59,7 +59,7 @@ export default function PurchaseOrderNewHTML(props: IPurchaseOrderNewHTMLProps) 
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={buyerModalOpened}
@@ -76,12 +76,12 @@ export default function PurchaseOrderNewHTML(props: IPurchaseOrderNewHTMLProps) 
                     />
                 </Fragment>
             }
-            {props.form.values.buyerUID != "" &&
+            {props.form.values.buyerID != "" &&
                 <ContactSelectModal
                     opened={sellerModalOpened}
                     setOpened={setSellerModalOpened}
                     handleSelect={handleSellerSelect}
-                    organizationUID={props.form.values.buyerUID}
+                    organizationID={props.form.values.buyerID}
                 />
             }
             <TextInput
@@ -89,7 +89,7 @@ export default function PurchaseOrderNewHTML(props: IPurchaseOrderNewHTMLProps) 
                 placeholder="Select Seller"
                 name="seller"
                 mb="md"
-                disabled={props.form.values.buyerUID != "" ? false : true}
+                disabled={props.form.values.buyerID != "" ? false : true}
                 onClick={() => setSellerModalOpened(true)}
                 {...props.form.getInputProps('sellerName')}
             />
@@ -111,12 +111,12 @@ export default function PurchaseOrderNewHTML(props: IPurchaseOrderNewHTMLProps) 
             />
             {!isCustomAddress &&
                 <Fragment>
-                    {props.form.values.buyerUID != "" &&
+                    {props.form.values.buyerID != "" &&
                         <WarehouseSelectModal
                             opened={warehouseModalOpened}
                             setOpened={setWarehouseModalOpened}
                             handleSelect={handleWarehouseSelect}
-                            organizationUID={props.form.values.buyerUID}
+                            organizationID={props.form.values.buyerID}
                         />
                     }
                     <TextInput
@@ -124,7 +124,7 @@ export default function PurchaseOrderNewHTML(props: IPurchaseOrderNewHTMLProps) 
                         placeholder="Select Warehouse"
                         name="warehouse"
                         mb="md"
-                        disabled={props.form.values.buyerUID != "" ? false : true}
+                        disabled={props.form.values.buyerID != "" ? false : true}
                         onClick={() => setWarehouseModalOpened(true)}
                         {...props.form.getInputProps('warehouseName')}
                     />

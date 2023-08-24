@@ -61,7 +61,7 @@ export default function BatchCatalogueDetails(props: PageProps) {
     const handleFinalize = (e: any) => {
         e.preventDefault()
         finalizeRequest({
-            variables: {uid: data?.batchCatalogue.uid!}
+            variables: {uid: data?.batchCatalogue.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -81,7 +81,7 @@ export default function BatchCatalogueDetails(props: PageProps) {
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {uid: data?.batchCatalogue.uid!}
+            variables: {uid: data?.batchCatalogue.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -101,7 +101,7 @@ export default function BatchCatalogueDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {uid: data?.batchCatalogue.uid!}
+            variables: {uid: data?.batchCatalogue.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

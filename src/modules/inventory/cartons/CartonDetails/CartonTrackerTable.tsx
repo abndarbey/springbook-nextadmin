@@ -26,7 +26,7 @@ interface CartonTrackerLogTableProps {
 }
 
 interface CartonTrackerTableProps {
-    cartonUID: string | null | undefined
+    cartonID: string | null | undefined
 }
 
 export default function CartonTrackerTable(props: CartonTrackerTableProps) {
@@ -46,7 +46,7 @@ export default function CartonTrackerTable(props: CartonTrackerTableProps) {
                     limit: 100,
                     offset: 0,
                 },
-                cartonUID: props.cartonUID,
+                cartonID: props.cartonID,
             }
         }
     )

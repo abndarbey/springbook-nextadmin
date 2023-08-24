@@ -11,20 +11,20 @@ import SkuNewHTML from "./SkuNewHTML"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
-    orgUID: Yup.string().min(2, "Invalid org UID"),
+    orgID: Yup.string().min(2, "Invalid org ID"),
 })
 
 export default function SkuNew(props: PageProps) {
     const router = useRouter()
     const [newSku] = useSkuCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
+    const [orgID, setOrgID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            skuUID: "",
-            orgUID: "",
+            skuID: "",
+            orgID: "",
 
             orgName: "",
             skuName: "",
@@ -34,12 +34,12 @@ export default function SkuNew(props: PageProps) {
     // get org uid from local storage
     useEffect(() => {
         const obj = getObjectFromLocalStorage("org")
-        setOrgUID(obj.uid)
-        if (obj.uid != "" && obj.name) {
-            form.values.orgUID = obj.uid!
+        setOrgID(obj.id)
+        if (obj.id != "" && obj.name) {
+            form.values.orgID = obj.id!
             form.values.orgName = obj.name!
         }
-    }, [orgUID, form])
+    }, [orgID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -58,29 +58,29 @@ export default function SkuNew(props: PageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ orgUID: authData.data.auther.orgUID })
+            form.setValues({ orgID: authData.data.auther.orgID })
         }
         setAutherLoaded(true)
     }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.orgUID = item.uid!
+            form.values.orgID = item.id!
             form.values.orgName = item.name!
         }
     }
 
     const handleSkuCatalogueSelect = (item: SkuCatalogue | undefined) => {
         if (item) {
-            form.values.skuUID = item?.uid!
+            form.values.skuID = item?.id!
             form.values.skuName = item?.name!
         }
     }
 
     const handleSubmit = () => {
         var newSkuInput: UpdateSku = {
-            uid: form.values.skuUID,
-            orgUID: form.values.orgUID,
+            uid: form.values.skuID,
+            orgID: form.values.orgID,
         }
 
         newSku({
@@ -109,7 +109,7 @@ export default function SkuNew(props: PageProps) {
         <SkuNewHTML
             title={props.title!}
             auther={authData.data?.auther!}
-            orgUID={orgUID}
+            orgID={orgID}
             form={form}
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}

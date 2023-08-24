@@ -9,14 +9,14 @@ import { Textarea, TextInput } from "@mantine/core"
 interface IWarehouseTypeFormValues {
     name: string,
     details: string,
-    orgUID: string,
+    orgID: string,
 
     orgName: string,
 }
 
 interface IWarehouseTypeNewHTML {
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IWarehouseTypeFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -33,7 +33,7 @@ export default function WarehouseTypeNewHTML(props: IWarehouseTypeNewHTML) {
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={orgModalOpened}

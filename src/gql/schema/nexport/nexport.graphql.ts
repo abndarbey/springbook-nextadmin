@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const NEXPORT_ORGANIZATIONS = gql`
     query NexportOrganizations($searchFilter: SearchFilter!, $sector: String) {
@@ -26,8 +26,8 @@ export const NEXPORT_SKU_CATALOGUES = gql`
 `
 
 export const NEXPORT_BATCH_CATALOGUES = gql`
-    query NexportBatchCatalogues($searchFilter: SearchFilter!, $skuUID: UUID) {
-        nexportBatchCatalogues(search: $searchFilter, skuUID: $skuUID) {
+    query NexportBatchCatalogues($searchFilter: SearchFilter!, $skuID: ID) {
+        nexportBatchCatalogues(search: $searchFilter, skuID: $skuID) {
             batchCatalogues {
                     ...BatchCatalogueFragment
                 }

@@ -22,10 +22,10 @@ const authLink = setContext((_, { headers }) => {
         headers: {
             ...headers,
             Authorization: token ? `${token}` : "",
-            Organization: org ? `${org.uid}` : "",
-            Owner: owner ? `${owner.uid}` : "",
-            Custodian: custodian ? `${custodian.uid}` : "",
-            Warehouse: warehouse ? `${warehouse.warehouseUID}` : "",
+            Organization: org ? `${org.id}` : "",
+            Owner: owner ? `${owner.id}` : "",
+            Custodian: custodian ? `${custodian.id}` : "",
+            Warehouse: warehouse ? `${warehouse.warehouseID}` : "",
         }
     }
 })

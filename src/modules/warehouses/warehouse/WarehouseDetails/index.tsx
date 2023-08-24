@@ -60,7 +60,7 @@ export default function WarehouseDetails(props: PageProps) {
     const handleFinalize = (e: any) => {
         e.preventDefault()
         finalizeRequest({
-            variables: {uid: data?.warehouse.uid!}
+            variables: {uid: data?.warehouse.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -80,7 +80,7 @@ export default function WarehouseDetails(props: PageProps) {
     const handleArchive = (e: any) => {
         e.preventDefault()
         archiveRequest({
-            variables: {uid: data?.warehouse.uid!}
+            variables: {uid: data?.warehouse.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -100,7 +100,7 @@ export default function WarehouseDetails(props: PageProps) {
     const handleUnarchive = (e: any) => {
         e.preventDefault()
         unarchiveRequest({
-            variables: {uid: data?.warehouse.uid!}
+            variables: {uid: data?.warehouse.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

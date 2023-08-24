@@ -6,12 +6,12 @@ export interface ISelectModalProps {
     setOpened: Dispatch<SetStateAction<boolean>>
     handleSelect?: any
     handleClear?: any
-    organizationUID?: string
+    organizationID?: string
     departmentID?: string
     roelID?: string
-    ownerUID?: string
-    custodianUID?: string
-    skuUID?: string
+    ownerID?: string
+    custodianID?: string
+    skuID?: string
     skuID?: string
     isThirdParty?: boolean
 }

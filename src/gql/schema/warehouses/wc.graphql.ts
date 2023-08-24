@@ -1,18 +1,18 @@
 import { gql } from '@apollo/client'
-import { fragment } from "gql/schema/fragments"
+import { fragment } from "@/gql/schema/fragments"
 
 export const WAREHOUSE_CONTRACTS = gql`
     query WarehouseContracts(
         $searchFilter: SearchFilter!,
         $view: ViewOption,
-		$contractorUID: UUID, $clientUID: UUID,
-		$warehouseUID: UUID,
+		$contractorID: ID, $clientID: ID,
+		$warehouseID: ID,
     ) {
         warehouseContracts(
             search: $searchFilter,
             view: $view,
-            contractorUID: $contractorUID, clientUID: $clientUID,
-            warehouseUID: $warehouseUID,
+            contractorID: $contractorID, clientID: $clientID,
+            warehouseID: $warehouseID,
         ) {
             warehouseContracts {
                     ...WarehouseContractFragment
@@ -24,8 +24,8 @@ export const WAREHOUSE_CONTRACTS = gql`
 `
 
 export const WAREHOUSE_CONTRACT = gql`
-    query WarehouseContract($uid: UUID, $code: String) {
-        warehouseContract(uid: $uid, code: $code) {
+    query WarehouseContract($id: ID, $code: String) {
+        warehouseContract(id: $id, code: $code) {
             ...WarehouseContractFragment
             }
         }
@@ -44,8 +44,8 @@ export const WAREHOUSE_CONTRACT_CREATE = gql`
 
 
 export const WAREHOUSE_CONTRACT_UPDATE = gql`
-    mutation WarehouseContractUpdate($uid: UUID!, $input: UpdateWarehouseContract!) {
-        warehouseContractUpdate(uid: $uid, input: $input) {
+    mutation WarehouseContractUpdate($id: ID!, $input: UpdateWarehouseContract!) {
+        warehouseContractUpdate(id: $id, input: $input) {
             ...WarehouseContractFragment
             }
         }
@@ -53,8 +53,8 @@ export const WAREHOUSE_CONTRACT_UPDATE = gql`
 `
 
 export const WAREHOUSE_CONTRACT_FINALIZE = gql`
-    mutation WarehouseContractFinalize($uid: UUID!) {
-        warehouseContractFinalize(uid: $uid) {
+    mutation WarehouseContractFinalize($id: ID!) {
+        warehouseContractFinalize(id: $id) {
             ...WarehouseContractFragment
             }
         }
@@ -62,8 +62,8 @@ export const WAREHOUSE_CONTRACT_FINALIZE = gql`
 `
 
 export const WAREHOUSE_CONTRACT_ACCEPT = gql`
-    mutation WarehouseContractAccept($uid: UUID!) {
-        warehouseContractAccept(uid: $uid) {
+    mutation WarehouseContractAccept($id: ID!) {
+        warehouseContractAccept(id: $id) {
             ...WarehouseContractFragment
             }
         }
@@ -71,8 +71,8 @@ export const WAREHOUSE_CONTRACT_ACCEPT = gql`
 `
 
 export const WAREHOUSE_CONTRACT_DECLINE = gql`
-    mutation WarehouseContractDecline($uid: UUID!) {
-        warehouseContractDecline(uid: $uid) {
+    mutation WarehouseContractDecline($id: ID!) {
+        warehouseContractDecline(id: $id) {
             ...WarehouseContractFragment
             }
         }
@@ -80,8 +80,8 @@ export const WAREHOUSE_CONTRACT_DECLINE = gql`
 `
 
 export const WAREHOUSE_CONTRACT_ARCHIVE = gql`
-    mutation WarehouseContractArchive($uid: UUID!) {
-        warehouseContractArchive(uid: $uid) {
+    mutation WarehouseContractArchive($id: ID!) {
+        warehouseContractArchive(id: $id) {
             ...WarehouseContractFragment
             }
         }
@@ -89,8 +89,8 @@ export const WAREHOUSE_CONTRACT_ARCHIVE = gql`
 `
 
 export const WAREHOUSE_CONTRACT_UNARCHIVE = gql`
-    mutation WarehouseContractUnarchive($uid: UUID!) {
-        warehouseContractUnarchive(uid: $uid) {
+    mutation WarehouseContractUnarchive($id: ID!) {
+        warehouseContractUnarchive(id: $id) {
             ...WarehouseContractFragment
             }
         }

@@ -19,7 +19,7 @@ import { PAGE_SIZES } from "types/enums"
 import moment from "moment"
 
 interface QrOrderObjectTableHTMLProps {
-    qrOrderUID: string
+    qrOrderID: string
     data: QrOrderObjectsResult
     batchViewAction?: any
     filterAction?: any
@@ -27,7 +27,7 @@ interface QrOrderObjectTableHTMLProps {
 }
 
 interface QrOrderObjectTableProps {
-    qrOrderUID: string
+    qrOrderID: any
 }
 
 export default function QrOrderObjectTable(props: QrOrderObjectTableProps) {
@@ -47,7 +47,7 @@ export default function QrOrderObjectTable(props: QrOrderObjectTableProps) {
                     limit: 100,
                     offset: 0,
                 },
-                qrOrderUID: props.qrOrderUID,
+                qrOrderID: props.qrOrderID,
             }
         }
     )
@@ -91,7 +91,7 @@ export default function QrOrderObjectTable(props: QrOrderObjectTableProps) {
     return (
         <Fragment>
             <QrOrderObjectTableHTML
-                qrOrderUID={props.qrOrderUID}
+                qrOrderID={props.qrOrderID}
                 data={data?.qrOrderObjects!}
                 batchViewAction={batchViewAction}
                 filterAction={filterAction}
@@ -132,8 +132,8 @@ const QrOrderObjectTableHTML = (props: QrOrderObjectTableHTMLProps) => {
                     records={records}
                     columns={[
                         { accessor: "id", title: "ID" },
-                        { accessor: "qrOrderUID", title: "QR Order UID" },
-                        { accessor: "objectUID", title: "Object UID" },
+                        { accessor: "qrOrderID", title: "QR Order ID" },
+                        { accessor: "objectID", title: "Object ID" },
                     ]}
                     selectedRecords={selectedRecords}
                     onSelectedRecordsChange={setSelectedRecords}

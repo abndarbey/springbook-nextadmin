@@ -11,8 +11,8 @@ import { UseFormReturnType } from "@mantine/form"
 import { TextInput } from "@mantine/core"
 
 interface ISkuFormValues {
-    skuUID: string,
-    orgUID: string,
+    skuID: string,
+    orgID: string,
 
     orgName: string,
     skuName: string,
@@ -21,7 +21,7 @@ interface ISkuFormValues {
 interface ISkuNewHTML {
     title: string
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<ISkuFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -48,7 +48,7 @@ export default function SkuNewHTML(props: ISkuNewHTML) {
                 handleCancel={props.handleCancel}
             >
                 {/* Select Contractor */}
-                {props.auther.isAdmin && props.orgUID == "" &&
+                {props.auther.isAdmin && props.orgID == "" &&
                     <Fragment>
                         <OrgSelectModal
                             opened={orgModalOpened}
@@ -66,19 +66,19 @@ export default function SkuNewHTML(props: ISkuNewHTML) {
                     </Fragment>
                 }
 
-                {props.form.values.orgUID != "" &&
+                {props.form.values.orgID != "" &&
                     <SkuCatalogueSelectModal
                         opened={skuCatModalOpened}
                         setOpened={setSkuCatModalOpened}
                         handleSelect={props.handleSkuCatalogueSelect}
-                        organizationUID={props.form.values.orgUID}
+                        organizationID={props.form.values.orgID}
                     />
                 }
                 <TextInput
                     label="Sku Catalogue"
                     mb="md"
                     placeholder="Select Sku Catalogue"
-                    disabled={props.form.values.orgUID != "" ? false : true}
+                    disabled={props.form.values.orgID != "" ? false : true}
                     onClick={() => setSkuCatModalOpened(true)}
                     {...props.form.getInputProps("skuName")}
                 />

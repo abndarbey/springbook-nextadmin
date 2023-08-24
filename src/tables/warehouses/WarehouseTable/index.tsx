@@ -15,7 +15,7 @@ import { useRouter } from "next/router"
 import WarehouseTableHTML from "./WarehouseTableHTML"
 
 interface WarehouseTableProps {
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
     typeID?: string | null | undefined
 }
 
@@ -35,7 +35,7 @@ export default function WarehouseTable(props: WarehouseTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },
@@ -67,7 +67,7 @@ export default function WarehouseTable(props: WarehouseTableProps) {
 
     const archiveAction = (item: Warehouse) => {
         archiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -85,7 +85,7 @@ export default function WarehouseTable(props: WarehouseTableProps) {
 
     const unarchiveAction = (item: Warehouse) => {
         unarchiveRequest({
-            variables: {uid: item.uid!}
+            variables: {uid: item.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,

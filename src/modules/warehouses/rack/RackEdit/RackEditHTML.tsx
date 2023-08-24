@@ -9,9 +9,9 @@ import { SimpleGrid, Textarea, TextInput } from "@mantine/core"
 import RackTypeSelectModal from "common/select-table/RTSelectModal"
 
 interface IRackFormValues {
-    orgUID: string,
+    orgID: string,
     typeID: string,
-    warehouseUID: string,
+    warehouseID: string,
     rows: number,
     columns: number,
 
@@ -22,8 +22,8 @@ interface IRackFormValues {
 
 interface IRackNewHTML {
     auther: Auther
-    orgUID: string
-    whUID: string
+    orgID: string
+    whID: string
     form: UseFormReturnType<IRackFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -44,7 +44,7 @@ export default function RackNewHTML(props: IRackNewHTML) {
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={orgModalOpened}
@@ -62,12 +62,12 @@ export default function RackNewHTML(props: IRackNewHTML) {
                 </Fragment>
             }
             {/* Select Warehouse */}
-            {props.form.values.orgUID != "" &&
+            {props.form.values.orgID != "" &&
                 <WarehouseSelectModal
                     opened={whModalOpened}
                     setOpened={setWhModalOpened}
                     handleSelect={props.handleWarehouseSelect}
-                    organizationUID={props.form.values.orgUID}
+                    organizationID={props.form.values.orgID}
                     isThirdParty={false}
                 />
             }
@@ -75,13 +75,13 @@ export default function RackNewHTML(props: IRackNewHTML) {
                 label="Warehouse"
                 mb="md"
                 placeholder="Select Warehouse"
-                name="warehouseUID"
-                disabled={props.form.values.orgUID == ""}
+                name="warehouseID"
+                disabled={props.form.values.orgID == ""}
                 onClick={() => setWhModalOpened(true)}
                 {...props.form.getInputProps("whName")}
             />
             {/* Select RackT ype */}
-            {props.form.values.orgUID != "" &&
+            {props.form.values.orgID != "" &&
                 <RackTypeSelectModal
                     opened={rtModalOpened}
                     setOpened={setRTModalOpened}
@@ -93,7 +93,7 @@ export default function RackNewHTML(props: IRackNewHTML) {
                 mb="md"
                 placeholder="Select Rack Type"
                 name="typeID"
-                disabled={props.form.values.orgUID == ""}
+                disabled={props.form.values.orgID == ""}
                 onClick={() => setRTModalOpened(true)}
                 {...props.form.getInputProps("rtCode")}
             />

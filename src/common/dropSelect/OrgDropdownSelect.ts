@@ -29,7 +29,7 @@ export default function OrgDropdownSelect() {
     if (!loading && data?.organizations?.organizations) {
         data?.organizations?.organizations.map((item) => {
             let obj: SelectFieldData = {
-                value: item.uid,
+                value: item.id,
                 label: item.name,
             }
             selectData.push(obj)

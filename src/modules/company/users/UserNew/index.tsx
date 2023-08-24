@@ -11,14 +11,14 @@ import UserNewHTML from "./UserNewHTML"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
-    orgUID: Yup.string().min(2, "Invalid org UID"),
+    orgID: Yup.string().min(2, "Invalid org ID"),
 })
 
 export default function UserNew(props: PageProps) {
     const router = useRouter()
     const [newUser] = useUserCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
+    const [orgID, setOrgID] = useState("")
 
     const form = useForm({
         validate: yupResolver(schema),
@@ -27,7 +27,7 @@ export default function UserNew(props: PageProps) {
             lastName: "",
             email: "",
             phone: "",
-            orgUID: "",
+            orgID: "",
             roleID: "",
             
             departmentID: "",
@@ -40,12 +40,12 @@ export default function UserNew(props: PageProps) {
     // get org uid from local storage
     useEffect(() => {
         const obj = getObjectFromLocalStorage("org")
-        setOrgUID(obj.uid)
-        if (obj.uid != "" && obj.name) {
-            form.values.orgUID = obj.uid!
+        setOrgID(obj.id)
+        if (obj.id != "" && obj.name) {
+            form.values.orgID = obj.id!
             form.values.orgName = obj.name!
         }
-    }, [orgUID, form])
+    }, [orgID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -64,14 +64,14 @@ export default function UserNew(props: PageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ orgUID: authData.data.auther.orgUID })
+            form.setValues({ orgID: authData.data.auther.orgID })
         }
         setAutherLoaded(true)
     }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.orgUID = item.uid!
+            form.values.orgID = item.id!
             form.values.orgName = item.name!
         }
     }
@@ -96,7 +96,7 @@ export default function UserNew(props: PageProps) {
             lastName: form.values.lastName,
             email: form.values.email,
             phone: form.values.phone,
-            orgUID: form.values.orgUID,
+            orgID: form.values.orgID,
             roleID: form.values.roleID,
         }
 
@@ -126,7 +126,7 @@ export default function UserNew(props: PageProps) {
         <UserNewHTML
             title={props.title!}
             auther={authData.data?.auther!}
-            orgUID={orgUID}
+            orgID={orgID}
             form={form}
             handleSubmit={handleSubmit}
             handleCancel={handleCancel}

@@ -3,7 +3,6 @@ import { gql } from '@apollo/client'
 export const Organization = gql`
     fragment OrganizationFragment on Organization {
         id
-        uid
         code
         name
         website
@@ -28,7 +27,7 @@ export const Department = gql`
         createdAt
         updatedAt
         organization {
-            uid
+            id
             code
             name
         }
@@ -46,7 +45,7 @@ export const Role = gql`
         createdAt
         permissions
         organization {
-            uid
+            id
             code
             name
         }
@@ -74,7 +73,7 @@ export const User = gql`
             isManagement
         }
         organization {
-            uid
+            id
             code
             name
         }
@@ -86,14 +85,14 @@ export const Contact = gql`
     fragment ContactFragment on Contact {
         id
         code
-        companyUID
+        companyID
         name
         website
         sector
         isFinal
         isArchived
         organization {
-            uid
+            id
             code
             name
         }

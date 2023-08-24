@@ -14,15 +14,15 @@ import PageHeader from "components/PageHeader"
 
 const schema = Yup.object().shape({
     name: Yup.string().min(2, "Organization Name should have at least 2 letters"),
-    orgUID: Yup.string().min(2, "Invalid org UID"),
+    orgID: Yup.string().min(2, "Invalid org ID"),
 })
 
 export default function WarehouseNew(props: PageProps) {
     const router = useRouter()
     const [newWarehouse] = useWarehouseCreateMutation({})
     const [autherLoaded, setAutherLoaded] = useState(false)
-    const [orgUID, setOrgUID] = useState("")
-    const [whUID, setWhUID] = useState("")
+    const [orgID, setOrgID] = useState("")
+    const [whID, setWhID] = useState("")
 
     const navTrails: INavTrailProps[] = [
         { title: "Dashboard", href: "/" },
@@ -33,7 +33,7 @@ export default function WarehouseNew(props: PageProps) {
     const form = useForm({
         validate: yupResolver(schema),
         initialValues: {
-            orgUID: "",
+            orgID: "",
             typeID: "",
             name: "",
             details: "",
@@ -53,12 +53,12 @@ export default function WarehouseNew(props: PageProps) {
     // get org uid from local storage
     useEffect(() => {
         const org = getObjectFromLocalStorage("org")
-        setOrgUID(org.uid)
-        if (org.uid != "" && org.name) {
-            form.values.orgUID = org.uid!
+        setOrgID(org.id)
+        if (org.id != "" && org.name) {
+            form.values.orgID = org.id!
             form.values.orgName = org.name!
         }
-    }, [orgUID, form])
+    }, [orgID, form])
 
     // load auther
     const authData = useAutherQuery()
@@ -77,14 +77,14 @@ export default function WarehouseNew(props: PageProps) {
     }
     if (authData.data && !autherLoaded) {
         if (!authData.data.auther.isAdmin) {
-            form.setValues({ orgUID: authData.data.auther.orgUID })
+            form.setValues({ orgID: authData.data.auther.orgID })
         }
         setAutherLoaded(true)
     }
 
     const handleOrgSelect = (item: Organization) => {
         if (item) {
-            form.values.orgUID = item.uid!
+            form.values.orgID = item.id!
             form.values.orgName = item.name!
         }
     }
@@ -97,7 +97,7 @@ export default function WarehouseNew(props: PageProps) {
 
     const handleSubmit = () => {
         var newWarehouseInput: UpdateWarehouse = {
-            orgUID: form.values.orgUID,
+            orgID: form.values.orgID,
             typeID: form.values.typeID,
             name: form.values.name,
             details: form.values.details,
@@ -134,8 +134,8 @@ export default function WarehouseNew(props: PageProps) {
             <PageHeader title={props.title!} />
             <WarehouseNewHTML
                 auther={authData.data?.auther!}
-                orgUID={orgUID}
-                whUID={whUID}
+                orgID={orgID}
+                whID={whID}
                 form={form}
                 handleSubmit={handleSubmit}
                 handleCancel={handleCancel}

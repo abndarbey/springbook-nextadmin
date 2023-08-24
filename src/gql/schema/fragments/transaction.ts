@@ -3,7 +3,6 @@ import { gql } from '@apollo/client'
 export const Transaction = gql`
     fragment TransactionFragment on Transaction {
         id
-        uid
         name
         objectType
         scannedAt
@@ -27,7 +26,6 @@ export const Transaction = gql`
         }
         organization {
             id
-            uid
             name
         }
         manifest {
@@ -35,12 +33,10 @@ export const Transaction = gql`
         }
         carton {
             id
-            uid
             code
         }
         pallet {
             id
-            uid
             code
         }
     }

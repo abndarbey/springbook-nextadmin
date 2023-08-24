@@ -7,7 +7,7 @@ export const AUTHER = gql`
             id
             name
             isAdmin
-            orgUID
+            orgID
         }
     }
 `

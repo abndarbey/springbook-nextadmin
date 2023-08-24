@@ -8,8 +8,8 @@ import { DatePicker } from "@mantine/dates"
 import SkuCatalogueSelectModal from "common/select-table/SkuCatalogueSelectModal"
 
 interface IBatchCatFormValues {
-    orgUID: string,
-    skuUID: string,
+    orgID: string,
+    skuID: string,
     batchNumber: string,
     description: string,
     productionDate: string,
@@ -21,7 +21,7 @@ interface IBatchCatFormValues {
 
 interface IBatchCatNewHTML {
     auther: Auther
-    orgUID: string
+    orgID: string
     form: UseFormReturnType<IBatchCatFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -40,7 +40,7 @@ export default function BatchCatNewHTML(props: IBatchCatNewHTML) {
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={orgModalOpened}
@@ -57,19 +57,19 @@ export default function BatchCatNewHTML(props: IBatchCatNewHTML) {
                     />
                 </Fragment>
             }
-            {props.form.values.orgUID != "" &&
+            {props.form.values.orgID != "" &&
                 <SkuCatalogueSelectModal
                     opened={skuModalOpened}
                     setOpened={setSkuModalOpened}
                     handleSelect={props.handleSkuSelect}
-                    organizationUID={props.form.values.orgUID}
+                    organizationID={props.form.values.orgID}
                 />
             }
             <TextInput
                 label="SKU"
                 placeholder="SKU"
                 mb="md"
-                disabled={props.form.values.orgUID != "" ? false : true}
+                disabled={props.form.values.orgID != "" ? false : true}
                 onClick={() => setSkuModalOpened(true)}
                 {...props.form.getInputProps("skuName")}
             />

@@ -14,7 +14,7 @@ import { showNotification } from "@mantine/notifications"
 import SkuTableHTML from "./SkuTableHTML"
 
 interface SkuTableProps {
-    orgUID?: string | null | undefined
+    orgID?: string | null | undefined
 }
 
 export default function SkuTable(props: SkuTableProps) {
@@ -34,7 +34,7 @@ export default function SkuTable(props: SkuTableProps) {
                     sortBy: SortByOption.DateCreated,
                     sortDir: SortDir.Ascending,
                     filter: filterValue,
-                    orgUID: props.orgUID,
+                    orgID: props.orgID,
                     limit: 100,
                     offset: 0,
                 },

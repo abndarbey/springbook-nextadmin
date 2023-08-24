@@ -46,7 +46,7 @@ export default function SalesOrderTxnTable(props: SalesOrderTxnTableProps) {
                     limit: 100,
                     offset: 0,
                 },
-                objectUID: props.uid,
+                objectID: props.id,
             }
         }
     )

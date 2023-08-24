@@ -52,7 +52,7 @@ export default function WarehouseContractDetails(props: PageProps) {
     const handleAccept = (e: any) => {
         e.preventDefault()
         acceptRequest({
-            variables: {uid: objectData.data?.warehouseContract.uid!}
+            variables: {id: objectData.data?.warehouseContract.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -74,7 +74,7 @@ export default function WarehouseContractDetails(props: PageProps) {
     const handleDecline = (e: any) => {
         e.preventDefault()
         declineRequest({
-            variables: {uid: objectData.data?.warehouseContract.uid!}
+            variables: {id: objectData.data?.warehouseContract.id!}
         }).then((res: any) => {
             showNotification({
                 disallowClose: false,
@@ -142,7 +142,7 @@ export default function WarehouseContractDetails(props: PageProps) {
                             <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                                 <DetailColumn title='Warehouse Code' value={objectData.data?.warehouseContract?.warehouse?.code!} />
                                 <DetailColumn title='Warehouse Name' value={objectData.data?.warehouseContract?.warehouse?.name!} />
-                                <DetailColumn title='Warehouse UID' value={objectData.data?.warehouseContract?.warehouse?.uid!} />
+                                <DetailColumn title='Warehouse ID' value={objectData.data?.warehouseContract?.warehouse?.id!} />
                             </Box>
                         </SimpleGrid>
                     </ContentCard>

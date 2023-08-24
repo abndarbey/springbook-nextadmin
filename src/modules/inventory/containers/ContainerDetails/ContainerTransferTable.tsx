@@ -26,7 +26,7 @@ interface ContainerTransferLogTableProps {
 }
 
 interface ContainerTransferTableProps {
-    containerUID: string | null | undefined
+    containerID: string | null | undefined
 }
 
 export default function ContainerTransferTable(props: ContainerTransferTableProps) {
@@ -46,7 +46,7 @@ export default function ContainerTransferTable(props: ContainerTransferTableProp
                     limit: 100,
                     offset: 0,
                 },
-                containerUID: props.containerUID,
+                containerID: props.containerID,
             }
         }
     )

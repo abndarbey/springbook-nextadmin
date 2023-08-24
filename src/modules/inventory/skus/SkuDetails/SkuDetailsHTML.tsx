@@ -13,9 +13,10 @@ export default function SkuDetailsHTML(props: ISkuDetailsHTMLProps) {
         <ContentCard>
             <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
                 <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
+                    <DetailColumn title="ID" value={props.data.id!} />
                     <DetailColumn title="Code" value={props.data.code!} />
                     <DetailColumn title="Name" value={props.data.name!} />
-                    <DetailColumn title="Raw Material" value={props.data.isRawMaterial} />
+                    <DetailColumn title="Raw Material" value={props.data?.isRawMaterial ? 'True' : 'False'} />
                 </Box>
                 <Box sx={(theme) => ({borderRadius: theme.radius.md})}>
                     <DetailColumn title="Organization Code" value={props.data?.organization?.code!} />

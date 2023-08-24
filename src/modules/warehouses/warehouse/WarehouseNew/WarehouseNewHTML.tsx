@@ -12,7 +12,7 @@ interface IGeoLocationValues {
     lon: number
 }
 interface IWarehouseFormValues {
-    orgUID: string,
+    orgID: string,
     typeID: string,
     name: string,
     details: string,
@@ -27,8 +27,8 @@ interface IWarehouseFormValues {
 
 interface IWarehouseNewHTML {
     auther: Auther
-    orgUID: string
-    whUID: string
+    orgID: string
+    whID: string
     form: UseFormReturnType<IWarehouseFormValues>
     handleSubmit: () => void
     handleCancel: () => void
@@ -47,7 +47,7 @@ export default function WarehouseNewHTML(props: IWarehouseNewHTML) {
             handleCancel={props.handleCancel}
         >
             {/* Select Organization */}
-            {props.auther.isAdmin && props.orgUID == "" &&
+            {props.auther.isAdmin && props.orgID == "" &&
                 <Fragment>
                     <OrgSelectModal
                         opened={orgModalOpened}
@@ -65,7 +65,7 @@ export default function WarehouseNewHTML(props: IWarehouseNewHTML) {
                 </Fragment>
             }
             {/* Select WarehouseT ype */}
-            {props.form.values.orgUID != "" &&
+            {props.form.values.orgID != "" &&
                 <WarehouseTypeSelectModal
                     opened={wtModalOpened}
                     setOpened={setWTModalOpened}
@@ -77,7 +77,7 @@ export default function WarehouseNewHTML(props: IWarehouseNewHTML) {
                 mb="md"
                 placeholder="Select Warehouse Type"
                 name="typeID"
-                disabled={props.form.values.orgUID == ""}
+                disabled={props.form.values.orgID == ""}
                 onClick={() => setWTModalOpened(true)}
                 {...props.form.getInputProps("wtName")}
             />
